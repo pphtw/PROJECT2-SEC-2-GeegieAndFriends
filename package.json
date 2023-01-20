@@ -1,11 +1,12 @@
 {
   "name": "project1-sec-2-geegieandfriends",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "stylelint": "stylelint \"**/*.css\""
   },
   "engines": {
     "yarn": ">= 1.22.19",
