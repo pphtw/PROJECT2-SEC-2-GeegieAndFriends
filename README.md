@@ -17,7 +17,7 @@ Our team working on the finest front-end app with 5 strongly passionate student 
 
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+[VSCode](https://code.visualstudio.com/)
 or [WebStorm](https://www.jetbrains.com/webstorm/)
 
 ## Customize configuration
