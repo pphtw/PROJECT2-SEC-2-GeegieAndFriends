@@ -13,12 +13,12 @@ Our team working on the finest front-end app with 5 strongly passionate student 
 
 ## Tech Stack
 
-[Our Stack](https://stackshare.io/newbww/int203-project-number-1#stack)
+[Our Stack](https://stackshare.io/newbww/int203-project-number-1#stack){:target="_blank"}
 
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin). 
-or [WebStorm](https://www.jetbrains.com/webstorm/)
+[VSCode](https://code.visualstudio.com/){:target="_blank"} + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar){:target="_blank"} (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin){:target="_blank"}
+or [WebStorm](https://www.jetbrains.com/webstorm/){:target="_blank"}
 
 ## Customize configuration
 
