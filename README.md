@@ -5,15 +5,19 @@ Our team working on the finest front-end app with 5 strongly passionate student 
 
 | Student ID  | Name                     | Email                       | Github Username |
 |-------------|--------------------------|-----------------------------|-----------------|
-| 64130500066 | Phutawan Palakavong      | Phutawan.pala@kmutt.ac.th   |                 |
-| 64130500079 | Siripoom Kusonsong       | Siripoom.kuso@kmutt.ac.th   |                 |
-| 64130500080 | Supapit Krawsaikom       |                             | supapitploy     |
+| 64130500066 | Phutawan Palakavong      | Phutawan.pala@kmutt.ac.th   | pphtw           |
+| 64130500079 | Siripoom Kusonsong       | Siripoom.kuso@kmutt.ac.th   | PhuMiZz         |
+| 64130500080 | Supapit Krawsaikom       | Supapit.kraw@kmutt.ac.th    | supapitploy     |
 | 64130500105 | Banlearit Siriboon       | Banlearit.siri@kmutt.ac.th  | banlearit       |
 | 64130500119 | Bowonwit Anothaisintavee | Bowonwit.anot@kmutt.ac.th   | NewBww          |
 
+## Tech Stack
+
+[Our Stack](https://stackshare.io/newbww/int203-project-number-1#stack)
+
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin). 
+[VSCode](https://code.visualstudio.com/)
 or [WebStorm](https://www.jetbrains.com/webstorm/)
 
 ## Customize configuration
