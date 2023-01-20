@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "engines": {
+    "npm": ">= 8.19.3",
     "yarn": ">= 1.22.19",
     "node": ">= 18.13.0"
   },
