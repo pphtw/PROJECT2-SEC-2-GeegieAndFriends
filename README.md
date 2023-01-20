@@ -11,6 +11,10 @@ Our team working on the finest front-end app with 5 strongly passionate student 
 | 64130500105 | Banlearit Siriboon       | Banlearit.siri@kmutt.ac.th  | banlearit       |
 | 64130500119 | Bowonwit Anothaisintavee | Bowonwit.anot@kmutt.ac.th   | NewBww          |
 
+## Tech Stack
+
+[Our Stack](https://stackshare.io/newbww/int203-project-number-1#stack)
+
 ## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin). 
