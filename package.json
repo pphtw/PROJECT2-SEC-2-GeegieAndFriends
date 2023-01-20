@@ -1,6 +1,6 @@
 {
   "name": "project1-sec-2-geegieandfriends",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -8,7 +8,6 @@
     "preview": "vite preview"
   },
   "engines": {
-    "npm": ">= 8.19.3",
     "yarn": ">= 1.22.19",
     "node": ">= 18.13.0"
   },
@@ -17,6 +16,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.4",
     "vite": "^4.0.0"
   },
   "contributors": [
@@ -25,5 +27,9 @@
     "64130500080 Supapit Krawsaikom <Supapit.kraw@kmutt.ac.th>",
     "64130500105 Banlearit Siriboon <Banlearit.siri@kmutt.ac.th>",
     "64130500119 Bowonwit Anothaisintavee <Bowonwit.anot@kmutt.ac.th>"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NewBww/PROJECT1-SEC-2-GeegieAndFriends"
+  }
 }
