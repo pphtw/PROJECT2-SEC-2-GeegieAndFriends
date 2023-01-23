@@ -7,5 +7,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           yarn install --frozen-lockfile
-          yarn run build
           yarn run lint
