@@ -7,6 +7,7 @@
     "declaration-block-trailing-semicolon": "always",
     "no-descending-specificity": [true, { "ignore": ["selectors-within-list"] } ],
     "no-invalid-double-slash-comments": true,
-    "unit-allowed-list": ["em", "rem", "s"]
+    "unit-allowed-list": ["%", "em", "rem", "s"],
+    "ignoreFiles": ["dist/**/*.css"]
   }
 }
