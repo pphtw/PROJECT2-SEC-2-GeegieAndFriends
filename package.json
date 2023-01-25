@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "stylelint": "stylelint \"**/*.css\""
+    "lint": "stylelint \"**/*.css\""
   },
   "engines": {
     "yarn": ">= 1.22.19",
