@@ -13,7 +13,7 @@ Our team working on the finest front-end app with 5 strongly passionate student 
 
 ## Tech Stack
 
-[Our Stack](https://stackshare.io/newbww/int203-project-number-1#stack)
+[Our Stack](https://stackshare.io/newbww/project1-sec-2-geegie-and-friends)
 
 ## Recommended IDE Setup
 
