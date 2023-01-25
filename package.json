@@ -36,5 +36,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/NewBww/PROJECT1-SEC-2-GeegieAndFriends"
-  }
+  },
+  "packageManager": "yarn@3.3.1"
 }
