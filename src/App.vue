@@ -141,9 +141,9 @@ const word = ["a", "b", "c", "d", "e"];
       </svg>
     </div>
     <!-- Content -->
-    <div class="w-content h-full gap-6 px-28 py-5 flex flex-col">
+    <div class="w-content h-full gap-6 px-28 py-10 flex flex-col">
       <!-- Header & Playlist -->
-      <div class="h-fit">
+      <div class="h-1/3">
         <!-- Header -->
         <div class="grid grid-cols-12 pb-3">
           <h1 class="text-2xl font-bold text-white">YourStyle</h1>
@@ -188,7 +188,7 @@ const word = ["a", "b", "c", "d", "e"];
           </div>
         </div>
         <!-- Playlist -->
-        <div class="grid grid-cols-12 gap-5 h-36 text-center">
+        <div class="h-3/4 grid grid-cols-12 gap-5 text-center">
           <div
             class="flex flex-col justify-center col-span-3 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
@@ -212,17 +212,17 @@ const word = ["a", "b", "c", "d", "e"];
         </div>
       </div>
       <!-- MusicPlaying & Trending -->
-      <div class="h-full">
+      <div class="h-2/3">
         <!-- MusicPlaying -->
         <div class="grid grid-cols-12 gap-5 h-full">
           <div class="flex flex-col col-span-3">
             <h1 class="text-2xl font-bold pb-1.5 text-white">Now Playing</h1>
-            <div class="grow bg-blue-500 rounded-lg h-[20rem]"></div>
+            <div class="grow bg-blue-500 rounded-2xl h-[20rem]"></div>
           </div>
           <!-- Trending -->
           <div class="flex flex-col col-span-9 h-full">
             <h1 class="text-2xl text-white font-bold pb-1">Trending</h1>
-            <div class="grow rounded-lg overflow-y-scroll pr-2 h-[20rem]">
+            <div class="grow rounded-2xl overflow-y-scroll pr-2 h-[20rem]">
               <div
                 class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
               ></div>
