@@ -21,14 +21,14 @@ export default{
           {
             song : "Double take",
             artist : "dhruv",
-            cover : "https://i.ytimg.com/vi/uQiF1yOnzDg/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDqtWQ9HmywVnZ739mQlfJhwZJd0w",
+            cover : "https://i.scdn.co/image/ab67616d0000b273834f16100678d3e800fb5fb9",
             url : "../src/assets/tracks/double_take.mp3",
             favorited : false
           },
           {
             song : "Recall",
             artist : "bowkylion",
-            cover : "https://i.ytimg.com/vi/a0M_QUS3kC0/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBVXzAd6hk7-5FggEjzhrI-6MaZ_Q",
+            cover : "https://e.snmc.io/i/600/s/8551a37b85a88cff3cd699d7b0bd74f2/10164638/bowkylion-%E0%B8%A7%E0%B8%B2%E0%B8%94%E0%B9%84%E0%B8%A7%E0%B9%89-recall-Cover-Art.jpg",
             url : "../src/assets/tracks/recall.mp3",
             favorited : false
           }
@@ -52,6 +52,9 @@ export default{
   },
   methods: {
   favorite() {
+    // console.log(this.tracks[this.currentTrackIndex].favorited);
+    this.tracks[this.currentTrackIndex].favorited = !this.tracks[this.currentTrackIndex].favorited;
+    console.log(this.tracks[this.currentTrackIndex].favorited);
   },
   play(){
     alert("yeah")
@@ -111,26 +114,39 @@ export default{
   <div class="w-screen h-screen flex justify-center items-center bg-gray-700">
 
     <!-- Song Card -->
-    <div id="card" class="w-72 h-96 rounded-md bg-gray-300 flex flex-col">
+    <div id="card" class="w-72 h-128 rounded-md bg-gray-300 flex flex-col">
 
       <!-- Song Image -->
-      <div class="flex justify-center items-center w-full h-3/5">
-        <img id="song-cover" class="rounded-md"
+      <div class="flex justify-center items-center w-full h-3/5 bg-cover rounded-t-md" :style="{'backgroundImage': `url(${tracks[currentTrackIndex].cover})`}">
+        <!-- <img id="song-cover" class="rounded-md"
         v-if="currentTrackIndex !== null"
-         :src="tracks[currentTrackIndex].cover">
+         :src="tracks[currentTrackIndex].cover"> -->
       </div>
 
       <!-- Song Details -->
       <div class="h-2/5 bg-gray-300 rounded-b-md p-4">
-        <div class="text-center">
-          <h2 id="music-name" >{{currentTrackSong}}</h2>
-          <p id="music">{{currentTrackArtist}}</p>
-        </div>
+        <div class="flex justify-around">
+          <div class="w-10"></div>
 
-      <!-- Song favorited -->
-        <div>
-        
+          <div class="text-center">
+            <h2 id="music-name" >{{currentTrackSong}}</h2>
+            <p id="music">{{currentTrackArtist}}</p>
+          </div>
+
+          <!-- Song favorited -->
+          <div class="w-10 flex justify-center">
+            <!-- favorited -->
+            <svg v-if="tracks[currentTrackIndex].favorited" width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="self-center" @click="favorite">
+              <path d="M16.8267 27.7467C16.3734 27.9067 15.6267 27.9067 15.1734 27.7467C11.3067 26.4267 2.66669 20.92 2.66669 11.5867C2.66669 7.46666 5.98669 4.13333 10.08 4.13333C12.5067 4.13333 14.6534 5.30666 16 7.12C16.6851 6.1945 17.5773 5.4423 18.6053 4.92366C19.6334 4.40501 20.7686 4.13434 21.92 4.13333C26.0134 4.13333 29.3334 7.46666 29.3334 11.5867C29.3334 20.92 20.6934 26.4267 16.8267 27.7467Z" fill="#C493E1" stroke="#C493E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
+            <!-- not favorite -->
+            <svg v-else width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="self-center" @click="favorite">
+              <path d="M16.8267 27.7467C16.3734 27.9067 15.6267 27.9067 15.1734 27.7467C11.3067 26.4267 2.66669 20.92 2.66669 11.5867C2.66669 7.46666 5.98669 4.13333 10.08 4.13333C12.5067 4.13333 14.6534 5.30666 16 7.12C16.6851 6.1945 17.5773 5.4423 18.6053 4.92366C19.6334 4.40501 20.7686 4.13434 21.92 4.13333C26.0134 4.13333 29.3334 7.46666 29.3334 11.5867C29.3334 20.92 20.6934 26.4267 16.8267 27.7467Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
         </div>
+        
 
       <!-- Audio -->
       <!-- <audio controls ref="song">
@@ -138,7 +154,7 @@ export default{
       </audio> -->
 
       <!-- Track Time -->
-        <div class="flex items-center pl-3 pr-3">
+        <div class="flex items-center pl-6 pr-6">
           <div class="time-font-size flex-none">00:00</div>
             <!-- <div class="flex-end w-full bg-gray-200 h-1 mx-1 rounded-full">
               <div class="bg-gray-600 h-1 rounded-full" style="width: 45%"></div>
@@ -149,7 +165,7 @@ export default{
         </div>
 
       
-        <div class="flex justify-around p-2 items-center"> 
+        <div class="flex justify-around p-3 pb-0 items-center"> 
         <!-- random tag -->
        <div class="random-track" @click="playRandom ">
           <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -219,8 +235,8 @@ export default{
   width: 0.5em;
   height: 0.5em;
   border-radius: 5em;
-
 }
+
 #music-name{
   font-size: 1.5em;
   font-weight: bold;
@@ -229,7 +245,7 @@ export default{
   font-size: 1em;
 }
 .time-font-size{
-  font-size: 0.5em;
+  font-size: 0.7em;
 }
 
 </style>
