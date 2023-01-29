@@ -98,6 +98,7 @@ export default{
       this.isTimerPlaying = false;
     },
     playLoop() {
+      this.repeat = !this.repeat
       if (this.repeat) {
         this.currentTrackIndex = this.currentTrackIndex;
       } else if (this.currentTrackIndex !== this.tracks.length - 1) {
@@ -202,8 +203,8 @@ export default{
           <div class="w-10 invisible"></div>
 
           <div class="text-center" v-if="currentTrack">
-            <h2 id="music-name" >{{currentTrack.artist}}</h2>
-            <p id="music">{{currentTrack.name}}</p>
+            <h2 id="music-name" >{{currentTrack.name}}</h2>
+            <p id="music">{{currentTrack.artist}}</p>
           </div>
 
           <!-- Song favorited -->
@@ -274,13 +275,24 @@ export default{
         </div>
 
         <!-- loop track -->
-        <div class="repeat-track" @click="playLoop">
-          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="repeat-track">
+          <svg v-if="!repeat" width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" @click="playLoop">
             <path d="M6.54398 6.88H23.2267C25.44 6.88 27.2267 8.66667 27.2267 10.88V15.3067" stroke="black" stroke-opacity="0.7" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M8.98666 2.66669L4.77333 6.88002L8.98666 11.0934M27.2267 25.12H8.77333C6.56 25.12 4.77333 23.3334 4.77333 21.12V16.6934" stroke="black" stroke-opacity="0.7" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M23.0133 29.3333L27.2267 25.12L23.0133 20.9067" stroke="black" stroke-opacity="0.7" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
+
+          <svg v-else width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" @click="playLoop">
+            <path d="M6.54398 6.88H23.2267C25.44 6.88 27.2267 8.66667 27.2267 10.88V15.3067" stroke="#C493E1" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.98668 2.66667L4.77335 6.88L8.98668 11.0933M27.2267 25.12H8.77335C6.56001 25.12 4.77335 23.3333 4.77335 21.12V16.6933" stroke="#C493E1" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M23.0133 29.3333L27.2267 25.12L23.0133 20.9067" stroke="#C493E1" stroke-width="2.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        
         </div>
+
+        
+
+
         </div>
       </div>
     </div>
@@ -307,7 +319,7 @@ export default{
 }
 
 #music-name{
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: bold;
 }
 #music{
