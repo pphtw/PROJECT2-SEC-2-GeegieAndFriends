@@ -72,27 +72,6 @@ export default{
       this.duration = durmin + ":" + dursec;
       this.currentTime = curmin + ":" + cursec;
     },
-    updateBar(x) {
-      let progress = this.$refs.progress;
-      let maxduration = this.audio.duration;
-      let position = x - progress.offsetLeft;
-      let percentage = (100 * position) / progress.offsetWidth;
-      if (percentage > 100) {
-        percentage = 100;
-      }
-      if (percentage < 0) {
-        percentage = 0;
-      }
-      this.barWidth = percentage + "%";
-      this.circleLeft = percentage + "%";
-      this.audio.currentTime = (maxduration * percentage) / 100;
-      this.audio.play();
-    },
-    clickProgress(e) {
-      this.isTimerPlaying = true;
-      this.audio.pause();
-      this.updateBar(e.pageX);
-    },
     prevTrack() {
       this.transitionName = "scale-in";
       this.isShowCover = false;
@@ -162,6 +141,7 @@ export default{
       console.log(this.tracks[this.currentTrackIndex].favorited);
     },
   },
+
   created() {
     let vm = this;
     this.currentTrack = this.tracks[0];
@@ -177,6 +157,26 @@ export default{
       vm.nextTrack();
       this.isTimerPlaying = true;
     };
+  },
+
+  //Progress Bar
+
+  updateBar(x){
+    let progress = this.$refs.progress
+    let maxduration = this.audio.duration
+    let position = x - progress.offsetLeft
+    let percentage = (100*position) / progress.offsetWidth;
+    percentage = percentage > 100 ? 100 : percentage < 0 ? 0 : percentage
+    this.barWidth = percentage + "%"
+    this.circleLeft = percentage + "%"
+    this.audio.currentTime = (maxduration * percentage) / 100
+    this.audio.play()
+    
+  },
+  clickProgress(event) {
+    this.isTimerPlaying = true;
+    this.audio.pause();
+    this.updateBar(event.pageX);
   }
 }
 
@@ -199,7 +199,7 @@ export default{
       <!-- Song Details -->
       <div class="h-2/5 bg-gray-300 rounded-b-md p-4">
         <div class="flex justify-around">
-          <div class="w-10"></div>
+          <div class="w-10 invisible"></div>
 
           <div class="text-center" v-if="currentTrack">
             <h2 id="music-name" >{{currentTrack.artist}}</h2>
@@ -219,26 +219,21 @@ export default{
             </svg>
           </div>
         </div>
-        
-
-      <!-- Audio -->
-      <!-- <audio controls ref="song">
-        <source :src="`${tracks[2].url}`" type="audio/mpeg">
-      </audio> -->
 
       <!-- Track Time -->
-        <div class="flex items-center pl-6 pr-6">
-          <div class="time-font-size flex-none">{{ currentTime }}</div>
-            <!-- <div class="flex-end w-full bg-gray-200 h-1 mx-1 rounded-full">
-              <div class="bg-gray-600 h-1 rounded-full" style="width: 45%"></div>
-            </div> -->
-            <div class="w-4/6 flex-1 pl-1 pr-1"><input type="range" value="0" ref="progress" id="progress" ></div>
-          <div class="time-font-size flex-none">{{ duration }}</div>
+        <div class="flex justify-around pl-6 pr-6 pt-3 pb-3">
+          <div class="time-font-size">{{ currentTime }}</div>
+
+          <!-- Progress Bar -->
+          <div class="progress-bar self-center" @click="clickProgress">
+            <div class="progress-current" :style="{ width : barWidth }"></div>
+          </div>
+
+          <div class="time-font-size">{{ duration }}</div>
 
         </div>
 
-      
-        <div class="flex justify-around p-3 pb-0 items-center"> 
+        <div class="flex justify-around items-center pl-3 pr-3"> 
         <!-- random tag -->
        <div class="random-track" @click="playRandom">
           <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -254,7 +249,7 @@ export default{
         </div>
 
         <!-- play / pause  -->
-          <div @click="play">
+          <div @click="play" class="flex content-center">
             <button v-if="isTimerPlaying">
               <svg width="30" height="30" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="50" height="50" rx="25" fill="#C493E1"/>
@@ -294,22 +289,21 @@ export default{
 </template>
 
 <style scoped>
-#progress{
-  -webkit-appearance: none;
-  width: 95%;
+
+.progress-bar{
   height: 0.3em;
-  border-radius: 5em;
-  background: #979797;
+  width: 70%;
   cursor: pointer;
-  margin: 0.5em;
+  background-color: #b9b9b9;
+  /* display: inline-block; */
+  border-radius: 2em;
 }
 
-#progress::-webkit-slider-thumb{
-  -webkit-appearance: none;
-  background: #646464;
-  width: 0.5em;
-  height: 0.5em;
-  border-radius: 5em;
+.progress-current{
+  height: inherit;
+  width: 0%;
+  background-color: #C493E1;
+  border-radius: 2em;
 }
 
 #music-name{
