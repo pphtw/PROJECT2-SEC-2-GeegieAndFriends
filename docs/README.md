@@ -56,11 +56,11 @@ The project structure:
 	│   ├── cache
 	│   └── releases
 	├── public
-	│   └── favicon.ico
+	│   ├── favicon.ico
+	│   └── tracks
 	└── src
 	    ├── assets
 	    │   ├── img
-	    │   ├── tracks
 	    │   └── main.css
 	    ├── App.vue
 	    └── Main.js
