@@ -14,11 +14,11 @@ The project is also hosted on [Netlify](https://geegie.netlify.app) (for develop
     - [Installation](#installation)
 - [Development](#development)
     - [Sprint 1: Planning and Project Setup](#sprint-1-planning-and-project-setup)
-        - [Step 1: Project and repository preparation](#step-1-subheading)
-        - [Step 2: Work flow planning and choosing the topic](#step-2-subheading)
-    - [Sprint 2: Home page UI and Music Player](#sprint-2-heading)
-        - [Step 1: Design the homepage for the application](#step-1-subheading)
-        - [Step 2: Coding the music player component and layout for the homepage](#step-2-subheading)
+        - [Step 1: Project and repository preparation](#step-1-project-and-repository-preparation)
+        - [Step 2: Work flow planning and choosing the topic](#step-2-work-flow-planning-and-choosing-the-topic)
+    - [Sprint 2: Home page UI and Music Player](#sprint-2-home-page-ui-and-music-player)
+        - [Step 1: Design the homepage for the application](#step-1-design-the-homepage-for-the-application)
+        - [Step 2: Coding the music player component and layout for the homepage](#step-2-coding-the-music-player-component-and-layout-for-the-homepage)
 - [Running the App](#running-the-app)
 - [Deployment](#deployment)
 - [Versioning](#versioning)
@@ -93,9 +93,9 @@ These installation steps are required to build the project from your local machi
 
 This section includes the development strategies, processes and contributions within the project.
 
-### Sprint 1: Planning and Project Setup
+### Sprint 1 Planning and Project Setup
 
-#### Step 1: Project and repository preparation
+#### Step 1 Project and repository preparation
   * Create a new project with the IDE.
       * Integrating Yarn, Tailwind, etc.
       * Refactoring a package.json file.
@@ -104,8 +104,9 @@ This section includes the development strategies, processes and contributions wi
   * Putting additional tools in the tech stack.
       * PostCSS: a transpiler that turns a special PostCSS plugin syntax into a Vanilla CSS
       * Autoprefixer: a plugin to parse CSS and add vendor prefixes to CSS rules using values from _Can I Use_.
+      * Stylelint: a linter for set the CSS style rules.
 
-#### Step 2: Work flow planning and choosing the topic
+#### Step 2 Work flow planning and choosing the topic
   * Brainstorm the topic we want to practice and working on
   * Chose a topic of music player app from 3 ideas including the split share app and restaurant recommendation app
   ![Top 3 topic we picked from the brainstorm session](img/topic-ideas.png "Topic Ideas")
@@ -116,9 +117,9 @@ This section includes the development strategies, processes and contributions wi
     ![Create unit test workflow for GitHub Actions](img/unit-test-workflow.png "Unit Tests Workflow")
     For details now how everything has been implemented, refer the source code
 
-### Sprint 2: Home page UI and Music Player
+### Sprint 2 Home page UI and Music Player
 
-#### Step 1: Design the homepage for the application
+#### Step 1 Design the homepage for the application
   * Finding some references for inspiration
   * Drafting the homepage and some other pages for the future
     ![The first draft was paticipated by every contributors](img/first-draft.png "The First Draft")
@@ -128,7 +129,7 @@ This section includes the development strategies, processes and contributions wi
   * Redesign in Figma
     ![Final design of the release v1.0.0](img/homepage-final.png "The Redesigned Homepage")
 
-#### Step 2: Coding the music player component and layout for the homepage
+#### Step 2 Coding the music player component and layout for the homepage
   * Developing the music player algorithm in `dev` branch
     ![Some preview for the Vue source code](img/code-preview.png "Code Preview")
   * Layout for the homepage in `template` branch
@@ -212,6 +213,7 @@ Music in this project
 [GitHub Repository]: https://github.com/NewBww/PROJECT1-SEC-2-GeegieAndFriends
 [GitHub Pages]: https://NewBww.github.io/PROJECT1-SEC-2-GeegieAndFriends
 [Contributors]: https://github.com/NewBww/PROJECT1-SEC-2-GeegieAndFriends/graphs/contributors
+[Netlify]: https://geegie.netlify.app
 [geegie.netlify.app]: https://geegie.netlify.app
 [geegie-dev.netlify.app]: https://geegie.netlify.app
 

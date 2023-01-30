@@ -1,7 +1,7 @@
-# INT203 Client-Side Project #1
+# INT203 #1 Project: Music Player Web Application
 ## Group: _Geegie and Friends_
 
-Our team working on the finest front-end app with 5 strongly passionate student including-
+Our team including:
 
 | Student ID  | Name                     | Email                       | Github Username |
 |-------------|--------------------------|-----------------------------|-----------------|
@@ -15,29 +15,51 @@ Our team working on the finest front-end app with 5 strongly passionate student 
 
 [Our Stack](https://stackshare.io/newbww/project1-sec-2-geegie-and-friends)
 
-## Recommended IDE Setup
+## Tools Required
 
-[VSCode](https://code.visualstudio.com/)
-or [WebStorm](https://www.jetbrains.com/webstorm/)
+You would require the following tools to develop and run the project:
+
+* A text editor or an IDE (Recommended: _WebStorm_ or _Visual Studio Code_)
+* _NodeJs_ v16.9.0 or later
+* _Yarn_ for package management
 
 ## Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## Installation
 
-```sh
-npm install
-```
+These installation steps are required to build the project from your local machine.
+
+* Install NodeJs from this [_link_](https://nodejs.org/en/download/)
+* Install Yarn through the [_npm package manager_](http://npmjs.org/):
+
+    ```
+    npm install --global yarn
+    ```
+  Check the version of Yarn by running:
+    ```  
+    yarn --version
+    ```
+
+## Running the App
+
+Steps and commands for running the app:
 
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+yarn dev
 ```
 
 ### Compile and Minify for Production
 
 ```sh
-npm run build
+yarn build
+```
+
+### Preview for Production
+
+```sh
+yarn preview
 ```
