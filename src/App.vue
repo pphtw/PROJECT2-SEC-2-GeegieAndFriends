@@ -394,46 +394,246 @@ export default{
       </div>
       <!-- MusicPlaying & Trending -->
       <div class="h-2/3">
-        <!-- MusicPlaying -->
+        <!-- Music Playing -->
         <div class="grid grid-cols-12 gap-5 h-full">
           <div class="flex flex-col col-span-3">
             <h1 class="text-2xl font-bold pb-1.5 text-white">Now Playing</h1>
-            <div class="grow bg-blue-500 rounded-2xl h-[20rem]"></div>
+            <div class="grow flex flex-col bg-[#E5E5E5] rounded-2xl h-[25rem]">
+              <div
+                class="grow h-3/5 bg-cover rounded-t-2xl"
+                :style="{ backgroundImage: `url(${playlist[0].cover})` }"
+              ></div>
+              <div
+                class="flex flex-col justify-center items-center gap-2 h-2/5 bg-[#E5E5E5] rounded-b-2xl"
+              >
+                <!-- Title Name -->
+                <div class="pt-2 text-center">
+                  <h1 class="text-2xl font-bold">{{ playlist[0].name }}</h1>
+                  <h3 class="font-semibold">{{ playlist[0].artist }}</h3>
+                </div>
+                <!-- Time Counter -->
+                <div class="flex w-fit items-center">
+                  <p class="px-2 text-sm">00:00</p>
+                  <div>
+                    <svg
+                      width="139"
+                      height="4"
+                      viewBox="0 0 139 4"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        x="0.5"
+                        y="1"
+                        width="138"
+                        height="2"
+                        rx="1"
+                        fill="#171717"
+                      />
+                      <rect
+                        x="0.5"
+                        y="1"
+                        width="138"
+                        height="2"
+                        rx="1"
+                        stroke="#171717"
+                      />
+                    </svg>
+                  </div>
+
+                  <p class="px-2 text-sm">00:00</p>
+                </div>
+                <!-- Icons -->
+                <div class="flex justify-around items-center gap-3 pb-4">
+                  <!-- Shuffle Icon -->
+                  <div>
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4 23.9733L7.4 23.9867C8.61333 23.9867 9.74667 23.3867 10.4133 22.3867L18.9333 9.61332C19.2632 9.11738 19.7115 8.71142 20.2376 8.43208C20.7637 8.15274 21.351 8.00882 21.9467 8.01332L28.0133 8.03999M25.3333 26.64L28 23.9733M11.8533 11.4933L10.4133 9.49332C10.0803 9.0271 9.63983 8.64798 9.12924 8.38803C8.61864 8.12809 8.05293 7.99499 7.48 7.99999L4 8.01332M17.2933 20.5067L18.92 22.6C19.6 23.48 20.6667 24 21.7867 24L28.0133 23.9733M28 8.02665L25.3333 5.35999"
+                        stroke="#171717"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <!-- Previous Icon -->
+                  <div>
+                    <svg
+                      width="33"
+                      height="32"
+                      viewBox="0 0 33 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5.26336 7.77156L5.26336 24.2516M27.2367 22.3849L27.2367 9.62489C27.2367 7.01156 24.3967 5.37156 22.13 6.67823L16.5967 9.86489L11.0634 13.0649C8.79669 14.3716 8.79669 17.6382 11.0634 18.9449L16.5967 22.1449L22.13 25.3316C24.3967 26.6382 27.2367 25.0116 27.2367 22.3849Z"
+                        stroke="#171717"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <!-- Play/Pause Icon -->
+                  <div>
+                    <svg
+                      width="51"
+                      height="50"
+                      viewBox="0 0 51 50"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        x="0.5"
+                        width="50"
+                        height="50"
+                        rx="25"
+                        fill="#C493E1"
+                      />
+                      <path
+                        d="M23.6402 15.4318L23.6398 15.4316C21.0247 14.0141 18.8068 13.9673 17.2934 14.7887C15.7957 15.6016 14.75 17.3961 14.75 20.1964V25V29.8036C14.75 32.6039 15.7957 34.3984 17.2934 35.2113C18.8068 36.0327 21.0247 35.9859 23.6398 34.5684L23.6402 34.5682L28.0787 32.1664L32.5166 29.7649L23.6402 15.4318ZM23.6402 15.4318L28.0787 17.8336M23.6402 15.4318L28.0787 17.8336M28.0787 17.8336L32.5166 20.2351M28.0787 17.8336L32.5166 20.2351M32.5166 20.2351C35.1395 21.6568 36.25 23.4177 36.25 25C36.25 26.5822 35.1396 28.343 32.5171 29.7646L32.5166 20.2351Z"
+                        stroke="#E5E5E5"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <!-- Skip Icon -->
+                  <div>
+                    <svg
+                      width="33"
+                      height="32"
+                      viewBox="0 0 33 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M27.7366 24.24L27.7366 7.76004M5.76331 9.6267L5.76331 22.3867C5.76331 25 8.60331 26.64 10.87 25.3334L16.4033 22.1467L21.9366 18.9467C24.2033 17.64 24.2033 14.3734 21.9366 13.0667L16.4033 9.8667L10.87 6.68004C8.60331 5.37337 5.76331 7.00004 5.76331 9.6267Z"
+                        stroke="#171717"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <!-- Loop Icon -->
+                  <div>
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 32 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.54401 6.88H23.2267C25.44 6.88 27.2267 8.66667 27.2267 10.88V15.3067"
+                        stroke="#171717"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M8.98665 2.66663L4.77332 6.87996L8.98665 11.0933M27.2266 25.12H8.77332C6.55998 25.12 4.77332 23.3333 4.77332 21.12V16.6933"
+                        stroke="#171717"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M23.0133 29.3333L27.2266 25.1199L23.0133 20.9066"
+                        stroke="#171717"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- Trending -->
           <div class="flex flex-col col-span-9 h-full">
             <h1 class="text-2xl text-white font-bold pb-1">Trending</h1>
             <div class="grow rounded-2xl overflow-y-scroll pr-2 h-[20rem]">
+              <!-- Song List -->
+              <!-- for-loop here -->
               <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
-              <div
-                class="mb-2 h-20 bg-blue-500 hover:bg-blue-400 transition ease-in-out rounded-2xl"
-              ></div>
+                class="flex items-center mb-2 h-fit bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl"
+                v-for="(tracks, index) in playlist"
+                :key="index"
+              >
+                <!-- Soung Count -->
+                <div class="w-12">
+                  <h1 class="text-center font-semibold">{{ index + 1 }}</h1>
+                </div>
+                <!-- Song Cover -->
+                <div class="w-14">
+                  <img :src="tracks.cover" />
+                </div>
+                <!-- Title & Artist -->
+                <div class="grow grid grid-rows-2 h-fit pl-5">
+                  <h1 class="row-span-1 text-xl font-bold">
+                    {{ tracks.name }}
+                  </h1>
+                  <h1 class="row-span-1 font-semibold">{{ tracks.artist }}</h1>
+                </div>
+                <!-- Time Counter -->
+                <div class="px-3 font-semibold">00.00</div>
+                <!-- Heart Icon -->
+                <div class="px-3">
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.8267 27.7467C16.3733 27.9067 15.6267 27.9067 15.1733 27.7467C11.3067 26.4267 2.66666 20.92 2.66666 11.5867C2.66666 7.46666 5.98666 4.13333 10.08 4.13333C12.5067 4.13333 14.6533 5.30666 16 7.12C16.685 6.1945 17.5773 5.4423 18.6053 4.92366C19.6333 4.40501 20.7685 4.13434 21.92 4.13333C26.0133 4.13333 29.3333 7.46666 29.3333 11.5867C29.3333 20.92 20.6933 26.4267 16.8267 27.7467Z"
+                      stroke="black"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <!-- More Icon -->
+                <div class="px-3">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12.0001 14C13.1046 14 14.0001 13.1046 14.0001 12C14.0001 10.8954 13.1046 10 12.0001 10C10.8955 10 10.0001 10.8954 10.0001 12C10.0001 13.1046 10.8955 14 12.0001 14Z"
+                      fill="#231F20"
+                    />
+                    <path
+                      d="M19.0001 14C20.1046 14 21.0001 13.1046 21.0001 12C21.0001 10.8954 20.1046 10 19.0001 10C17.8955 10 17.0001 10.8954 17.0001 12C17.0001 13.1046 17.8955 14 19.0001 14Z"
+                      fill="#231F20"
+                    />
+                    <path
+                      d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14Z"
+                      fill="#231F20"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
         </div>
