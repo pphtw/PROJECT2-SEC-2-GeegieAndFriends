@@ -15,21 +15,21 @@ export default{
           name: "Matsuri",
           artist: "Fuji Kaze",
           cover: "https://e.snmc.io/i/600/s/5126c31850a2de84d4d561c1c45cdeac/9808581/%E8%97%A4%E4%BA%95%E9%A2%A8-fujii-kaze-%E3%81%BE%E3%81%A4%E3%82%8A-matsuri-Cover-Art.jpg",
-          source: "../src/assets/tracks/matsuri.mp3",
+          source: "/tracks/matsuri.mp3",
           favorited: false
         },
         {
           name: "Double take",
           artist: "dhruv",
           cover: "https://i.scdn.co/image/ab67616d0000b273834f16100678d3e800fb5fb9",
-          source: "../src/assets/tracks/double_take.mp3",
+          source: "/tracks/double_take.mp3",
           favorited: false
         },
         {
           name: "Recall",
           artist: "bowkylion",
           cover: "https://e.snmc.io/i/600/s/8551a37b85a88cff3cd699d7b0bd74f2/10164638/bowkylion-%E0%B8%A7%E0%B8%B2%E0%B8%94%E0%B9%84%E0%B8%A7%E0%B9%89-recall-Cover-Art.jpg",
-          source: "../src/assets/tracks/recall.mp3",
+          source: "/tracks/recall.mp3",
           favorited: false
         }
       ],
