@@ -115,6 +115,7 @@ This section includes the development strategies, processes and contributions wi
         ![A todo board for organizing task within the team](img/github-projects-board.png "Todo Board")
   * Setup GitHub workflow for the future unit tests and linters optionally.
     ![Create unit test workflow for GitHub Actions](img/unit-test-workflow.png "Unit Tests Workflow")
+
     For details now how everything has been implemented, refer the source code
 
 ### Sprint 2 Home page UI and Music Player
