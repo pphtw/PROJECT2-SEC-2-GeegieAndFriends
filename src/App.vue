@@ -1,6 +1,5 @@
 <script>
-
-export default{
+export default {
   data() {
     return {
       audio: null,
@@ -14,32 +13,34 @@ export default{
         {
           name: "Matsuri",
           artist: "Fuji Kaze",
-          cover: "https://e.snmc.io/i/600/s/5126c31850a2de84d4d561c1c45cdeac/9808581/%E8%97%A4%E4%BA%95%E9%A2%A8-fujii-kaze-%E3%81%BE%E3%81%A4%E3%82%8A-matsuri-Cover-Art.jpg",
+          cover:
+            "https://e.snmc.io/i/600/s/5126c31850a2de84d4d561c1c45cdeac/9808581/%E8%97%A4%E4%BA%95%E9%A2%A8-fujii-kaze-%E3%81%BE%E3%81%A4%E3%82%8A-matsuri-Cover-Art.jpg",
           source: "/tracks/matsuri.mp3",
-          favorited: false
+          favorited: false,
         },
         {
           name: "Double take",
           artist: "dhruv",
-          cover: "https://i.scdn.co/image/ab67616d0000b273834f16100678d3e800fb5fb9",
+          cover:
+            "https://i.scdn.co/image/ab67616d0000b273834f16100678d3e800fb5fb9",
           source: "/tracks/double_take.mp3",
-          favorited: false
+          favorited: false,
         },
         {
           name: "Recall",
           artist: "bowkylion",
-          cover: "https://e.snmc.io/i/600/s/8551a37b85a88cff3cd699d7b0bd74f2/10164638/bowkylion-%E0%B8%A7%E0%B8%B2%E0%B8%94%E0%B9%84%E0%B8%A7%E0%B9%89-recall-Cover-Art.jpg",
+          cover:
+            "https://e.snmc.io/i/600/s/8551a37b85a88cff3cd699d7b0bd74f2/10164638/bowkylion-%E0%B8%A7%E0%B8%B2%E0%B8%94%E0%B9%84%E0%B8%A7%E0%B9%89-recall-Cover-Art.jpg",
           source: "/tracks/recall.mp3",
-          favorited: false
-        }
+          favorited: false,
+        },
       ],
       currentTrack: null,
       currentTrackIndex: 0,
-      transitionName: null
-    }
+      transitionName: null,
+    };
   },
   methods: {
-
     play() {
       if (this.audio.paused) {
         this.audio.play();
@@ -94,11 +95,11 @@ export default{
       this.currentTrack = this.tracks[this.currentTrackIndex];
       this.resetPlayer();
     },
-    stop(){
+    stop() {
       this.isTimerPlaying = false;
     },
     playLoop() {
-      this.repeat = !this.repeat
+      this.repeat = !this.repeat;
       if (this.repeat) {
         this.currentTrackIndex = this.currentTrackIndex;
       } else if (this.currentTrackIndex !== this.tracks.length - 1) {
@@ -114,12 +115,11 @@ export default{
       let randomIndex = Math.floor(Math.random() * this.tracks.length);
       if (randomIndex === this.currentTrackIndex) {
         randomIndex = this.playRandom();
-
       } else {
         this.currentTrackIndex = randomIndex;
         this.currentTrack = this.tracks[this.currentTrackIndex];
         this.resetPlayer();
-        this.play()
+        this.play();
       }
       console.log(this.currentTrackIndex);
     },
@@ -129,7 +129,7 @@ export default{
       this.audio.currentTime = 0;
       this.audio.src = this.currentTrack.source;
       setTimeout(() => {
-        if(this.isTimerPlaying) {
+        if (this.isTimerPlaying) {
           this.audio.play();
         } else {
           this.audio.pause();
@@ -138,7 +138,8 @@ export default{
     },
     favorite() {
       // console.log(this.tracks[this.currentTrackIndex].favorited);
-      this.tracks[this.currentTrackIndex].favorited = !this.tracks[this.currentTrackIndex].favorited;
+      this.tracks[this.currentTrackIndex].favorited =
+        !this.tracks[this.currentTrackIndex].favorited;
       console.log(this.tracks[this.currentTrackIndex].favorited);
     },
   },
@@ -148,13 +149,13 @@ export default{
     this.currentTrack = this.tracks[0];
     this.audio = new Audio();
     this.audio.src = this.currentTrack.source;
-    this.audio.ontimeupdate = function() {
+    this.audio.ontimeupdate = function () {
       vm.generateTime();
     };
-    this.audio.onloadedmetadata = function() {
+    this.audio.onloadedmetadata = function () {
       vm.generateTime();
     };
-    this.audio.onended = function() {
+    this.audio.onended = function () {
       vm.nextTrack();
       this.isTimerPlaying = true;
     };
@@ -162,25 +163,23 @@ export default{
 
   //Progress Bar
 
-  updateBar(x){
-    let progress = this.$refs.progress
-    let maxduration = this.audio.duration
-    let position = x - progress.offsetLeft
-    let percentage = (100*position) / progress.offsetWidth;
-    percentage = percentage > 100 ? 100 : percentage < 0 ? 0 : percentage
-    this.barWidth = percentage + "%"
-    this.circleLeft = percentage + "%"
-    this.audio.currentTime = (maxduration * percentage) / 100
-    this.audio.play()
-
+  updateBar(x) {
+    let progress = this.$refs.progress;
+    let maxduration = this.audio.duration;
+    let position = x - progress.offsetLeft;
+    let percentage = (100 * position) / progress.offsetWidth;
+    percentage = percentage > 100 ? 100 : percentage < 0 ? 0 : percentage;
+    this.barWidth = percentage + "%";
+    this.circleLeft = percentage + "%";
+    this.audio.currentTime = (maxduration * percentage) / 100;
+    this.audio.play();
   },
   clickProgress(event) {
     this.isTimerPlaying = true;
     this.audio.pause();
     this.updateBar(event.pageX);
-  }
-}
-
+  },
+};
 </script>
 
 <template>
@@ -401,15 +400,15 @@ export default{
             <div class="grow flex flex-col bg-[#E5E5E5] rounded-2xl h-[25rem]">
               <div
                 class="grow h-3/5 bg-cover rounded-t-2xl"
-                :style="{ backgroundImage: `url(${playlist[0].cover})` }"
+                :style="{ backgroundImage: `url(${tracks[0].cover})` }"
               ></div>
               <div
                 class="flex flex-col justify-center items-center gap-2 h-2/5 bg-[#E5E5E5] rounded-b-2xl"
               >
                 <!-- Title Name -->
                 <div class="pt-2 text-center">
-                  <h1 class="text-2xl font-bold">{{ playlist[0].name }}</h1>
-                  <h3 class="font-semibold">{{ playlist[0].artist }}</h3>
+                  <h1 class="text-2xl font-bold">{{ tracks[0].name }}</h1>
+                  <h3 class="font-semibold">{{ tracks[0].artist }}</h3>
                 </div>
                 <!-- Time Counter -->
                 <div class="flex w-fit items-center">
@@ -572,7 +571,7 @@ export default{
               <!-- for-loop here -->
               <div
                 class="flex items-center mb-2 h-fit bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl"
-                v-for="(tracks, index) in playlist"
+                v-for="(tracks, index) in tracks"
                 :key="index"
               >
                 <!-- Soung Count -->
