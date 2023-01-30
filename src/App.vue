@@ -1,5 +1,4 @@
 <script setup>
-const word = ["a", "b", "c", "d", "e"];
 const playlist = [
   {
     name: "Matsuri",
@@ -432,7 +431,9 @@ const playlist = [
                   <h1 class="row-span-1 text-xl font-bold">
                     {{ tracks.name }}
                   </h1>
-                  <h1 class="row-span-1 font-semibold">{{ tracks.artist }}</h1>
+                  <h1 class="row-span-1 font-semibold">
+                    {{ tracks.artist }}
+                  </h1>
                 </div>
                 <!-- Time Counter -->
                 <div class="px-3 font-semibold">00.00</div>
