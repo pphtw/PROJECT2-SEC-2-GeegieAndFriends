@@ -16,5 +16,10 @@
   background-color: var(--primary);
   border-radius: 1.25rem;
 }
+body {
+  background-color: #2d3967;
+  overflow: none;
+  position: fixed;
+}
 @tailwind components;
 @tailwind utilities;
