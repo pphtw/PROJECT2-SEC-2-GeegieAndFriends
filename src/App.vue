@@ -326,8 +326,8 @@ export default {
       <div class="h-fit">
         <!-- Header -->
         <div class="grid grid-cols-2 pb-3">
-          <h1 class="text-2xl font-bold text-white col-span-2">Your Style</h1>
-          <div class="col-end-13 flex justify-end gap-2">
+          <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
+          <div class="col-span-1 flex justify-end gap-2">
             <!-- Next & Previous Icon -->
             <svg
               class="hover:scale-110 transition ease-in-out"
@@ -368,37 +368,37 @@ export default {
           </div>
         </div>
         <!-- Playlist -->
-        <div class="h-40 grid grid-cols-12 gap-5 text-center">
+        <div class="h-40 grid grid-cols-4 gap-5 text-center">
           <div
-            class="flex flex-col justify-center col-span-3 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
+            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
             <p class="text-white text-lg font-semibold">Playlist Name</p>
           </div>
           <div
-            class="flex flex-col justify-center col-span-3 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
+            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
             <p class="text-white text-lg font-semibold">Playlist Name</p>
           </div>
           <div
-            class="flex flex-col justify-center col-span-3 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
+            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
             <p class="text-white text-lg font-semibold">Playlist Name</p>
           </div>
           <div
-            class="flex flex-col justify-center col-span-3 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
+            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
             <p class="text-white text-lg font-semibold">Playlist Name</p>
           </div>
         </div>
       </div>
       <!-- Music Player & Trending -->
-      <div class="h-full">
+      <div class="h-fit">
         <!-- Music Player -->
-        <div class="grid grid-cols-[23%_74%] gap-5 h-full">
+        <div class="grid grid-cols-[24%_76%] gap-5 h-full">
           <div class="col-span-1 flex flex-col justify-start">
             <h1 class="text-2xl font-bold pb-3 text-white">Now Playing</h1>
             <div
-              class="flex flex-col rounded-2xl bg-[#E5E5E5] h-[36.5rem] max-2xl:h-[25rem]"
+              class="flex flex-col rounded-2xl bg-[#E5E5E5] h-[25rem] 2xl:h-[30rem]"
             >
               <!-- Cover -->
               <div
@@ -634,7 +634,7 @@ export default {
           <div class="col-span-1 h-full">
             <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
             <div
-              class="rounded-2xl overflow-y-scroll pr-2 h-[36.5rem] max-2xl:h-[25rem]"
+              class="rounded-2xl overflow-y-scroll pr-2 h-[25rem] 2xl:h-[30rem]"
             >
               <!-- Song List -->
               <!-- for-loop here -->
