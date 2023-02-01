@@ -323,7 +323,7 @@ export default {
     <!-- Content -->
     <div class="w-full h-full gap-6 px-28 py-20 flex flex-col justify-center">
       <!-- Header & Playlist -->
-      <div class="h-fit">
+      <div class="h-[50%] flex flex-col">
         <!-- Header -->
         <div class="grid grid-cols-2 pb-3">
           <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
@@ -392,17 +392,17 @@ export default {
         </div>
       </div>
       <!-- Music Player & Trending -->
-      <div class="h-fit">
+      <div class="h-[80%]">
         <!-- Music Player -->
         <div class="grid grid-cols-[24%_76%] gap-5 h-full">
           <div class="col-span-1 flex flex-col justify-start">
             <h1 class="text-2xl font-bold pb-3 text-white">Now Playing</h1>
             <div
-              class="flex flex-col rounded-2xl bg-[#E5E5E5] h-[25rem] 2xl:h-[30rem]"
+              class="flex flex-col rounded-2xl bg-[#E5E5E5] h-[25rem] 2xl:h-full"
             >
               <!-- Cover -->
               <div
-                class="h-[70%] bg-cover rounded-t-2xl"
+                class="h-[70%] bg-cover bg-center rounded-t-2xl"
                 :style="{
                   backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
                 }"
@@ -910,8 +910,4 @@ export default {
   </div>
 </template>
 
-<style scoped>
-.bg-playlist {
-  background: url(ace11a71fb7f211b905336bdef4c122f.png);
-}
-</style>
+<style scoped></style>
