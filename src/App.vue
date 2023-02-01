@@ -321,9 +321,9 @@ export default {
       </svg>
     </div>
     <!-- Content -->
-    <div class="w-full gap-6 px-28 py-10 flex flex-col">
+    <div class="w-full h-full gap-6 px-28 py-20 flex flex-col justify-center">
       <!-- Header & Playlist -->
-      <div class="h-1/3">
+      <div class="h-fit">
         <!-- Header -->
         <div class="grid grid-cols-2 pb-3">
           <h1 class="text-2xl font-bold text-white col-span-2">Your Style</h1>
@@ -368,9 +368,7 @@ export default {
           </div>
         </div>
         <!-- Playlist -->
-        <div
-          class="max-2xl:h-3/4 max-2xl:mt-0 mt-5 h-4/6 grid grid-cols-12 gap-5 text-center"
-        >
+        <div class="h-40 grid grid-cols-12 gap-5 text-center">
           <div
             class="flex flex-col justify-center col-span-3 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
@@ -394,20 +392,21 @@ export default {
         </div>
       </div>
       <!-- Music Player & Trending -->
-      <div class="h-2/3">
+      <div class="h-fit">
         <!-- Music Player -->
         <div class="grid grid-cols-[23%_74%] gap-5 h-full">
-          <div class="flex flex-col col-span-1">
+          <div class="col-span-1 flex flex-col justify-start">
             <h1 class="text-2xl font-bold pb-1.5 text-white">Now Playing</h1>
-            <div class="grow flex flex-col bg-[#E5E5E5] rounded-2xl h-[23rem]">
+            <div class="flex flex-col bg-[#E5E5E5] rounded-2xl h-[24rem]">
+              <!-- Cover -->
               <div
-                class="grow h-2/5 bg-cover rounded-t-2xl"
+                class="grow h-1/6 bg-cover rounded-t-2xl"
                 :style="{
                   backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
                 }"
               ></div>
+              <!-- Time Bars -->
               <div>
-                <!-- Time Bars -->
                 <div class="h-fit">
                   <svg
                     width="100%"
@@ -421,26 +420,25 @@ export default {
                   </svg>
                 </div>
               </div>
+              <!-- Time Counter -->
               <div>
-                <!-- Time Counter -->
                 <div class="flex justify-between w-full items-center">
                   <p class="px-2 text-sm">{{ currentTime }}</p>
                   <p class="px-2 text-sm">{{ duration }}</p>
                 </div>
               </div>
+              <!-- Title & Icons -->
               <div
-                class="flex flex-col justify-start items-center gap-2 h-2/5 bg-[#E5E5E5] rounded-b-2xl"
+                class="flex flex-col justify-start items-center gap-2 h-[30%] bg-[#E5E5E5] rounded-b-2xl"
               >
                 <!-- Title Name -->
-                <div class="pt-2 text-center">
+                <div class="text-center h-fit">
                   <h1 class="text-2xl font-bold">{{ currentTrack.name }}</h1>
                   <h3 class="font-semibold">{{ currentTrack.artist }}</h3>
                 </div>
 
                 <!-- Icons -->
-                <div
-                  class="flex justify-around items-center gap-3 max-2xl:pb-3"
-                >
+                <div class="flex justify-around items-center gap-3 h-fit">
                   <!-- Shuffle Icon -->
                   <div class="random-track" @click="playRandom">
                     <button>
@@ -623,13 +621,13 @@ export default {
             </div>
           </div>
           <!-- Trending -->
-          <div class="flex flex-col col-span-1 h-full">
+          <div class="col-span-1 h-full">
             <h1 class="text-2xl text-white font-bold pb-1">Trending</h1>
-            <div class="grow rounded-2xl overflow-y-scroll pr-2 h-[20rem]">
+            <div class="grow rounded-2xl overflow-y-scroll pr-2 h-[24rem]">
               <!-- Song List -->
               <!-- for-loop here -->
               <div
-                class="flex items-center mb-2 max-2xl:h-fit h-1/6 bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl"
+                class="flex items-center mb-2 h-fit bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl"
                 v-for="(track, index) in tracks"
                 :key="index"
               >
