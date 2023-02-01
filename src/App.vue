@@ -447,7 +447,7 @@ export default {
 
                 <!-- Icons -->
                 <div
-                  class="flex justify-around basis-16 items-center gap-3 h-fit"
+                  class="flex justify-center basis-16 items-center 2xl:gap-8 gap-5 h-fit w-full"
                 >
                   <!-- Shuffle Icon -->
                   <div class="random-track" @click="playRandom">
