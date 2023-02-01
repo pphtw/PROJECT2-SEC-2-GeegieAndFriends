@@ -396,7 +396,7 @@ export default {
         <!-- Music Player -->
         <div class="grid grid-cols-[23%_74%] gap-5 h-full">
           <div class="col-span-1 flex flex-col justify-start">
-            <h1 class="text-2xl font-bold pb-1.5 text-white">Now Playing</h1>
+            <h1 class="text-2xl font-bold pb-3 text-white">Now Playing</h1>
             <div class="flex flex-col bg-[#E5E5E5] rounded-2xl h-[24rem]">
               <!-- Cover -->
               <div
@@ -415,8 +415,8 @@ export default {
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect x="0" y="0" width="100%" height="1" fill="#171717" />
-                    <rect x="0" y="0" width="100%" height="1" fill="#D39BCB" />
+                    <rect x="0" y="0" width="100%" height="2" fill="#b9b9b9" />
+                    <rect x="0" y="0" :style="{ width : barWidth}" height="2" fill="#C493E1" />
                   </svg>
                 </div>
               </div>
@@ -622,7 +622,7 @@ export default {
           </div>
           <!-- Trending -->
           <div class="col-span-1 h-full">
-            <h1 class="text-2xl text-white font-bold pb-1">Trending</h1>
+            <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
             <div class="grow rounded-2xl overflow-y-scroll pr-2 h-[24rem]">
               <!-- Song List -->
               <!-- for-loop here -->
