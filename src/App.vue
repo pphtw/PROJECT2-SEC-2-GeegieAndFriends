@@ -11,7 +11,8 @@ const currentTime = ref('00:00')
 const duration = ref(null)
 const isPlaying = ref(false)
 const currentTrackIndex = ref(0)
-const play = () => {
+
+const playerHandler = () => {
   if (audioRef.value.paused) {
     audioRef.value.play();
     isPlaying.value = true;
@@ -20,18 +21,21 @@ const play = () => {
     isPlaying.value = false;
   }
 };
-const getCurrentTime = () => {
+const onTimeUpdateHandler = () => {
   currentTime.value = new Date(audioRef.value.currentTime * 1000)
       .toISOString()
       .substring(14, 19);
 }
-const getDuration = () => {
+const onLoadMetadataHandler = () => {
   duration.value = new Date(audioRef.value.duration * 1000)
+      .toISOString()
+      .substring(14, 19);
+  currentTime.value = new Date(audioRef.value.currentTime * 1000)
       .toISOString()
       .substring(14, 19);
 }
 
-const prevTrack = () => {
+const onPreviousHandler = () => {
   if (currentTrackIndex.value > 0) {
     currentTrackIndex.value--;
   } else {
@@ -40,7 +44,7 @@ const prevTrack = () => {
   currentTrack.value = tracks[currentTrackIndex.value];
   initState();
 }
-const nextTrack = () => {
+const onNextHandler = () => {
   if (currentTrackIndex.value < tracks.length - 1) {
     currentTrackIndex.value++;
   } else {
@@ -329,7 +333,7 @@ const initState = () => {
                     class="flex justify-center basis-16 items-center 2xl:gap-8 gap-5 h-fit w-full"
                 >
                   <!-- Shuffle Icon -->
-                  <div class="random-track" @click="playRandom">
+                  <div class="random-track" @click="onShuffleHandler">
                     <button>
                       <svg
                           width="20"
@@ -350,7 +354,7 @@ const initState = () => {
                     </button>
                   </div>
                   <!-- Previous Icon -->
-                  <div class="prev-track" @click="prevTrack">
+                  <div class="prev-track" @click="onPreviousHandler">
                     <button>
                       <svg
                           width="20"
@@ -370,7 +374,7 @@ const initState = () => {
                     </button>
                   </div>
                   <!-- Play/Pause Icon -->
-                  <div @click="play">
+                  <div @click="playerHandler">
                     <button v-if="isPlaying">
                       <svg
                           width="30"
@@ -409,7 +413,7 @@ const initState = () => {
                     </button>
                   </div>
                   <!-- Skip Icon -->
-                  <div class="next-track" @click="nextTrack">
+                  <div class="next-track" @click="onNextHandler">
                     <button>
                       <svg
                           width="20"
@@ -510,8 +514,8 @@ const initState = () => {
             </div>
             <audio
                 ref="audioRef"
-                @timeupdate="getCurrentTime"
-                @loadedmetadata="getDuration"
+                @timeupdate="onTimeUpdateHandler"
+                @loadedmetadata="onLoadMetadataHandler"
                 :src="tracks[currentTrackIndex].source"
             ></audio>
           </div>
