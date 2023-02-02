@@ -1,6 +1,8 @@
 <script setup>
 import { ref, reactive } from 'vue';
-import tracks from '@/assets/metadata.json';
+import metadata from '@/assets/metadata.json';
+const tracks = metadata.tracks;
+console.log(tracks)
 let audioRef = ref(new Audio())
 let barWidth = ref(null);
 let circleLeft = ref(null);
@@ -26,24 +28,24 @@ const generateTime = () => {
   let width = (100 / audioRef.value.duration) * audioRef.currentTime;
   barWidth = width + "%";
   circleLeft = width + "%";
-  let durmin = Math.floor(audioRef.value.duration / 60);
-  let dursec = Math.floor(audioRef.value.duration - durmin * 60);
-  let curmin = Math.floor(audioRef.value.currentTime / 60);
-  let cursec = Math.floor(audioRef.value.currentTime - curmin * 60);
-  if (durmin < 10) {
-    durmin = "0" + durmin;
+  let durMin = Math.floor(audioRef.value.duration / 60);
+  let durSec = Math.floor(audioRef.value.duration - durMin * 60);
+  let curMin = Math.floor(audioRef.value.currentTime / 60);
+  let curSec = Math.floor(audioRef.value.currentTime - curMin * 60);
+  if (durMin < 10) {
+    durMin = "0" + durMin;
   }
-  if (dursec < 10) {
-    dursec = "0" + dursec;
+  if (durSec < 10) {
+    durSec = "0" + durSec;
   }
-  if (curmin < 10) {
-    curmin = "0" + curmin;
+  if (curMin < 10) {
+    curMin = "0" + curMin;
   }
-  if (cursec < 10) {
-    cursec = "0" + cursec;
+  if (curSec < 10) {
+    curSec = "0" + curSec;
   }
-  duration.value = durmin + ":" + dursec
-  currentTime.value = curmin + ":" + cursec
+  duration.value = durMin + ":" + durSec
+  currentTime.value = curMin + ":" + curSec
 }
 
 const prevTrack = () => {
