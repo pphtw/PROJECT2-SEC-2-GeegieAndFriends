@@ -18,7 +18,7 @@
 }
 body {
   background-color: #2d3967;
-  overflow: none;
+  overflow: hidden;
   position: fixed;
 }
 @tailwind components;
