@@ -1,16 +1,16 @@
 <script setup>
-import {ref, reactive, onMounted} from 'vue';
+import {onMounted, ref} from 'vue';
 import metadata from '@/assets/metadata.json';
-// import formatTime from '@/formatTime.js'
+
 const tracks = metadata.tracks;
 const audioRef = ref(null)
-const barWidth = ref('0%');
 const currentTrack = ref(tracks[0]);
 const repeat = ref(false)
 const currentTime = ref('00:00')
 const duration = ref(null)
 const isPlaying = ref(false)
-const currentTrackIndex = ref(0)
+const currentTrackIndex = ref(0);
+const barWidth = ref('0%');
 const play = () => {
   if (audioRef.value.paused) {
     audioRef.value.play();
@@ -19,11 +19,12 @@ const play = () => {
     audioRef.value.pause();
     isPlaying.value = false;
   }
-};
+}
 const getCurrentTime = () => {
   currentTime.value = new Date(audioRef.value.currentTime * 1000)
       .toISOString()
       .substring(14, 19);
+  barWidth.value = (audioRef.value.currentTime / audioRef.value.duration * 100) + '%';
 }
 const getDuration = () => {
   duration.value = new Date(audioRef.value.duration * 1000)
@@ -287,21 +288,15 @@ const initState = () => {
               ></div>
               <!-- Time Bars -->
               <div>
-                <div class="h-fit" ref="progress">
+                <div class="h-fit">
                   <svg
                       width="100%"
                       viewBox="0 0 139 4"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                   >
-                    <rect x="0" y="0" width="100%" height="2" fill="#b9b9b9"/>
-                    <rect
-                        x="0"
-                        y="0"
-                        :width=barWidth
-                        height="2"
-                        fill="#C493E1"
-                    />
+                    <rect x="0" y="0" width="100%" height="3" fill="#b9b9b9"/>
+                    <rect x="0" y="0" :style="{width : barWidth}" height="3" fill="#C493E1"/>
                   </svg>
                 </div>
               </div>
@@ -510,6 +505,7 @@ const initState = () => {
                 ref="audioRef"
                 @timeupdate="getCurrentTime"
                 @loadedmetadata="getDuration"
+                controls
                 :src="tracks[currentTrackIndex].source"
             ></audio>
           </div>
