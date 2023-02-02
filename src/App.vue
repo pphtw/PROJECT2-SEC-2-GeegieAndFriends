@@ -9,17 +9,15 @@ const currentTrack = ref(tracks[0]);
 const repeat = ref(false)
 const currentTime = ref('00:00')
 const duration = ref(null)
-const state = reactive({
-  isPlaying: false,
-  currentTrackIndex: 0,
-});
+const isPlaying = ref(false)
+const currentTrackIndex = ref(0)
 const play = () => {
   if (audioRef.value.paused) {
     audioRef.value.play();
-    state.isPlaying = true;
+    isPlaying.value = true;
   } else {
     audioRef.value.pause();
-    state.isPlaying = false;
+    isPlaying.value = false;
   }
 };
 const getCurrentTime = () => {
@@ -34,26 +32,26 @@ const getDuration = () => {
 }
 
 const prevTrack = () => {
-  if (state.currentTrackIndex > 0) {
-    state.currentTrackIndex--;
+  if (currentTrackIndex.value > 0) {
+    currentTrackIndex.value--;
   } else {
-    state.currentTrackIndex = tracks.length - 1;
+    currentTrackIndex.value = tracks.length - 1;
   }
-  currentTrack.value = tracks[state.currentTrackIndex];
+  currentTrack.value = tracks[currentTrackIndex.value];
   initState();
 }
 const nextTrack = () => {
-  if (state.currentTrackIndex < tracks.length - 1) {
-    state.currentTrackIndex++;
+  if (currentTrackIndex.value < tracks.length - 1) {
+    currentTrackIndex.value++;
   } else {
-    state.currentTrackIndex = 0;
+    currentTrackIndex.value = 0;
   }
-  currentTrack.value = tracks[state.currentTrackIndex];
+  currentTrack.value = tracks[currentTrackIndex.value];
   initState()
 }
 const initState = () => {
   setTimeout(() => {
-    if (state.isPlaying) {
+    if (isPlaying.value) {
       audioRef.value.play();
     } else {
       audioRef.value.pause();
@@ -373,7 +371,7 @@ const initState = () => {
                   </div>
                   <!-- Play/Pause Icon -->
                   <div @click="play">
-                    <button v-if="state.isPlaying">
+                    <button v-if="isPlaying">
                       <svg
                           width="30"
                           height="30"
@@ -514,7 +512,7 @@ const initState = () => {
                 ref="audioRef"
                 @timeupdate="getCurrentTime"
                 @loadedmetadata="getDuration"
-                :src="tracks[state.currentTrackIndex].source"
+                :src="tracks[currentTrackIndex].source"
             ></audio>
           </div>
           <!-- Trending -->
