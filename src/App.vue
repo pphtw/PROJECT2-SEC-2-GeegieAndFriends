@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import {  ref  } from "vue";
 import metadata from "@/assets/metadata.json";
 
 const tracks = metadata.tracks;
@@ -22,16 +22,13 @@ const playerHandler = () => {
   }
 };
 const onTimeUpdateHandler = () => {
-  currentTime.value = new Date(audioRef.value.currentTime * 1000)
-    .toISOString()
-    .substring(14, 19);
-  barWidth.value =
-    (audioRef.value.currentTime / audioRef.value.duration) * 100 + "%";
+  currentTime.value = msToMin(audioRef.value.currentTime)
+  updateProgressBar()
 };
 const onLoadMetadataHandler = () => {
-  duration.value = msToMin(audioRef.value.duration);
-  currentTime.value = msToMin(audioRef.value.currentTime);
-  onTimeUpdateHandler();
+  duration.value = msToMin(audioRef.value.duration)
+  currentTime.value = msToMin(audioRef.value.currentTime)
+  updateProgressBar()
 };
 const onPreviousHandler = () => {
   if (currentTrackIndex.value > 0) {
@@ -49,8 +46,9 @@ const onNextHandler = () => {
     currentTrackIndex.value = 0;
   }
   currentTrack.value = tracks[currentTrackIndex.value];
-  setDelay();
-};
+  setDelay()
+}
+
 // Utils
 const setDelay = () => {
   setTimeout(() => {
@@ -62,8 +60,13 @@ const setDelay = () => {
   }, 300);
 };
 const msToMin = (timeInMs) => {
-  return new Date(timeInMs * 1000).toISOString().substring(14, 19);
-};
+  return new Date(timeInMs * 1000)
+      .toISOString()
+      .substring(14, 19);
+}
+const updateProgressBar = () => {
+  barWidth.value = (audioRef.value.currentTime / audioRef.value.duration * 100) + '%';
+}
 </script>
 
 <template>
@@ -205,9 +208,9 @@ const msToMin = (timeInMs) => {
       </svg>
     </div>
     <!-- Content -->
-    <div class="w-full h-full gap-6 px-28 py-20 flex flex-col">
+    <div class="w-full h-full gap-[4%] px-28 py-[1%] flex flex-col justify-center">
       <!-- Header & Playlist -->
-      <div class="h-[30%] flex flex-col">
+      <div class="h-[31%] flex flex-col">
         <!-- Header -->
         <div class="grid grid-cols-2 pb-3">
           <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
@@ -252,7 +255,7 @@ const msToMin = (timeInMs) => {
           </div>
         </div>
         <!-- Playlist -->
-        <div class="h-40 grid grid-cols-4 gap-5 text-center">
+        <div class="h-40 grid grid-cols-4 gap-[2.8%] text-center">
           <div
             class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
@@ -276,180 +279,173 @@ const msToMin = (timeInMs) => {
         </div>
       </div>
       <!-- Music Player & Trending -->
-      <!-- Header -->
-      <div class="h-[60%]">
-        <div class="gap-5 grid grid-cols-[24%_76%] h-fit">
-          <h1 class="col-span-1 text-2xl font-bold pb-3 text-white">
-            Now Playing
-          </h1>
-          <h1 class="col-span-1 text-2xl text-white font-bold pb-3">
-            Trending
-          </h1>
-        </div>
+      <div class="h-[62%] grid grid-cols-4 grid-rows-1 gap-[2.8%]">
         <!-- Music Player -->
-        <div class="grid grid-cols-[24%_76%] gap-5 h-full">
-          <div class="col-span-1 row-span-1 flex flex-col justify-start h-full ">
-            <div class="flex flex-col rounded-2xl bg-[#E5E5E5] h-full">
-              <!-- Cover -->
-              <div
+        <div class="col-span-1 flex flex-col justify-start">
+          <h1 class="text-2xl font-bold pb-3 text-white truncate">Now Playing</h1>
+          <div
+              class="flex flex-col rounded-2xl bg-[#E5E5E5] h-full"
+          >
+            <!-- Cover -->
+            <div
                 class="h-[70%] bg-cover bg-center rounded-t-2xl"
                 :style="{
                   backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
                 }"
-              ></div>
-              <!-- Time Bars -->
-              <div>
-                <div class="h-full">
-                  <svg
+            ></div>
+            <!-- Time Bars -->
+            <div>
+              <div class="h-fit" ref="progress">
+                <svg
                     width="100%"
                     viewBox="0 0 139 4"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect x="0" y="0" width="100%" height="3" fill="#b9b9b9" />
-                    <rect
+                >
+                  <rect x="0" y="0" width="100%" height="2" fill="#b9b9b9"/>
+                  <rect
                       x="0"
                       y="0"
-                      :style="{ width: barWidth }"
-                      height="3"
+                      :width=barWidth
+                      height="2"
                       fill="#C493E1"
-                    />
-                  </svg>
-                </div>
+                  />
+                </svg>
               </div>
-              <!-- Time Counter -->
-              <div>
-                <div class="flex justify-between w-full items-center">
-                  <p class="px-2 text-sm">{{ currentTime }}</p>
-                  <p class="px-2 text-sm">{{ duration }}</p>
-                </div>
+            </div>
+            <!-- Time Counter -->
+            <div>
+              <div class="flex justify-between w-full items-center">
+                <p class="px-2 text-sm">{{ currentTime }}</p>
+                <p class="px-2 text-sm">{{ duration }}</p>
               </div>
-              <!-- Title & Icons -->
-              <div
+            </div>
+            <!-- Title & Icons -->
+            <div
                 class="flex flex-col justify-around items-center h-[30%] bg-[#E5E5E5] rounded-b-2xl"
-              >
-                <!-- Title Name -->
-                <div class="text-center h-fit">
-                  <h1 class="text-2xl font-bold">{{ currentTrack.name }}</h1>
-                  <h3 class="font-semibold">{{ currentTrack.artist }}</h3>
-                </div>
+            >
+              <!-- Title Name -->
+              <div class="text-center h-fit">
+                <h1 class="text-2xl font-bold">{{ currentTrack.name }}</h1>
+                <h3 class="font-semibold">{{ currentTrack.artist }}</h3>
+              </div>
 
-                <!-- Icons -->
-                <div
+              <!-- Icons -->
+              <div
                   class="flex justify-center basis-16 items-center 2xl:gap-8 gap-5 h-fit w-full"
-                >
-                  <!-- Shuffle Icon -->
-                  <div class="random-track" @click="onShuffleHandler">
-                    <button>
-                      <svg
+              >
+                <!-- Shuffle Icon -->
+                <div class="random-track" @click="onShuffleHandler">
+                  <button>
+                    <svg
                         width="20"
                         height="20"
                         viewBox="0 0 32 32"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
+                    >
+                      <path
                           d="M4 23.9733L7.4 23.9867C8.61333 23.9867 9.74667 23.3867 10.4133 22.3867L18.9333 9.61332C19.2632 9.11738 19.7115 8.71142 20.2376 8.43208C20.7637 8.15274 21.351 8.00882 21.9467 8.01332L28.0133 8.03999M25.3333 26.64L28 23.9733M11.8533 11.4933L10.4133 9.49332C10.0803 9.0271 9.63983 8.64798 9.12924 8.38803C8.61864 8.12809 8.05293 7.99499 7.48 7.99999L4 8.01332M17.2933 20.5067L18.92 22.6C19.6 23.48 20.6667 24 21.7867 24L28.0133 23.9733M28 8.02665L25.3333 5.35999"
                           stroke="black"
                           stroke-opacity="0.7"
                           stroke-width="1.5"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <!-- Previous Icon -->
-                  <div class="prev-track" @click="onPreviousHandler">
-                    <button>
-                      <svg
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <!-- Previous Icon -->
+                <div class="prev-track" @click="onPreviousHandler">
+                  <button>
+                    <svg
                         width="20"
                         height="20"
                         viewBox="0 0 32 32"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
+                    >
+                      <path
                           d="M5.01336 7.77156L5.01336 24.2516M26.9867 22.3849L26.9867 9.62489C26.9867 7.01156 24.1467 5.37156 21.88 6.67823L16.3467 9.86489L10.8134 13.0649C8.54669 14.3716 8.54669 17.6382 10.8134 18.9449L16.3467 22.1449L21.88 25.3316C24.1467 26.6382 26.9867 25.0116 26.9867 22.3849Z"
                           stroke="black"
                           stroke-width="1.5"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <!-- Play/Pause Icon -->
-                  <div @click="playerHandler">
-                    <button v-if="isPlaying">
-                      <svg
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <!-- Play/Pause Icon -->
+                <div @click="playerHandler">
+                  <button v-if="isPlaying">
+                    <svg
                         width="30"
                         height="30"
                         viewBox="0 0 50 50"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect width="50" height="50" rx="25" fill="#C493E1" />
-                        <path
+                    >
+                      <rect width="50" height="50" rx="25" fill="#C493E1"/>
+                      <path
                           d="M19.3041 33.2143C19.3041 33.4257 19.3085 33.6363 19.3128 33.8377L19.3129 33.8444C19.3172 34.0453 19.3212 34.2365 19.3212 34.4207C19.3212 34.798 19.3036 35.1123 19.2474 35.3647C19.1918 35.6148 19.1085 35.7574 19.0126 35.8413C18.9226 35.92 18.7611 36 18.4348 36C18.0271 36 17.8017 35.9123 17.6703 35.8154C17.5421 35.7207 17.4456 35.5746 17.3796 35.3386C17.3114 35.0947 17.2852 34.7879 17.2804 34.4143C17.2776 34.1967 17.2813 33.9929 17.2853 33.7784C17.2886 33.6022 17.292 33.4188 17.292 33.2143L17.292 16.7857C17.292 16.5813 17.2886 16.3978 17.2853 16.2217C17.2813 16.0071 17.2776 15.8034 17.2804 15.5857C17.2852 15.2121 17.3114 14.9053 17.3796 14.6614C17.4456 14.4254 17.5421 14.2793 17.6704 14.1846C17.8017 14.0877 18.0271 14 18.4348 14C18.8463 14 19.0396 14.0891 19.1353 14.168C19.227 14.2438 19.3012 14.3697 19.3417 14.6099C19.3835 14.8578 19.3798 15.1675 19.3591 15.5525C19.3543 15.6423 19.3485 15.7365 19.3426 15.8339C19.3242 16.1333 19.3041 16.4623 19.3041 16.7857V33.2143ZM30.7084 33.2143V16.7857C30.7084 16.5205 30.6972 16.2404 30.6868 15.9802C30.681 15.834 30.6754 15.6941 30.6722 15.5667C30.6627 15.1866 30.6718 14.8782 30.725 14.6324C30.7763 14.3946 30.8593 14.2598 30.9666 14.1756C31.0775 14.0884 31.285 14 31.6947 14C32.1044 14 32.3118 14.0884 32.4228 14.1756C32.5301 14.2598 32.613 14.3946 32.6644 14.6324C32.7176 14.8782 32.7267 15.1866 32.7172 15.5667C32.714 15.6941 32.7084 15.834 32.7026 15.9802C32.6922 16.2404 32.681 16.5205 32.681 16.7857L32.681 33.2143C32.681 33.4795 32.6922 33.7596 32.7026 34.0198C32.7084 34.166 32.714 34.3059 32.7172 34.4333C32.7267 34.8134 32.7176 35.1218 32.6644 35.3676C32.613 35.6054 32.5301 35.7402 32.4228 35.8244C32.3118 35.9116 32.1044 36 31.6947 36C31.285 36 31.0775 35.9116 30.9666 35.8244C30.8593 35.7402 30.7763 35.6054 30.725 35.3676C30.6718 35.1218 30.6627 34.8134 30.6722 34.4333C30.6754 34.3059 30.681 34.166 30.6868 34.0198C30.6972 33.7596 30.7084 33.4795 30.7084 33.2143Z"
                           fill="#E5E5E5"
                           stroke="#E5E5E5"
-                        />
-                      </svg>
-                    </button>
+                      />
+                    </svg>
+                  </button>
 
-                    <button v-else>
-                      <svg
+                  <button v-else>
+                    <svg
                         width="30"
                         height="30"
                         viewBox="0 0 50 50"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect width="50" height="50" rx="25" fill="#C493E1" />
-                        <path
+                    >
+                      <rect width="50" height="50" rx="25" fill="#C493E1"/>
+                      <path
                           d="M23.1398 15.4316L23.1402 15.4318L27.5787 17.8336L32.0166 20.2351C32.0168 20.2352 32.0169 20.2353 32.0171 20.2354C34.6396 21.657 35.75 23.4178 35.75 25C35.75 26.5823 34.6395 28.3432 32.0166 29.7649L27.5787 32.1664L23.1402 34.5682L23.1398 34.5684C20.5247 35.9859 18.3068 36.0327 16.7934 35.2113C15.2957 34.3984 14.25 32.6039 14.25 29.8036V25V20.1964C14.25 17.3961 15.2957 15.6016 16.7934 14.7887C18.3068 13.9673 20.5247 14.0141 23.1398 15.4316Z"
                           stroke="#E5E5E5"
                           stroke-width="1.5"
                           stroke-miterlimit="10"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <!-- Skip Icon -->
-                  <div class="next-track" @click="onNextHandler">
-                    <button>
-                      <svg
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <!-- Skip Icon -->
+                <div class="next-track" @click="onNextHandler">
+                  <button>
+                    <svg
                         width="20"
                         height="20"
                         viewBox="0 0 32 32"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
+                    >
+                      <path
                           d="M26.9867 24.24L26.9867 7.75998M5.01334 9.62664L5.01334 22.3866C5.01334 25 7.85334 26.64 10.12 25.3333L15.6533 22.1466L21.1867 18.9466C23.4533 17.64 23.4533 14.3733 21.1867 13.0666L15.6533 9.86664L10.12 6.67998C7.85334 5.37331 5.01334 6.99998 5.01334 9.62664Z"
                           stroke="black"
                           stroke-width="1.5"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <!-- Loop Icon -->
-                  <div class="repeat-track">
-                    <button v-if="!repeat">
-                      <svg
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <!-- Loop Icon -->
+                <div class="repeat-track">
+                  <button v-if="!repeat">
+                    <svg
                         width="20"
                         height="20"
                         viewBox="0 0 32 32"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                         @click="playLoop"
-                      >
-                        <path
+                    >
+                      <path
                           d="M6.54398 6.88H23.2267C25.44 6.88 27.2267 8.66667 27.2267 10.88V15.3067"
                           stroke="black"
                           stroke-opacity="0.7"
@@ -457,8 +453,8 @@ const msToMin = (timeInMs) => {
                           stroke-miterlimit="10"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                        <path
+                      />
+                      <path
                           d="M8.98666 2.66669L4.77333 6.88002L8.98666 11.0934M27.2267 25.12H8.77333C6.56 25.12 4.77333 23.3334 4.77333 21.12V16.6934"
                           stroke="black"
                           stroke-opacity="0.7"
@@ -466,8 +462,8 @@ const msToMin = (timeInMs) => {
                           stroke-miterlimit="10"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                        <path
+                      />
+                      <path
                           d="M23.0133 29.3333L27.2267 25.12L23.0133 20.9067"
                           stroke="black"
                           stroke-opacity="0.7"
@@ -475,258 +471,128 @@ const msToMin = (timeInMs) => {
                           stroke-miterlimit="10"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                      </svg>
-                    </button>
+                      />
+                    </svg>
+                  </button>
 
-                    <button v-else>
-                      <svg
+                  <button v-else>
+                    <svg
                         width="20"
                         height="20"
                         viewBox="0 0 32 32"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                         @click="playLoop"
-                      >
-                        <path
+                    >
+                      <path
                           d="M6.54398 6.88H23.2267C25.44 6.88 27.2267 8.66667 27.2267 10.88V15.3067"
                           stroke="#C493E1"
                           stroke-width="2.5"
                           stroke-miterlimit="10"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                        <path
+                      />
+                      <path
                           d="M8.98668 2.66667L4.77335 6.88L8.98668 11.0933M27.2267 25.12H8.77335C6.56001 25.12 4.77335 23.3333 4.77335 21.12V16.6933"
                           stroke="#C493E1"
                           stroke-width="2.5"
                           stroke-miterlimit="10"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                        <path
+                      />
+                      <path
                           d="M23.0133 29.3333L27.2267 25.12L23.0133 20.9067"
                           stroke="#C493E1"
                           stroke-width="2.5"
                           stroke-miterlimit="10"
                           stroke-linecap="round"
                           stroke-linejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  </div>
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
-            <audio
+          </div>
+          <audio
               ref="audioRef"
               @timeupdate="onTimeUpdateHandler"
               @loadedmetadata="onLoadMetadataHandler"
               :src="tracks[currentTrackIndex].source"
-            ></audio>
-          </div>
-          <!-- Trending -->
-          <div class="col-span-1 overflow-auto">
-            <div class="rounded-2xl pr-2">
-              <!-- Song List -->
-              <!-- for-loop here -->
-              <div
-                class="flex items-center mb-2 h-fit bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl"
+          ></audio>
+        </div>
+        <!-- Trending -->
+        <div class="col-span-3 flex flex-col justify-start h-full">
+          <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
+          <div
+              class="rounded-2xl overflow-y-scroll pr-2 h-full flex flex-col gap-[1.2%]"
+          >
+            <!-- Song List -->
+            <!-- for-loop here -->
+            <div
+                class="flex items-center mb-2 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl overflow-clip"
                 v-for="(track, index) in tracks"
                 :key="index"
-              >
-                <!-- Soung Count -->
-                <div class="w-12">
-                  <h1 class="text-center font-semibold">{{ index + 1 }}</h1>
-                </div>
-                <!-- Song Cover -->
-                <div class="w-fit">
-                  <img class="w-16" alt="Song Cover" :src="track.cover" />
-                </div>
-                <!-- Title & Artist -->
-                <div class="grow grid grid-rows-2 h-fit pl-5">
-                  <h1 class="row-span-1 text-xl font-bold">
-                    {{ track.name }}
-                  </h1>
-                  <h1 class="row-span-1 font-semibold">
-                    {{ track.artist }}
-                  </h1>
-                </div>
-                <!-- Time Counter -->
-                <div class="px-3 font-semibold">00.00</div>
-                <!-- Heart Icon -->
-                <div class="px-3">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16.8267 27.7467C16.3733 27.9067 15.6267 27.9067 15.1733 27.7467C11.3067 26.4267 2.66666 20.92 2.66666 11.5867C2.66666 7.46666 5.98666 4.13333 10.08 4.13333C12.5067 4.13333 14.6533 5.30666 16 7.12C16.685 6.1945 17.5773 5.4423 18.6053 4.92366C19.6333 4.40501 20.7685 4.13434 21.92 4.13333C26.0133 4.13333 29.3333 7.46666 29.3333 11.5867C29.3333 20.92 20.6933 26.4267 16.8267 27.7467Z"
-                      stroke="black"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-                <!-- More Icon -->
-                <div class="px-3">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12.0001 14C13.1046 14 14.0001 13.1046 14.0001 12C14.0001 10.8954 13.1046 10 12.0001 10C10.8955 10 10.0001 10.8954 10.0001 12C10.0001 13.1046 10.8955 14 12.0001 14Z"
-                      fill="#231F20"
-                    />
-                    <path
-                      d="M19.0001 14C20.1046 14 21.0001 13.1046 21.0001 12C21.0001 10.8954 20.1046 10 19.0001 10C17.8955 10 17.0001 10.8954 17.0001 12C17.0001 13.1046 17.8955 14 19.0001 14Z"
-                      fill="#231F20"
-                    />
-                    <path
-                      d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14Z"
-                      fill="#231F20"
-                    />
-                  </svg>
-                </div>
+            >
+              <!-- Song Count -->
+              <div class="w-12">
+                <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
               </div>
-              <div
-                class="flex items-center mb-2 h-fit bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl"
-                v-for="(track, index) in tracks"
-                :key="index"
-              >
-                <!-- Soung Count -->
-                <div class="w-12">
-                  <h1 class="text-center font-semibold">{{ index + 1 }}</h1>
-                </div>
-                <!-- Song Cover -->
-                <div class="w-fit">
-                  <img class="w-16" alt="Song Cover" :src="track.cover" />
-                </div>
-                <!-- Title & Artist -->
-                <div class="grow grid grid-rows-2 h-fit pl-5">
-                  <h1 class="row-span-1 text-xl font-bold">
-                    {{ track.name }}
-                  </h1>
-                  <h1 class="row-span-1 font-semibold">
-                    {{ track.artist }}
-                  </h1>
-                </div>
-                <!-- Time Counter -->
-                <div class="px-3 font-semibold">00.00</div>
-                <!-- Heart Icon -->
-                <div class="px-3">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16.8267 27.7467C16.3733 27.9067 15.6267 27.9067 15.1733 27.7467C11.3067 26.4267 2.66666 20.92 2.66666 11.5867C2.66666 7.46666 5.98666 4.13333 10.08 4.13333C12.5067 4.13333 14.6533 5.30666 16 7.12C16.685 6.1945 17.5773 5.4423 18.6053 4.92366C19.6333 4.40501 20.7685 4.13434 21.92 4.13333C26.0133 4.13333 29.3333 7.46666 29.3333 11.5867C29.3333 20.92 20.6933 26.4267 16.8267 27.7467Z"
-                      stroke="black"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-                <!-- More Icon -->
-                <div class="px-3">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M12.0001 14C13.1046 14 14.0001 13.1046 14.0001 12C14.0001 10.8954 13.1046 10 12.0001 10C10.8955 10 10.0001 10.8954 10.0001 12C10.0001 13.1046 10.8955 14 12.0001 14Z"
-                      fill="#231F20"
-                    />
-                    <path
-                      d="M19.0001 14C20.1046 14 21.0001 13.1046 21.0001 12C21.0001 10.8954 20.1046 10 19.0001 10C17.8955 10 17.0001 10.8954 17.0001 12C17.0001 13.1046 17.8955 14 19.0001 14Z"
-                      fill="#231F20"
-                    />
-                    <path
-                      d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14Z"
-                      fill="#231F20"
-                    />
-                  </svg>
-                </div>
+              <!-- Song Cover -->
+              <div class="h-full aspect-square">
+                <img class="h-full aspect-square" alt="Song Cover" :src="track.cover"/>
               </div>
-              <div
-                class="flex items-center mb-2 h-fit bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl"
-                v-for="(track, index) in tracks"
-                :key="index"
-              >
-                <!-- Soung Count -->
-                <div class="w-12">
-                  <h1 class="text-center font-semibold">{{ index + 1 }}</h1>
-                </div>
-                <!-- Song Cover -->
-                <div class="w-fit">
-                  <img class="w-16" alt="Song Cover" :src="track.cover" />
-                </div>
-                <!-- Title & Artist -->
-                <div class="grow grid grid-rows-2 h-fit pl-5">
-                  <h1 class="row-span-1 text-xl font-bold">
-                    {{ track.name }}
-                  </h1>
-                  <h1 class="row-span-1 font-semibold">
-                    {{ track.artist }}
-                  </h1>
-                </div>
-                <!-- Time Counter -->
-                <div class="px-3 font-semibold">00.00</div>
-                <!-- Heart Icon -->
-                <div class="px-3">
-                  <svg
+              <!-- Title & Artist -->
+              <div class="grow grid grid-rows-2 h-fit pl-5">
+                <h1 class="row-span-1 text-xl font-bold">
+                  {{ track.name }}
+                </h1>
+                <h1 class="row-span-1 font-semibold">
+                  {{ track.artist }}
+                </h1>
+              </div>
+              <!-- Time Counter -->
+              <div class="px-3 font-semibold">00.00</div>
+              <!-- Heart Icon -->
+              <div class="px-3">
+                <svg
                     width="32"
                     height="32"
                     viewBox="0 0 32 32"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
+                >
+                  <path
                       d="M16.8267 27.7467C16.3733 27.9067 15.6267 27.9067 15.1733 27.7467C11.3067 26.4267 2.66666 20.92 2.66666 11.5867C2.66666 7.46666 5.98666 4.13333 10.08 4.13333C12.5067 4.13333 14.6533 5.30666 16 7.12C16.685 6.1945 17.5773 5.4423 18.6053 4.92366C19.6333 4.40501 20.7685 4.13434 21.92 4.13333C26.0133 4.13333 29.3333 7.46666 29.3333 11.5867C29.3333 20.92 20.6933 26.4267 16.8267 27.7467Z"
                       stroke="black"
                       stroke-width="1.5"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-                <!-- More Icon -->
-                <div class="px-3">
-                  <svg
+                  />
+                </svg>
+              </div>
+              <!-- More Icon -->
+              <div class="px-3">
+                <svg
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
+                >
+                  <path
                       d="M12.0001 14C13.1046 14 14.0001 13.1046 14.0001 12C14.0001 10.8954 13.1046 10 12.0001 10C10.8955 10 10.0001 10.8954 10.0001 12C10.0001 13.1046 10.8955 14 12.0001 14Z"
                       fill="#231F20"
-                    />
-                    <path
+                  />
+                  <path
                       d="M19.0001 14C20.1046 14 21.0001 13.1046 21.0001 12C21.0001 10.8954 20.1046 10 19.0001 10C17.8955 10 17.0001 10.8954 17.0001 12C17.0001 13.1046 17.8955 14 19.0001 14Z"
                       fill="#231F20"
-                    />
-                    <path
+                  />
+                  <path
                       d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14Z"
                       fill="#231F20"
-                    />
-                  </svg>
-                </div>
+                  />
+                </svg>
               </div>
             </div>
           </div>
