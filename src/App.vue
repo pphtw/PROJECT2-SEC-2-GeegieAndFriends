@@ -4,7 +4,7 @@ import metadata from '@/assets/metadata.json';
 // import formatTime from '@/formatTime.js'
 const tracks = metadata.tracks;
 const audioRef = ref(null)
-const barWidth = ref(0);
+const barWidth = ref('0%');
 const currentTrack = ref(tracks[0]);
 const repeat = ref(false)
 const currentTime = ref('00:00')
@@ -32,7 +32,6 @@ const getDuration = () => {
       .toISOString()
       .substring(14, 19);
 }
-
 const prevTrack = () => {
   if (state.currentTrackIndex > 0) {
     state.currentTrackIndex--;
@@ -60,7 +59,6 @@ const initState = () => {
     }
   }, 300)
 }
-
 </script>
 
 
