@@ -1,186 +1,102 @@
-<script>
-export default {
-  data() {
-    return {
-      audio: null,
-      circleLeft: null,
-      barWidth: null,
-      duration: null,
-      currentTime: null,
-      isTimerPlaying: false,
-      repeat: true,
-      tracks: [
-        {
-          name: "Matsuri",
-          artist: "Fuji Kaze",
-          cover:
-            "https://e.snmc.io/i/600/s/5126c31850a2de84d4d561c1c45cdeac/9808581/%E8%97%A4%E4%BA%95%E9%A2%A8-fujii-kaze-%E3%81%BE%E3%81%A4%E3%82%8A-matsuri-Cover-Art.jpg",
-          source: "/tracks/matsuri.mp3",
-          favorited: false,
-        },
-        {
-          name: "Double take",
-          artist: "dhruv",
-          cover:
-            "https://i.scdn.co/image/ab67616d0000b273834f16100678d3e800fb5fb9",
-          source: "/tracks/double_take.mp3",
-          favorited: false,
-        },
-        {
-          name: "Recall",
-          artist: "bowkylion",
-          cover:
-            "https://e.snmc.io/i/600/s/8551a37b85a88cff3cd699d7b0bd74f2/10164638/bowkylion-%E0%B8%A7%E0%B8%B2%E0%B8%94%E0%B9%84%E0%B8%A7%E0%B9%89-recall-Cover-Art.jpg",
-          source: "/tracks/recall.mp3",
-          favorited: false,
-        },
-      ],
-      currentTrack: null,
-      currentTrackIndex: 0,
-      transitionName: null,
-    };
-  },
-  methods: {
-    play() {
-      if (this.audio.paused) {
-        this.audio.play();
-        this.isTimerPlaying = true;
-      } else {
-        this.audio.pause();
-        this.isTimerPlaying = false;
-      }
-    },
-    generateTime() {
-      let width = (100 / this.audio.duration) * this.audio.currentTime;
-      this.barWidth = width + "%";
-      this.circleLeft = width + "%";
-      let durmin = Math.floor(this.audio.duration / 60);
-      let dursec = Math.floor(this.audio.duration - durmin * 60);
-      let curmin = Math.floor(this.audio.currentTime / 60);
-      let cursec = Math.floor(this.audio.currentTime - curmin * 60);
-      if (durmin < 10) {
-        durmin = "0" + durmin;
-      }
-      if (dursec < 10) {
-        dursec = "0" + dursec;
-      }
-      if (curmin < 10) {
-        curmin = "0" + curmin;
-      }
-      if (cursec < 10) {
-        cursec = "0" + cursec;
-      }
-      this.duration = durmin + ":" + dursec;
-      this.currentTime = curmin + ":" + cursec;
-    },
-    prevTrack() {
-      this.transitionName = "scale-in";
-      this.isShowCover = false;
-      if (this.currentTrackIndex > 0) {
-        this.currentTrackIndex--;
-      } else {
-        this.currentTrackIndex = this.tracks.length - 1;
-      }
-      this.currentTrack = this.tracks[this.currentTrackIndex];
-      this.resetPlayer();
-    },
-    nextTrack() {
-      this.transitionName = "scale-out";
-      this.isShowCover = false;
-      if (this.currentTrackIndex < this.tracks.length - 1) {
-        this.currentTrackIndex++;
-      } else {
-        this.currentTrackIndex = 0;
-      }
-      this.currentTrack = this.tracks[this.currentTrackIndex];
-      this.resetPlayer();
-    },
-    stop() {
-      this.isTimerPlaying = false;
-    },
-    playLoop() {
-      this.repeat = !this.repeat;
-      if (this.repeat) {
-        this.currentTrackIndex = this.currentTrackIndex;
-      } else if (this.currentTrackIndex !== this.tracks.length - 1) {
-        this.currentTrackIndex++;
-      } else {
-        this.currentTrackIndex = 0;
-      }
-      this.currentTrack = this.tracks[this.currentTrackIndex];
-      this.resetPlayer();
-    },
-    playRandom() {
-      this.stop();
-      let randomIndex = Math.floor(Math.random() * this.tracks.length);
-      if (randomIndex === this.currentTrackIndex) {
-        randomIndex = this.playRandom();
-      } else {
-        this.currentTrackIndex = randomIndex;
-        this.currentTrack = this.tracks[this.currentTrackIndex];
-        this.resetPlayer();
-        this.play();
-      }
-      console.log(this.currentTrackIndex);
-    },
-    resetPlayer() {
-      this.barWidth = 0;
-      this.circleLeft = 0;
-      this.audio.currentTime = 0;
-      this.audio.src = this.currentTrack.source;
-      setTimeout(() => {
-        if (this.isTimerPlaying) {
-          this.audio.play();
-        } else {
-          this.audio.pause();
-        }
-      }, 300);
-    },
-    favorite() {
-      // console.log(this.tracks[this.currentTrackIndex].favorited);
-      this.tracks[this.currentTrackIndex].favorited =
-        !this.tracks[this.currentTrackIndex].favorited;
-      console.log(this.tracks[this.currentTrackIndex].favorited);
-    },
-  },
+<script setup>
+import { ref, reactive } from 'vue';
+import tracks from '@/assets/metadata.json';
+let audioRef = ref(new Audio())
+let barWidth = ref(null);
+let circleLeft = ref(null);
+let currentTrack = ref(tracks[0]);
+let repeat = ref(false)
+let currentTime = ref(null)
+let duration = ref(null)
+const state = reactive({
+  isPlaying: false,
+  currentTrackIndex: 0,
 
-  created() {
-    let vm = this;
-    this.currentTrack = this.tracks[0];
-    this.audio = new Audio();
-    this.audio.src = this.currentTrack.source;
-    this.audio.ontimeupdate = function () {
-      vm.generateTime();
-    };
-    this.audio.onloadedmetadata = function () {
-      vm.generateTime();
-    };
-    this.audio.onended = function () {
-      vm.nextTrack();
-      this.isTimerPlaying = true;
-    };
-  },
-
-  //Progress Bar
-
-  updateBar(x) {
-    let progress = this.$refs.progress;
-    let maxduration = this.audio.duration;
-    let position = x - progress.offsetLeft;
-    let percentage = (100 * position) / progress.offsetWidth;
-    percentage = percentage > 100 ? 100 : percentage < 0 ? 0 : percentage;
-    this.barWidth = percentage + "%";
-    this.circleLeft = percentage + "%";
-    this.audio.currentTime = (maxduration * percentage) / 100;
-    this.audio.play();
-  },
-  clickProgress(event) {
-    this.isTimerPlaying = true;
-    this.audio.pause();
-    this.updateBar(event.pageX);
-  },
+});
+const play = () => {
+  if (audioRef.value.paused){
+    audioRef.value.play();
+    state.isPlaying = true;
+  }else {
+    audioRef.value.pause();
+    state.isPlaying = false;
+  }
 };
+const generateTime = () => {
+  let width = (100 / audioRef.value.duration) * audioRef.currentTime;
+  barWidth = width + "%";
+  circleLeft = width + "%";
+  let durmin = Math.floor(audioRef.value.duration / 60);
+  let dursec = Math.floor(audioRef.value.duration - durmin * 60);
+  let curmin = Math.floor(audioRef.value.currentTime / 60);
+  let cursec = Math.floor(audioRef.value.currentTime - curmin * 60);
+  if (durmin < 10) {
+    durmin = "0" + durmin;
+  }
+  if (dursec < 10) {
+    dursec = "0" + dursec;
+  }
+  if (curmin < 10) {
+    curmin = "0" + curmin;
+  }
+  if (cursec < 10) {
+    cursec = "0" + cursec;
+  }
+  duration.value = durmin + ":" + dursec
+  currentTime.value = curmin + ":" + cursec
+}
+
+const prevTrack = () => {
+  if (state.currentTrackIndex > 0){
+    state.currentTrackIndex--;
+  }else {
+    state.currentTrackIndex = tracks.length -1;
+  }
+  currentTrack.value = tracks[state.currentTrackIndex];
+  initState();
+}
+const nextTrack = () => {
+  if (state.currentTrackIndex < tracks.length -1){
+    state.currentTrackIndex++;
+  }else {
+    state.currentTrackIndex = 0;
+  }
+  currentTrack.value = tracks[state.currentTrackIndex];
+  initState();
+}
+const initState = () => {
+  barWidth = 0;
+  circleLeft = 0;
+  audioRef.currentTime = 0;
+  audioRef.src = currentTrack.value.source;
+  setTimeout(() =>{
+    if (state.isPlaying){
+      audioRef.value.play();
+    }else {
+      audioRef.value.pause();
+    }
+  },300)
+}
+const onTimeUpdate = () =>{
+  currentTime = $ref(audioRef.value.currentTime)
+}
+const created = () =>{
+  audioRef.src = currentTrack.value.source;
+  audioRef.ontimeupdate = function () {
+    generateTime()
+  };
+  audioRef.onloadedmetadata = function (){
+    generateTime()
+  };
+  audioRef.onended = function () {
+    nextTrack();
+    state.isPlaying = true;
+  }
+}
+console.log(audioRef.value.currentTime.toFixed())
+console.log(audioRef.value.duration.toFixed())
 </script>
+
 
 <template>
   <div class="flex w-screen h-screen bg-[#2D3967]">
@@ -323,7 +239,7 @@ export default {
     <!-- Content -->
     <div class="w-full h-full gap-6 px-28 py-20 flex flex-col justify-center">
       <!-- Header & Playlist -->
-      <div class="h-[50%] flex flex-col">
+      <div class="h-fit flex flex-col">
         <!-- Header -->
         <div class="grid grid-cols-2 pb-3">
           <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
@@ -409,7 +325,7 @@ export default {
               ></div>
               <!-- Time Bars -->
               <div>
-                <div class="h-fit">
+                <div class="h-fit" ref="progress">
                   <svg
                     width="100%"
                     height="fit"
@@ -492,7 +408,7 @@ export default {
                   </div>
                   <!-- Play/Pause Icon -->
                   <div @click="play">
-                    <button v-if="isTimerPlaying">
+                    <button v-if="state.isPlaying">
                       <svg
                         width="30"
                         height="30"
@@ -629,12 +545,16 @@ export default {
                 </div>
               </div>
             </div>
+            <audio
+                ref="audioRef"
+                :src="tracks[state.currentTrackIndex].source"
+            ></audio>
           </div>
           <!-- Trending -->
           <div class="col-span-1 h-full">
             <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
             <div
-              class="rounded-2xl overflow-y-scroll pr-2 h-[25rem] 2xl:h-[30rem]"
+              class="rounded-2xl overflow-y-scroll pr-2 h-[25rem] 2xl:h-[43rem]"
             >
               <!-- Song List -->
               <!-- for-loop here -->
