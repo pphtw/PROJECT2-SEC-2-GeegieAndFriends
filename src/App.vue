@@ -1,9 +1,9 @@
 <script setup>
-import {ref, reactive} from 'vue';
+import {ref, reactive, onMounted} from 'vue';
 import metadata from '@/assets/metadata.json';
+// import formatTime from '@/formatTime.js'
 const tracks = metadata.tracks;
-
-const audioRef = ref(new Audio())
+const audioRef = ref(null)
 const barWidth = ref(null);
 const circleLeft = ref(null);
 const currentTrack = ref(tracks[0]);
@@ -23,28 +23,19 @@ const play = () => {
     state.isPlaying = false;
   }
 };
-const generateTime = () => {
-  let width = (100 / audioRef.value.duration) * audioRef.currentTime;
-  barWidth.value = width;
-  circleLeft.value = width;
-  let durMin = Math.floor(audioRef.value.duration / 60);
-  let durSec = Math.floor(audioRef.value.duration - durMin * 60);
-  let curMin = Math.floor(audioRef.value.currentTime / 60);
-  let curSec = Math.floor(audioRef.value.currentTime - curMin * 60);
-  if (durMin < 10) {
-    durMin = "0" + durMin;
-  }
-  if (durSec < 10) {
-    durSec = "0" + durSec;
-  }
-  if (curMin < 10) {
-    curMin = "0" + curMin;
-  }
-  if (curSec < 10) {
-    curSec = "0" + curSec;
-  }
-  duration.value = durMin + ":" + durSec
-  currentTime.value = curMin + ":" + curSec
+const formatTime = (time) =>{
+  if (!time) return '0:00';
+
+  let minutes = Math.floor(time / 60);
+  let seconds = Math.floor(time % 60);
+
+  minutes = minutes.toString().padStart(2, '0');
+  seconds = seconds.toString().padStart(2, '0');
+  return `${minutes}:${seconds}`
+}
+const updateTime = () => {
+  currentTime.value = formatTime(audioRef.value.currentTime)
+  duration.value = formatTime(audioRef.value.duration)
 }
 const prevTrack = () => {
   if (state.currentTrackIndex > 0) {
@@ -67,8 +58,7 @@ const nextTrack = () => {
 const initState = () => {
   barWidth.value = 0;
   circleLeft.value = 0;
-  audioRef.currentTime = 0;
-  audioRef.src = currentTrack.value.source;
+  audioRef.value.currentTime = 0;
   setTimeout(() => {
     if (state.isPlaying) {
       audioRef.value.play();
@@ -77,17 +67,21 @@ const initState = () => {
     }
   }, 300)
 }
-const onTimeUpdate = () => {
-  currentTime.value = $ref(audioRef.value.currentTime)
-}
-audioRef.src = currentTrack.value.source;
-audioRef.ontimeupdate = function (){
-  generateTime();
-}
-audioRef.onloadedmetadata = function (){
-  generateTime()
-}
-console.log(audioRef.value)
+onMounted(() => {
+  audioRef.value = new Audio();
+  audioRef.value.src = currentTrack.value.source;
+  audioRef.value.ontimeupdate = function () {
+    updateTime();
+  };
+  audioRef.value.onloadedmetadata = function () {
+    updateTime();
+  };
+  audioRef.value.onended = function () {
+    nextTrack();
+    state.isPlaying = true;
+  };
+});
+
 </script>
 
 
@@ -539,6 +533,7 @@ console.log(audioRef.value)
             </div>
             <audio
                 ref="audioRef"
+                @timeupdate="updateTime"
                 :src="tracks[state.currentTrackIndex].source"
             ></audio>
           </div>
