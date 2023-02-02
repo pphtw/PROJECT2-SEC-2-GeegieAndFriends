@@ -1,17 +1,18 @@
 <script setup>
-import {ref, reactive, onMounted} from 'vue';
+import { ref } from 'vue';
 import metadata from '@/assets/metadata.json';
-// import formatTime from '@/formatTime.js'
+
 const tracks = metadata.tracks;
 const audioRef = ref(null)
 const barWidth = ref(0);
 const currentTrack = ref(tracks[0]);
 const repeat = ref(false)
 const currentTime = ref('00:00')
-const duration = ref(null)
+const duration = ref('00:00')
 const isPlaying = ref(false)
 const currentTrackIndex = ref(0)
 
+// Event Handlers
 const playerHandler = () => {
   if (audioRef.value.paused) {
     audioRef.value.play();
@@ -22,19 +23,12 @@ const playerHandler = () => {
   }
 };
 const onTimeUpdateHandler = () => {
-  currentTime.value = new Date(audioRef.value.currentTime * 1000)
-      .toISOString()
-      .substring(14, 19);
+  currentTime.value = msToMin(audioRef.value.currentTime)
 }
 const onLoadMetadataHandler = () => {
-  duration.value = new Date(audioRef.value.duration * 1000)
-      .toISOString()
-      .substring(14, 19);
-  currentTime.value = new Date(audioRef.value.currentTime * 1000)
-      .toISOString()
-      .substring(14, 19);
+  duration.value = msToMin(audioRef.value.duration)
+  currentTime.value = msToMin(audioRef.value.currentTime)
 }
-
 const onPreviousHandler = () => {
   if (currentTrackIndex.value > 0) {
     currentTrackIndex.value--;
@@ -42,7 +36,7 @@ const onPreviousHandler = () => {
     currentTrackIndex.value = tracks.length - 1;
   }
   currentTrack.value = tracks[currentTrackIndex.value];
-  initState();
+  setDelay();
 }
 const onNextHandler = () => {
   if (currentTrackIndex.value < tracks.length - 1) {
@@ -51,9 +45,12 @@ const onNextHandler = () => {
     currentTrackIndex.value = 0;
   }
   currentTrack.value = tracks[currentTrackIndex.value];
-  initState()
+  setDelay()
 }
-const initState = () => {
+
+
+// Utils
+const setDelay = () => {
   setTimeout(() => {
     if (isPlaying.value) {
       audioRef.value.play();
@@ -61,6 +58,11 @@ const initState = () => {
       audioRef.value.pause();
     }
   }, 300)
+}
+const msToMin = (timeInMs) => {
+  return new Date(timeInMs * 1000)
+      .toISOString()
+      .substring(14, 19);
 }
 
 </script>
@@ -70,7 +72,7 @@ const initState = () => {
   <div class="flex w-screen h-screen bg-[#2D3967]">
     <!-- Navbar -->
     <div
-        class="flex flex-col justify-center row-span-6 gap-5 items-center w-24 h-full bg-[#162750]"
+        class="flex flex-col justify-center row-span-6 gap-5 items-center w-[5.4%] h-full bg-[#162750]"
     >
       <!-- Home Icon -->
       <svg
@@ -538,7 +540,7 @@ const initState = () => {
                 </div>
                 <!-- Song Cover -->
                 <div class="w-fit">
-                  <img class="w-16" :src="track.cover"/>
+                  <img class="w-16" alt="Song Cover" :src="track.cover"/>
                 </div>
                 <!-- Title & Artist -->
                 <div class="grow grid grid-rows-2 h-fit pl-5">
@@ -604,7 +606,7 @@ const initState = () => {
                 </div>
                 <!-- Song Cover -->
                 <div class="w-fit">
-                  <img class="w-16" :src="track.cover"/>
+                  <img class="w-16" alt="Song Cover" :src="track.cover"/>
                 </div>
                 <!-- Title & Artist -->
                 <div class="grow grid grid-rows-2 h-fit pl-5">
@@ -670,7 +672,7 @@ const initState = () => {
                 </div>
                 <!-- Song Cover -->
                 <div class="w-fit">
-                  <img class="w-16" :src="track.cover"/>
+                  <img class="w-16" alt="Song Cover" :src="track.cover"/>
                 </div>
                 <!-- Title & Artist -->
                 <div class="grow grid grid-rows-2 h-fit pl-5">
@@ -736,7 +738,7 @@ const initState = () => {
                 </div>
                 <!-- Song Cover -->
                 <div class="w-fit">
-                  <img class="w-16" :src="track.cover"/>
+                  <img class="w-16" alt="Song Cover" :src="track.cover"/>
                 </div>
                 <!-- Title & Artist -->
                 <div class="grow grid grid-rows-2 h-fit pl-5">
