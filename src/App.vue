@@ -13,7 +13,6 @@ const duration = ref(null)
 const state = reactive({
   isPlaying: false,
   currentTrackIndex: 0,
-
 });
 const play = () => {
   if (audioRef.value.paused) {
@@ -47,7 +46,6 @@ const generateTime = () => {
   duration.value = durMin + ":" + durSec
   currentTime.value = curMin + ":" + curSec
 }
-
 const prevTrack = () => {
   if (state.currentTrackIndex > 0) {
     state.currentTrackIndex--;
@@ -84,25 +82,12 @@ const onTimeUpdate = () => {
 }
 audioRef.src = currentTrack.value.source;
 audioRef.ontimeupdate = function (){
+  generateTime();
+}
+audioRef.onloadedmetadata = function (){
   generateTime()
 }
-audioRef.o
-const created = () =>{
-const created = () => {
-  audioRef.src = currentTrack.value.source;
-  audioRef.ontimeupdate = function () {
-    generateTime()
-  };
-  audioRef.onloadedmetadata = function () {
-    generateTime()
-  };
-  audioRef.onended = function () {
-    nextTrack();
-    state.isPlaying = true;
-  }
-}
-console.log(audioRef.value.currentTime.toFixed())
-console.log(audioRef.value.duration.toFixed())
+console.log(audioRef.value)
 </script>
 
 
