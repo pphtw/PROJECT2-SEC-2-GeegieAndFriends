@@ -1,7 +1,6 @@
 <script setup>
-import {onMounted, ref} from 'vue';
+import {ref} from 'vue';
 import metadata from '@/assets/metadata.json';
-
 const tracks = metadata.tracks;
 const audioRef = ref(null)
 const currentTrack = ref(tracks[0]);
