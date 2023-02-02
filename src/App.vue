@@ -80,6 +80,11 @@ const initState = () => {
 const onTimeUpdate = () =>{
   currentTime = $ref(audioRef.value.currentTime)
 }
+audioRef.src = currentTrack.value.source;
+audioRef.ontimeupdate = function (){
+  generateTime()
+}
+audioRef.o
 const created = () =>{
   audioRef.src = currentTrack.value.source;
   audioRef.ontimeupdate = function () {
