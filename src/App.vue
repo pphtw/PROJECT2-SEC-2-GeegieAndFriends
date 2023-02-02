@@ -525,7 +525,7 @@ const updateProgressBar = () => {
         <div class="col-span-3 flex flex-col justify-start h-full">
           <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
           <div
-              class="rounded-2xl overflow-y-scroll pr-2 h-full flex flex-col gap-[1.2]"
+              class="rounded-2xl overflow-y-scroll pr-2 h-full flex flex-col gap-[1.2%]"
           >
             <!-- Song List -->
             <!-- for-loop here -->
