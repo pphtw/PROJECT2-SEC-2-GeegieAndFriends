@@ -1,17 +1,16 @@
 <script setup>
-import {ref} from 'vue';
+import { ref } from 'vue';
 import metadata from '@/assets/metadata.json';
 
 const tracks = metadata.tracks;
 const audioRef = ref(null)
-const barWidth = ref(0);
 const currentTrack = ref(tracks[0]);
 const repeat = ref(false)
 const currentTime = ref('00:00')
 const duration = ref('00:00')
 const isPlaying = ref(false)
-const currentTrackIndex = ref(0)
-
+const currentTrackIndex = ref(0);
+const barWidth = ref('0%');
 // Event Handlers
 const playerHandler = () => {
   if (audioRef.value.paused) {
@@ -24,11 +23,13 @@ const playerHandler = () => {
 };
 const onTimeUpdateHandler = () => {
   currentTime.value = msToMin(audioRef.value.currentTime)
-}
+  updateProgressBar()
+};
 const onLoadMetadataHandler = () => {
   duration.value = msToMin(audioRef.value.duration)
   currentTime.value = msToMin(audioRef.value.currentTime)
-}
+  updateProgressBar()
+};
 const onPreviousHandler = () => {
   if (currentTrackIndex.value > 0) {
     currentTrackIndex.value--;
@@ -48,7 +49,6 @@ const onNextHandler = () => {
   setDelay()
 }
 
-
 // Utils
 const setDelay = () => {
   setTimeout(() => {
@@ -64,7 +64,9 @@ const msToMin = (timeInMs) => {
       .toISOString()
       .substring(14, 19);
 }
-
+const updateProgressBar = () => {
+  barWidth.value = (audioRef.value.currentTime / audioRef.value.duration * 100) + '%';
+}
 </script>
 
 <template>
@@ -593,7 +595,6 @@ const msToMin = (timeInMs) => {
                 </svg>
               </div>
             </div>
-
           </div>
         </div>
       </div>
