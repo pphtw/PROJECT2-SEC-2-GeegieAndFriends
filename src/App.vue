@@ -4,11 +4,10 @@ import metadata from '@/assets/metadata.json';
 // import formatTime from '@/formatTime.js'
 const tracks = metadata.tracks;
 const audioRef = ref(null)
-const barWidth = ref(null);
-const circleLeft = ref(null);
+const barWidth = ref(0);
 const currentTrack = ref(tracks[0]);
 const repeat = ref(false)
-const currentTime = ref(null)
+const currentTime = ref('00:00')
 const duration = ref(null)
 const state = reactive({
   isPlaying: false,
@@ -23,20 +22,17 @@ const play = () => {
     state.isPlaying = false;
   }
 };
-const formatTime = (time) =>{
-  if (!time) return '0:00';
-
-  let minutes = Math.floor(time / 60);
-  let seconds = Math.floor(time % 60);
-
-  minutes = minutes.toString().padStart(2, '0');
-  seconds = seconds.toString().padStart(2, '0');
-  return `${minutes}:${seconds}`
+const getCurrentTime = () => {
+  currentTime.value = new Date(audioRef.value.currentTime * 1000)
+      .toISOString()
+      .substring(14, 19);
 }
-const updateTime = () => {
-  currentTime.value = formatTime(audioRef.value.currentTime)
-  duration.value = formatTime(audioRef.value.duration)
+const getDuration = () => {
+  duration.value = new Date(audioRef.value.duration * 1000)
+      .toISOString()
+      .substring(14, 19);
 }
+
 const prevTrack = () => {
   if (state.currentTrackIndex > 0) {
     state.currentTrackIndex--;
@@ -53,12 +49,9 @@ const nextTrack = () => {
     state.currentTrackIndex = 0;
   }
   currentTrack.value = tracks[state.currentTrackIndex];
-  initState();
+  initState()
 }
 const initState = () => {
-  barWidth.value = 0;
-  circleLeft.value = 0;
-  audioRef.value.currentTime = 0;
   setTimeout(() => {
     if (state.isPlaying) {
       audioRef.value.play();
@@ -67,20 +60,6 @@ const initState = () => {
     }
   }, 300)
 }
-onMounted(() => {
-  audioRef.value = new Audio();
-  audioRef.value.src = currentTrack.value.source;
-  audioRef.value.ontimeupdate = function () {
-    updateTime();
-  };
-  audioRef.value.onloadedmetadata = function () {
-    updateTime();
-  };
-  audioRef.value.onended = function () {
-    nextTrack();
-    state.isPlaying = true;
-  };
-});
 
 </script>
 
@@ -323,7 +302,7 @@ onMounted(() => {
                     <rect
                         x="0"
                         y="0"
-                        :width="{ barWidth }"
+                        :width=barWidth
                         height="2"
                         fill="#C493E1"
                     />
@@ -533,7 +512,8 @@ onMounted(() => {
             </div>
             <audio
                 ref="audioRef"
-                @timeupdate="updateTime"
+                @timeupdate="getCurrentTime"
+                @loadedmetadata="getDuration"
                 :src="tracks[state.currentTrackIndex].source"
             ></audio>
           </div>
