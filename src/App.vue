@@ -1,16 +1,18 @@
 <script setup>
 import {ref} from 'vue';
 import metadata from '@/assets/metadata.json';
+
 const tracks = metadata.tracks;
 const audioRef = ref(null)
 const currentTrack = ref(tracks[0]);
 const repeat = ref(false)
 const currentTime = ref('00:00')
-const duration = ref(null)
+const duration = ref('00:00')
 const isPlaying = ref(false)
 const currentTrackIndex = ref(0);
 const barWidth = ref('0%');
-const play = () => {
+// Event Handlers
+const playerHandler = () => {
   if (audioRef.value.paused) {
     audioRef.value.play();
     isPlaying.value = true;
@@ -18,37 +20,38 @@ const play = () => {
     audioRef.value.pause();
     isPlaying.value = false;
   }
-}
-const getCurrentTime = () => {
+};
+const onTimeUpdateHandler = () => {
   currentTime.value = new Date(audioRef.value.currentTime * 1000)
       .toISOString()
       .substring(14, 19);
   barWidth.value = (audioRef.value.currentTime / audioRef.value.duration * 100) + '%';
-}
-const getDuration = () => {
-  duration.value = new Date(audioRef.value.duration * 1000)
-      .toISOString()
-      .substring(14, 19);
-}
-const prevTrack = () => {
+};
+const onLoadMetadataHandler = () => {
+  duration.value = msToMin(audioRef.value.duration)
+  currentTime.value = msToMin(audioRef.value.currentTime)
+  onTimeUpdateHandler();
+};
+const onPreviousHandler = () => {
   if (currentTrackIndex.value > 0) {
     currentTrackIndex.value--;
   } else {
     currentTrackIndex.value = tracks.length - 1;
   }
   currentTrack.value = tracks[currentTrackIndex.value];
-  initState();
+  setDelay();
 }
-const nextTrack = () => {
+const onNextHandler = () => {
   if (currentTrackIndex.value < tracks.length - 1) {
     currentTrackIndex.value++;
   } else {
     currentTrackIndex.value = 0;
   }
   currentTrack.value = tracks[currentTrackIndex.value];
-  initState()
+  setDelay()
 }
-const initState = () => {
+// Utils
+const setDelay = () => {
   setTimeout(() => {
     if (isPlaying.value) {
       audioRef.value.play();
@@ -57,6 +60,11 @@ const initState = () => {
     }
   }, 300)
 }
+const msToMin = (timeInMs) => {
+  return new Date(timeInMs * 1000)
+      .toISOString()
+      .substring(14, 19);
+}
 </script>
 
 
@@ -64,7 +72,7 @@ const initState = () => {
   <div class="flex w-screen h-screen bg-[#2D3967]">
     <!-- Navbar -->
     <div
-        class="flex flex-col justify-center row-span-6 gap-5 items-center w-24 h-full bg-[#162750]"
+        class="flex flex-col justify-center row-span-6 gap-5 items-center w-[5.4%] h-full bg-[#162750]"
     >
       <!-- Home Icon -->
       <svg
@@ -321,7 +329,7 @@ const initState = () => {
                     class="flex justify-center basis-16 items-center 2xl:gap-8 gap-5 h-fit w-full"
                 >
                   <!-- Shuffle Icon -->
-                  <div class="random-track" @click="playRandom">
+                  <div class="random-track" @click="onShuffleHandler">
                     <button>
                       <svg
                           width="20"
@@ -342,7 +350,7 @@ const initState = () => {
                     </button>
                   </div>
                   <!-- Previous Icon -->
-                  <div class="prev-track" @click="prevTrack">
+                  <div class="prev-track" @click="onPreviousHandler">
                     <button>
                       <svg
                           width="20"
@@ -362,7 +370,7 @@ const initState = () => {
                     </button>
                   </div>
                   <!-- Play/Pause Icon -->
-                  <div @click="play">
+                  <div @click="playerHandler">
                     <button v-if="isPlaying">
                       <svg
                           width="30"
@@ -401,7 +409,7 @@ const initState = () => {
                     </button>
                   </div>
                   <!-- Skip Icon -->
-                  <div class="next-track" @click="nextTrack">
+                  <div class="next-track" @click="onNextHandler">
                     <button>
                       <svg
                           width="20"
@@ -502,9 +510,8 @@ const initState = () => {
             </div>
             <audio
                 ref="audioRef"
-                @timeupdate="getCurrentTime"
-                @loadedmetadata="getDuration"
-                controls
+                @timeupdate="onTimeUpdateHandler"
+                @loadedmetadata="onLoadMetadataHandler"
                 :src="tracks[currentTrackIndex].source"
             ></audio>
           </div>
@@ -527,7 +534,7 @@ const initState = () => {
                 </div>
                 <!-- Song Cover -->
                 <div class="w-fit">
-                  <img class="w-16" :src="track.cover"/>
+                  <img class="w-16" alt="Song Cover" :src="track.cover"/>
                 </div>
                 <!-- Title & Artist -->
                 <div class="grow grid grid-rows-2 h-fit pl-5">
@@ -593,7 +600,7 @@ const initState = () => {
                 </div>
                 <!-- Song Cover -->
                 <div class="w-fit">
-                  <img class="w-16" :src="track.cover"/>
+                  <img class="w-16" alt="Song Cover" :src="track.cover"/>
                 </div>
                 <!-- Title & Artist -->
                 <div class="grow grid grid-rows-2 h-fit pl-5">
@@ -659,7 +666,7 @@ const initState = () => {
                 </div>
                 <!-- Song Cover -->
                 <div class="w-fit">
-                  <img class="w-16" :src="track.cover"/>
+                  <img class="w-16" alt="Song Cover" :src="track.cover"/>
                 </div>
                 <!-- Title & Artist -->
                 <div class="grow grid grid-rows-2 h-fit pl-5">
@@ -725,7 +732,7 @@ const initState = () => {
                 </div>
                 <!-- Song Cover -->
                 <div class="w-fit">
-                  <img class="w-16" :src="track.cover"/>
+                  <img class="w-16" alt="Song Cover" :src="track.cover"/>
                 </div>
                 <!-- Title & Artist -->
                 <div class="grow grid grid-rows-2 h-fit pl-5">
