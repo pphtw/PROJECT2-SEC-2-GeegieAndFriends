@@ -639,7 +639,7 @@ const updateProgressBar = () => {
 }
 .progress-current{
   height: inherit;
-  width: 0%;
+  width: 0;
   background-color: #C493E1;
   border-radius: 2em;
 }
