@@ -64,7 +64,8 @@ const msToMin = (timeInMs) => {
 }
 const updateProgressBar = () => {
   barWidth.value =
-    (audioRef.value.currentTime / audioRef.value.duration) * 100 + '%'
+    ((audioRef.value.currentTime * 100) / audioRef.value.duration).toFixed(1) +
+    '%'
 }
 </script>
 
@@ -298,7 +299,7 @@ const updateProgressBar = () => {
             ></div>
             <!-- Time Bars -->
             <div>
-              <div class="h-fit" ref="progress">
+              <div class="h-full" ref="progress">
                 <svg
                   width="100%"
                   viewBox="0 0 139 4"
