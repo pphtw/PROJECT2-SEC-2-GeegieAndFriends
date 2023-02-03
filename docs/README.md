@@ -104,7 +104,7 @@ This section includes the development strategies, processes and contributions wi
   - Integrating Yarn, Tailwind, etc.
   - Refactoring a package.json file.
 - Setup [Netlify] for the project.
-  ![The Netlify site overview for the production branch](img/netlify-site-overview.png "Site Overview")
+  ![The Netlify site overview for the production branch](img/netlify-site-overview.png 'Site Overview')
 - Putting additional tools in the tech stack.
   - PostCSS: a transpiler that turns a special PostCSS plugin syntax into a Vanilla CSS
   - Autoprefixer: a plugin to parse CSS and add vendor prefixes to CSS rules using values from _Can I Use_.
@@ -114,12 +114,12 @@ This section includes the development strategies, processes and contributions wi
 
 - Brainstorm the topic we want to practice and working on
 - Chose a topic of music player app from 3 ideas including the split share app and restaurant recommendation app
-  ![Top 3 topic we picked from the brainstorm session](img/topic-ideas.png "Topic Ideas")
+  ![Top 3 topic we picked from the brainstorm session](img/topic-ideas.png 'Topic Ideas')
 - Discussing how to contribute within the team.
   - Created the GitHub project for managing the task for contributors to pick their task.
-    ![A todo board for organizing task within the team](img/github-projects-board.png "Todo Board")
+    ![A todo board for organizing task within the team](img/github-projects-board.png 'Todo Board')
 - Setup GitHub workflow for the future unit tests and linters optionally.
-  ![Create unit test workflow for GitHub Actions](img/unit-test-workflow.png "Unit Tests Workflow")
+  ![Create unit test workflow for GitHub Actions](img/unit-test-workflow.png 'Unit Tests Workflow')
 
   For details now how everything has been implemented, refer the source code
 
@@ -129,17 +129,17 @@ This section includes the development strategies, processes and contributions wi
 
 - Finding some references for inspiration
 - Drafting the homepage and some other pages for the future
-  ![The first draft was paticipated by every contributors](img/first-draft.png "The First Draft")
+  ![The first draft was paticipated by every contributors](img/first-draft.png 'The First Draft')
 - Develop the design system for the whole project
-  ![a music player component for reuse in the design](img/design-sys-music-player.png "Music Player Component Design")
-  ![Collection of color to use in the design](img/theme-and-colors.png "Theme and Colors")
+  ![a music player component for reuse in the design](img/design-sys-music-player.png 'Music Player Component Design')
+  ![Collection of color to use in the design](img/theme-and-colors.png 'Theme and Colors')
 - Redesign in Figma
-  ![Final design of the release v1.0.0](img/homepage-final.png "The Redesigned Homepage")
+  ![Final design of the release v1.0.0](img/homepage-final.png 'The Redesigned Homepage')
 
 #### Step 2 Coding the music player component and layout for the homepage
 
 - Developing the music player algorithm in `dev` branch
-  ![Some preview for the Vue source code](img/code-preview.png "Code Preview")
+  ![Some preview for the Vue source code](img/code-preview.png 'Code Preview')
 - Layout for the homepage in `template` branch
 
 ## Running the App
@@ -217,14 +217,14 @@ Music in this project
 - [Music Player Web App](https://dribbble.com/shots/18946599-Music-Player-Web-App) (Dribble)
 - [Web Music Player Concept](https://dribbble.com/shots/19753283-Web-Music-Player-Concept) (Dribble)
 
-[//]: # "HyperLinks"
+[//]: # 'HyperLinks'
 [GitHub Repository]: https://github.com/NewBww/PROJECT1-SEC-2-GeegieAndFriends
 [GitHub Pages]: https://NewBww.github.io/PROJECT1-SEC-2-GeegieAndFriends
 [Contributors]: https://github.com/NewBww/PROJECT1-SEC-2-GeegieAndFriends/graphs/contributors
 [Netlify]: https://geegie.netlify.app
 [geegie.netlify.app]: https://geegie.netlify.app
 [geegie-dev.netlify.app]: https://geegie.netlify.app
-[//]: # "Contributors Links"
+[//]: # 'Contributors Links'
 [pphtw]: https://github.com/pphtw
 [PhuMiZz]: https://github.com/PhuMiZz
 [supapitploy]: https://github.com/supapitploy

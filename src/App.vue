@@ -1,71 +1,71 @@
 <script setup>
-import { ref } from "vue";
-import metadata from "@/assets/metadata.json";
+import { ref } from 'vue'
+import metadata from '@/assets/metadata.json'
 
-const tracks = metadata.tracks;
-const audioRef = ref(null);
-const currentTrack = ref(tracks[0]);
-const repeat = ref(false);
-const currentTime = ref("00:00");
-const duration = ref("00:00");
-const isPlaying = ref(false);
-const currentTrackIndex = ref(0);
-const barWidth = ref("0%");
+const tracks = metadata.tracks
+const audioRef = ref(null)
+const currentTrack = ref(tracks[0])
+const repeat = ref(false)
+const currentTime = ref('00:00')
+const duration = ref('00:00')
+const isPlaying = ref(false)
+const currentTrackIndex = ref(0)
+const barWidth = ref('0%')
 // Event Handlers
 const playerHandler = () => {
   if (audioRef.value.paused) {
-    audioRef.value.play();
-    isPlaying.value = true;
+    audioRef.value.play()
+    isPlaying.value = true
   } else {
-    audioRef.value.pause();
-    isPlaying.value = false;
+    audioRef.value.pause()
+    isPlaying.value = false
   }
-};
+}
 const onTimeUpdateHandler = () => {
-  currentTime.value = msToMin(audioRef.value.currentTime);
-  updateProgressBar();
-};
+  currentTime.value = msToMin(audioRef.value.currentTime)
+  updateProgressBar()
+}
 const onLoadMetadataHandler = () => {
-  duration.value = msToMin(audioRef.value.duration);
-  currentTime.value = msToMin(audioRef.value.currentTime);
-  updateProgressBar();
-};
+  duration.value = msToMin(audioRef.value.duration)
+  currentTime.value = msToMin(audioRef.value.currentTime)
+  updateProgressBar()
+}
 const onPreviousHandler = () => {
   if (currentTrackIndex.value > 0) {
-    currentTrackIndex.value--;
+    currentTrackIndex.value--
   } else {
-    currentTrackIndex.value = tracks.length - 1;
+    currentTrackIndex.value = tracks.length - 1
   }
-  currentTrack.value = tracks[currentTrackIndex.value];
-  setDelay();
-};
+  currentTrack.value = tracks[currentTrackIndex.value]
+  setDelay()
+}
 const onNextHandler = () => {
   if (currentTrackIndex.value < tracks.length - 1) {
-    currentTrackIndex.value++;
+    currentTrackIndex.value++
   } else {
-    currentTrackIndex.value = 0;
+    currentTrackIndex.value = 0
   }
-  currentTrack.value = tracks[currentTrackIndex.value];
-  setDelay();
-};
+  currentTrack.value = tracks[currentTrackIndex.value]
+  setDelay()
+}
 
 // Utils
 const setDelay = () => {
   setTimeout(() => {
     if (isPlaying.value) {
-      audioRef.value.play();
+      audioRef.value.play()
     } else {
-      audioRef.value.pause();
+      audioRef.value.pause()
     }
-  }, 300);
-};
+  }, 300)
+}
 const msToMin = (timeInMs) => {
-  return new Date(timeInMs * 1000).toISOString().substring(14, 19);
-};
+  return new Date(timeInMs * 1000).toISOString().substring(14, 19)
+}
 const updateProgressBar = () => {
   barWidth.value =
-    (audioRef.value.currentTime / audioRef.value.duration) * 100 + "%";
-};
+    (audioRef.value.currentTime / audioRef.value.duration) * 100 + '%'
+}
 </script>
 
 <template>
