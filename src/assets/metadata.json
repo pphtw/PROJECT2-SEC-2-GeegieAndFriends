@@ -75,10 +75,11 @@
     },
     {
       "trackId" : 10,
-      "name": "Into The Night",
+      "name": "夜に駆ける",
+      "name-eng": "Racing into the Night",
       "artist": "Yoasobi",
-      "cover": "",
-      "source": "/tracks/into_the_night.mp3",
+      "cover": "https://i.scdn.co/image/ab67616d00001e02fc62f8192dfedb0434f49197",
+      "source": "/tracks/racing_into_the_night.mp3.mp3",
       "favorited": false
     },
     {
