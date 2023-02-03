@@ -376,9 +376,10 @@ const updateProgressBar = () => {
                   </button>
                 </div>
                 <!-- Play/Pause Icon -->
-                <div @click="playerHandler">
-                  <button v-if="isPlaying">
+                <div>
+                  <button class="[clip-path:circle()]" @click="playerHandler">
                     <svg
+                        v-if="isPlaying"
                         width="30"
                         height="30"
                         viewBox="0 0 50 50"
@@ -392,10 +393,8 @@ const updateProgressBar = () => {
                           stroke="#E5E5E5"
                       />
                     </svg>
-                  </button>
-
-                  <button v-else>
                     <svg
+                        v-else
                         width="30"
                         height="30"
                         viewBox="0 0 50 50"
