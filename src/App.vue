@@ -328,9 +328,13 @@ const updateProgressBar = () => {
               class="flex flex-col justify-around items-center h-[30%] bg-[#E5E5E5] rounded-b-2xl"
             >
               <!-- Title Name -->
-              <div class="text-center h-fit">
-                <h1 class="text-2xl font-bold">{{ currentTrack.name }}</h1>
-                <h3 class="font-semibold">{{ currentTrack.artist }}</h3>
+              <div class="text-center h-fit w-[70%] overflow-hidden">
+                <h1 class="text-2xl font-bold w-full">
+                  {{ currentTrack.name }}
+                </h1>
+                <h3 class="font-semibold w-full">
+                  {{ currentTrack.artist }}
+                </h3>
               </div>
 
               <!-- Icons -->
@@ -529,146 +533,6 @@ const updateProgressBar = () => {
           <div class="rounded-2xl overflow-y-scroll pr-2 h-full">
             <!-- Song List -->
             <!-- for-loop here -->
-            <div
-              class="flex items-center mb-2 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl overflow-clip"
-              v-for="(track, index) in tracks"
-              :key="index"
-            >
-              <!-- Song Count -->
-              <div class="w-12">
-                <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
-              </div>
-              <!-- Song Cover -->
-              <div class="h-full aspect-square">
-                <img
-                  class="h-full aspect-square"
-                  alt="Song Cover"
-                  :src="track.cover"
-                />
-              </div>
-              <!-- Title & Artist -->
-              <div class="grow grid grid-rows-2 h-fit pl-5">
-                <h1 class="row-span-1 text-xl font-bold truncate">
-                  {{ track.name }}
-                </h1>
-                <h1 class="row-span-1 font-semibold truncate">
-                  {{ track.artist }}
-                </h1>
-              </div>
-              <!-- Time Counter -->
-              <div class="px-3 font-semibold">00.00</div>
-              <!-- Heart Icon -->
-              <div class="px-3">
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 32 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16.8267 27.7467C16.3733 27.9067 15.6267 27.9067 15.1733 27.7467C11.3067 26.4267 2.66666 20.92 2.66666 11.5867C2.66666 7.46666 5.98666 4.13333 10.08 4.13333C12.5067 4.13333 14.6533 5.30666 16 7.12C16.685 6.1945 17.5773 5.4423 18.6053 4.92366C19.6333 4.40501 20.7685 4.13434 21.92 4.13333C26.0133 4.13333 29.3333 7.46666 29.3333 11.5867C29.3333 20.92 20.6933 26.4267 16.8267 27.7467Z"
-                    stroke="black"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <!-- More Icon -->
-              <div class="px-3">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.0001 14C13.1046 14 14.0001 13.1046 14.0001 12C14.0001 10.8954 13.1046 10 12.0001 10C10.8955 10 10.0001 10.8954 10.0001 12C10.0001 13.1046 10.8955 14 12.0001 14Z"
-                    fill="#231F20"
-                  />
-                  <path
-                    d="M19.0001 14C20.1046 14 21.0001 13.1046 21.0001 12C21.0001 10.8954 20.1046 10 19.0001 10C17.8955 10 17.0001 10.8954 17.0001 12C17.0001 13.1046 17.8955 14 19.0001 14Z"
-                    fill="#231F20"
-                  />
-                  <path
-                    d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14Z"
-                    fill="#231F20"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              class="flex items-center mb-2 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl overflow-clip"
-              v-for="(track, index) in tracks"
-              :key="index"
-            >
-              <!-- Song Count -->
-              <div class="w-12">
-                <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
-              </div>
-              <!-- Song Cover -->
-              <div class="h-full aspect-square">
-                <img
-                  class="h-full aspect-square"
-                  alt="Song Cover"
-                  :src="track.cover"
-                />
-              </div>
-              <!-- Title & Artist -->
-              <div class="grow grid grid-rows-2 h-fit pl-5">
-                <h1 class="row-span-1 text-xl font-bold truncate">
-                  {{ track.name }}
-                </h1>
-                <h1 class="row-span-1 font-semibold truncate">
-                  {{ track.artist }}
-                </h1>
-              </div>
-              <!-- Time Counter -->
-              <div class="px-3 font-semibold">00.00</div>
-              <!-- Heart Icon -->
-              <div class="px-3">
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 32 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16.8267 27.7467C16.3733 27.9067 15.6267 27.9067 15.1733 27.7467C11.3067 26.4267 2.66666 20.92 2.66666 11.5867C2.66666 7.46666 5.98666 4.13333 10.08 4.13333C12.5067 4.13333 14.6533 5.30666 16 7.12C16.685 6.1945 17.5773 5.4423 18.6053 4.92366C19.6333 4.40501 20.7685 4.13434 21.92 4.13333C26.0133 4.13333 29.3333 7.46666 29.3333 11.5867C29.3333 20.92 20.6933 26.4267 16.8267 27.7467Z"
-                    stroke="black"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-              <!-- More Icon -->
-              <div class="px-3">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.0001 14C13.1046 14 14.0001 13.1046 14.0001 12C14.0001 10.8954 13.1046 10 12.0001 10C10.8955 10 10.0001 10.8954 10.0001 12C10.0001 13.1046 10.8955 14 12.0001 14Z"
-                    fill="#231F20"
-                  />
-                  <path
-                    d="M19.0001 14C20.1046 14 21.0001 13.1046 21.0001 12C21.0001 10.8954 20.1046 10 19.0001 10C17.8955 10 17.0001 10.8954 17.0001 12C17.0001 13.1046 17.8955 14 19.0001 14Z"
-                    fill="#231F20"
-                  />
-                  <path
-                    d="M5 14C6.10457 14 7 13.1046 7 12C7 10.8954 6.10457 10 5 10C3.89543 10 3 10.8954 3 12C3 13.1046 3.89543 14 5 14Z"
-                    fill="#231F20"
-                  />
-                </svg>
-              </div>
-            </div>
             <div
               class="flex items-center mb-2 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl overflow-clip"
               v-for="(track, index) in tracks"
