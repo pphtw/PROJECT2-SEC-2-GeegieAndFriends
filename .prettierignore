@@ -3,3 +3,9 @@ dist/
 
 # Ignore all HTML files:
 *.html
+
+.github/
+*.yml
+/*.json
+/*.js
+*.md
