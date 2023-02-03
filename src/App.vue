@@ -69,10 +69,10 @@ const updateProgressBar = () => {
 </script>
 
 <template>
-  <div class="flex w-screen h-screen bg-[#2D3967]">
+  <div class="flex flex-col sm:flex-row w-screen h-screen bg-[#2D3967]">
     <!-- Navbar -->
     <div
-      class="flex flex-col justify-center row-span-6 gap-5 items-center w-[5.4%] h-full bg-[#162750]"
+      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] h-full bg-[#162750]"
     >
       <!-- Home Icon -->
       <svg
@@ -208,7 +208,7 @@ const updateProgressBar = () => {
     </div>
     <!-- Content -->
     <div
-      class="w-full h-full gap-[4%] px-28 py-[1%] flex flex-col justify-center"
+      class="order-1 sm:order-2 w-full h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col justify-center"
     >
       <!-- Header & Playlist -->
       <div class="h-fit flex flex-col">
@@ -280,9 +280,11 @@ const updateProgressBar = () => {
         </div>
       </div>
       <!-- Music Player & Trending -->
-      <div class="h-[62%] grid grid-cols-4 grid-rows-1 gap-[2.8%]">
+      <div
+        class="h-[62%] grid grid-rows-2 grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 gap-[2.8%]"
+      >
         <!-- Music Player -->
-        <div class="col-span-1 flex flex-col justify-start">
+        <div class="col-span-3 sm:col-span-1 flex flex-col justify-start">
           <h1 class="text-2xl font-bold pb-3 text-white truncate">
             Now Playing
           </h1>
@@ -546,10 +548,10 @@ const updateProgressBar = () => {
               </div>
               <!-- Title & Artist -->
               <div class="grow grid grid-rows-2 h-fit pl-5">
-                <h1 class="row-span-1 text-xl font-bold">
+                <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
                 </h1>
-                <h1 class="row-span-1 font-semibold">
+                <h1 class="row-span-1 font-semibold truncate">
                   {{ track.artist }}
                 </h1>
               </div>
@@ -616,10 +618,10 @@ const updateProgressBar = () => {
               </div>
               <!-- Title & Artist -->
               <div class="grow grid grid-rows-2 h-fit pl-5">
-                <h1 class="row-span-1 text-xl font-bold">
+                <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
                 </h1>
-                <h1 class="row-span-1 font-semibold">
+                <h1 class="row-span-1 font-semibold truncate">
                   {{ track.artist }}
                 </h1>
               </div>
@@ -686,10 +688,10 @@ const updateProgressBar = () => {
               </div>
               <!-- Title & Artist -->
               <div class="grow grid grid-rows-2 h-fit pl-5">
-                <h1 class="row-span-1 text-xl font-bold">
+                <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
                 </h1>
-                <h1 class="row-span-1 font-semibold">
+                <h1 class="row-span-1 font-semibold truncate">
                   {{ track.artist }}
                 </h1>
               </div>
