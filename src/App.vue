@@ -11,8 +11,13 @@ const duration = ref('00:00')
 const isPlaying = ref(false)
 const currentTrackIndex = ref(0)
 const barWidth = ref('0%')
+const progressBar = ref(null)
+
+
 // Event Handlers
 const playerHandler = () => {
+  // หูจะแตก ขอยาดลดแบบกดมือ
+  // audioRef.value.volume = 0.2;
   if (audioRef.value.paused) {
     audioRef.value.play()
     isPlaying.value = true
@@ -20,6 +25,32 @@ const playerHandler = () => {
     audioRef.value.pause()
     isPlaying.value = false
   }
+}
+
+const onProgressBarClick = (event) => {
+  if (!audioRef.value || !progressBar.value) return console.log('--');
+  const boundingRect = progressBar.value.getBoundingClientRect()
+  //boundingRect = position within progress
+  const x = event.clientX - boundingRect.left
+  const newTime = (x / boundingRect.width) * audioRef.value.duration
+  audioRef.value.currentTime = newTime
+}
+const onMouseDown = () => {
+  if (!audioRef.value || !progressBar.value) return console.log('--');
+  // getBoundingClientRect = object that represents the layout of an element in the viewport.
+  const boundingRect = progressBar.value.getBoundingClientRect()
+  // update time current
+  const updateTime = (e) => {
+    // clientX is a property of the event object in JavaScript
+    const x = e.clientX - boundingRect.left
+    // boundingRect.width = width of progress bar
+    const newTime = ((x / boundingRect.width) * audioRef.value.duration) - 2
+    audioRef.value.currentTime = newTime
+  }
+  window.addEventListener('mousemove',updateTime)
+  window.addEventListener('mouseup', () =>{
+    window.removeEventListener('mousemove', updateTime)
+  })
 }
 const onTimeUpdateHandler = () => {
   currentTime.value = msToMin(audioRef.value.currentTime)
@@ -64,8 +95,9 @@ const msToMin = (timeInMs) => {
 }
 const updateProgressBar = () => {
   barWidth.value =
-    (audioRef.value.currentTime / audioRef.value.duration) * 100 + '%'
+    (audioRef.value.currentTime / audioRef.value.duration * 100) + '%';
 }
+
 </script>
 
 <template>
@@ -298,22 +330,15 @@ const updateProgressBar = () => {
             ></div>
             <!-- Time Bars -->
             <div>
-              <div class="h-fit" ref="progress">
-                <svg
-                  width="100%"
-                  viewBox="0 0 139 4"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect x="0" y="0" width="100%" height="2" fill="#b9b9b9" />
-                  <rect
-                    x="0"
-                    y="0"
-                    :width="barWidth"
-                    height="2"
-                    fill="#C493E1"
-                  />
-                </svg>
+              <audio ref="audioRef" 
+                      @timeupdate="onTimeUpdateHandler"
+                      @loadedmetadata="onLoadMetadataHandler"
+                      :src="tracks[currentTrackIndex].source">
+              </audio>
+              <div class="progress-bar self-center" ref="progressBar"
+                   @click="onProgressBarClick"
+                   @mousedown="onMouseDown">
+                <div class="progress-current" :style="{width : barWidth}"></div>
               </div>
             </div>
             <!-- Time Counter -->
@@ -520,12 +545,6 @@ const updateProgressBar = () => {
               </div>
             </div>
           </div>
-          <audio
-            ref="audioRef"
-            @timeupdate="onTimeUpdateHandler"
-            @loadedmetadata="onLoadMetadataHandler"
-            :src="tracks[currentTrackIndex].source"
-          ></audio>
         </div>
         <!-- Trending -->
         <div class="col-span-3 flex flex-col justify-start h-full">
@@ -609,4 +628,19 @@ const updateProgressBar = () => {
     </div>
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.progress-bar{
+  height: 0.3em;
+  width: 100%;
+  cursor: pointer;
+  background-color: #b9b9b9;
+  /* display: inline-block; */
+  border-radius: 2em;
+}
+.progress-current{
+  height: inherit;
+  width: 0%;
+  background-color: #C493E1;
+  border-radius: 2em;
+}
+</style>
