@@ -5,14 +5,14 @@ import metadata from '@/assets/metadata.json'
 const tracks = metadata.tracks
 const audioRef = ref(null)
 const currentTrack = ref(tracks[0])
+const currentTrackIndex = ref(0)
 const repeat = ref(false)
 const currentTime = ref('00:00')
 const duration = ref('00:00')
 const isPlaying = ref(false)
-const currentTrackIndex = ref(0)
 const barWidth = ref('0%')
 const progressBar = ref(null)
-
+const tracksList = ref(null)
 
 // Event Handlers
 const playerHandler = () => {
@@ -28,7 +28,7 @@ const playerHandler = () => {
 }
 
 const onProgressBarClick = (event) => {
-  if (!audioRef.value || !progressBar.value) return console.log('--');
+  if (!audioRef.value || !progressBar.value) return console.log('--')
   const boundingRect = progressBar.value.getBoundingClientRect()
   //boundingRect = position within progress
   const x = event.clientX - boundingRect.left
@@ -36,7 +36,7 @@ const onProgressBarClick = (event) => {
   audioRef.value.currentTime = newTime
 }
 const onMouseDown = () => {
-  if (!audioRef.value || !progressBar.value) return console.log('--');
+  if (!audioRef.value || !progressBar.value) return console.log('--')
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
   const boundingRect = progressBar.value.getBoundingClientRect()
   // update time current
@@ -44,11 +44,11 @@ const onMouseDown = () => {
     // clientX is a property of the event object in JavaScript
     const x = e.clientX - boundingRect.left
     // boundingRect.width = width of progress bar
-    const newTime = ((x / boundingRect.width) * audioRef.value.duration) - 2
+    const newTime = (x / boundingRect.width) * audioRef.value.duration - 2
     audioRef.value.currentTime = newTime
   }
-  window.addEventListener('mousemove',updateTime)
-  window.addEventListener('mouseup', () =>{
+  window.addEventListener('mousemove', updateTime)
+  window.addEventListener('mouseup', () => {
     window.removeEventListener('mousemove', updateTime)
   })
 }
@@ -73,13 +73,24 @@ const onPreviousHandler = () => {
 const onNextHandler = () => {
   if (currentTrackIndex.value < tracks.length - 1) {
     currentTrackIndex.value++
+    console.log(currentTrackIndex.value)
   } else {
+    console.log(currentTrackIndex.value)
     currentTrackIndex.value = 0
   }
   currentTrack.value = tracks[currentTrackIndex.value]
   setDelay()
 }
-
+const chooseTrackHandler = (e) => {
+  const chooseTrack = e.target.parentElement.id
+  if (currentTrackIndex.value !== chooseTrack) {
+    isPlaying.value = true
+    currentTrack.value = tracks[chooseTrack]
+    console.log(chooseTrack)
+    currentTrackIndex.value = chooseTrack
+  }
+  setDelay()
+}
 // Utils
 const setDelay = () => {
   setTimeout(() => {
@@ -95,9 +106,8 @@ const msToMin = (timeInMs) => {
 }
 const updateProgressBar = () => {
   barWidth.value =
-    (audioRef.value.currentTime / audioRef.value.duration * 100) + '%';
+    (audioRef.value.currentTime / audioRef.value.duration) * 100 + '%'
 }
-
 </script>
 
 <template>
@@ -330,15 +340,22 @@ const updateProgressBar = () => {
             ></div>
             <!-- Time Bars -->
             <div>
-              <audio ref="audioRef" 
-                      @timeupdate="onTimeUpdateHandler"
-                      @loadedmetadata="onLoadMetadataHandler"
-                      :src="tracks[currentTrackIndex].source">
-              </audio>
-              <div class="progress-bar self-center" ref="progressBar"
-                   @click="onProgressBarClick"
-                   @mousedown="onMouseDown">
-                <div class="progress-current" :style="{width : barWidth}"></div>
+              <audio
+                ref="audioRef"
+                @timeupdate="onTimeUpdateHandler"
+                @loadedmetadata="onLoadMetadataHandler"
+                :src="tracks[currentTrackIndex].source"
+              ></audio>
+              <div
+                class="progress-bar self-center"
+                ref="progressBar"
+                @click="onProgressBarClick"
+                @mousedown="onMouseDown"
+              >
+                <div
+                  class="progress-current"
+                  :style="{ width: barWidth }"
+                ></div>
               </div>
             </div>
             <!-- Time Counter -->
@@ -552,17 +569,20 @@ const updateProgressBar = () => {
           <div class="rounded-2xl overflow-y-scroll pr-2 h-full">
             <!-- Song List -->
             <!-- for-loop here -->
+
             <div
               class="flex items-center mb-2 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl overflow-clip"
               v-for="(track, index) in tracks"
               :key="index"
+              :id="index"
+              @click="chooseTrackHandler"
             >
               <!-- Song Count -->
-              <div class="w-12">
+              <div class="w-12" :id="index">
                 <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
               </div>
               <!-- Song Cover -->
-              <div class="h-full aspect-square">
+              <div class="h-full aspect-square" :id="index">
                 <img
                   class="h-full aspect-square"
                   alt="Song Cover"
@@ -570,16 +590,16 @@ const updateProgressBar = () => {
                 />
               </div>
               <!-- Title & Artist -->
-              <div class="grow grid grid-rows-2 h-fit pl-5">
+              <div class="grow grid grid-rows-2 h-fit pl-5" :id="index">
                 <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
                 </h1>
-                <h1 class="row-span-1 font-semibold truncate">
+                <h1 class="row-span-1 font-semibold truncate" :id="index">
                   {{ track.artist }}
                 </h1>
               </div>
               <!-- Time Counter -->
-              <div class="px-3 font-semibold">00.00</div>
+              <div class="px-3 font-semibold" :id="index"></div>
               <!-- Heart Icon -->
               <div class="px-3">
                 <svg
@@ -629,7 +649,7 @@ const updateProgressBar = () => {
   </div>
 </template>
 <style scoped>
-.progress-bar{
+.progress-bar {
   height: 0.3em;
   width: 100%;
   cursor: pointer;
@@ -637,10 +657,10 @@ const updateProgressBar = () => {
   /* display: inline-block; */
   border-radius: 2em;
 }
-.progress-current{
+.progress-current {
   height: inherit;
   width: 0;
-  background-color: #C493E1;
+  background-color: #c493e1;
   border-radius: 2em;
 }
 </style>
