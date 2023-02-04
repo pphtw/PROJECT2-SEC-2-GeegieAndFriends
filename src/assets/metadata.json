@@ -1,4 +1,32 @@
 {
+  "playlist" : [
+    [{
+      "name": "Wanna try something new!"
+      
+    },
+    {
+      "name": "Playlist 1"
+    },
+    {
+      "name": "playlist 2"
+    },
+    {
+      "name": "Playlist 3"
+    }],
+    [{
+      "name": "Playlist 4"
+    },
+    {
+      "name": "playlist 5"
+    },
+    {
+      "name": "Playlist 6"
+    },
+    {
+      "name": "Playlist 7"
+    }]
+  ]
+  ,
   "tracks": [
     {
       "trackId" : 1,

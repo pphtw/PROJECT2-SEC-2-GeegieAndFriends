@@ -108,6 +108,34 @@ const updateProgressBar = () => {
   barWidth.value =
     (audioRef.value.currentTime / audioRef.value.duration) * 100 + '%'
 }
+
+// carousel playlist
+const playlist = ref(metadata.playlist)
+const idx = ref(0)
+const playListIdx = ref(playlist.value[idx.value])
+
+const nextGroup = () => {
+  idx.value++
+  if(idx.value === playlist.value.length){
+    playListIdx.value = playlist.value[0]
+    idx.value = 0
+  } else {
+    playListIdx.value = playlist.value[idx.value]
+  }
+
+}
+const prevGroup = () => {
+  if(idx.value === 0){
+    const last = playlist.value.length - 1
+    playListIdx.value = playlist.value[last]
+    idx.value = 4
+  } else {
+    idx.value --
+    playListIdx.value = playlist.value[idx.value]
+  }
+
+}
+
 </script>
 
 <template>
@@ -260,6 +288,7 @@ const updateProgressBar = () => {
           <div class="col-span-1 flex justify-end gap-2">
             <!-- Next & Previous Icon -->
             <svg
+              @click="prevGroup"
               class="hover:scale-110 transition ease-in-out"
               width="40"
               height="40"
@@ -278,6 +307,7 @@ const updateProgressBar = () => {
               />
             </svg>
             <svg
+            @click="nextGroup"
               class="hover:scale-110 transition ease-in-out"
               width="40"
               height="40"
@@ -300,6 +330,12 @@ const updateProgressBar = () => {
         <!-- Playlist -->
         <div class="h-40 grid grid-cols-4 gap-[2.8%] text-center">
           <div
+            v-for="(playlist, index) in playListIdx" :key="index"
+            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
+          >
+            <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>
+          </div>
+          <!-- <div
             class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
             <p class="text-white text-lg font-semibold">Playlist Name</p>
@@ -313,12 +349,7 @@ const updateProgressBar = () => {
             class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
           >
             <p class="text-white text-lg font-semibold">Playlist Name</p>
-          </div>
-          <div
-            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
-          >
-            <p class="text-white text-lg font-semibold">Playlist Name</p>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- Music Player & Trending -->
