@@ -32,19 +32,28 @@ const onMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
   const boundingRect = progressBar.value.getBoundingClientRect()
   // update time current
+  let newTime
   const updateTime = (e) => {
     // clientX is a property of the event object in JavaScript
     const x = e.clientX - boundingRect.left
     // boundingRect.width = width of progress bar
-    const newTime = (x / boundingRect.width) * audioRef.value.duration
-    audioRef.value.currentTime = newTime
+    newTime = (x / boundingRect.width) * audioRef.value.duration
+    barWidth.value =
+      ((e.clientX - boundingRect.left) / boundingRect.width) * 100 + '%'
   }
   e.preventDefault()
+  barWidth.value =
+    ((e.clientX - boundingRect.left) / boundingRect.width) * 100 + '%'
   updateTime(e)
   window.addEventListener('mousemove', updateTime)
-  window.addEventListener('mouseup', () => {
-    window.removeEventListener('mousemove', updateTime)
-  })
+  window.addEventListener(
+    'mouseup',
+    () => {
+      window.removeEventListener('mousemove', updateTime)
+      audioRef.value.currentTime = newTime
+    },
+    { once: true }
+  )
 }
 const onTimeUpdateHandler = () => {
   currentTime.value = msToMin(audioRef.value.currentTime)
@@ -140,12 +149,12 @@ const prevGroup = () => {
 </script>
 
 <template>
-  <div class="flex flex-col sm:flex-row w-screen h-screen bg-[#2D3967]">
-    <!-- Navbar -->
+  <div class="flex flex-col sm:flex-row w-screen sm:h-screen bg-[#2D3967]">
+    <!-- #NavigationBar -->
     <div
       class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] h-full bg-[#162750]"
     >
-      <!-- Home Icon -->
+      <!-- #HomePageButton -->
       <svg
         class="hover:scale-125 transition ease-in-out"
         width="24"
@@ -162,7 +171,7 @@ const prevGroup = () => {
           stroke-linejoin="round"
         />
       </svg>
-      <!-- Search Icon -->
+      <!-- #SearchPageButton -->
       <svg
         class="hover:scale-125 transition ease-in-out"
         width="24"
@@ -179,7 +188,7 @@ const prevGroup = () => {
           stroke-linejoin="round"
         />
       </svg>
-      <!-- Playlist Icon -->
+      <!-- #PlaylistPageButton -->
       <svg
         class="hover:scale-125 transition ease-in-out"
         width="24"
@@ -226,7 +235,7 @@ const prevGroup = () => {
           stroke-linejoin="round"
         />
       </svg>
-      <!-- Copyright Icon -->
+      <!-- #CreditPageButton -->
       <svg
         class="hover:scale-125 transition ease-in-out"
         width="24"
@@ -250,7 +259,7 @@ const prevGroup = () => {
           stroke-linejoin="round"
         />
       </svg>
-      <!-- Setting Icon -->
+      <!-- #SettingPageButton -->
       <svg
         class="hover:scale-125 transition ease-in-out"
         width="24"
@@ -277,17 +286,17 @@ const prevGroup = () => {
         />
       </svg>
     </div>
-    <!-- Content -->
+    <!-- #HomeContainer -->
     <div
-      class="order-1 sm:order-2 w-full h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col justify-center"
+      class="order-1 sm:order-2 w-full h-fit sm:h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col justify-center"
     >
-      <!-- Header & Playlist -->
+      <!-- #Header&Playlist -->
       <div class="h-fit flex flex-col">
-        <!-- Header -->
+        <!-- #Header -->
         <div class="grid grid-cols-2 pb-3">
           <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
           <div class="col-span-1 flex justify-end gap-2">
-            <!-- Next & Previous Icon -->
+            <!-- #NextButton&PreviousButton -->
             <svg
               @click="prevGroup"
               class="hover:scale-110 transition ease-in-out"
@@ -328,7 +337,7 @@ const prevGroup = () => {
             </svg>
           </div>
         </div>
-        <!-- Playlist -->
+        <!-- #Playlist -->
         <div class="h-40 grid grid-cols-4 gap-[2.8%] text-center">
           <div
             v-for="(playlist, index) in playListIdx"
@@ -354,24 +363,26 @@ const prevGroup = () => {
           </div> -->
         </div>
       </div>
-      <!-- Music Player & Trending -->
+      <!-- #MusicPlayer&Trending -->
       <div
-        class="h-[62%] grid grid-rows-2 grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 gap-[2.8%]"
+        class="h-min sm:h-[62%] grid grid-rows-2 grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 gap-[2.8%]"
       >
-        <!-- Music Player -->
-        <div class="col-span-3 sm:col-span-1 flex flex-col justify-start">
+        <!-- #MusicPlayerCard -->
+        <div
+          class="col-span-3 sm:col-span-1 flex flex-col justify-start h-screen sm:h-full"
+        >
           <h1 class="text-2xl font-bold pb-3 text-white truncate">
             Now Playing
           </h1>
           <div class="flex flex-col rounded-2xl bg-[#E5E5E5] h-full">
-            <!-- Cover -->
+            <!-- #MusicCover -->
             <div
               class="h-[70%] bg-cover bg-center rounded-t-2xl"
               :style="{
                 backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
               }"
             ></div>
-            <!-- Time Bars -->
+            <!-- #ProgressBar -->
             <div>
               <audio
                 ref="audioRef"
@@ -391,18 +402,18 @@ const prevGroup = () => {
                 ></div>
               </div>
             </div>
-            <!-- Time Counter -->
+            <!-- #CurrentTime&Duration -->
             <div>
               <div class="flex justify-between w-full items-center">
                 <p class="px-2 text-sm">{{ currentTime }}</p>
                 <p class="px-2 text-sm">{{ duration }}</p>
               </div>
             </div>
-            <!-- Title & Icons -->
+            <!-- #MusicTitle&Controller -->
             <div
               class="flex flex-col justify-around items-center h-[30%] bg-[#E5E5E5] rounded-b-2xl"
             >
-              <!-- Title Name -->
+              <!-- #MusicTitle&Artist -->
               <div class="text-center h-fit w-[70%] overflow-hidden">
                 <h1 class="text-2xl font-bold w-full">
                   {{ currentTrack.name }}
@@ -412,11 +423,11 @@ const prevGroup = () => {
                 </h3>
               </div>
 
-              <!-- Icons -->
+              <!-- #Controller -->
               <div
                 class="flex justify-center basis-16 items-center 2xl:gap-8 gap-5 h-fit w-full"
               >
-                <!-- Shuffle Icon -->
+                <!-- #ShuffleButton -->
                 <div class="random-track" @click="onShuffleHandler">
                   <button>
                     <svg
@@ -437,7 +448,7 @@ const prevGroup = () => {
                     </svg>
                   </button>
                 </div>
-                <!-- Previous Icon -->
+                <!-- #PreviousButton -->
                 <div class="prev-track" @click="onPreviousHandler">
                   <button>
                     <svg
@@ -457,7 +468,7 @@ const prevGroup = () => {
                     </svg>
                   </button>
                 </div>
-                <!-- Play/Pause Icon -->
+                <!-- #PlayButton/PauseButton -->
                 <div>
                   <button class="[clip-path:circle()]" @click="playerHandler">
                     <svg
@@ -495,7 +506,7 @@ const prevGroup = () => {
                     </svg>
                   </button>
                 </div>
-                <!-- Skip Icon -->
+                <!-- #SkipButton -->
                 <div class="next-track" @click="onNextHandler">
                   <button>
                     <svg
@@ -515,7 +526,7 @@ const prevGroup = () => {
                     </svg>
                   </button>
                 </div>
-                <!-- Loop Icon -->
+                <!-- #LoopButton -->
                 <div class="repeat-track">
                   <button v-if="!repeat">
                     <svg
@@ -596,11 +607,11 @@ const prevGroup = () => {
             </div>
           </div>
         </div>
-        <!-- Trending -->
+        <!-- #TrendingSection -->
         <div class="col-span-3 flex flex-col justify-start h-full">
           <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
           <div class="rounded-2xl overflow-y-scroll pr-2 h-full">
-            <!-- Song List -->
+            <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
               class="flex items-center mb-1 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
@@ -611,11 +622,11 @@ const prevGroup = () => {
               @mouseup="resetBackground"
               ref="tracksElement"
             >
-              <!-- Song Count -->
+              <!-- #Ranking -->
               <div class="w-12">
                 <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
               </div>
-              <!-- Song Cover -->
+              <!-- #MusicCover -->
               <div class="h-full aspect-square">
                 <img
                   class="h-full aspect-square"
@@ -623,7 +634,7 @@ const prevGroup = () => {
                   :src="track.cover"
                 />
               </div>
-              <!-- Title & Artist -->
+              <!-- #Title&Artist -->
               <div class="grow grid grid-rows-2 h-fit pl-5">
                 <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
@@ -632,9 +643,9 @@ const prevGroup = () => {
                   {{ track.artist }}
                 </h1>
               </div>
-              <!-- Time Counter -->
+              <!-- #Duration -->
               <div class="px-3 font-semibold"></div>
-              <!-- Heart Icon -->
+              <!-- #LikeButton -->
               <div class="px-3">
                 <svg
                   width="32"
@@ -652,7 +663,7 @@ const prevGroup = () => {
                   />
                 </svg>
               </div>
-              <!-- More Icon -->
+              <!-- #MenuButton -->
               <div class="px-3">
                 <svg
                   width="24"
