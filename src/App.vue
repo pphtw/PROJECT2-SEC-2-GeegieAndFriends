@@ -70,6 +70,7 @@ const onPreviousHandler = () => {
   } else {
     currentTrackIndex.value = tracks.length - 1
   }
+  isPlaying.value = true
   currentTrack.value = tracks[currentTrackIndex.value]
   setDelay()
 }
@@ -81,24 +82,23 @@ const onNextHandler = () => {
     console.log(currentTrackIndex.value)
     currentTrackIndex.value = 0
   }
+  isPlaying.value = true
   currentTrack.value = tracks[currentTrackIndex.value]
   setDelay()
 }
 const chooseTrackHandler = (e) => {
   const chooseTrack = e.currentTarget.id
-  const trackElement = e.currentTarget.parentElement
-  const trackClildren = trackElement.children
   if (currentTrackIndex.value !== chooseTrack) {
     isPlaying.value = true
     currentTrack.value = tracks[chooseTrack]
     currentTrackIndex.value = chooseTrack
     // console.log(chooseTrack)
     // console.log(e.currentTarget)
-    setBackground()
+    setBackgroundOnChange()
   }
   setDelay()
 }
-const setBackground = () => {
+const setBackgroundOnChange = () => {
   const trackParent = tracksElement.value
   trackParent.forEach((trackNode) => {
     trackNode.style = 'background : white'
@@ -395,7 +395,7 @@ const prevGroup = () => {
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 :src="tracks[currentTrackIndex].source"
-                @playing="setBackground"
+                @playing="setBackgroundOnChange"
               ></audio>
               <div
                 class="progress-bar self-center"
