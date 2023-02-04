@@ -122,18 +122,16 @@ const nextGroup = () => {
   } else {
     playListIdx.value = playlist.value[idx.value]
   }
-
 }
 const prevGroup = () => {
   if(idx.value === 0){
     const last = playlist.value.length - 1
     playListIdx.value = playlist.value[last]
-    idx.value = 4
+    idx.value = last
   } else {
     idx.value --
     playListIdx.value = playlist.value[idx.value]
   }
-
 }
 
 </script>
@@ -331,7 +329,7 @@ const prevGroup = () => {
         <div class="h-40 grid grid-cols-4 gap-[2.8%] text-center">
           <div
             v-for="(playlist, index) in playListIdx" :key="index"
-            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
+            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200 ease-linear"
           >
             <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>
           </div>
