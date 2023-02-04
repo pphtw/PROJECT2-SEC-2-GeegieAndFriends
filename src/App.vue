@@ -27,15 +27,7 @@ const playerHandler = () => {
   }
 }
 
-const onProgressBarClick = (event) => {
-  if (!audioRef.value || !progressBar.value) return console.log('--')
-  const boundingRect = progressBar.value.getBoundingClientRect()
-  //boundingRect = position within progress
-  const x = event.clientX - boundingRect.left
-  const newTime = (x / boundingRect.width) * audioRef.value.duration
-  audioRef.value.currentTime = newTime
-}
-const onMouseDown = () => {
+const onMouseDown = (e) => {
   if (!audioRef.value || !progressBar.value) return console.log('--')
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
   const boundingRect = progressBar.value.getBoundingClientRect()
@@ -44,9 +36,11 @@ const onMouseDown = () => {
     // clientX is a property of the event object in JavaScript
     const x = e.clientX - boundingRect.left
     // boundingRect.width = width of progress bar
-    const newTime = (x / boundingRect.width) * audioRef.value.duration - 2
+    const newTime = (x / boundingRect.width) * audioRef.value.duration
     audioRef.value.currentTime = newTime
   }
+  e.preventDefault()
+  updateTime(e)
   window.addEventListener('mousemove', updateTime)
   window.addEventListener('mouseup', () => {
     window.removeEventListener('mousemove', updateTime)
@@ -379,7 +373,6 @@ const prevGroup = () => {
               <div
                 class="progress-bar self-center"
                 ref="progressBar"
-                @click="onProgressBarClick"
                 @mousedown="onMouseDown"
               >
                 <div
