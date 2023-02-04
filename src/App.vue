@@ -12,7 +12,7 @@ const duration = ref('00:00')
 const isPlaying = ref(false)
 const barWidth = ref('0%')
 const progressBar = ref(null)
-const tracksList = ref(null)
+const tracksElement = ref(null)
 
 // Event Handlers
 const playerHandler = () => {
@@ -82,15 +82,16 @@ const onNextHandler = () => {
   setDelay()
 }
 const chooseTrackHandler = (e) => {
-  const chooseTrack = e.target.parentElement.id
+  const chooseTrack = e.currentTarget.id
   if (currentTrackIndex.value !== chooseTrack) {
     isPlaying.value = true
     currentTrack.value = tracks[chooseTrack]
-    console.log(chooseTrack)
     currentTrackIndex.value = chooseTrack
+    // console.log(chooseTrack)
   }
   setDelay()
 }
+
 // Utils
 const setDelay = () => {
   setTimeout(() => {
@@ -116,7 +117,7 @@ const playListIdx = ref(playlist.value[idx.value])
 
 const nextGroup = () => {
   idx.value++
-  if(idx.value === playlist.value.length){
+  if (idx.value === playlist.value.length) {
     playListIdx.value = playlist.value[0]
     idx.value = 0
   } else {
@@ -124,16 +125,15 @@ const nextGroup = () => {
   }
 }
 const prevGroup = () => {
-  if(idx.value === 0){
+  if (idx.value === 0) {
     const last = playlist.value.length - 1
     playListIdx.value = playlist.value[last]
     idx.value = last
   } else {
-    idx.value --
+    idx.value--
     playListIdx.value = playlist.value[idx.value]
   }
 }
-
 </script>
 
 <template>
@@ -305,7 +305,7 @@ const prevGroup = () => {
               />
             </svg>
             <svg
-            @click="nextGroup"
+              @click="nextGroup"
               class="hover:scale-110 transition ease-in-out"
               width="40"
               height="40"
@@ -328,7 +328,8 @@ const prevGroup = () => {
         <!-- Playlist -->
         <div class="h-40 grid grid-cols-4 gap-[2.8%] text-center">
           <div
-            v-for="(playlist, index) in playListIdx" :key="index"
+            v-for="(playlist, index) in playListIdx"
+            :key="index"
             class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200 ease-linear"
           >
             <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>
@@ -600,18 +601,19 @@ const prevGroup = () => {
             <!-- for-loop here -->
 
             <div
-              class="flex items-center mb-2 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-300 transition ease-in-out rounded-2xl overflow-clip"
+              class="flex items-center mb-2 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in tracks"
               :key="index"
               :id="index"
               @click="chooseTrackHandler"
+              ref="tracksElement"
             >
               <!-- Song Count -->
-              <div class="w-12" :id="index">
+              <div class="w-12">
                 <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
               </div>
               <!-- Song Cover -->
-              <div class="h-full aspect-square" :id="index">
+              <div class="h-full aspect-square">
                 <img
                   class="h-full aspect-square"
                   alt="Song Cover"
@@ -619,7 +621,7 @@ const prevGroup = () => {
                 />
               </div>
               <!-- Title & Artist -->
-              <div class="grow grid grid-rows-2 h-fit pl-5" :id="index">
+              <div class="grow grid grid-rows-2 h-fit pl-5">
                 <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
                 </h1>
@@ -628,7 +630,7 @@ const prevGroup = () => {
                 </h1>
               </div>
               <!-- Time Counter -->
-              <div class="px-3 font-semibold" :id="index"></div>
+              <div class="px-3 font-semibold"></div>
               <!-- Heart Icon -->
               <div class="px-3">
                 <svg
