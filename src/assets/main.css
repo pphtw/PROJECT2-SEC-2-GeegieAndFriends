@@ -1,4 +1,7 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --primary: #e5e5e5;
   --secondary: rgb(199, 199, 199);
@@ -18,8 +21,4 @@
 }
 body {
   background-color: #2d3967;
-  overflow: hidden;
-  position: fixed;
 }
-@tailwind components;
-@tailwind utilities;
