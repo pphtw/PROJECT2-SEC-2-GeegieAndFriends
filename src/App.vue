@@ -94,15 +94,21 @@ const chooseTrackHandler = (e) => {
     currentTrackIndex.value = chooseTrack
     // console.log(chooseTrack)
     // console.log(e.currentTarget)
-    for (let index = 0; index < trackClildren.length; index++) {
-      const track = trackElement.children[index]
-      track.style = 'background : white'
-    }
-    e.currentTarget.style = 'background : #dcbfed'
+    setBackground()
   }
   setDelay()
 }
-const setBackground = (e) => {}
+const setBackground = () => {
+  const trackParent = tracksElement.value
+  trackParent.forEach((trackNode) => {
+    trackNode.style = 'background : white'
+  })
+  trackParent[currentTrackIndex.value].style = 'background : #dcbfed'
+  trackParent[currentTrackIndex.value].scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+  })
+}
 
 // Utils
 const setDelay = () => {
@@ -619,7 +625,6 @@ const prevGroup = () => {
               :key="index"
               :id="index"
               @mousedown="chooseTrackHandler"
-              @mouseup="resetBackground"
               ref="tracksElement"
             >
               <!-- #Ranking -->
