@@ -77,14 +77,23 @@ const onNextHandler = () => {
 }
 const chooseTrackHandler = (e) => {
   const chooseTrack = e.currentTarget.id
+  const trackElement = e.currentTarget.parentElement
+  const trackClildren = trackElement.children
   if (currentTrackIndex.value !== chooseTrack) {
     isPlaying.value = true
     currentTrack.value = tracks[chooseTrack]
     currentTrackIndex.value = chooseTrack
     // console.log(chooseTrack)
+    // console.log(e.currentTarget)
+    for (let index = 0; index < trackClildren.length; index++) {
+      const track = trackElement.children[index]
+      track.style = 'background : white'
+    }
+    e.currentTarget.style = 'background : #dcbfed'
   }
   setDelay()
 }
+const setBackground = (e) => {}
 
 // Utils
 const setDelay = () => {
@@ -369,6 +378,7 @@ const prevGroup = () => {
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 :src="tracks[currentTrackIndex].source"
+                @playing="setBackground"
               ></audio>
               <div
                 class="progress-bar self-center"
@@ -592,13 +602,13 @@ const prevGroup = () => {
           <div class="rounded-2xl overflow-y-scroll pr-2 h-full">
             <!-- Song List -->
             <!-- for-loop here -->
-
             <div
-              class="flex items-center mb-2 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class="flex items-center mb-1 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in tracks"
               :key="index"
               :id="index"
-              @click="chooseTrackHandler"
+              @mousedown="chooseTrackHandler"
+              @mouseup="resetBackground"
               ref="tracksElement"
             >
               <!-- Song Count -->
