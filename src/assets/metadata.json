@@ -8,7 +8,7 @@
       "name": "Playlist 1"
     },
     {
-      "name": "playlist 2"
+      "name": "Playlist 2"
     },
     {
       "name": "Playlist 3"
@@ -17,7 +17,7 @@
       "name": "Playlist 4"
     },
     {
-      "name": "playlist 5"
+      "name": "Playlist 5"
     },
     {
       "name": "Playlist 6"
@@ -113,7 +113,7 @@
       "trackId" : 11,
       "name": "OMG",
       "artist": "NewJeans",
-      "cover": "",
+      "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
       "source": "/tracks/omg.mp3",
       "favorited": false
     },
@@ -121,7 +121,7 @@
       "trackId" : 12,
       "name": "Orion",
       "artist": "Kenshi Yonezu",
-      "cover": "",
+      "cover": "https://i.scdn.co/image/ab67616d0000b2734a39a8fffea6582b4339dec0",
       "source": "/tracks/orion.mp3",
       "favorited": false
     },
@@ -129,7 +129,7 @@
       "trackId" : 13,
       "name": "Overdose",
       "artist": "なとり",
-      "cover": "",
+      "cover": "https://i.scdn.co/image/ab67616d0000b273d29582617459e5bb81bd90a6",
       "source": "/tracks/overdose.mp3",
       "favorited": false
     },
@@ -137,7 +137,7 @@
       "trackId" : 14,
       "name": "Pretender",
       "artist": "Official髭男dism",
-      "cover": "",
+      "cover": "https://i.scdn.co/image/ab67616d0000b27316972c5ba20b2ba6b6d7891c",
       "source": "/tracks/pretender.mp3",
       "favorited": false
     },
@@ -145,7 +145,7 @@
       "trackId" : 15,
       "name": "好きだから。",
       "artist": "ユイカ",
-      "cover": "",
+      "cover": "https://i.scdn.co/image/ab67616d0000b273d36c9f45b61735554adbaa03",
       "source": "/tracks/sukidakara.mp3",
       "favorited": false
     },
@@ -153,7 +153,7 @@
       "trackId" : 16,
       "name": "Zenzenzense",
       "artist": "RADWIMPS",
-      "cover": "",
+      "cover": "https://i.scdn.co/image/ab67616d00001e02512668c8cf31d12749a6fa40",
       "source": "/tracks/zenzenzense.mp3",
       "favorited": false
     }

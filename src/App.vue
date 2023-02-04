@@ -13,6 +13,7 @@ const isPlaying = ref(false)
 const barWidth = ref('0%')
 const progressBar = ref(null)
 const tracksElement = ref(null)
+const trendingElement = ref(null)
 
 // Event Handlers
 const playerHandler = () => {
@@ -98,16 +99,9 @@ const chooseTrackHandler = (e) => {
   }
   setDelay()
 }
-const setBackgroundOnChange = () => {
-  const trackParent = tracksElement.value
-  trackParent.forEach((trackNode) => {
-    trackNode.style = 'background : white'
-  })
-  trackParent[currentTrackIndex.value].style = 'background : #dcbfed'
-  trackParent[currentTrackIndex.value].scrollIntoView({
-    behavior: 'smooth',
-    block: 'center',
-  })
+const choosePlaylist = (e) => {
+  const playListNode = e.currentTarget
+  console.log(trendDing.childNodes[1])
 }
 
 // Utils
@@ -126,6 +120,17 @@ const msToMin = (timeInMs) => {
 const updateProgressBar = () => {
   barWidth.value =
     (audioRef.value.currentTime / audioRef.value.duration) * 100 + '%'
+}
+const setBackgroundOnChange = () => {
+  const trackParent = tracksElement.value
+  trackParent.forEach((trackNode) => {
+    trackNode.style = 'background : white'
+  })
+  trackParent[currentTrackIndex.value].style = 'background : #dcbfed'
+  trackParent[currentTrackIndex.value].scrollIntoView({
+    behavior: 'smooth',
+    block: 'center',
+  })
 }
 
 // carousel playlist
@@ -348,25 +353,12 @@ const prevGroup = () => {
           <div
             v-for="(playlist, index) in playListIdx"
             :key="index"
+            :id="index"
+            @click="choosePlaylist"
             class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200 ease-linear"
           >
             <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>
           </div>
-          <!-- <div
-            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
-          >
-            <p class="text-white text-lg font-semibold">Playlist Name</p>
-          </div>
-          <div
-            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
-          >
-            <p class="text-white text-lg font-semibold">Playlist Name</p>
-          </div>
-          <div
-            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out"
-          >
-            <p class="text-white text-lg font-semibold">Playlist Name</p>
-          </div> -->
         </div>
       </div>
       <!-- #MusicPlayer&Trending -->
@@ -614,7 +606,10 @@ const prevGroup = () => {
           </div>
         </div>
         <!-- #TrendingSection -->
-        <div class="col-span-3 flex flex-col justify-start h-full">
+        <div
+          class="col-span-3 flex flex-col justify-start h-full"
+          ref="trendingElement"
+        >
           <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
           <div class="rounded-2xl overflow-y-scroll pr-2 h-full">
             <!-- #TrendingList -->
