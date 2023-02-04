@@ -32,19 +32,28 @@ const onMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
   const boundingRect = progressBar.value.getBoundingClientRect()
   // update time current
+  let newTime
   const updateTime = (e) => {
     // clientX is a property of the event object in JavaScript
     const x = e.clientX - boundingRect.left
     // boundingRect.width = width of progress bar
-    const newTime = (x / boundingRect.width) * audioRef.value.duration
-    audioRef.value.currentTime = newTime
+    newTime = (x / boundingRect.width) * audioRef.value.duration
+    barWidth.value =
+      ((e.clientX - boundingRect.left) / boundingRect.width) * 100 + '%'
   }
   e.preventDefault()
+  barWidth.value =
+    ((e.clientX - boundingRect.left) / boundingRect.width) * 100 + '%'
   updateTime(e)
   window.addEventListener('mousemove', updateTime)
-  window.addEventListener('mouseup', () => {
-    window.removeEventListener('mousemove', updateTime)
-  })
+  window.addEventListener(
+    'mouseup',
+    () => {
+      window.removeEventListener('mousemove', updateTime)
+      audioRef.value.currentTime = newTime
+    },
+    { once: true }
+  )
 }
 const onTimeUpdateHandler = () => {
   currentTime.value = msToMin(audioRef.value.currentTime)
