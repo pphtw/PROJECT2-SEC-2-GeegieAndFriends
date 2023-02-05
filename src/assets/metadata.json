@@ -156,6 +156,95 @@
       "cover": "https://i.scdn.co/image/ab67616d00001e02512668c8cf31d12749a6fa40",
       "source": "/tracks/zenzenzense.mp3",
       "favorited": false
+    },
+    {
+      "trackId" : 17,
+      "name": "2002",
+      "artist": "Anne-Marie",
+      "cover": "https://cdns-images.dzcdn.net/images/cover/05324f09b36811d11f160b72eb5fb354/500x500.jpg",
+      "source": "/tracks/2002.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 18,
+      "name": "About Time",
+      "artist": "Dept, Kelsey Kuan, prettyhappy",
+      "cover": "https://s.isanook.com/jo/0/rp/r/w300/ya0xa0m1w0/aHR0cDovL2ltYWdlLmpvb3guY29tL0pPT1hjb3Zlci8wL2RjOThkNDc3YjU3MTIyZDMvMTAwMC5qcGc=.jpg",
+      "source": "/tracks/about_time.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 19,
+      "name": "Christmas Tree",
+      "artist": "V",
+      "cover": "https://cdn1.kgasa.com/wp-content/uploads/2021/12/V-Our-Beloved-Summer-OST-Part-5.jpg",
+      "source": "/tracks/christmas_tree.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 20,
+      "name": "Daisy",
+      "artist": "Katy Perry",
+      "cover": "https://upload.wikimedia.org/wikipedia/en/b/bb/Katy_Perry_Daisies.png",
+      "source": "/tracks/daisy.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 21,
+      "name": "Far Away",
+      "artist": "Peter Fenn",
+      "cover": "https://cdns-images.dzcdn.net/images/cover/db9e002b2057b689f49e6610cb294eff/500x500.jpg",
+      "source": "/tracks/far_away.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 22,
+      "name": "Favorite Thing",
+      "artist": "Rangga Jones",
+      "cover": "https://i.scdn.co/image/ab67616d0000b2738cd2a3746e52b2f691223808",
+      "source": "/tracks/favorite_thing.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 23,
+      "name": "Forever Rain",
+      "artist": "RM",
+      "cover": "https://i.scdn.co/image/ab67616d00001e02876df70c59db46f63d74e20d",
+      "source": "/tracks/forever_rain.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 24,
+      "name": "Love Song",
+      "artist": "Dept, Sonny Zero, Jae Luna",
+      "cover": "https://images.genius.com/3178e63c398d1943bb09b81e2b409c1d.1000x1000x1.jpg",
+      "source": "/tracks/love_song.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 25,
+      "name": "Magic Shop",
+      "artist": "BTS",
+      "cover": "https://ibighit.com/bts/images/bts/discography/love_yourself-tear/album-cover.jpg",
+      "source": "/tracks/magic_shop.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 26,
+      "name": "Stay",
+      "artist": "BTS",
+      "cover": "https://i.scdn.co/image/ab67616d0000b273c07d5d2fdc02ae252fcd07e5",
+      "source": "/tracks/stay.mp3",
+      "favorited": false
+    },
+    {
+      "trackId" : 27,
+      "name": "Wave",
+      "artist": "Fiji Blue",
+      "cover": "https://images.genius.com/288eea80b6aa705315c3cb0ba6b3b11e.1000x1000x1.jpg",
+      "source": "/tracks/wave.mp3",
+      "favorited": false
     }
+    
   ]
 }
