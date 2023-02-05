@@ -355,7 +355,7 @@ const prevGroup = () => {
             :key="index"
             :id="index"
             @click="choosePlaylist"
-            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200 ease-linear"
+            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200"
           >
             <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>
           </div>
