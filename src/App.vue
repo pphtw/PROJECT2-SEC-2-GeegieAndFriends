@@ -349,13 +349,14 @@ const prevGroup = () => {
           </div>
         </div>
         <!-- #Playlist -->
-        <div class="h-40 grid grid-cols-4 gap-[2.8%] text-center">
+        <div class="h-40 grid grid-cols-4 gap-[2.8%] text-center ease-linear duration-75">
           <div
             v-for="(playlist, index) in playListIdx"
+            :style="{backgroundImage: 'url(' + encodeURI(playlist.background) + ')'}"
             :key="index"
             :id="index"
             @click="choosePlaylist"
-            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200"
+            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200 bg-cover"
           >
             <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>
           </div>
