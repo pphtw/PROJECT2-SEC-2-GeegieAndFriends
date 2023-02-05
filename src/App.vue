@@ -35,6 +35,7 @@ const onMouseDown = (e) => {
   // update time current
   let newTime
   const updateTime = (e) => {
+    if (e.clientX > boundingRect.right) return
     // clientX is a property of the event object in JavaScript
     const x = e.clientX - boundingRect.left
     // boundingRect.width = width of progress bar
@@ -113,6 +114,10 @@ const setDelay = () => {
       audioRef.value.pause()
     }
   }, 300)
+}
+const onended = () => {
+  onNextHandler()
+  isPlaying.value = true;
 }
 const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
@@ -387,6 +392,7 @@ const prevGroup = () => {
                 ref="audioRef"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
+                @ended="onended"
                 :src="tracks[currentTrackIndex].source"
                 @playing="setBackgroundOnChange"
               ></audio>
