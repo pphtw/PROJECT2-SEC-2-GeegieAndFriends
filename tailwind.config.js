@@ -7,8 +7,8 @@ module.exports = {
         content: '1820px',
       },
       animation: {
-        marquee: 'marquee 20s linear infinite',
-        marquee2: 'marquee2 20s linear infinite',
+        marquee: 'marquee 15s linear infinite',
+        marquee2: 'marquee2 15s linear infinite',
       },
       keyframes: {
         marquee: {
