@@ -35,10 +35,12 @@ const playerHandler = () => {
     isPlaying.value = false
   }
 }
-
 const onEndedHandler = () => {
   onNextHandler()
   isPlaying.value = true
+  randomIndex()
+}
+const randomIndex = () => {
   if (musicQueue.isShuffled) {
     let randomIndex = Math.floor(Math.random() * musicQueue.queue.length)
     while (randomIndex === musicQueue.currentTrackIndex) {
@@ -50,7 +52,6 @@ const onEndedHandler = () => {
   }
   isPlaying.value = true
 }
-
 const onProgressBarMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
   const boundingRect = progressBar.value.getBoundingClientRect()
@@ -111,6 +112,7 @@ const onNextHandler = () => {
   } else {
     musicQueue.currentTrackIndex = 0
   }
+  randomIndex()
   isPlaying.value = true
   setDelay()
 }
@@ -139,11 +141,9 @@ const onClickPlaylist = (e) => {
   // const playListNode = e.currentTarget
   // console.log(trending.childNodes[1])
 }
-
 const onShuffleHandler = () => {
   musicQueue.isShuffled = !musicQueue.isShuffled
 }
-
 
 // Utils
 const setDelay = () => {
