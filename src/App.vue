@@ -177,17 +177,6 @@ const setBackgroundOnChange = () => {
     block: 'center',
   })
 }
-const shuffleQueue = (currentTrackIndex) => {
-  const currentTrack = musicQueue.queue[currentTrackIndex]
-  const restOfQueue = musicQueue.queue.filter((e, i) => i !== currentTrackIndex)
-  for (let i = restOfQueue.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    const temp = restOfQueue[i]
-    restOfQueue[i] = restOfQueue[j]
-    restOfQueue[j] = temp
-  }
-  musicQueue.queue = [currentTrack, ...restOfQueue]
-}
 
 // Carousel playlist
 const playlist = ref(metadata.playlist)
