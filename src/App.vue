@@ -194,15 +194,12 @@ const setBackgroundOnChange = () => {
 }
 const isOverflowed = () => {
   const element = titleElement.value
-  if (
-    element.clientHeight < element.scrollHeight ||
-    element.clientWidth < element.scrollWidth
-  ) {
+  if (element.scrollHeight > element.offsetHeight) {
     console.log('overflow')
-    return (isOverflow.value = true)
+    isOverflow.value = true
   } else {
     console.log('not overflow')
-    return (isOverflow.value = false)
+    isOverflow.value = false
   }
 }
 onMounted(() => {
@@ -211,7 +208,6 @@ onMounted(() => {
   const config = { subtree: true, characterData: true, childList: true }
   // const observer = new MutationObserver((mutation) => {
   //   // console.log(mutation[0])
-  //   isOverflowed()
   // })
   const observer = new MutationObserver(isOverflowed)
   observer.observe(element, config)
@@ -507,17 +503,17 @@ onBeforeMount(() => {
             </div>
             <!-- #MusicTitle&Controller -->
             <div
-              class="flex flex-col justify-around items-center h-fit bg-[#E5E5E5] rounded-b-2xl"
+              class="flex flex-col gap-3 justify-around items-center h-fit bg-[#E5E5E5] rounded-b-2xl"
             >
               <!-- #MusicTitle&Artist -->
               <div
-                class="relative text-center h-10 w-[60%] overflow-x-hidden"
+                class="relative text-center h-8 w-[50%] overflow-x-hidden"
                 ref="titleElement"
               >
                 <div
                   :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''"
                 >
-                  <h1 class="text-2xl font-bold w-full">
+                  <h1 class="text-2xl font-bold">
                     {{ currentTrack.name }}
                   </h1>
                 </div>
@@ -528,7 +524,7 @@ onBeforeMount(() => {
                       : ' hidden'
                   "
                 >
-                  <h1 class="text-2xl font-bold w-full">
+                  <h1 class="text-2xl font-bold">
                     {{ currentTrack.name }}
                   </h1>
                 </div>
