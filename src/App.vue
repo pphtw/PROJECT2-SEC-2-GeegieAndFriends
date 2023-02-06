@@ -105,6 +105,7 @@ const onNextHandler = () => {
 const chooseTrackHandler = (e) => {
   const chooseTrackId = e.currentTarget.id
   e.preventDefault()
+
   e.target.addEventListener(
     'click',
     () => {
@@ -123,8 +124,8 @@ const chooseTrackHandler = (e) => {
   setDelay()
 }
 const onClickPlaylist = (e) => {
-  const playListNode = e.currentTarget
-  console.log(trending.childNodes[1])
+  // const playListNode = e.currentTarget
+  // console.log(trending.childNodes[1])
 }
 const onShuffleHandler = (e) => {
   if (musicQueue.defaultQueue.length === 0)
