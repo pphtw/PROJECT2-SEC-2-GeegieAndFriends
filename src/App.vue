@@ -1,17 +1,21 @@
 <script setup>
-import { ref } from 'vue'
+import { onBeforeMount, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
 const tracks = metadata.tracks
+const musicQueue = reactive({
+  queue: [],
+  currentTrack: {},
+  currentTrackIndex: 0,
+})
 const audioRef = ref(null)
-const currentTrack = ref(tracks[0])
-const currentTrackIndex = ref(0)
 const repeat = ref(false)
 const currentTime = ref('00:00')
 const duration = ref('00:00')
 const isPlaying = ref(false)
 const barWidth = ref('0%')
 const progressBar = ref(null)
+const isProgressBarClicked = ref(false)
 const tracksElement = ref(null)
 const trendingElement = ref(null)
 
@@ -28,24 +32,28 @@ const playerHandler = () => {
   }
 }
 
-const onMouseDown = (e) => {
-  if (!audioRef.value || !progressBar.value) return console.log('--')
+const onProgressBarMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
   const boundingRect = progressBar.value.getBoundingClientRect()
+  isProgressBarClicked.value = true
   // update time current
   let newTime
-  const updateTime = (e) => {
-    if (e.clientX > boundingRect.right) return
+  const toValidX = (x) => {
     // clientX is a property of the event object in JavaScript
-    const x = e.clientX - boundingRect.left
     // boundingRect.width = width of progress bar
+    return x < boundingRect.left
+      ? 0
+      : x > boundingRect.right
+      ? boundingRect.width + 2
+      : x - boundingRect.left
+  }
+  const updateTime = (e) => {
+    const x = toValidX(e.clientX)
     newTime = (x / boundingRect.width) * audioRef.value.duration
-    barWidth.value =
-      ((e.clientX - boundingRect.left) / boundingRect.width) * 100 + '%'
+    barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%'
   }
   e.preventDefault()
-  barWidth.value =
-    ((e.clientX - boundingRect.left) / boundingRect.width) * 100 + '%'
+  barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%'
   updateTime(e)
   window.addEventListener('mousemove', updateTime)
   window.addEventListener(
@@ -53,13 +61,16 @@ const onMouseDown = (e) => {
     () => {
       window.removeEventListener('mousemove', updateTime)
       audioRef.value.currentTime = newTime
+      isProgressBarClicked.value = false
     },
     { once: true }
   )
 }
 const onTimeUpdateHandler = () => {
   currentTime.value = msToMin(audioRef.value.currentTime)
-  updateProgressBar()
+  if (!isProgressBarClicked.value) {
+    updateProgressBar()
+  }
 }
 const onLoadMetadataHandler = () => {
   duration.value = msToMin(audioRef.value.duration)
@@ -67,42 +78,48 @@ const onLoadMetadataHandler = () => {
   updateProgressBar()
 }
 const onPreviousHandler = () => {
-  if (currentTrackIndex.value > 0) {
-    currentTrackIndex.value--
+  if (musicQueue.currentTrackIndex > 0) {
+    musicQueue.currentTrackIndex--
   } else {
-    currentTrackIndex.value = tracks.length - 1
+    musicQueue.currentTrackIndex = musicQueue.queue.length - 1
   }
   isPlaying.value = true
-  currentTrack.value = tracks[currentTrackIndex.value]
+  musicQueue.currentTrack = musicQueue.queue[musicQueue.currentTrackIndex]
   setDelay()
 }
 const onNextHandler = () => {
-  if (currentTrackIndex.value < tracks.length - 1) {
-    currentTrackIndex.value++
-    console.log(currentTrackIndex.value)
+  if (musicQueue.currentTrackIndex < musicQueue.queue.length - 1) {
+    musicQueue.currentTrackIndex++
   } else {
-    console.log(currentTrackIndex.value)
-    currentTrackIndex.value = 0
+    musicQueue.currentTrackIndex = 0
   }
   isPlaying.value = true
-  currentTrack.value = tracks[currentTrackIndex.value]
+  musicQueue.currentTrack = musicQueue.queue[musicQueue.currentTrackIndex]
   setDelay()
 }
 const chooseTrackHandler = (e) => {
   const chooseTrack = e.currentTarget.id
-  if (currentTrackIndex.value !== chooseTrack) {
-    isPlaying.value = true
-    currentTrack.value = tracks[chooseTrack]
-    currentTrackIndex.value = chooseTrack
-    // console.log(chooseTrack)
-    // console.log(e.currentTarget)
-    setBackgroundOnChange()
-  }
+  e.preventDefault()
+  e.target.addEventListener(
+    'mouseup',
+    () => {
+      if (musicQueue.currentTrackIndex !== chooseTrack) {
+        isPlaying.value = true
+        musicQueue.currentTrack = musicQueue.queue[chooseTrack]
+        musicQueue.currentTrackIndex = chooseTrack
+        // console.log(chooseTrack)
+        // console.log(e.currentTarget)
+        setBackgroundOnChange()
+      }
+    },
+    { once: true }
+  )
+
   setDelay()
 }
 const choosePlaylist = (e) => {
   const playListNode = e.currentTarget
-  console.log(trendDing.childNodes[1])
+  console.log(trending.childNodes[1])
 }
 
 // Utils
@@ -117,7 +134,7 @@ const setDelay = () => {
 }
 const onended = () => {
   onNextHandler()
-  isPlaying.value = true;
+  isPlaying.value = true
 }
 const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
@@ -131,8 +148,8 @@ const setBackgroundOnChange = () => {
   trackParent.forEach((trackNode) => {
     trackNode.style = 'background : white'
   })
-  trackParent[currentTrackIndex.value].style = 'background : #dcbfed'
-  trackParent[currentTrackIndex.value].scrollIntoView({
+  trackParent[musicQueue.currentTrackIndex].style = 'background : #dcbfed'
+  trackParent[musicQueue.currentTrackIndex].scrollIntoView({
     behavior: 'smooth',
     block: 'center',
   })
@@ -162,6 +179,12 @@ const prevGroup = () => {
     playListIdx.value = playlist.value[idx.value]
   }
 }
+
+// Before Mounted
+onBeforeMount(() => {
+  musicQueue.queue = tracks
+  musicQueue.currentTrack = musicQueue.queue[0]
+})
 </script>
 
 <template>
@@ -354,10 +377,14 @@ const prevGroup = () => {
           </div>
         </div>
         <!-- #Playlist -->
-        <div class="h-40 grid grid-cols-4 gap-[2.8%] text-center ease-linear duration-75">
+        <div
+          class="h-40 grid grid-cols-4 gap-[2.8%] text-center ease-linear duration-75"
+        >
           <div
             v-for="(playlist, index) in playListIdx"
-            :style="{backgroundImage: 'url(' + encodeURI(playlist.background) + ')'}"
+            :style="{
+              backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
+            }"
             :key="index"
             :id="index"
             @click="choosePlaylist"
@@ -369,37 +396,40 @@ const prevGroup = () => {
       </div>
       <!-- #MusicPlayer&Trending -->
       <div
-        class="h-min sm:h-[62%] grid grid-rows-2 grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 gap-[2.8%]"
+        class="h-fit sm:h-[62%] grid grid-rows-2 grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 gap-0 sm:gap-[2.8%]"
       >
-        <!-- #MusicPlayerCard -->
+        <!-- #MusicPlayerCard #NowPlaying -->
         <div
-          class="col-span-3 sm:col-span-1 flex flex-col justify-start h-screen sm:h-full"
+          class="col-span-1 row-span-1 sm:row-span-1 flex flex-col justify-start h-fit sm:h-full"
         >
           <h1 class="text-2xl font-bold pb-3 text-white truncate">
             Now Playing
           </h1>
-          <div class="flex flex-col rounded-2xl bg-[#E5E5E5] h-full">
+          <div
+            class="flex flex-col rounded-2xl bg-[#E5E5E5] h-screen sm:h-full"
+          >
             <!-- #MusicCover -->
             <div
-              class="h-[70%] bg-cover bg-center rounded-t-2xl"
+              class="h-fit sm:h-[70%] bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
               :style="{
-                backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
+                backgroundImage:
+                  'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
               }"
             ></div>
             <!-- #ProgressBar -->
-            <div>
+            <div class="overflow-clip">
               <audio
                 ref="audioRef"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onended"
-                :src="tracks[currentTrackIndex].source"
+                :src="musicQueue.queue[musicQueue.currentTrackIndex].source"
                 @playing="setBackgroundOnChange"
               ></audio>
               <div
-                class="progress-bar self-center"
+                class="progress-bar self-center active:cursor-default"
                 ref="progressBar"
-                @mousedown="onMouseDown"
+                @mousedown="onProgressBarMouseDown"
               >
                 <div
                   class="progress-current"
@@ -421,10 +451,10 @@ const prevGroup = () => {
               <!-- #MusicTitle&Artist -->
               <div class="text-center h-fit w-[70%] overflow-hidden">
                 <h1 class="text-2xl font-bold w-full">
-                  {{ currentTrack.name }}
+                  {{ musicQueue.currentTrack.name }}
                 </h1>
                 <h3 class="font-semibold w-full">
-                  {{ currentTrack.artist }}
+                  {{ musicQueue.currentTrack.artist }}
                 </h3>
               </div>
 
@@ -614,16 +644,16 @@ const prevGroup = () => {
         </div>
         <!-- #TrendingSection -->
         <div
-          class="col-span-3 flex flex-col justify-start h-full"
+          class="row-span-1 col-span-1 sm:col-span-3 flex flex-col justify-start h-fit sm:h-full"
           ref="trendingElement"
         >
           <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
-          <div class="rounded-2xl overflow-y-scroll pr-2 h-full">
+          <div class="rounded-2xl sm:overflow-y-scroll pr-2 h-fit">
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class="flex items-center mb-1 h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-              v-for="(track, index) in tracks"
+              class="flex items-center mb-1 h-fit sm:h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              v-for="(track, index) in musicQueue.queue"
               :key="index"
               :id="index"
               @mousedown="chooseTrackHandler"
@@ -706,13 +736,11 @@ const prevGroup = () => {
   width: 100%;
   cursor: pointer;
   background-color: #b9b9b9;
-  /* display: inline-block; */
-  border-radius: 2em;
 }
 .progress-current {
   height: inherit;
   width: 0;
   background-color: #c493e1;
-  border-radius: 2em;
+  border-radius: 0 2em 2em 0;
 }
 </style>
