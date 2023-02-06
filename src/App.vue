@@ -127,20 +127,19 @@ const onClickPlaylist = (e) => {
   console.log(trending.childNodes[1])
 }
 const onShuffleHandler = (e) => {
-  console.log(audioRef.value.source)
   if (musicQueue.defaultQueue.length === 0)
     musicQueue.defaultQueue = musicQueue.queue
   if (!musicQueue.isShuffled) {
-    const currentTrackIndex = musicQueue.currentTrackIndex
-    const newQueue = musicQueue.queue.filter((e, i) => i !== currentTrackIndex)
-    musicQueue.queue = [currentTrack, ...shuffleArray(newQueue)]
+    musicQueue.queue = shuffleQueue(musicQueue.currentTrackIndex)
     musicQueue.currentTrackIndex = 0
     musicQueue.isShuffled = true
     isPlaying.value = true
+    audioRef.value.play()
   } else {
     musicQueue.queue = musicQueue.defaultQueue
     musicQueue.isShuffled = false
     isPlaying.value = true
+    audioRef.value.play()
   }
 }
 
@@ -176,14 +175,16 @@ const setBackgroundOnChange = () => {
     block: 'center',
   })
 }
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
+const shuffleQueue = (currentTrackIndex, queue) => {
+  const currentTrack = musicQueue.queue[currentTrackIndex]
+  const restOfQueue = musicQueue.queue.filter((e, i) => i !== currentTrackIndex)
+  for (let i = restOfQueue.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    const temp = array[i]
-    array[i] = array[j]
-    array[j] = temp
+    const temp = restOfQueue[i]
+    restOfQueue[i] = restOfQueue[j]
+    restOfQueue[j] = temp
   }
-  return array
+  return [currentTrack, ...restOfQueue]
 }
 
 // Carousel playlist
