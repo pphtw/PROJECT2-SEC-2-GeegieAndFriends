@@ -1,12 +1,13 @@
 <script setup>
-import { onBeforeMount, reactive, ref } from 'vue'
+import { computed, onBeforeMount, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
 const tracks = metadata.tracks
 const musicQueue = reactive({
+  defaultQueue: [],
   queue: [],
-  currentTrack: {},
   currentTrackIndex: 0,
+  isShuffled: false,
 })
 const audioRef = ref(null)
 const repeat = ref(false)
@@ -18,6 +19,9 @@ const progressBar = ref(null)
 const isProgressBarClicked = ref(false)
 const tracksElement = ref(null)
 const trendingElement = ref(null)
+const currentTrack = computed(
+  () => musicQueue.queue[musicQueue.currentTrackIndex]
+)
 
 // Event Handlers
 const playerHandler = () => {
@@ -31,7 +35,10 @@ const playerHandler = () => {
     isPlaying.value = false
   }
 }
-
+const onEndedHandler = () => {
+  onNextHandler()
+  isPlaying.value = true
+}
 const onProgressBarMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
   const boundingRect = progressBar.value.getBoundingClientRect()
@@ -84,7 +91,6 @@ const onPreviousHandler = () => {
     musicQueue.currentTrackIndex = musicQueue.queue.length - 1
   }
   isPlaying.value = true
-  musicQueue.currentTrack = musicQueue.queue[musicQueue.currentTrackIndex]
   setDelay()
 }
 const onNextHandler = () => {
@@ -94,22 +100,21 @@ const onNextHandler = () => {
     musicQueue.currentTrackIndex = 0
   }
   isPlaying.value = true
-  musicQueue.currentTrack = musicQueue.queue[musicQueue.currentTrackIndex]
   setDelay()
 }
 const chooseTrackHandler = (e) => {
-  const chooseTrack = e.currentTarget.id
+  const chooseTrackId = e.currentTarget.id
   e.preventDefault()
   e.target.addEventListener(
-    'mouseup',
+    'click',
     () => {
-      if (musicQueue.currentTrackIndex !== chooseTrack) {
-        isPlaying.value = true
-        musicQueue.currentTrack = musicQueue.queue[chooseTrack]
-        musicQueue.currentTrackIndex = chooseTrack
-        // console.log(chooseTrack)
+      if (currentTrack['trackId'] !== chooseTrackId) {
+        console.log(chooseTrackId)
+        musicQueue.currentTrackIndex = chooseTrackId
+        // console.log(chooseTrackId)
         // console.log(e.currentTarget)
         setBackgroundOnChange()
+        isPlaying.value = true
       }
     },
     { once: true }
@@ -117,9 +122,26 @@ const chooseTrackHandler = (e) => {
 
   setDelay()
 }
-const choosePlaylist = (e) => {
+const onClickPlaylist = (e) => {
   const playListNode = e.currentTarget
   console.log(trending.childNodes[1])
+}
+const onShuffleHandler = (e) => {
+  console.log(audioRef.value.source)
+  if (musicQueue.defaultQueue.length === 0)
+    musicQueue.defaultQueue = musicQueue.queue
+  if (!musicQueue.isShuffled) {
+    const currentTrackIndex = musicQueue.currentTrackIndex
+    const newQueue = musicQueue.queue.filter((e, i) => i !== currentTrackIndex)
+    musicQueue.queue = [currentTrack, ...shuffleArray(newQueue)]
+    musicQueue.currentTrackIndex = 0
+    musicQueue.isShuffled = true
+    isPlaying.value = true
+  } else {
+    musicQueue.queue = musicQueue.defaultQueue
+    musicQueue.isShuffled = false
+    isPlaying.value = true
+  }
 }
 
 // Utils
@@ -131,10 +153,6 @@ const setDelay = () => {
       audioRef.value.pause()
     }
   }, 300)
-}
-const onended = () => {
-  onNextHandler()
-  isPlaying.value = true
 }
 const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
@@ -148,14 +166,27 @@ const setBackgroundOnChange = () => {
   trackParent.forEach((trackNode) => {
     trackNode.style = 'background : white'
   })
-  trackParent[musicQueue.currentTrackIndex].style = 'background : #dcbfed'
-  trackParent[musicQueue.currentTrackIndex].scrollIntoView({
+  const currentTrackIndex = tracks.findIndex(
+    (e) =>
+      e['trackId'] === musicQueue.queue[musicQueue.currentTrackIndex]['trackId']
+  )
+  trackParent[currentTrackIndex].style = 'background : #dcbfed'
+  trackParent[currentTrackIndex].scrollIntoView({
     behavior: 'smooth',
     block: 'center',
   })
 }
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+  return array
+}
 
-// carousel playlist
+// Carousel playlist
 const playlist = ref(metadata.playlist)
 const idx = ref(0)
 const playListIdx = ref(playlist.value[idx.value])
@@ -183,7 +214,6 @@ const prevGroup = () => {
 // Before Mounted
 onBeforeMount(() => {
   musicQueue.queue = tracks
-  musicQueue.currentTrack = musicQueue.queue[0]
 })
 </script>
 
@@ -387,7 +417,7 @@ onBeforeMount(() => {
             }"
             :key="index"
             :id="index"
-            @click="choosePlaylist"
+            @click="onClickPlaylist"
             class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200 bg-cover"
           >
             <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>
@@ -412,8 +442,7 @@ onBeforeMount(() => {
             <div
               class="h-fit sm:h-[70%] bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
               :style="{
-                backgroundImage:
-                  'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
+                backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
               }"
             ></div>
             <!-- #ProgressBar -->
@@ -422,7 +451,7 @@ onBeforeMount(() => {
                 ref="audioRef"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
-                @ended="onended"
+                @ended="onEndedHandler"
                 :src="musicQueue.queue[musicQueue.currentTrackIndex].source"
                 @playing="setBackgroundOnChange"
               ></audio>
@@ -451,10 +480,10 @@ onBeforeMount(() => {
               <!-- #MusicTitle&Artist -->
               <div class="text-center h-fit w-[70%] overflow-hidden">
                 <h1 class="text-2xl font-bold w-full">
-                  {{ musicQueue.currentTrack.name }}
+                  {{ currentTrack.name }}
                 </h1>
                 <h3 class="font-semibold w-full">
-                  {{ musicQueue.currentTrack.artist }}
+                  {{ currentTrack.artist }}
                 </h3>
               </div>
 
@@ -653,7 +682,7 @@ onBeforeMount(() => {
             <!-- for-loop here -->
             <div
               class="flex items-center mb-1 h-fit sm:h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-              v-for="(track, index) in musicQueue.queue"
+              v-for="(track, index) in tracks"
               :key="index"
               :id="index"
               @mousedown="chooseTrackHandler"
