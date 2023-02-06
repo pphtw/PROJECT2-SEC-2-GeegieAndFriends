@@ -20,13 +20,13 @@ const isProgressBarClicked = ref(false)
 const tracksElement = ref(null)
 const trendingElement = ref(null)
 const currentTrack = computed(
-  () => musicQueue.queue[musicQueue.currentTrackIndex]
+    () => musicQueue.queue[musicQueue.currentTrackIndex]
 )
 
-// Event Handlers
+// // Event Handlers
 const playerHandler = () => {
   // หูจะแตก ขอยาดลดแบบกดมือ
-  // audioRef.value.volume = 0.2;
+  audioRef.value.volume = 0.2;
   if (audioRef.value.paused) {
     audioRef.value.play()
     isPlaying.value = true
@@ -35,10 +35,22 @@ const playerHandler = () => {
     isPlaying.value = false
   }
 }
+
 const onEndedHandler = () => {
   onNextHandler()
   isPlaying.value = true
+  if (musicQueue.isShuffled) {
+    let randomIndex = Math.floor(Math.random() * musicQueue.queue.length)
+    while (randomIndex === musicQueue.currentTrackIndex) {
+      randomIndex = Math.floor(Math.random() * musicQueue.queue.length)
+    }
+    musicQueue.currentTrackIndex = randomIndex
+  } else {
+    musicQueue.currentTrackIndex = (musicQueue.currentTrackIndex) % musicQueue.queue.length
+  }
+  isPlaying.value = true
 }
+
 const onProgressBarMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
   const boundingRect = progressBar.value.getBoundingClientRect()
@@ -126,20 +138,11 @@ const onClickPlaylist = (e) => {
   const playListNode = e.currentTarget
   console.log(trending.childNodes[1])
 }
-const onShuffleHandler = (e) => {
-  if (musicQueue.defaultQueue.length === 0)
-    musicQueue.defaultQueue = musicQueue.queue
-  if (!musicQueue.isShuffled) {
-    shuffleQueue(musicQueue.currentTrackIndex)
-    musicQueue.currentTrackIndex = 0
-    musicQueue.isShuffled = true
-    audioRef.value.play()
-  } else {
-    musicQueue.queue = musicQueue.defaultQueue
-    musicQueue.isShuffled = false
-    audioRef.value.play()
-  }
+
+const onShuffleHandler = () => {
+  musicQueue.isShuffled = !musicQueue.isShuffled
 }
+
 
 // Utils
 const setDelay = () => {
@@ -212,6 +215,7 @@ const prevGroup = () => {
 
 // Before Mounted
 onBeforeMount(() => {
+  musicQueue.defaultQueue = tracks
   musicQueue.queue = tracks
 })
 </script>
@@ -491,9 +495,10 @@ onBeforeMount(() => {
                 class="flex justify-center basis-16 items-center 2xl:gap-8 gap-5 h-fit w-full"
               >
                 <!-- #ShuffleButton -->
-                <div class="random-track" @click="onShuffleHandler">
-                  <button>
+                <div class="random-track" >
+                  <button @click="onShuffleHandler">
                     <svg
+                        v-if="!musicQueue.isShuffled"
                       width="20"
                       height="20"
                       viewBox="0 0 32 32"
@@ -508,6 +513,18 @@ onBeforeMount(() => {
                         stroke-linecap="round"
                         stroke-linejoin="round"
                       />
+                    </svg>
+                    <svg v-else
+                         width="20"
+                         height="20"
+                         viewBox="0 0 27 25"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 20.4733L4.4 20.4867C5.61333 20.4867 6.74667 19.8867 7.41333 18.8867L15.9333 6.11332C16.2632 5.61738 16.7115 5.21142 17.2376 4.93208C17.7637 4.65274 18.351 4.50882 18.9467 4.51332L25.0133 4.53999M22.3333 23.14L25 20.4733M8.85333 7.99332L7.41333 5.99332C7.08029 5.5271 6.63983 5.14798 6.12924 4.88803C5.61864 4.62809 5.05293 4.49499 4.48 4.49999L1 4.51332M14.2933 17.0067L15.92 19.1C16.6 19.98 17.6667 20.5 18.7867 20.5L25.0133 20.4733M25 4.52665L22.3333 1.85999"
+                            stroke="#C493E1"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"/>
                     </svg>
                   </button>
                 </div>
