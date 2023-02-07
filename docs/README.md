@@ -1,4 +1,4 @@
-# Project Music Player (Release v1.0.0)
+# Project Music Player (Release v2.0.0)
 
 ##### By _Geegie and Friends_, an INT203 Project Team
 
@@ -20,6 +20,10 @@ The project is also hosted on [Netlify](https://geegie.netlify.app) (for develop
   - [Sprint 2: Home page UI and Music Player](#sprint-2-home-page-ui-and-music-player)
     - [Step 1: Design the homepage for the application](#step-1-design-the-homepage-for-the-application)
     - [Step 2: Coding the music player component and layout for the homepage](#step-2-coding-the-music-player-component-and-layout-for-the-homepage)
+  - [Sprint 3: Main Function for Homepage](#sprint-3-main-function-for-homepage)
+    - [Step 1: Refactor the code from previous sprint](#step-1-refactor-the-code-from-previous-sprint)
+    - [Step 2: Planning the backlog for this sprint](#step-2-planning-the-backlog-for-this-sprint)
+    - [Step 3: Develop new features for the app](#step-3-develop-new-features-for-the-app)
 - [Running the App](#running-the-app)
 - [Deployment](#deployment)
 - [Versioning](#versioning)
@@ -142,6 +146,27 @@ This section includes the development strategies, processes and contributions wi
   ![Some preview for the Vue source code](img/code-preview.png 'Code Preview')
 - Layout for the homepage in `template` branch
 
+### Sprint 3 Main Function for Homepage
+
+#### Step 1 Refactor the code from previous sprint
+
+- Changing to composition API
+- Optimize the code, reduce redundancy, grouping the utility functions
+
+#### Step 2 Planning the backlog for this sprint
+
+![Feature in progress during sprint 3](img/sprint-3-backlog.png "Sprint 3 Todo list")
+
+#### Step 3 Develop new features for the app
+
+![Home page with many new features](img/sprint-3-final.png "Final Release of sprint 3")
+- includes
+  - carousel playlist
+  - queuing system
+  - shuffle song
+  - drag-to-seek progress bar
+  - choose and play music from trending list
+
 ## Running the App
 
 Steps and commands for running the app:
@@ -185,7 +210,7 @@ This documentation also hosted on [Github Pages]
 ## Contributors
 
 | Student ID  | Name                     | Email                      | Github Username |
-| ----------- | ------------------------ | -------------------------- | --------------- |
+|-------------|--------------------------|----------------------------|-----------------|
 | 64130500066 | Phutawan Palakavong      | Phutawan.pala@kmutt.ac.th  | [pphtw]         |
 | 64130500079 | Siripoom Kusonsong       | Siripoom.kuso@kmutt.ac.th  | [PhuMiZz]       |
 | 64130500080 | Supapit Krawsaikom       | Supapit.kraw@kmutt.ac.th   | [supapitploy]   |
@@ -211,6 +236,34 @@ Music in this project
 - [Matsuri](https://youtu.be/NwOvu-j_WjY) (Song by _Fujii Kaze_) Licensed to YouTube by UMG (on behalf of Universal Music LLC); UMPG Publishing, BMI - Broadcast Music Inc., NexTone Inc. (Publishing), and 5 Music Rights Societies
 - [double take](https://youtu.be/R8FHtIhWqNo) (Song by _dhruv_) Licensed to YouTube by SME (on behalf of Little Worry/RCA Records); BMI - Broadcast Music Inc., LatinAutor, LatinAutorPerf, and 11 Music Rights Societies
 - [วาดไว้ (recall)](https://youtu.be/a0M_QUS3kC0) (Song by BOWKYLION) Licensed to What The Duck
+- [After Rain (Scarlet Version)]()
+- [Attention]()
+- [Cookie]()
+- [Ditto]()
+- [Hurt]()
+- [Hype Boy]()
+- [夜に駆ける (Racing into the Night)]()
+- [OMG]()
+- [Orion]()
+- [Overdose]()
+- [Pretender]()
+- [好きだから。]()
+- [Zenzenzense]()
+- [2002]()
+- [About Time]()
+- [Christmas Tree]()
+- [Daisy]()
+- [Far Away]()
+- [Favorite Thing]()
+- [Forever Rain]()
+- [Love Song]()
+- [Magic Shop]()
+- [Stay]()
+- [Wave]()
+- [Wave]()
+- [ทรงอย่างแบด (Bad Boy)]()
+- [Guitar, Loneliness and Blue Planet]()
+
 
 ### Inspirations
 
