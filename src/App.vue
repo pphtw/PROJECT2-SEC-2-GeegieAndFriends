@@ -735,8 +735,8 @@ onMounted(() => {
           class="row-span-1 col-span-1 sm:col-span-3 flex flex-col justify-start h-fit sm:h-full"
           ref="trendingElement"
         >
-          <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
-          <div class="rounded-2xl sm:overflow-y-scroll pr-2 h-fit">
+          <h1 class="text-2xl font-bold pb-3 text-white truncate">Trending</h1>
+          <div class="rounded-2xl sm:overflow-y-scroll pr-2 h-fit sm:h-full">
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
