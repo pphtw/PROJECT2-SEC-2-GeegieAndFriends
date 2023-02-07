@@ -13,10 +13,7 @@ const musicQueue = reactive({
 
 // DOM Element
 const audioElement = ref(null)
-const tracksElement = ref(null)
 const progressBarElement = ref(null)
-const trendingElement = ref(null)
-const titleElement = ref(null)
 
 const repeat = ref(false)
 const currentTime = ref('00:00')
