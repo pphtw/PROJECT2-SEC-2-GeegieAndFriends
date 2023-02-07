@@ -508,7 +508,9 @@ onMounted(() => {
                 ref="titleElement"
               >
                 <div
-                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''"
+                  :class="
+                    isOverflow ? 'animate-marquee whitespace-nowrap' : ''
+                  "
                 >
                   <h1 class="text-2xl font-bold">
                     {{ currentTrack.name }}
@@ -517,12 +519,12 @@ onMounted(() => {
                 <div
                   :class="
                     isOverflow
-                      ? ' absolute top-0 animate-marquee2 whitespace-nowrap visible'
-                      : ' hidden'
+                      ? 'absolute top-0 animate-marquee2 whitespace-nowrap visible'
+                      : 'hidden'
                   "
                 >
                   <h1 class="text-2xl font-bold">
-                    {{ currentTrack.title }}
+                    {{ currentTrack.name }}
                   </h1>
                 </div>
               </div>
