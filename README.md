@@ -1,15 +1,16 @@
 # INT203 #1 Project: Music Player Web Application
+
 ## Group: _Geegie and Friends_
 
 Our team including:
 
-| Student ID  | Name                     | Email                       | Github Username |
-|-------------|--------------------------|-----------------------------|-----------------|
-| 64130500066 | Phutawan Palakavong      | Phutawan.pala@kmutt.ac.th   | pphtw           |
-| 64130500079 | Siripoom Kusonsong       | Siripoom.kuso@kmutt.ac.th   | PhuMiZz         |
-| 64130500080 | Supapit Krawsaikom       | Supapit.kraw@kmutt.ac.th    | supapitploy     |
-| 64130500105 | Banlearit Siriboon       | Banlearit.siri@kmutt.ac.th  | banlearit       |
-| 64130500119 | Bowonwit Anothaisintavee | Bowonwit.anot@kmutt.ac.th   | NewBww          |
+| Student ID  | Name                     | Email                      | Github Username |
+| ----------- | ------------------------ | -------------------------- | --------------- |
+| 64130500066 | Phutawan Palakavong      | Phutawan.pala@kmutt.ac.th  | pphtw           |
+| 64130500079 | Siripoom Kusonsong       | Siripoom.kuso@kmutt.ac.th  | PhuMiZz         |
+| 64130500080 | Supapit Krawsaikom       | Supapit.kraw@kmutt.ac.th   | supapitploy     |
+| 64130500105 | Banlearit Siriboon       | Banlearit.siri@kmutt.ac.th | banlearit       |
+| 64130500119 | Bowonwit Anothaisintavee | Bowonwit.anot@kmutt.ac.th  | NewBww          |
 
 ## Tech Stack
 
@@ -19,9 +20,9 @@ Our team including:
 
 You would require the following tools to develop and run the project:
 
-* A text editor or an IDE (Recommended: _WebStorm_ or _Visual Studio Code_)
-* _NodeJs_ v16.9.0 or later
-* _Yarn_ for package management
+- A text editor or an IDE (Recommended: _WebStorm_ or _Visual Studio Code_)
+- _NodeJs_ v16.9.0 or later
+- _Yarn_ for package management
 
 ## Customize configuration
 
@@ -31,16 +32,18 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 These installation steps are required to build the project from your local machine.
 
-* Install NodeJs from this [_link_](https://nodejs.org/en/download/)
-* Install Yarn through the [_npm package manager_](http://npmjs.org/):
+- Install NodeJs from this [_link_](https://nodejs.org/en/download/)
+- Install Yarn through the [_npm package manager_](http://npmjs.org/):
 
-    ```
-    npm install --global yarn
-    ```
+  ```
+  npm install --global yarn
+  ```
+
   Check the version of Yarn by running:
-    ```  
-    yarn --version
-    ```
+
+  ```
+  yarn --version
+  ```
 
 ## Running the App
 
