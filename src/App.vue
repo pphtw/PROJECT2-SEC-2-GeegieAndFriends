@@ -3,17 +3,20 @@ import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
 const tracks = metadata.tracks
+
 const musicQueue = reactive({
   defaultQueue: [],
   queue: [],
-  currentTrackIndex: 0,
   isShuffled: false,
+  isLooping: false,
 })
 
 // DOM Element
 const audioElement = ref(null)
 const tracksElement = ref(null)
 const progressBarElement = ref(null)
+const trendingElement = ref(null)
+const titleElement = ref(null)
 
 const repeat = ref(false)
 const currentTime = ref('00:00')
@@ -21,20 +24,12 @@ const duration = ref('00:00')
 const isPlaying = ref(false)
 const barWidth = ref('0%')
 const isProgressBarClicked = ref(false)
-const trendingElement = ref(null)
-
-// isOverflow
-const titleElement = ref(null)
 const isOverflow = ref(false)
 
-const currentTrack = computed(
-  () => musicQueue.queue[musicQueue.currentTrackIndex]
-)
+const currentTrack = computed(() => findTrack(musicQueue?.queue[0]))
 
-// // Event Handlers
+// Event Handlers
 const playerHandler = () => {
-  // หูจะแตก ขอยาดลดแบบกดมือ
-  audioElement.value.volume = 0.15
   if (audioElement.value.paused) {
     audioElement.value.play()
     isPlaying.value = true
@@ -43,23 +38,30 @@ const playerHandler = () => {
     isPlaying.value = false
   }
 }
+const onNextHandler = () => {
+  skipTrack()
+  isPlaying.value = true
+  setDelay()
+}
+const onPreviousHandler = () => {
+  skipTrack(false)
+  isPlaying.value = true
+  setDelay()
+}
 const onEndedHandler = () => {
   onNextHandler()
   isPlaying.value = true
-  randomIndex()
 }
-const randomIndex = () => {
-  if (musicQueue.isShuffled) {
-    let randomIndex = Math.floor(Math.random() * musicQueue.queue.length)
-    while (randomIndex === musicQueue.currentTrackIndex) {
-      randomIndex = Math.floor(Math.random() * musicQueue.queue.length)
-    }
-    musicQueue.currentTrackIndex = randomIndex
-  } else {
-    musicQueue.currentTrackIndex =
-      musicQueue.currentTrackIndex % musicQueue.queue.length
+const onLoadMetadataHandler = () => {
+  duration.value = msToMin(audioElement.value.duration)
+  currentTime.value = msToMin(audioElement.value.currentTime)
+  updateProgressBar()
+}
+const onTimeUpdateHandler = () => {
+  currentTime.value = msToMin(audioElement.value.currentTime)
+  if (!isProgressBarClicked.value) {
+    updateProgressBar()
   }
-  isPlaying.value = true
 }
 const onProgressBarMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
@@ -95,51 +97,13 @@ const onProgressBarMouseDown = (e) => {
     { once: true }
   )
 }
-const onTimeUpdateHandler = () => {
-  currentTime.value = msToMin(audioElement.value.currentTime)
-  if (!isProgressBarClicked.value) {
-    updateProgressBar()
-  }
-}
-const onLoadMetadataHandler = () => {
-  duration.value = msToMin(audioElement.value.duration)
-  currentTime.value = msToMin(audioElement.value.currentTime)
-  updateProgressBar()
-}
-const onPreviousHandler = () => {
-  if (musicQueue.currentTrackIndex > 0) {
-    musicQueue.currentTrackIndex--
-  } else {
-    musicQueue.currentTrackIndex = musicQueue.queue.length - 1
-  }
-  isPlaying.value = true
-  setDelay()
-}
-const onNextHandler = () => {
-  if (musicQueue.currentTrackIndex < musicQueue.queue.length - 1) {
-    musicQueue.currentTrackIndex++
-  } else {
-    musicQueue.currentTrackIndex = 0
-  }
-  randomIndex()
-  isPlaying.value = true
-  setDelay()
-}
 const chooseTrackHandler = (e) => {
-  const chooseTrackId = e.currentTarget.id
+  const chooseTrackId = Number(e.currentTarget.id) + 1
   e.preventDefault()
-
   e.target.addEventListener(
     'click',
     () => {
-      if (currentTrack['trackId'] !== chooseTrackId) {
-        console.log(chooseTrackId)
-        musicQueue.currentTrackIndex = chooseTrackId
-        // console.log(chooseTrackId)
-        // console.log(e.currentTarget)
-        setBackgroundOnChange()
-        isPlaying.value = true
-      }
+      skipToTrack(chooseTrackId)
     },
     { once: true }
   )
@@ -150,9 +114,20 @@ const onClickPlaylist = () => {
   // const playListNode = e.currentTarget
   // console.log(trending.childNodes[1])
 }
-const onShuffleHandler = () => {
-  musicQueue.isShuffled = !musicQueue.isShuffled
-}
+// const onShuffleHandler = (e) => {
+//   if (musicQueue.defaultQueue.length === 0)
+//     musicQueue.defaultQueue = musicQueue.queue
+//   if (!musicQueue.isShuffled) {
+//     shuffleQueue(musicQueue.currentTrackIndex)
+//     musicQueue.currentTrackIndex = 0
+//     musicQueue.isShuffled = true
+//     audioRef.value.play()
+//   } else {
+//     musicQueue.queue = musicQueue.defaultQueue
+//     musicQueue.isShuffled = false
+//     audioRef.value.play()
+//   }
+// }
 
 // Utils
 const setDelay = () => {
@@ -177,8 +152,7 @@ const setBackgroundOnChange = () => {
     trackNode.style = 'background : white'
   })
   const currentTrackIndex = tracks.findIndex(
-    (e) =>
-      e['trackId'] === musicQueue.queue[musicQueue.currentTrackIndex]['trackId']
+    (e) => e['trackId'] === currentTrack.value.trackId
   )
   trackParent[currentTrackIndex].style = 'background : #dcbfed'
   trackParent[currentTrackIndex].scrollIntoView({
@@ -196,6 +170,36 @@ const isOverflowed = () => {
     isOverflow.value = false
   }
 }
+const skipTrack = (toNext = true) => {
+  if (toNext) {
+    musicQueue.queue.push(musicQueue.queue.shift())
+  } else musicQueue.queue.unshift(musicQueue.queue.pop())
+}
+const findTrack = (trackId = 1) => {
+  return tracks.find((track) => track['trackId'] === trackId)
+}
+const findPlaylist = (playlistName) => {
+  return metadata.playlist.find((playlist) => playlist['name'] === playlistName)
+    .tracks
+}
+const skipToTrack = (id) => {
+  if (musicQueue.queue.find((trackId) => trackId === id)) {
+    while (musicQueue.queue[0] !== id) {
+      skipTrack()
+    }
+  }
+}
+// const shuffleQueue = (currentTrackIndex) => {
+//   const currentTrack = musicQueue.queue[currentTrackIndex]
+//   const restOfQueue = musicQueue.queue.filter((e, i) => i !== currentTrackIndex)
+//   for (let i = restOfQueue.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1))
+//     const temp = restOfQueue[i]
+//     restOfQueue[i] = restOfQueue[j]
+//     restOfQueue[j] = temp
+//   }
+//   musicQueue.queue = [currentTrack, ...restOfQueue]
+// }
 
 // Carousel playlist
 const playlist = ref(metadata.playlist)
@@ -224,8 +228,7 @@ const prevGroup = () => {
 
 // Hooks
 onBeforeMount(() => {
-  musicQueue.defaultQueue = tracks
-  musicQueue.queue = tracks
+  musicQueue.queue = findPlaylist('Trending')
 })
 onMounted(() => {
   // ObserveDomUpdated
@@ -236,6 +239,7 @@ onMounted(() => {
   // })
   const observer = new MutationObserver(isOverflowed)
   observer.observe(element, config)
+  audioElement.value.volume = 0.15
 })
 </script>
 
@@ -474,7 +478,7 @@ onMounted(() => {
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
-                :src="musicQueue.queue[musicQueue.currentTrackIndex].source"
+                :src="currentTrack.source"
                 @playing="setBackgroundOnChange"
               ></audio>
               <div
@@ -519,7 +523,7 @@ onMounted(() => {
                   "
                 >
                   <h1 class="text-2xl font-bold">
-                    {{ currentTrack.name }}
+                    {{ currentTrack.title }}
                   </h1>
                 </div>
               </div>
