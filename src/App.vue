@@ -2,10 +2,6 @@
 import {
   computed,
   onBeforeMount,
-  onBeforeUpdate,
-  onMounted,
-  onUnmounted,
-  onUpdated,
   reactive,
   ref,
 } from 'vue'
@@ -31,7 +27,7 @@ const trendingElement = ref(null)
 
 // isOverflow
 const titleElement = ref(null)
-const isOverflow = ref(false)
+const isOverflow = ref(null)
 
 const currentTrack = computed(
   () => musicQueue.queue[musicQueue.currentTrackIndex]
@@ -110,6 +106,7 @@ const onTimeUpdateHandler = () => {
 const onLoadMetadataHandler = () => {
   duration.value = msToMin(audioRef.value.duration)
   currentTime.value = msToMin(audioRef.value.currentTime)
+
   updateProgressBar()
 }
 const onPreviousHandler = () => {
@@ -194,26 +191,23 @@ const setBackgroundOnChange = () => {
 }
 const isOverflowed = () => {
   const element = titleElement.value
-  if (element.scrollHeight > element.offsetHeight) {
-    console.log('overflow')
-    isOverflow.value = true
-  } else {
-    console.log('not overflow')
-    isOverflow.value = false
-  }
+  isOverflow.value = false
+  setTimeout(() => {
+    if (element.scrollHeight > element.offsetHeight) {
+      // console.log('overflow')
+      isOverflow.value = true
+    } else {
+      // console.log('not overflow')
+      isOverflow.value = false
+    }
+  }, 100)
+  // console.log(element.scrollHeight)
+  // console.log(element.offsetHeight)
+  // console.log(titleNode)
 }
-onMounted(() => {
-  // ObserveDomUpdated
-  const element = titleElement.value
-  const config = { subtree: true, characterData: true, childList: true }
-  // const observer = new MutationObserver((mutation) => {
-  //   // console.log(mutation[0])
-  // })
-  const observer = new MutationObserver(isOverflowed)
-  observer.observe(element, config)
-})
 
 // Carousel playlist
+
 const playlist = ref(metadata.playlist)
 const idx = ref(0)
 const playListIdx = ref(playlist.value[idx.value])
@@ -479,6 +473,7 @@ onBeforeMount(() => {
                 ref="audioRef"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
+                @loadeddata="isOverflowed"
                 @ended="onEndedHandler"
                 :src="musicQueue.queue[musicQueue.currentTrackIndex].source"
                 @playing="setBackgroundOnChange"
@@ -507,7 +502,7 @@ onBeforeMount(() => {
             >
               <!-- #MusicTitle&Artist -->
               <div
-                class="relative text-center h-8 w-[50%] overflow-x-hidden"
+                class="relative text-center h-8 w-[60%] overflow-x-hidden"
                 ref="titleElement"
               >
                 <div
