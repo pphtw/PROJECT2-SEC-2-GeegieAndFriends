@@ -118,20 +118,18 @@ const chooseTrackHandler = (e) => {
 // console.log(trending.childNodes[1])
 // }
 
-// const onShuffleHandler = (e) => {
-//   if (musicQueue.defaultQueue.length === 0)
-//     musicQueue.defaultQueue = musicQueue.queue
-//   if (!musicQueue.isShuffled) {
-//     shuffleQueue(musicQueue.currentTrackIndex)
-//     musicQueue.currentTrackIndex = 0
-//     musicQueue.isShuffled = true
-//     audioRef.value.play()
-//   } else {
-//     musicQueue.queue = musicQueue.defaultQueue
-//     musicQueue.isShuffled = false
-//     audioRef.value.play()
-//   }
-// }
+const onShuffleHandler = () => {
+  if (musicQueue.defaultQueue.length === 0) {
+    musicQueue.defaultQueue = musicQueue.queue
+  }
+  if (!musicQueue.isShuffled) {
+    shuffleQueue(true)
+    musicQueue.isShuffled = true
+  } else {
+    shuffleQueue(false)
+    musicQueue.isShuffled = false
+  }
+}
 
 // Utils
 const setDelay = () => {
@@ -174,10 +172,12 @@ const isOverflowed = () => {
   // console.log(element.offsetHeight)
   // console.log(titleNode)
 }
-const skipTrack = (toNext = true) => {
+const skipTrack = (toNext = true, queue = musicQueue.queue) => {
   if (toNext) {
-    musicQueue.queue.push(musicQueue.queue.shift())
-  } else musicQueue.queue.unshift(musicQueue.queue.pop())
+    queue.push(queue.shift())
+  } else {
+    queue.unshift(queue.pop())
+  }
 }
 const findTrack = (trackId = 1) => {
   return tracks.find((track) => track['trackId'] === trackId)
@@ -186,25 +186,38 @@ const findPlaylist = (playlistName) => {
   return metadata.playlist.find((playlist) => playlist['name'] === playlistName)
     .tracks
 }
-const skipToTrack = (id) => {
-  const indexToSkip = musicQueue.queue.findIndex((trackId) => trackId === id)
+const skipToTrack = (id, queue = musicQueue.queue) => {
+  const indexToSkip = queue.findIndex((trackId) => trackId === id)
   if (Boolean(indexToSkip)) {
-    if (indexToSkip > musicQueue.queue.length / 2) {
-      while (musicQueue.queue[0] !== id) skipTrack()
-    } else while (musicQueue.queue[0] !== id) skipTrack(false)
+    if (indexToSkip > queue.length / 2) {
+      while (queue[0] !== id) {
+        skipTrack(true, queue)
+      }
+    } else {
+      while (queue[0] !== id) {
+        skipTrack(false, queue)
+      }
+    }
   }
 }
-// const shuffleQueue = (currentTrackIndex) => {
-//   const currentTrack = musicQueue.queue[currentTrackIndex]
-//   const restOfQueue = musicQueue.queue.filter((e, i) => i !== currentTrackIndex)
-//   for (let i = restOfQueue.length - 1; i > 0; i--) {
-//     const j = Math.floor(Math.random() * (i + 1))
-//     const temp = restOfQueue[i]
-//     restOfQueue[i] = restOfQueue[j]
-//     restOfQueue[j] = temp
-//   }
-//   musicQueue.queue = [currentTrack, ...restOfQueue]
-// }
+const shuffleQueue = (shuffle) => {
+  const currentTrackId = musicQueue.queue[0]
+  if (shuffle) {
+    console.log(musicQueue.queue)
+    const restOfQueue = musicQueue.queue.filter((e, i) => i !== 0)
+    for (let i = restOfQueue.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      const temp = restOfQueue[i]
+      restOfQueue[i] = restOfQueue[j]
+      restOfQueue[j] = temp
+    }
+    musicQueue.queue = [currentTrackId, ...restOfQueue]
+  } else {
+    console.log(musicQueue.queue)
+    skipToTrack(currentTrackId, musicQueue.defaultQueue)
+    musicQueue.queue = musicQueue.defaultQueue
+  }
+}
 
 // Carousel playlist
 
