@@ -24,11 +24,8 @@ const duration = ref('00:00')
 const isPlaying = ref(false)
 const barWidth = ref('0%')
 const isProgressBarClicked = ref(false)
-const tracksElement = ref(null)
-const trendingElement = ref(null)
 
 // isOverflow
-const titleElement = ref(null)
 const isOverflow = ref(null)
 
 const currentTrack = computed(() => findTrack(musicQueue?.queue[0]))
@@ -109,6 +106,8 @@ const chooseTrackHandler = (e) => {
     'click',
     () => {
       skipToTrack(chooseTrackId)
+      audioElement.value.play()
+      isPlaying.value = true
     },
     { once: true }
   )
@@ -169,13 +168,7 @@ const isOverflowed = () => {
   const element = titleElement.value
   isOverflow.value = false
   setTimeout(() => {
-    if (element.scrollHeight > element.offsetHeight) {
-      // console.log('overflow')
-      isOverflow.value = true
-    } else {
-      // console.log('not overflow')
-      isOverflow.value = false
-    }
+    isOverflow.value = element.scrollHeight > element.offsetHeight
   }, 100)
   // console.log(element.scrollHeight)
   // console.log(element.offsetHeight)
@@ -511,7 +504,7 @@ onMounted(() => {
             >
               <!-- #MusicTitle&Artist -->
               <div
-                class="relative text-center h-8 w-[60%] overflow-x-hidden"
+                class="relative text-center h-8 w-[80%] overflow-x-hidden"
                 ref="titleElement"
               >
                 <div
