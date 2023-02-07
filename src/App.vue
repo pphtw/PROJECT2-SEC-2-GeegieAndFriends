@@ -98,7 +98,7 @@ const onProgressBarMouseDown = (e) => {
   )
 }
 const chooseTrackHandler = (e) => {
-  const chooseTrackId = Number(e.currentTarget.id) + 1
+  const chooseTrackId = Number(e.currentTarget.id)
   e.preventDefault()
   e.target.addEventListener(
     'click',
@@ -107,13 +107,13 @@ const chooseTrackHandler = (e) => {
     },
     { once: true }
   )
-
   setDelay()
 }
-const onClickPlaylist = () => {
-  // const playListNode = e.currentTarget
-  // console.log(trending.childNodes[1])
-}
+// const onClickPlaylist = () => {
+// const playListNode = e.currentTarget
+// console.log(trending.childNodes[1])
+// }
+
 // const onShuffleHandler = (e) => {
 //   if (musicQueue.defaultQueue.length === 0)
 //     musicQueue.defaultQueue = musicQueue.queue
@@ -183,10 +183,11 @@ const findPlaylist = (playlistName) => {
     .tracks
 }
 const skipToTrack = (id) => {
-  if (musicQueue.queue.find((trackId) => trackId === id)) {
-    while (musicQueue.queue[0] !== id) {
-      skipTrack()
-    }
+  const indexToSkip = musicQueue.queue.findIndex((trackId) => trackId === id)
+  if (Boolean(indexToSkip)) {
+    if (indexToSkip > musicQueue.queue.length / 2) {
+      while (musicQueue.queue[0] !== id) skipTrack()
+    } else while (musicQueue.queue[0] !== id) skipTrack(false)
   }
 }
 // const shuffleQueue = (currentTrackIndex) => {
@@ -746,14 +747,14 @@ onMounted(() => {
             <div
               class="flex items-center mb-1 h-fit sm:h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in tracks"
-              :key="index"
-              :id="index"
+              :key="track.trackId"
+              :id="track.trackId"
               @mousedown="chooseTrackHandler"
               ref="tracksElement"
             >
               <!-- #Ranking -->
               <div class="w-12">
-                <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
+                <h1 class="text-center font-bold w-12">{{ track.trackId }}</h1>
               </div>
               <!-- #MusicCover -->
               <div class="h-full aspect-square">
