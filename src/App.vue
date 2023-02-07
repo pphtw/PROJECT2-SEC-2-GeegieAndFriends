@@ -1,14 +1,5 @@
 <script setup>
-import {
-  computed,
-  onBeforeMount,
-  onBeforeUpdate,
-  onMounted,
-  onUnmounted,
-  onUpdated,
-  reactive,
-  ref,
-} from 'vue'
+import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
 const tracks = metadata.tracks
@@ -202,16 +193,6 @@ const isOverflowed = () => {
     isOverflow.value = false
   }
 }
-onMounted(() => {
-  // ObserveDomUpdated
-  const element = titleElement.value
-  const config = { subtree: true, characterData: true, childList: true }
-  // const observer = new MutationObserver((mutation) => {
-  //   // console.log(mutation[0])
-  // })
-  const observer = new MutationObserver(isOverflowed)
-  observer.observe(element, config)
-})
 
 // Carousel playlist
 const playlist = ref(metadata.playlist)
@@ -238,10 +219,20 @@ const prevGroup = () => {
   }
 }
 
-// Before Mounted
+// Hooks
 onBeforeMount(() => {
   musicQueue.defaultQueue = tracks
   musicQueue.queue = tracks
+})
+onMounted(() => {
+  // ObserveDomUpdated
+  const element = titleElement.value
+  const config = { subtree: true, characterData: true, childList: true }
+  // const observer = new MutationObserver((mutation) => {
+  //   // console.log(mutation[0])
+  // })
+  const observer = new MutationObserver(isOverflowed)
+  observer.observe(element, config)
 })
 </script>
 
@@ -543,7 +534,23 @@ onBeforeMount(() => {
                 <div class="random-track">
                   <button @click="onShuffleHandler">
                     <svg
-                      v-if="!musicQueue.isShuffled"
+                      v-if="musicQueue.isShuffled"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 27 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 20.4733L4.4 20.4867C5.61333 20.4867 6.74667 19.8867 7.41333 18.8867L15.9333 6.11332C16.2632 5.61738 16.7115 5.21142 17.2376 4.93208C17.7637 4.65274 18.351 4.50882 18.9467 4.51332L25.0133 4.53999M22.3333 23.14L25 20.4733M8.85333 7.99332L7.41333 5.99332C7.08029 5.5271 6.63983 5.14798 6.12924 4.88803C5.61864 4.62809 5.05293 4.49499 4.48 4.49999L1 4.51332M14.2933 17.0067L15.92 19.1C16.6 19.98 17.6667 20.5 18.7867 20.5L25.0133 20.4733M25 4.52665L22.3333 1.85999"
+                        stroke="#C493E1"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <svg
+                      v-else
                       width="20"
                       height="20"
                       viewBox="0 0 32 32"
@@ -555,22 +562,6 @@ onBeforeMount(() => {
                         stroke="black"
                         stroke-opacity="0.7"
                         stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                    <svg
-                      v-else
-                      width="20"
-                      height="20"
-                      viewBox="0 0 27 25"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M1 20.4733L4.4 20.4867C5.61333 20.4867 6.74667 19.8867 7.41333 18.8867L15.9333 6.11332C16.2632 5.61738 16.7115 5.21142 17.2376 4.93208C17.7637 4.65274 18.351 4.50882 18.9467 4.51332L25.0133 4.53999M22.3333 23.14L25 20.4733M8.85333 7.99332L7.41333 5.99332C7.08029 5.5271 6.63983 5.14798 6.12924 4.88803C5.61864 4.62809 5.05293 4.49499 4.48 4.49999L1 4.51332M14.2933 17.0067L15.92 19.1C16.6 19.98 17.6667 20.5 18.7867 20.5L25.0133 20.4733M25 4.52665L22.3333 1.85999"
-                        stroke="#C493E1"
-                        stroke-width="2"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                       />
@@ -831,6 +822,7 @@ onBeforeMount(() => {
   cursor: pointer;
   background-color: #b9b9b9;
 }
+
 .progress-current {
   height: inherit;
   width: 0;
