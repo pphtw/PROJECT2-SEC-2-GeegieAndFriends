@@ -9,15 +9,18 @@ const musicQueue = reactive({
   currentTrackIndex: 0,
   isShuffled: false,
 })
-const audioRef = ref(null)
+
+// DOM Element
+const audioElement = ref(null)
+const tracksElement = ref(null)
+const progressBarElement = ref(null)
+
 const repeat = ref(false)
 const currentTime = ref('00:00')
 const duration = ref('00:00')
 const isPlaying = ref(false)
 const barWidth = ref('0%')
-const progressBar = ref(null)
 const isProgressBarClicked = ref(false)
-const tracksElement = ref(null)
 const trendingElement = ref(null)
 
 // isOverflow
@@ -31,12 +34,12 @@ const currentTrack = computed(
 // // Event Handlers
 const playerHandler = () => {
   // หูจะแตก ขอยาดลดแบบกดมือ
-  audioRef.value.volume = 0.02
-  if (audioRef.value.paused) {
-    audioRef.value.play()
+  audioElement.value.volume = 0.15
+  if (audioElement.value.paused) {
+    audioElement.value.play()
     isPlaying.value = true
   } else {
-    audioRef.value.pause()
+    audioElement.value.pause()
     isPlaying.value = false
   }
 }
@@ -60,7 +63,7 @@ const randomIndex = () => {
 }
 const onProgressBarMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
-  const boundingRect = progressBar.value.getBoundingClientRect()
+  const boundingRect = progressBarElement.value.getBoundingClientRect()
   isProgressBarClicked.value = true
   // update time current
   let newTime
@@ -75,7 +78,7 @@ const onProgressBarMouseDown = (e) => {
   }
   const updateTime = (e) => {
     const x = toValidX(e.clientX)
-    newTime = (x / boundingRect.width) * audioRef.value.duration
+    newTime = (x / boundingRect.width) * audioElement.value.duration
     barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%'
   }
   e.preventDefault()
@@ -86,21 +89,21 @@ const onProgressBarMouseDown = (e) => {
     'mouseup',
     () => {
       window.removeEventListener('mousemove', updateTime)
-      audioRef.value.currentTime = newTime
+      audioElement.value.currentTime = newTime
       isProgressBarClicked.value = false
     },
     { once: true }
   )
 }
 const onTimeUpdateHandler = () => {
-  currentTime.value = msToMin(audioRef.value.currentTime)
+  currentTime.value = msToMin(audioElement.value.currentTime)
   if (!isProgressBarClicked.value) {
     updateProgressBar()
   }
 }
 const onLoadMetadataHandler = () => {
-  duration.value = msToMin(audioRef.value.duration)
-  currentTime.value = msToMin(audioRef.value.currentTime)
+  duration.value = msToMin(audioElement.value.duration)
+  currentTime.value = msToMin(audioElement.value.currentTime)
   updateProgressBar()
 }
 const onPreviousHandler = () => {
@@ -143,7 +146,7 @@ const chooseTrackHandler = (e) => {
 
   setDelay()
 }
-const onClickPlaylist = (e) => {
+const onClickPlaylist = () => {
   // const playListNode = e.currentTarget
   // console.log(trending.childNodes[1])
 }
@@ -155,9 +158,9 @@ const onShuffleHandler = () => {
 const setDelay = () => {
   setTimeout(() => {
     if (isPlaying.value) {
-      audioRef.value.play()
+      audioElement.value.play()
     } else {
-      audioRef.value.pause()
+      audioElement.value.pause()
     }
   }, 300)
 }
@@ -166,7 +169,7 @@ const msToMin = (timeInMs) => {
 }
 const updateProgressBar = () => {
   barWidth.value =
-    (audioRef.value.currentTime / audioRef.value.duration) * 100 + '%'
+    (audioElement.value.currentTime / audioElement.value.duration) * 100 + '%'
 }
 const setBackgroundOnChange = () => {
   const trackParent = tracksElement.value
@@ -467,7 +470,7 @@ onMounted(() => {
             <!-- #ProgressBar -->
             <div class="overflow-clip">
               <audio
-                ref="audioRef"
+                ref="audioElement"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
@@ -476,7 +479,7 @@ onMounted(() => {
               ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
-                ref="progressBar"
+                ref="progressBarElement"
                 @mousedown="onProgressBarMouseDown"
               >
                 <div
