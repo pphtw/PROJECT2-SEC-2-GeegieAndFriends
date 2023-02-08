@@ -245,12 +245,25 @@ const prevGroup = () => {
   }
 }
 
+const  extractDuration = (track) => {
+  const audio = new Audio(track.source)
+  audio.addEventListener("loadedmetadata", function (){
+    track.duration = msToMin(audio.duration)
+  })
+}
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = findPlaylist('Trending')
+  tracks.forEach(track => {
+    const audio = new Audio(track.source)
+    audio.addEventListener("loadedmetadata", function (){
+      track.duration = msToMin(audio.duration)
+    })
+  })
 })
 onMounted(() => {
-  audioElement.value.volume = 0.15
+  audioElement.value.volume = 0.1;
+
 })
 </script>
 
@@ -787,7 +800,7 @@ onMounted(() => {
                 </h1>
               </div>
               <!-- #Duration -->
-              <div class="px-3 font-semibold"></div>
+              <div class="px-3 font-semibold">{{track.duration}}</div>
               <!-- #LikeButton -->
               <div class="px-3">
                 <svg
