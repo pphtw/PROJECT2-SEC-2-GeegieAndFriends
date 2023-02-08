@@ -491,7 +491,7 @@ onMounted(() => {
           >
             Now Playing
           </h1>
-          <div class="flex flex-col rounded-2xl bg-[#E5E5E5] h-fit sm:h-full">
+          <div class="flex flex-col rounded-2xl bg-white h-fit sm:h-full">
             <!-- #MusicCover -->
             <div
               class="h-fit sm:h-[70%] bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
@@ -530,7 +530,7 @@ onMounted(() => {
             </div>
             <!-- #MusicTitle&Controller -->
             <div
-              class="flex flex-col gap-3 justify-around items-center h-fit bg-[#E5E5E5] rounded-b-2xl"
+              class="flex flex-col gap-3 justify-around items-center h-fit bg-white rounded-b-2xl"
             >
               <!-- #MusicTitle&Artist -->
               <div
