@@ -564,7 +564,7 @@ onMounted(() => {
 
               <!-- #Controller -->
               <div
-                class="flex justify-center basis-16 items-center sm:overflow-hidden max-sm:gap-2 2xl:gap-8 gap-5 h-fit w-full"
+                class="flex justify-center basis-16 items-center sm:overflow-hidden max-sm:gap-4 2xl:gap-8 gap-5 h-fit w-full"
               >
                 <!-- #ShuffleButton -->
                 <div class="random-track">
