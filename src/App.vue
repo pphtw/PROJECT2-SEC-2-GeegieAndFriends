@@ -245,25 +245,26 @@ const prevGroup = () => {
   }
 }
 
-const  extractDuration = (track) => {
+const extractDuration = (track) => {
   const audio = new Audio(track.source)
-  audio.addEventListener("loadedmetadata", function (){
+  audio.addEventListener('loadedmetadata', function () {
     track.duration = msToMin(audio.duration)
   })
 }
+
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = findPlaylist('Trending')
-  tracks.forEach(track => {
+  tracks.forEach((track) => {
     const audio = new Audio(track.source)
-    audio.addEventListener("loadedmetadata", function (){
+    audio.addEventListener('loadedmetadata', function () {
       track.duration = msToMin(audio.duration)
     })
   })
 })
 
 onMounted(() => {
-  audioElement.value.volume = 0.1;
+  audioElement.value.volume = 0.1
 })
 </script>
 
@@ -534,9 +535,7 @@ onMounted(() => {
                 ref="titleElement"
               >
                 <div
-                  :class="
-                    isOverflow ? 'animate-marquee whitespace-nowrap' : ''
-                  "
+                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''"
                 >
                   <h1 class="text-2xl font-bold">
                     {{ currentTrack.name }}
@@ -800,7 +799,7 @@ onMounted(() => {
                 </h1>
               </div>
               <!-- #Duration -->
-              <div class="px-3 font-semibold">{{track.duration}}</div>
+              <div class="px-3 font-semibold">{{ track.duration }}</div>
               <!-- #LikeButton -->
               <div class="px-3">
                 <svg
