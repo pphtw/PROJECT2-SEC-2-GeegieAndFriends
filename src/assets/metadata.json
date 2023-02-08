@@ -291,7 +291,7 @@
       "name": "ทรงอย่างแบด (Bad Boy)",
       "artist": "Paper Planes",
       "cover": "https://i.scdn.co/image/ab67616d0000b27376c6bd9f695412a77ae705c0",
-      "source": "/public/tracks/song_yang_bad_sad_yang_boi.mp3",
+      "source": "/tracks/song_yang_bad_sad_yang_boi.mp3",
       "favorited": false
     },
     {
@@ -307,7 +307,7 @@
       "name": "Timemachine",
       "artist": "Kessoku Band",
       "cover": "https://i.scdn.co/image/ab67616d0000b27359e3d28958517d86667326a3",
-      "source": "/public/tracks/timemachine.mp3",
+      "source": "/tracks/timemachine.mp3",
       "favorited": false
     }
   ]
