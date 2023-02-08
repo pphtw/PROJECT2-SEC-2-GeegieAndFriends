@@ -261,9 +261,9 @@ onBeforeMount(() => {
     })
   })
 })
+
 onMounted(() => {
   audioElement.value.volume = 0.1;
-
 })
 </script>
 
