@@ -34,6 +34,7 @@ const currentTrack = computed(() => findTrack(musicQueue?.queue[0]))
 const playerHandler = () => {
   if (audioElement.value.paused) {
     audioElement.value.play()
+    console.log(audioElement.value.paused)
     isPlaying.value = true
   } else {
     audioElement.value.pause()
