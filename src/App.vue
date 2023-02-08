@@ -271,11 +271,11 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
+    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
   >
     <!-- #NavigationBar -->
     <div
-      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] h-full bg-[#162750]"
+      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full py-3 sm:py-0 sm:w-[5.4%] h-fit sm:h-full bg-[#162750]"
     >
       <!-- #HomePageButton -->
       <svg
@@ -411,7 +411,7 @@ onMounted(() => {
     </div>
     <!-- #HomeContainer -->
     <div
-      class="order-1 sm:order-2 w-full h-fit sm:h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col justify-center"
+      class="max-sm:grow order-1 sm:order-2 w-full h-fit sm:h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col sm:justify-center justify-end"
     >
       <!-- #Header&Playlist -->
       <div class="h-fit flex-col hidden sm:flex">
@@ -480,14 +480,14 @@ onMounted(() => {
       </div>
       <!-- #MusicPlayer&Trending -->
       <div
-        class="h-fit sm:h-[62%] grid grid-rows-[33rem_14rem] px-8 content-center sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-4 gap-0 sm:gap-[2.8%]"
+        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-4 gap-0 sm:gap-[2.8%]"
       >
         <!-- #MusicPlayerCard #NowPlaying -->
         <div
-          class="col-span-1 row-span-1 sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full"
+          class="col-span-1 row-span-1 max-sm:w-[80%] sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center"
         >
           <h1
-            class="text-2xl font-bold py-3 sm:pb-3 sm:py-0 text-white truncate"
+            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
           >
             Now Playing
           </h1>
@@ -564,7 +564,7 @@ onMounted(() => {
 
               <!-- #Controller -->
               <div
-                class="flex justify-center basis-16 items-center sm:overflow-hidden 2xl:gap-8 gap-5 h-fit w-full"
+                class="flex justify-center basis-16 items-center sm:overflow-hidden max-sm:gap-2 2xl:gap-8 gap-5 h-fit w-full"
               >
                 <!-- #ShuffleButton -->
                 <div class="random-track">
@@ -765,12 +765,16 @@ onMounted(() => {
         </div>
         <!-- #TrendingSection -->
         <div
-          class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full"
+          class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center"
           ref="trendingElement"
         >
-          <h1 class="text-2xl font-bold py-3 sm:py-0 sm:pb-3 text-white truncate">Trending</h1>
+          <h1
+            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
+          >
+            Trending
+          </h1>
           <div
-            class="rounded-2xl overflow-y-scroll sm:overflow-y-scroll pr-2 h-[10rem] sm:h-full"
+            class="rounded-2xl no-scrollbar overflow-y-scroll sm:pr-2 h-[12rem] sm:h-full"
           >
             <!-- #TrendingList -->
             <!-- for-loop here -->
@@ -783,11 +787,11 @@ onMounted(() => {
               ref="tracksElement"
             >
               <!-- #Ranking -->
-              <div class="w-12">
+              <div class="w-fit">
                 <h1 class="text-center font-bold w-12">{{ track.trackId }}</h1>
               </div>
               <!-- #MusicCover -->
-              <div class="h-full aspect-square">
+              <div class="h-full max-sm:w-24 aspect-square">
                 <img
                   class="h-full aspect-square"
                   alt="Song Cover"
@@ -795,7 +799,9 @@ onMounted(() => {
                 />
               </div>
               <!-- #Title&Artist -->
-              <div class="grow grid grid-rows-2 h-fit pl-5">
+              <div
+                class="grow grid grid-rows-2 h-fit max-sm:w-full pl-3 sm:pl-5"
+              >
                 <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
                 </h1>
@@ -804,9 +810,11 @@ onMounted(() => {
                 </h1>
               </div>
               <!-- #Duration -->
-              <div class="px-3 font-semibold">{{ track.duration }}</div>
+              <div class="px-3 font-semibold hidden sm:block">
+                {{ track.duration }}
+              </div>
               <!-- #LikeButton -->
-              <div class="px-3">
+              <div class="px-3 hidden sm:block">
                 <svg
                   width="32"
                   height="32"
