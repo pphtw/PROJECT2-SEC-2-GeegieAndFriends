@@ -101,7 +101,6 @@ const onProgressBarMouseDown = (e) => {
 const onMouseDownChooseTrackHandler = (e) => {
   e.preventDefault()
 }
-
 const onMouseUpChooseTrackHandler = (e) => {
   const chooseTrackId = Number(e.currentTarget.id)
   skipToTrack(chooseTrackId)
