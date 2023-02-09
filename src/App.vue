@@ -32,7 +32,6 @@ const currentTrack = computed(() => findTrack(musicQueue?.queue[0]))
 
 // Event Handlers
 const playerHandler = () => {
-  console.log(audioElement.value.paused)
   if (audioElement.value.paused) {
     audioElement.value.play()
     isPlaying.value = true
@@ -43,13 +42,11 @@ const playerHandler = () => {
 }
 const onNextHandler = () => {
   skipTrack()
-  isPlaying.value = true
-  setDelay()
+  toggleDelayedPlayPause(300)
 }
 const onPreviousHandler = () => {
   skipTrack(false)
-  isPlaying.value = true
-  setDelay()
+  toggleDelayedPlayPause()
 }
 const onEndedHandler = () => {
   onNextHandler()
@@ -59,6 +56,7 @@ const onLoadMetadataHandler = () => {
   duration.value = msToMin(audioElement.value.duration)
   currentTime.value = msToMin(audioElement.value.currentTime)
   updateProgressBar()
+  isOverflowed()
 }
 const onTimeUpdateHandler = () => {
   currentTime.value = msToMin(audioElement.value.currentTime)
@@ -107,40 +105,44 @@ const chooseTrackHandler = (e) => {
     'click',
     () => {
       skipToTrack(chooseTrackId)
-      audioElement.value.play()
-      isPlaying.value = true
+      setBackgroundOnChange()
     },
     { once: true }
   )
-  setDelay()
+  toggleDelayedPlayPause(300)
 }
 // const onClickPlaylist = () => {
 // const playListNode = e.currentTarget
 // console.log(trending.childNodes[1])
 // }
+const onLoadAudio = (e) => {
+  console.log(e.target.paused)
+}
 
-const onShuffleHandler = () => {
-  if (musicQueue.defaultQueue.length === 0) {
-    musicQueue.defaultQueue = musicQueue.queue
-  }
-  if (!musicQueue.isShuffled) {
-    shuffleQueue(true)
-    musicQueue.isShuffled = true
-  } else {
-    shuffleQueue(false)
-    musicQueue.isShuffled = false
+const onShuffleHandler = (e) => {
+  if (e.key === 's' || e.button === 0) {
+    if (musicQueue.defaultQueue.length === 0) {
+      musicQueue.defaultQueue = musicQueue.queue
+    }
+    if (!musicQueue.isShuffled) {
+      toggleShuffle(true)
+      musicQueue.isShuffled = true
+    } else {
+      toggleShuffle(false)
+      musicQueue.isShuffled = false
+    }
   }
 }
 
 // Utils
-const setDelay = () => {
+const toggleDelayedPlayPause = (delay = 0) => {
   setTimeout(() => {
     if (isPlaying.value) {
       audioElement.value.play()
     } else {
       audioElement.value.pause()
     }
-  }, 300)
+  }, delay)
 }
 const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
@@ -169,9 +171,6 @@ const isOverflowed = () => {
   setTimeout(() => {
     isOverflow.value = element.scrollHeight > element.offsetHeight
   }, 100)
-  // console.log(element.scrollHeight)
-  // console.log(element.offsetHeight)
-  // console.log(titleNode)
 }
 const skipTrack = (toNext = true, queue = musicQueue.queue) => {
   if (toNext) {
@@ -201,7 +200,7 @@ const skipToTrack = (id, queue = musicQueue.queue) => {
     }
   }
 }
-const shuffleQueue = (shuffle) => {
+const toggleShuffle = (shuffle) => {
   const currentTrackId = musicQueue.queue[0]
   if (shuffle) {
     console.log(musicQueue.queue)
@@ -214,7 +213,6 @@ const shuffleQueue = (shuffle) => {
     }
     musicQueue.queue = [currentTrackId, ...restOfQueue]
   } else {
-    console.log(musicQueue.queue)
     skipToTrack(currentTrackId, musicQueue.defaultQueue)
     musicQueue.queue = musicQueue.defaultQueue
   }
@@ -246,22 +244,16 @@ const prevGroup = () => {
   }
 }
 
-const extractDuration = (track) => {
-  const audio = new Audio(track.source)
-  audio.addEventListener('loadedmetadata', function () {
-    track.duration = msToMin(audio.duration)
-  })
-}
+// const extractDuration = (track) => {
+//   const audio = new Audio(track.source)
+//   audio.addEventListener('loadedmetadata', function () {
+//     track.duration = msToMin(audio.duration)
+//   })
+// }
 
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = findPlaylist('Trending')
-  // tracks.forEach((track) => {
-  //   const audio = new Audio(track.source)
-  //   audio.addEventListener('loadedmetadata', function () {
-  //     track.duration = msToMin(audio.duration)
-  //   })
-  // })
 })
 
 onMounted(() => {
@@ -272,6 +264,11 @@ onMounted(() => {
 <template>
   <div
     class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
+    @keyup.right="onNextHandler"
+    @keyup.left="onPreviousHandler"
+    @keyup.space="playerHandler"
+    @keyup="onShuffleHandler"
+    tabindex="-1"
   >
     <!-- #NavigationBar -->
     <div
@@ -503,11 +500,11 @@ onMounted(() => {
             <div class="overflow-clip">
               <audio
                 ref="audioElement"
+                :src="currentTrack.source"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
-                @loadeddata="isOverflowed"
+                @loadeddata="onLoadAudio"
                 @ended="onEndedHandler"
-                :src="currentTrack.source"
                 @playing="setBackgroundOnChange"
               ></audio>
               <div
