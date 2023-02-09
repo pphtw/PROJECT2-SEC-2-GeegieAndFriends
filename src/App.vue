@@ -46,7 +46,7 @@ const onNextHandler = () => {
 }
 const onPreviousHandler = () => {
   skipTrack(false)
-  toggleDelayedPlayPause()
+  toggleDelayedPlayPause(300)
 }
 const onEndedHandler = () => {
   onNextHandler()
