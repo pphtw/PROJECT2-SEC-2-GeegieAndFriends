@@ -32,9 +32,9 @@ const currentTrack = computed(() => findTrack(musicQueue?.queue[0]))
 
 // Event Handlers
 const playerHandler = () => {
+  console.log(audioElement.value.paused)
   if (audioElement.value.paused) {
     audioElement.value.play()
-    console.log(audioElement.value.paused)
     isPlaying.value = true
   } else {
     audioElement.value.pause()
@@ -256,12 +256,12 @@ const extractDuration = (track) => {
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = findPlaylist('Trending')
-  tracks.forEach((track) => {
-    const audio = new Audio(track.source)
-    audio.addEventListener('loadedmetadata', function () {
-      track.duration = msToMin(audio.duration)
-    })
-  })
+  // tracks.forEach((track) => {
+  //   const audio = new Audio(track.source)
+  //   audio.addEventListener('loadedmetadata', function () {
+  //     track.duration = msToMin(audio.duration)
+  //   })
+  // })
 })
 
 onMounted(() => {
