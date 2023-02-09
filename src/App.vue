@@ -112,9 +112,6 @@ const onMouseUpChooseTrackHandler = (e) => {
 // const playListNode = e.currentTarget
 // console.log(trending.childNodes[1])
 // }
-const onLoadAudio = (e) => {
-  console.log(e.target.paused)
-}
 
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
@@ -500,7 +497,6 @@ onMounted(() => {
                 :src="currentTrack.source"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
-                @loadeddata="onLoadAudio"
                 @ended="onEndedHandler"
                 @playing="setBackgroundOnChange"
               ></audio>
