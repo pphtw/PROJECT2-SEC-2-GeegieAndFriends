@@ -120,7 +120,7 @@ const onLoadAudio = (e) => {
 }
 
 const onShuffleHandler = (e) => {
-  if (e.key === 's' || e.button === 0) {
+  if (e.code === 'KeyS' || e.button === 0) {
     if (musicQueue.defaultQueue.length === 0) {
       musicQueue.defaultQueue = musicQueue.queue
     }
