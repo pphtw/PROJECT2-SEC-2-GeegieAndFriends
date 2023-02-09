@@ -98,17 +98,14 @@ const onProgressBarMouseDown = (e) => {
     { once: true }
   )
 }
-const chooseTrackHandler = (e) => {
-  const chooseTrackId = Number(e.currentTarget.id)
+const onMouseDownChooseTrackHandler = (e) => {
   e.preventDefault()
-  e.target.addEventListener(
-    'click',
-    () => {
-      skipToTrack(chooseTrackId)
-      setBackgroundOnChange()
-    },
-    { once: true }
-  )
+}
+
+const onMouseUpChooseTrackHandler = (e) => {
+  const chooseTrackId = Number(e.currentTarget.id)
+  skipToTrack(chooseTrackId)
+  setBackgroundOnChange()
   toggleDelayedPlayPause(300)
 }
 // const onClickPlaylist = () => {
@@ -780,7 +777,8 @@ onMounted(() => {
               v-for="(track, index) in tracks"
               :key="track.trackId"
               :id="track.trackId"
-              @mousedown="chooseTrackHandler"
+              @mousedown="onMouseDownChooseTrackHandler"
+              @mouseup="onMouseUpChooseTrackHandler"
               ref="tracksElement"
             >
               <!-- #Ranking -->
