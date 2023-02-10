@@ -73,11 +73,13 @@ const onProgressBarMouseDown = (e) => {
   const toValidX = (x) => {
     // clientX is a property of the event object in JavaScript
     // boundingRect.width = width of progress bar
-    return x < boundingRect.left
-      ? 0
-      : x > boundingRect.right
-      ? boundingRect.width + 2
-      : x - boundingRect.left
+    if (x < boundingRect.left) {
+      return 0
+    } else if (x > boundingRect.right) {
+      return boundingRect.width + 2
+    } else {
+      return x - boundingRect.left
+    }
   }
   const updateTime = (e) => {
     const x = toValidX(e.clientX)
