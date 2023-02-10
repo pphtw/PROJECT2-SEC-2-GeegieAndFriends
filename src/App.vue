@@ -1,62 +1,89 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
 const tracks = metadata.tracks
+
 const musicQueue = reactive({
   defaultQueue: [],
   queue: [],
-  currentTrackIndex: 0,
   isShuffled: false,
+  isLooping: false,
 })
-const audioRef = ref(null)
+
+// DOM Element
+const audioElement = ref(null)
+const tracksElement = ref(null)
+const progressBarElement = ref(null)
+const trendingElement = ref(null)
+const titleElement = ref(null)
+
 const repeat = ref(false)
 const currentTime = ref('00:00')
 const duration = ref('00:00')
 const isPlaying = ref(false)
 const barWidth = ref('0%')
-const progressBar = ref(null)
 const isProgressBarClicked = ref(false)
-const tracksElement = ref(null)
-const trendingElement = ref(null)
-const currentTrack = computed(
-  () => musicQueue.queue[musicQueue.currentTrackIndex]
-)
+
+// isOverflow
+const isOverflow = ref(null)
+
+const currentTrack = computed(() => findTrack(musicQueue?.queue[0]))
 
 // Event Handlers
 const playerHandler = () => {
-  // หูจะแตก ขอยาดลดแบบกดมือ
-  // audioRef.value.volume = 0.2;
-  if (audioRef.value.paused) {
-    audioRef.value.play()
+  if (audioElement.value.paused) {
+    audioElement.value.play()
     isPlaying.value = true
   } else {
-    audioRef.value.pause()
+    audioElement.value.pause()
     isPlaying.value = false
   }
+}
+const onNextHandler = () => {
+  skipTrack()
+  toggleDelayedPlayPause(300)
+}
+const onPreviousHandler = () => {
+  skipTrack(false)
+  toggleDelayedPlayPause(300)
 }
 const onEndedHandler = () => {
   onNextHandler()
   isPlaying.value = true
 }
+const onLoadMetadataHandler = () => {
+  duration.value = msToMin(audioElement.value.duration)
+  currentTime.value = msToMin(audioElement.value.currentTime)
+  updateProgressBar()
+  isOverflowed()
+}
+const onTimeUpdateHandler = () => {
+  currentTime.value = msToMin(audioElement.value.currentTime)
+  if (!isProgressBarClicked.value) {
+    updateProgressBar()
+  }
+}
 const onProgressBarMouseDown = (e) => {
   // getBoundingClientRect = object that represents the layout of an element in the viewport.
-  const boundingRect = progressBar.value.getBoundingClientRect()
+  const boundingRect = progressBarElement.value.getBoundingClientRect()
   isProgressBarClicked.value = true
   // update time current
   let newTime
   const toValidX = (x) => {
     // clientX is a property of the event object in JavaScript
     // boundingRect.width = width of progress bar
-    return x < boundingRect.left
-      ? 0
-      : x > boundingRect.right
-      ? boundingRect.width + 2
-      : x - boundingRect.left
+    if (x < boundingRect.left) {
+      return 0
+    } else if (x > boundingRect.right) {
+      return boundingRect.width + 2
+    } else {
+      return x - boundingRect.left
+    }
   }
   const updateTime = (e) => {
     const x = toValidX(e.clientX)
-    newTime = (x / boundingRect.width) * audioRef.value.duration
+    newTime = (x / boundingRect.width) * audioElement.value.duration
     barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%'
   }
   e.preventDefault()
@@ -67,96 +94,57 @@ const onProgressBarMouseDown = (e) => {
     'mouseup',
     () => {
       window.removeEventListener('mousemove', updateTime)
-      audioRef.value.currentTime = newTime
+      audioElement.value.currentTime = newTime
       isProgressBarClicked.value = false
     },
     { once: true }
   )
 }
-const onTimeUpdateHandler = () => {
-  currentTime.value = msToMin(audioRef.value.currentTime)
-  if (!isProgressBarClicked.value) {
-    updateProgressBar()
-  }
-}
-const onLoadMetadataHandler = () => {
-  duration.value = msToMin(audioRef.value.duration)
-  currentTime.value = msToMin(audioRef.value.currentTime)
-  updateProgressBar()
-}
-const onPreviousHandler = () => {
-  if (musicQueue.currentTrackIndex > 0) {
-    musicQueue.currentTrackIndex--
-  } else {
-    musicQueue.currentTrackIndex = musicQueue.queue.length - 1
-  }
-  isPlaying.value = true
-  setDelay()
-}
-const onNextHandler = () => {
-  if (musicQueue.currentTrackIndex < musicQueue.queue.length - 1) {
-    musicQueue.currentTrackIndex++
-  } else {
-    musicQueue.currentTrackIndex = 0
-  }
-  isPlaying.value = true
-  setDelay()
-}
-const chooseTrackHandler = (e) => {
-  const chooseTrackId = e.currentTarget.id
+const onMouseDownChooseTrackHandler = (e) => {
   e.preventDefault()
-  e.target.addEventListener(
-    'click',
-    () => {
-      if (currentTrack['trackId'] !== chooseTrackId) {
-        console.log(chooseTrackId)
-        musicQueue.currentTrackIndex = chooseTrackId
-        // console.log(chooseTrackId)
-        // console.log(e.currentTarget)
-        setBackgroundOnChange()
-        isPlaying.value = true
-      }
-    },
-    { once: true }
-  )
+}
+const onMouseUpChooseTrackHandler = (e) => {
+  const chooseTrackId = Number(e.currentTarget.id)
+  skipToTrack(chooseTrackId)
+  setBackgroundOnChange()
+  toggleDelayedPlayPause(300)
+}
+// const onClickPlaylist = () => {
+// const playListNode = e.currentTarget
+// console.log(trending.childNodes[1])
+// }
 
-  setDelay()
-}
-const onClickPlaylist = (e) => {
-  const playListNode = e.currentTarget
-  console.log(trending.childNodes[1])
-}
 const onShuffleHandler = (e) => {
-  if (musicQueue.defaultQueue.length === 0)
-    musicQueue.defaultQueue = musicQueue.queue
-  if (!musicQueue.isShuffled) {
-    shuffleQueue(musicQueue.currentTrackIndex)
-    musicQueue.currentTrackIndex = 0
-    musicQueue.isShuffled = true
-    audioRef.value.play()
-  } else {
-    musicQueue.queue = musicQueue.defaultQueue
-    musicQueue.isShuffled = false
-    audioRef.value.play()
+  if (e.code === 'KeyS' || e.button === 0) {
+    if (musicQueue.defaultQueue.length === 0) {
+      musicQueue.defaultQueue = musicQueue.queue
+    }
+    if (!musicQueue.isShuffled) {
+      toggleShuffle(true)
+      musicQueue.isShuffled = true
+    } else {
+      toggleShuffle(false)
+      musicQueue.isShuffled = false
+    }
   }
 }
 
 // Utils
-const setDelay = () => {
+const toggleDelayedPlayPause = (delay = 0) => {
   setTimeout(() => {
     if (isPlaying.value) {
-      audioRef.value.play()
+      audioElement.value.play()
     } else {
-      audioRef.value.pause()
+      audioElement.value.pause()
     }
-  }, 300)
+  }, delay)
 }
 const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
 }
 const updateProgressBar = () => {
   barWidth.value =
-    (audioRef.value.currentTime / audioRef.value.duration) * 100 + '%'
+    (audioElement.value.currentTime / audioElement.value.duration) * 100 + '%'
 }
 const setBackgroundOnChange = () => {
   const trackParent = tracksElement.value
@@ -164,8 +152,7 @@ const setBackgroundOnChange = () => {
     trackNode.style = 'background : white'
   })
   const currentTrackIndex = tracks.findIndex(
-    (e) =>
-      e['trackId'] === musicQueue.queue[musicQueue.currentTrackIndex]['trackId']
+    (e) => e['trackId'] === currentTrack.value.trackId
   )
   trackParent[currentTrackIndex].style = 'background : #dcbfed'
   trackParent[currentTrackIndex].scrollIntoView({
@@ -173,19 +160,61 @@ const setBackgroundOnChange = () => {
     block: 'center',
   })
 }
-const shuffleQueue = (currentTrackIndex) => {
-  const currentTrack = musicQueue.queue[currentTrackIndex]
-  const restOfQueue = musicQueue.queue.filter((e, i) => i !== currentTrackIndex)
-  for (let i = restOfQueue.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    const temp = restOfQueue[i]
-    restOfQueue[i] = restOfQueue[j]
-    restOfQueue[j] = temp
+const isOverflowed = () => {
+  const element = titleElement.value
+  isOverflow.value = false
+  setTimeout(() => {
+    isOverflow.value = element.scrollHeight > element.offsetHeight
+  }, 100)
+}
+const skipTrack = (toNext = true, queue = musicQueue.queue) => {
+  if (toNext) {
+    queue.push(queue.shift())
+  } else {
+    queue.unshift(queue.pop())
   }
-  musicQueue.queue = [currentTrack, ...restOfQueue]
+}
+const findTrack = (trackId = 1) => {
+  return tracks.find((track) => track['trackId'] === trackId)
+}
+const findPlaylist = (playlistName) => {
+  return metadata.playlist.find((playlist) => playlist['name'] === playlistName)
+    .tracks
+}
+const skipToTrack = (id, queue = musicQueue.queue) => {
+  const indexToSkip = queue.findIndex((trackId) => trackId === id)
+  if (Boolean(indexToSkip)) {
+    if (indexToSkip > queue.length / 2) {
+      while (queue[0] !== id) {
+        skipTrack(true, queue)
+      }
+    } else {
+      while (queue[0] !== id) {
+        skipTrack(false, queue)
+      }
+    }
+  }
+}
+const toggleShuffle = (shuffle) => {
+  const currentTrackId = musicQueue.queue[0]
+  if (shuffle) {
+    console.log(musicQueue.queue)
+    const restOfQueue = musicQueue.queue.filter((e, i) => i !== 0)
+    for (let i = restOfQueue.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      const temp = restOfQueue[i]
+      restOfQueue[i] = restOfQueue[j]
+      restOfQueue[j] = temp
+    }
+    musicQueue.queue = [currentTrackId, ...restOfQueue]
+  } else {
+    skipToTrack(currentTrackId, musicQueue.defaultQueue)
+    musicQueue.queue = musicQueue.defaultQueue
+  }
 }
 
 // Carousel playlist
+
 const playlist = ref(metadata.playlist)
 const idx = ref(0)
 const playListIdx = ref(playlist.value[idx.value])
@@ -210,17 +239,35 @@ const prevGroup = () => {
   }
 }
 
-// Before Mounted
+// const extractDuration = (track) => {
+//   const audio = new Audio(track.source)
+//   audio.addEventListener('loadedmetadata', function () {
+//     track.duration = msToMin(audio.duration)
+//   })
+// }
+
+// Hooks
 onBeforeMount(() => {
-  musicQueue.queue = tracks
+  musicQueue.queue = findPlaylist('Trending')
+})
+
+onMounted(() => {
+  audioElement.value.volume = 0.1
 })
 </script>
 
 <template>
-  <div class="flex flex-col sm:flex-row w-screen sm:h-screen bg-[#2D3967]">
+  <div
+    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
+    @keyup.right="onNextHandler"
+    @keyup.left="onPreviousHandler"
+    @keyup.space="playerHandler"
+    @keyup="onShuffleHandler"
+    tabindex="-1"
+  >
     <!-- #NavigationBar -->
     <div
-      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] h-full bg-[#162750]"
+      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full py-3 sm:py-0 sm:w-[5.4%] h-fit sm:h-full max-sm:fixed bg-[#162750]"
     >
       <!-- #HomePageButton -->
       <svg
@@ -356,10 +403,10 @@ onBeforeMount(() => {
     </div>
     <!-- #HomeContainer -->
     <div
-      class="order-1 sm:order-2 w-full h-fit sm:h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col justify-center"
+      class="max-sm:grow order-1 sm:order-2 w-full h-fit sm:h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col sm:justify-center justify-end"
     >
       <!-- #Header&Playlist -->
-      <div class="h-fit flex flex-col">
+      <div class="h-fit flex-col hidden sm:flex">
         <!-- #Header -->
         <div class="grid grid-cols-2 pb-3">
           <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
@@ -425,18 +472,18 @@ onBeforeMount(() => {
       </div>
       <!-- #MusicPlayer&Trending -->
       <div
-        class="h-fit sm:h-[62%] grid grid-rows-2 grid-cols-1 sm:grid-cols-4 sm:grid-rows-1 gap-0 sm:gap-[2.8%]"
+        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-4 gap-0 sm:gap-[2.8%]"
       >
         <!-- #MusicPlayerCard #NowPlaying -->
         <div
-          class="col-span-1 row-span-1 sm:row-span-1 flex flex-col justify-start h-fit sm:h-full"
+          class="col-span-1 row-span-1 max-sm:w-[80%] sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center"
         >
-          <h1 class="text-2xl font-bold pb-3 text-white truncate">
+          <h1
+            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
+          >
             Now Playing
           </h1>
-          <div
-            class="flex flex-col rounded-2xl bg-[#E5E5E5] h-screen sm:h-full"
-          >
+          <div class="flex flex-col rounded-2xl bg-white h-fit sm:h-full">
             <!-- #MusicCover -->
             <div
               class="h-fit sm:h-[70%] bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
@@ -447,16 +494,16 @@ onBeforeMount(() => {
             <!-- #ProgressBar -->
             <div class="overflow-clip">
               <audio
-                ref="audioRef"
+                ref="audioElement"
+                :src="currentTrack.source"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
-                :src="musicQueue.queue[musicQueue.currentTrackIndex].source"
                 @playing="setBackgroundOnChange"
               ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
-                ref="progressBar"
+                ref="progressBarElement"
                 @mousedown="onProgressBarMouseDown"
               >
                 <div
@@ -474,13 +521,33 @@ onBeforeMount(() => {
             </div>
             <!-- #MusicTitle&Controller -->
             <div
-              class="flex flex-col justify-around items-center h-[30%] bg-[#E5E5E5] rounded-b-2xl"
+              class="flex flex-col gap-3 justify-around items-center h-fit bg-white rounded-b-2xl"
             >
               <!-- #MusicTitle&Artist -->
-              <div class="text-center h-fit w-[70%] overflow-hidden">
-                <h1 class="text-2xl font-bold w-full">
-                  {{ currentTrack.name }}
-                </h1>
+              <div
+                class="relative text-center h-8 w-[80%] overflow-x-hidden"
+                ref="titleElement"
+              >
+                <div
+                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''"
+                >
+                  <h1 class="text-2xl font-bold">
+                    {{ currentTrack.name }}
+                  </h1>
+                </div>
+                <div
+                  :class="
+                    isOverflow
+                      ? 'absolute top-0 animate-marquee2 whitespace-nowrap visible'
+                      : 'hidden'
+                  "
+                >
+                  <h1 class="text-2xl font-bold">
+                    {{ currentTrack.name }}
+                  </h1>
+                </div>
+              </div>
+              <div class="text-center h-fit w-[70%]">
                 <h3 class="font-semibold w-full">
                   {{ currentTrack.artist }}
                 </h3>
@@ -488,14 +555,31 @@ onBeforeMount(() => {
 
               <!-- #Controller -->
               <div
-                class="flex justify-center basis-16 items-center 2xl:gap-8 gap-5 h-fit w-full"
+                class="flex justify-center basis-16 items-center gap-5 h-fit w-full sm:overflow-hidden max-sm:gap-4 2xl:gap-6"
               >
                 <!-- #ShuffleButton -->
-                <div class="random-track" @click="onShuffleHandler">
-                  <button>
+                <div class="random-track">
+                  <button @click="onShuffleHandler">
                     <svg
-                      width="20"
-                      height="20"
+                      v-if="musicQueue.isShuffled"
+                      width="30"
+                      height="30"
+                      viewBox="0 0 27 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 20.4733L4.4 20.4867C5.61333 20.4867 6.74667 19.8867 7.41333 18.8867L15.9333 6.11332C16.2632 5.61738 16.7115 5.21142 17.2376 4.93208C17.7637 4.65274 18.351 4.50882 18.9467 4.51332L25.0133 4.53999M22.3333 23.14L25 20.4733M8.85333 7.99332L7.41333 5.99332C7.08029 5.5271 6.63983 5.14798 6.12924 4.88803C5.61864 4.62809 5.05293 4.49499 4.48 4.49999L1 4.51332M14.2933 17.0067L15.92 19.1C16.6 19.98 17.6667 20.5 18.7867 20.5L25.0133 20.4733M25 4.52665L22.3333 1.85999"
+                        stroke="#C493E1"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                    <svg
+                      v-else
+                      width="30"
+                      height="30"
                       viewBox="0 0 32 32"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -515,8 +599,8 @@ onBeforeMount(() => {
                 <div class="prev-track" @click="onPreviousHandler">
                   <button>
                     <svg
-                      width="20"
-                      height="20"
+                      width="30"
+                      height="30"
                       viewBox="0 0 32 32"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -536,8 +620,8 @@ onBeforeMount(() => {
                   <button class="[clip-path:circle()]" @click="playerHandler">
                     <svg
                       v-if="isPlaying"
-                      width="30"
-                      height="30"
+                      width="40"
+                      height="40"
                       viewBox="0 0 50 50"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -551,8 +635,8 @@ onBeforeMount(() => {
                     </svg>
                     <svg
                       v-else
-                      width="30"
-                      height="30"
+                      width="40"
+                      height="40"
                       viewBox="0 0 50 50"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -573,8 +657,8 @@ onBeforeMount(() => {
                 <div class="next-track" @click="onNextHandler">
                   <button>
                     <svg
-                      width="20"
-                      height="20"
+                      width="30"
+                      height="30"
                       viewBox="0 0 32 32"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -593,8 +677,8 @@ onBeforeMount(() => {
                 <div class="repeat-track">
                   <button v-if="!repeat">
                     <svg
-                      width="20"
-                      height="20"
+                      width="30"
+                      height="30"
                       viewBox="0 0 32 32"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -632,8 +716,8 @@ onBeforeMount(() => {
 
                   <button v-else>
                     <svg
-                      width="20"
-                      height="20"
+                      width="30"
+                      height="30"
                       viewBox="0 0 32 32"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -672,27 +756,34 @@ onBeforeMount(() => {
         </div>
         <!-- #TrendingSection -->
         <div
-          class="row-span-1 col-span-1 sm:col-span-3 flex flex-col justify-start h-fit sm:h-full"
+          class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center"
           ref="trendingElement"
         >
-          <h1 class="text-2xl text-white font-bold pb-3">Trending</h1>
-          <div class="rounded-2xl sm:overflow-y-scroll pr-2 h-fit">
+          <h1
+            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
+          >
+            Trending
+          </h1>
+          <div
+            class="rounded-2xl no-scrollbar overflow-y-scroll sm:pr-2 h-[12rem] sm:h-full"
+          >
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
               class="flex items-center mb-1 h-fit sm:h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in tracks"
-              :key="index"
-              :id="index"
-              @mousedown="chooseTrackHandler"
+              :key="track.trackId"
+              :id="track.trackId"
+              @mousedown="onMouseDownChooseTrackHandler"
+              @mouseup="onMouseUpChooseTrackHandler"
               ref="tracksElement"
             >
               <!-- #Ranking -->
-              <div class="w-12">
-                <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
+              <div class="w-fit">
+                <h1 class="text-center font-bold w-12">{{ track.trackId }}</h1>
               </div>
               <!-- #MusicCover -->
-              <div class="h-full aspect-square">
+              <div class="h-full max-sm:w-24 aspect-square">
                 <img
                   class="h-full aspect-square"
                   alt="Song Cover"
@@ -700,7 +791,9 @@ onBeforeMount(() => {
                 />
               </div>
               <!-- #Title&Artist -->
-              <div class="grow grid grid-rows-2 h-fit pl-5">
+              <div
+                class="grow grid grid-rows-2 h-fit max-sm:w-full pl-3 sm:pl-5"
+              >
                 <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
                 </h1>
@@ -709,9 +802,11 @@ onBeforeMount(() => {
                 </h1>
               </div>
               <!-- #Duration -->
-              <div class="px-3 font-semibold"></div>
+              <div class="px-3 font-semibold hidden sm:block">
+                {{ track.duration }}
+              </div>
               <!-- #LikeButton -->
-              <div class="px-3">
+              <div class="px-3 hidden sm:block">
                 <svg
                   width="32"
                   height="32"
@@ -778,6 +873,7 @@ onBeforeMount(() => {
   cursor: pointer;
   background-color: #b9b9b9;
 }
+
 .progress-current {
   height: inherit;
   width: 0;
