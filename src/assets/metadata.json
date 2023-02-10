@@ -38,7 +38,8 @@
         33,
         34,
         35,
-        36
+        36,
+        37
       ]
     },
     {
@@ -81,6 +82,7 @@
       "artist": "Fuji Kaze",
       "cover": "https://e.snmc.io/i/600/s/5126c31850a2de84d4d561c1c45cdeac/9808581/%E8%97%A4%E4%BA%95%E9%A2%A8-fujii-kaze-%E3%81%BE%E3%81%A4%E3%82%8A-matsuri-Cover-Art.jpg",
       "source": "/tracks/matsuri.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -89,6 +91,7 @@
       "artist": "dhruv",
       "cover": "https://i.scdn.co/image/ab67616d0000b273834f16100678d3e800fb5fb9",
       "source": "/tracks/double_take.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -97,6 +100,7 @@
       "artist": "bowkylion",
       "cover": "https://e.snmc.io/i/600/s/8551a37b85a88cff3cd699d7b0bd74f2/10164638/bowkylion-%E0%B8%A7%E0%B8%B2%E0%B8%94%E0%B9%84%E0%B8%A7%E0%B9%89-recall-Cover-Art.jpg",
       "source": "/tracks/recall.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -105,6 +109,7 @@
       "artist": "Aimer",
       "cover": "https://i.scdn.co/image/ab67616d0000b2735f8edd201c2dbeb1a10af3b1",
       "source": "/tracks/after_rain_scarlet.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -113,6 +118,7 @@
       "artist": "NewJeans",
       "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
       "source": "/tracks/attention.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -121,6 +127,7 @@
       "artist": "NewJeans",
       "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
       "source": "/tracks/cookie.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -129,6 +136,7 @@
       "artist": "NewJeans",
       "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
       "source": "/tracks/ditto.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -137,6 +145,7 @@
       "artist": "NewJeans",
       "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
       "source": "/tracks/hurt.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -145,6 +154,7 @@
       "artist": "NewJeans",
       "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
       "source": "/tracks/hype_boy.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -154,6 +164,7 @@
       "artist": "Yoasobi",
       "cover": "https://i.scdn.co/image/ab67616d00001e02fc62f8192dfedb0434f49197",
       "source": "/tracks/racing_into_the_night.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -162,6 +173,7 @@
       "artist": "NewJeans",
       "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
       "source": "/tracks/omg.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -170,6 +182,7 @@
       "artist": "Kenshi Yonezu",
       "cover": "https://i.scdn.co/image/ab67616d0000b2734a39a8fffea6582b4339dec0",
       "source": "/tracks/orion.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -178,6 +191,7 @@
       "artist": "なとり",
       "cover": "https://i.scdn.co/image/ab67616d0000b273d29582617459e5bb81bd90a6",
       "source": "/tracks/overdose.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -186,6 +200,7 @@
       "artist": "Official髭男dism",
       "cover": "https://i.scdn.co/image/ab67616d0000b27316972c5ba20b2ba6b6d7891c",
       "source": "/tracks/pretender.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -194,6 +209,7 @@
       "artist": "ユイカ",
       "cover": "https://i.scdn.co/image/ab67616d0000b273d36c9f45b61735554adbaa03",
       "source": "/tracks/sukidakara.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -202,6 +218,7 @@
       "artist": "RADWIMPS",
       "cover": "https://i.scdn.co/image/ab67616d00001e02512668c8cf31d12749a6fa40",
       "source": "/tracks/zenzenzense.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -210,6 +227,7 @@
       "artist": "Anne-Marie",
       "cover": "https://cdns-images.dzcdn.net/images/cover/05324f09b36811d11f160b72eb5fb354/500x500.jpg",
       "source": "/tracks/2002.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -218,6 +236,7 @@
       "artist": "Dept, Kelsey Kuan, prettyhappy",
       "cover": "https://s.isanook.com/jo/0/rp/r/w300/ya0xa0m1w0/aHR0cDovL2ltYWdlLmpvb3guY29tL0pPT1hjb3Zlci8wL2RjOThkNDc3YjU3MTIyZDMvMTAwMC5qcGc=.jpg",
       "source": "/tracks/about_time.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -226,6 +245,7 @@
       "artist": "V",
       "cover": "https://cdn1.kgasa.com/wp-content/uploads/2021/12/V-Our-Beloved-Summer-OST-Part-5.jpg",
       "source": "/tracks/christmas_tree.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -234,6 +254,7 @@
       "artist": "Katy Perry",
       "cover": "https://upload.wikimedia.org/wikipedia/en/b/bb/Katy_Perry_Daisies.png",
       "source": "/tracks/daisy.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -242,6 +263,7 @@
       "artist": "Peter Fenn",
       "cover": "https://cdns-images.dzcdn.net/images/cover/db9e002b2057b689f49e6610cb294eff/500x500.jpg",
       "source": "/tracks/far_away.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -250,6 +272,7 @@
       "artist": "Rangga Jones",
       "cover": "https://i.scdn.co/image/ab67616d0000b2738cd2a3746e52b2f691223808",
       "source": "/tracks/favorite_thing.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -258,6 +281,7 @@
       "artist": "RM",
       "cover": "https://i.scdn.co/image/ab67616d00001e02876df70c59db46f63d74e20d",
       "source": "/tracks/forever_rain.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -266,6 +290,7 @@
       "artist": "Dept, Sonny Zero, Jae Luna",
       "cover": "https://images.genius.com/3178e63c398d1943bb09b81e2b409c1d.1000x1000x1.jpg",
       "source": "/tracks/love_song.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -274,6 +299,7 @@
       "artist": "BTS",
       "cover": "https://ibighit.com/bts/images/bts/discography/love_yourself-tear/album-cover.jpg",
       "source": "/tracks/magic_shop.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -282,6 +308,7 @@
       "artist": "BTS",
       "cover": "https://i.scdn.co/image/ab67616d0000b273c07d5d2fdc02ae252fcd07e5",
       "source": "/tracks/stay.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -290,6 +317,7 @@
       "artist": "Fiji Blue",
       "cover": "https://images.genius.com/288eea80b6aa705315c3cb0ba6b3b11e.1000x1000x1.jpg",
       "source": "/tracks/wave.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -298,6 +326,7 @@
       "artist": "Paper Planes",
       "cover": "https://i.scdn.co/image/ab67616d0000b27376c6bd9f695412a77ae705c0",
       "source": "/tracks/song_yang_bad_sad_yang_boi.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -306,6 +335,7 @@
       "artist": "Kessoku Band",
       "cover": "https://www.crownnote.com/sites/default/files/styles/large/public/3b89eb518b906ad0ae95033d450f2b36.1000x1000x1.png.webp?itok=KUblpGvp",
       "source": "/tracks/guitar_loneliness_and_blue_planet.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -314,6 +344,7 @@
       "artist": "ปอน นิพนธ์ x โต๋ เหน่อ",
       "cover": "https://i.scdn.co/image/ab67616d0000b27359e3d28958517d86667326a3",
       "source": "/tracks/timemachine.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -321,7 +352,8 @@
       "name": "I Like You (A Happier Song)",
       "artist": "Post Malone",
       "cover": "https://i.scdn.co/image/ab67616d0000b27334362676667a4322838ccc97",
-      "source": "/tracks/i_like _you_a_happier_song.mp3",
+      "source": "/tracks/i_like_you_a_happier_song.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -330,6 +362,7 @@
       "artist": "imase",
       "cover": "https://i.scdn.co/image/ab67616d0000b273e2a3788f1a9dea9028099d4e",
       "source": "/tracks/night_dancer.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -338,6 +371,7 @@
       "artist": "Yorushika",
       "cover": "https://i.scdn.co/image/ab67616d0000b27318b1145d9883e5b140151fa9",
       "source": "/tracks/say_it.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -346,6 +380,7 @@
       "artist": "The Kid Laroi",
       "cover": "https://i.scdn.co/image/ab67616d0000b27341e31d6ea1d493dd77933ee5",
       "source": "/tracks/stay_the_kid_laroi.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -354,6 +389,7 @@
       "artist": "The Weeknd",
       "cover": "https://i.scdn.co/image/ab67616d0000b273a3eff72f62782fb589a492f9",
       "source": "/tracks/blinding_lights.mp3",
+      "duration" : "04:04",
       "favorited": false
     },
     {
@@ -362,6 +398,16 @@
       "artist": "Miori Celesta",
       "cover": "https://i.scdn.co/image/ab67616d0000b273082e5a30e2fb0e084860fbad",
       "source": "/tracks/comedy.mp3",
+      "duration" : "04:04",
+      "favorited": false
+    },
+    {
+      "trackId": 37,
+      "name": "踊り子",
+      "artist": "Vaundy",
+      "cover": "https://i.scdn.co/image/ab67616d0000b2733a3cc0aac5f7652e02e6a0af",
+      "source": "/tracks/odoriko.mp3",
+      "duration" : "03:50",
       "favorited": false
     }
   ]

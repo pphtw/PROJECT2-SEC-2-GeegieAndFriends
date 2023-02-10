@@ -22,7 +22,7 @@
 body {
   background-color: #2d3967;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 37.5rem) {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
