@@ -219,8 +219,22 @@ const playlist = ref(metadata.playlist)
 const idx = ref(0)
 const playListIdx = ref(playlist.value[idx.value])
 
+const getPlaylistOfCurrentGroup = (currentGroup) => {
+  const currentGroupItem = playlist.value.slice( 4 * ( currentGroup - 1 ) , currentGroup * 4 )
+  console.log(currentGroupItem);
+}
+
+const getTotalGroup = () => {
+  Math.ceil(playlist.value.length/4)
+  console.log(Math.ceil(playlist.value.length/4));
+}
+
 const nextGroup = () => {
+  // getTotalGroup()
+  // getPlaylistOfCurrentGroup (currentGroup)
+  
   idx.value++
+  console.log(idx.value);
   if (idx.value === playlist.value.length) {
     playListIdx.value = playlist.value[0]
     idx.value = 0
