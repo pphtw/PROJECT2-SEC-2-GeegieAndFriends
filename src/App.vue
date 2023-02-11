@@ -219,28 +219,21 @@ const playlist = ref(metadata.playlist)
 const idx = ref(0)
 
 const getPlaylistOfCurrentGroup = (currentGroup) => {
-  // console.log(playlist.value);
-  // console.log("Current Group:"+currentGroup);
   const currentGroupItem = playlist.value.slice( 4 * currentGroup,4 * currentGroup + 4)
   return currentGroupItem
-  // console.log(currentGroupItem);
 }
 
 const getTotalGroup = () => {
   return Math.ceil(playlist.value.length/4)
-  // console.log("Total:" + Math.ceil(playlist.value.length/4));
 }
 
 const playListIdx = ref(getPlaylistOfCurrentGroup(0))
 
 const nextGroup = () => {
   idx.value++
-  console.log(idx.value);
-  console.log();
   if (idx.value === getTotalGroup()) {
     playListIdx.value = getPlaylistOfCurrentGroup(0)
     idx.value = 0
-    console.log(playListIdx.value);
   } else {
     playListIdx.value = getPlaylistOfCurrentGroup (idx.value)
   }
