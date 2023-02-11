@@ -217,39 +217,42 @@ const toggleShuffle = (shuffle) => {
 
 const playlist = ref(metadata.playlist)
 const idx = ref(0)
-const playListIdx = ref(playlist.value[idx.value])
 
 const getPlaylistOfCurrentGroup = (currentGroup) => {
-  const currentGroupItem = playlist.value.slice( 4 * ( currentGroup - 1 ) , currentGroup * 4 )
-  console.log(currentGroupItem);
+  // console.log(playlist.value);
+  // console.log("Current Group:"+currentGroup);
+  const currentGroupItem = playlist.value.slice( 4 * currentGroup,4 * currentGroup + 4)
+  return currentGroupItem
+  // console.log(currentGroupItem);
 }
 
 const getTotalGroup = () => {
-  Math.ceil(playlist.value.length/4)
-  console.log(Math.ceil(playlist.value.length/4));
+  return Math.ceil(playlist.value.length/4)
+  // console.log("Total:" + Math.ceil(playlist.value.length/4));
 }
 
+const playListIdx = ref(getPlaylistOfCurrentGroup(0))
+
 const nextGroup = () => {
-  // getTotalGroup()
-  // getPlaylistOfCurrentGroup (currentGroup)
-  
   idx.value++
   console.log(idx.value);
-  if (idx.value === playlist.value.length) {
-    playListIdx.value = playlist.value[0]
+  console.log();
+  if (idx.value === getTotalGroup()) {
+    playListIdx.value = getPlaylistOfCurrentGroup(0)
     idx.value = 0
+    console.log(playListIdx.value);
   } else {
-    playListIdx.value = playlist.value[idx.value]
+    playListIdx.value = getPlaylistOfCurrentGroup (idx.value)
   }
 }
 const prevGroup = () => {
   if (idx.value === 0) {
-    const last = playlist.value.length - 1
-    playListIdx.value = playlist.value[last]
+    const last = getTotalGroup() - 1
+    playListIdx.value = getPlaylistOfCurrentGroup (last)
     idx.value = last
   } else {
     idx.value--
-    playListIdx.value = playlist.value[idx.value]
+    playListIdx.value = getPlaylistOfCurrentGroup (idx.value)
   }
 }
 
