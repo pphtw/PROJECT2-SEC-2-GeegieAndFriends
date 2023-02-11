@@ -416,6 +416,115 @@
       "artist": "Music oc | Missizfreak",
       "cover": "https://i.ytimg.com/vi/pH-rL_7TuTA/maxresdefault.jpg",
       "source": "/tracks/you_and_i.mp3",
+      "duration" : "02:47",
+      "favorited": false
+    },
+    {
+      "trackId" : 39,
+      "name": "Dandelions",
+      "artist": "Ruth B.",
+      "cover": "https://www.aelitaxtranslate.com/wp-content/uploads/2017/06/ruth-b-dandelions.jpg",
+      "source": "/tracks/dandelions.mp3",
+      "duration" : "03:53",
+      "favorited": false
+    },
+    {
+      "trackId" : 40,
+      "name": " Everything Goes On ",
+      "artist": "Porter Robinson",
+      "cover": "https://i1.sndcdn.com/artworks-Ujq5wEMtVsqBMJLQ-rmkr3A-t500x500.jpg",
+      "source": "/tracks/everything_goes_on.mp3",
+      "duration" : "03:22",
+      "favorited": false
+    },
+    {
+      "trackId" : 41,
+      "name": "Wish You Were Sober ",
+      "artist": "Conan Gray",
+      "cover": "https://s.isanook.com/jo/0/rp/r/w300/ya0xa0m1w0/aHR0cDovL2ltYWdlLmpvb3guY29tL0pPT1hjb3Zlci8wLzFlZjJhMDg1MTQ0OWU2MTcvMTAwMC5qcGc=.jpg",
+      "source": "/tracks/wish_you_were_sober.mp3",
+      "duration" : "02:48",
+      "favorited": false
+    },
+    {
+      "trackId" : 42,
+      "name": " See You Again",
+      "artist": "Wiz Khalifa feat. Charlie Puth",
+      "cover": "https://s.isanook.com/jo/0/rp/r/w700/ya0xa0m1w0/aHR0cDovL2ltYWdlLmpvb3guY29tL0pPT1hjb3Zlci8wLzhkYmU4ZjQwMjkyNjFhZWYvNjQwLmpwZw==.jpg",
+      "source": "/tracks/see_you_again.mp3",
+      "duration" : "03:49",
+      "favorited": false
+    },
+    {
+      "trackId" : 43,
+      "name": " Perfect",
+      "artist": "One Direction",
+      "cover": "https://image.joox.com/JOOXcover/0/718222d6fa884cf7/300",
+      "source": "/tracks/Perfect.mp3",
+      "duration" : "03:50",
+      "favorited": false
+    },
+    {
+      "trackId" : 44,
+      "name": " Die For You",
+      "artist": "The weeknd",
+      "cover": "https://i.ytimg.com/vi/mTLQhPFx2nM/maxresdefault.jpg",
+      "source": "/tracks/die_for_you.mp3",
+      "duration" : "04:20",
+      "favorited": false
+    },
+    {
+      "trackId" : 45,
+      "name": " Pano",
+      "artist": "Zack Tabudlo",
+      "cover": "https://i.scdn.co/image/ab67616d0000b2738c6111f0717dd3d85fdcbafd",
+      "source": "/tracks/Pano.mp3",
+      "duration" : "04:13",
+      "favorited": false
+    },
+    {
+      "trackId" : 46,
+      "name": " Here’s Your Perfect",
+      "artist": "Jamie Miller ",
+      "cover": "https://i0.wp.com/nostorynomusic.com/wp-content/uploads/2022/11/ab67616d0000b2730f77b506b28aa892702cc101.jpg?resize=640%2C640&ssl=1",
+      "source": "/tracks/here's_you_perfect.mp3",
+      "duration" : "02:38",
+      "favorited": false
+    },
+    {
+      "trackId" : 47,
+      "name": " Dive Into You",
+      "artist": "NCT DREAM ",
+      "cover": "https://s.isanook.com/jo/0/rp/r/w300/ya0xa0m1w0/aHR0cDovL2ltYWdlLmpvb3guY29tL0pPT1hjb3Zlci8wLzkwYWI3OWQyOTc2MzZlNDIvNjQwLmpwZw==.jpg",
+      "source": "/tracks/dive_into_you.mp3",
+      "duration" : "03:12",
+      "favorited": false
+    },
+    {
+      "trackId" : 48,
+      "name": " Can't slow me down",
+      "artist": "Mirani, lIlBOI, GroovyRoom, VALORANT ",
+      "cover": "https://i.scdn.co/image/ab67616d0000b273756259a2278099152e0e1cd5",
+      "source": "/tracks/can't_slow_me_down.mp3",
+      "duration" : "02:18",
+      "favorited": false
+    },
+    {
+      "trackId" : 49,
+      "name": " idontwannabeyouanymore",
+      "artist": "Billie Eilish ",
+      "cover": "https://i.scdn.co/image/ab67616d0000b2739c05fec02bd9b81ee1246b2f",
+      "source": "/tracks/idontwannabeyouanymore.mp3",
+      "duration" : "03:24",
+      "favorited": false
+    },
+    {
+      "trackId" : 50,
+      "name": " 17 นาที",
+      "artist": "MILLI ft. mints (Prod. by SpatChies) | YUPP! ",
+      "cover": "https://s.isanook.com/jo/0/rp/r/w700/ya0xa0m1w0/aHR0cDovL2ltYWdlLmpvb3guY29tL0pPT1hjb3Zlci8wLzM5NGIxNzEyOTgxYzI4ZDEvNjQwLmpwZw==.jpg",
+      "source": "/tracks/17_นาที.mp3",
+      "duration" : "03:35",
       "favorited": false
     }
   ]
