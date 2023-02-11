@@ -267,7 +267,7 @@ onMounted(() => {
   >
     <!-- #NavigationBar -->
     <div
-      class="sticky flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full py-3 sm:py-0 sm:w-[5.4%] h-fit sm:h-full bg-[#162750]"
+      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full py-3 sm:py-0 sm:w-[5.4%] h-fit sm:h-full max-sm:fixed bg-[#162750]"
     >
       <!-- #HomePageButton -->
       <svg
