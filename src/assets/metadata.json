@@ -474,7 +474,7 @@
       "name": " Perfect",
       "artist": "One Direction",
       "cover": "https://image.joox.com/JOOXcover/0/718222d6fa884cf7/300",
-      "source": "/tracks/Perfect.mp3",
+      "source": "/tracks/perfect.mp3",
       "duration" : "03:50",
       "favorited": false
     },
@@ -492,16 +492,16 @@
       "name": " Pano",
       "artist": "Zack Tabudlo",
       "cover": "https://i.scdn.co/image/ab67616d0000b2738c6111f0717dd3d85fdcbafd",
-      "source": "/tracks/Pano.mp3",
+      "source": "/tracks/pano.mp3",
       "duration" : "04:13",
       "favorited": false
     },
     {
       "trackId" : 46,
-      "name": " Here’s Your Perfect",
+      "name": " Heres Your Perfect",
       "artist": "Jamie Miller ",
       "cover": "https://i0.wp.com/nostorynomusic.com/wp-content/uploads/2022/11/ab67616d0000b2730f77b506b28aa892702cc101.jpg?resize=640%2C640&ssl=1",
-      "source": "/tracks/here's_you_perfect.mp3",
+      "source": "/tracks/heres_you_perfect.mp3",
       "duration" : "02:38",
       "favorited": false
     },
@@ -516,10 +516,10 @@
     },
     {
       "trackId" : 48,
-      "name": " Can't slow me down",
+      "name": " Cant slow me down",
       "artist": "Mirani, lIlBOI, GroovyRoom, VALORANT ",
       "cover": "https://i.scdn.co/image/ab67616d0000b273756259a2278099152e0e1cd5",
-      "source": "/tracks/can't_slow_me_down.mp3",
+      "source": "/tracks/cant_slow_me_down.mp3",
       "duration" : "02:18",
       "favorited": false
     },
