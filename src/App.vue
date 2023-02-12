@@ -120,10 +120,7 @@ const onMouseUpChooseTrackHandler = (e) => {
   setBackgroundOnChange()
   toggleDelayedPlayPause(300)
 }
-// const onClickPlaylist = () => {
-// const playListNode = e.currentTarget
-// console.log(trending.childNodes[1])
-// }
+
 
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
@@ -266,6 +263,22 @@ const prevGroup = () => {
 //     track.duration = msToMin(audio.duration)
 //   })
 // }
+
+// Playlist Tracks
+const currentPlaylist = ref(tracks)
+
+const getCurrentPlaylist = (e) => {
+  const currentPlaytlistName = e.currentTarget.id
+  const currentIndex = playlist.value.findIndex(e => e.name === currentPlaytlistName)
+  const tracksInPlaylist = playlist.value[currentIndex].tracks
+  // console.log(currentPlaytlistName);
+  // console.log(currentIndex);
+  // console.log(tracksInPlaylist);
+
+  currentPlaylist.value = tracks.filter(e => tracksInPlaylist.includes(e.trackId))
+  console.log(currentPlaylist.value);
+  return currentPlaylist.value
+}
 
 // Hooks
 onBeforeMount(() => {
@@ -485,8 +498,8 @@ onMounted(() => {
               backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
             }"
             :key="index"
-            :id="index"
-            @click="onClickPlaylist"
+            :id="playlist.name"
+            @click="getCurrentPlaylist"
             class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200 bg-cover"
           >
             <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>

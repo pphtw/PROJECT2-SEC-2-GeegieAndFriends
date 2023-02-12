@@ -58,7 +58,18 @@
     },
     {
       "name": "Wanna try something new!",
-      "background": "https://images.pexels.com/photos/11721417/pexels-photo-11721417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+      "background": "https://images.pexels.com/photos/11721417/pexels-photo-11721417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "tracks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10]
     },
     {
       "name": "Playlist 1",
