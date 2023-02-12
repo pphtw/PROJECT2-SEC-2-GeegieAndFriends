@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
 const tracks = metadata.tracks
@@ -24,7 +24,6 @@ const duration = ref('00:00')
 const isPlaying = ref(false)
 const barWidth = ref('0%')
 const isProgressBarClicked = ref(false)
-let newTime;
 
 // isOverflow
 const isOverflow = ref(null)
@@ -66,51 +65,42 @@ const onTimeUpdateHandler = () => {
   }
 }
 
-const updateTime = (e) => {
-  if (isProgressBarClicked.value) {
-    const boundingRect = progressBarElement.value.getBoundingClientRect();
-    const toValidX = (x) => {
-      // clientX is a property of the event object in JavaScript
-      // boundingRect.width = width of progress bar
-      if (x < boundingRect.left) {
-        return 0;
-      } else if (x > boundingRect.right) {
-        return boundingRect.width + 2;
-      } else {
-        return x - boundingRect.left;
-      }
-    };
-    newTime = (toValidX(e.clientX) / boundingRect.width) * audioElement.value.duration;
-    barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%';
-    console.log('updateTime')
-  }
-};
 const onProgressBarMouseDown = (e) => {
-  e.preventDefault();
-  const boundingRect = progressBarElement.value.getBoundingClientRect();
-  isProgressBarClicked.value = true;
+  // getBoundingClientRect = object that represents the layout of an element in the viewport.
+  const boundingRect = progressBarElement.value.getBoundingClientRect()
+  isProgressBarClicked.value = true
+  // update time current
+  let newTime
   const toValidX = (x) => {
     // clientX is a property of the event object in JavaScript
     // boundingRect.width = width of progress bar
     if (x < boundingRect.left) {
-      return 0;
+      return 0
     } else if (x > boundingRect.right) {
-      return boundingRect.width + 2;
+      return boundingRect.width + 2
     } else {
-      return x - boundingRect.left;
+      return x - boundingRect.left
     }
-  };
-  barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%';
-  updateTime(e);
-  console.log('onProgressBarMouseDown')
-};
-
-const onProgressBarMouseUp = (newTime) =>{
-  audioElement.value.currentTime  = newTime;
-  isProgressBarClicked.value = false;
-  console.log('onProgressBarMouseUp')
+  }
+  const updateTime = (e) => {
+    const x = toValidX(e.clientX)
+    newTime = (x / boundingRect.width) * audioElement.value.duration
+    barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%'
+  }
+  e.preventDefault()
+  barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%'
+  updateTime(e)
+  window.addEventListener('mousemove', updateTime)
+  window.addEventListener(
+      'mouseup',
+      () => {
+        window.removeEventListener('mousemove', updateTime)
+        audioElement.value.currentTime = newTime
+        isProgressBarClicked.value = false
+      },
+      { once: true }
+  )
 }
-
 const onMouseDownChooseTrackHandler = (e) => {
   e.preventDefault()
 }
@@ -297,8 +287,6 @@ onMounted(() => {
     @keyup.left="onPreviousHandler"
     @keyup.space="playerHandler"
     @keyup="onShuffleHandler"
-    @mousemove="updateTime"
-
     tabindex="-1"
   >
     <!-- #NavigationBar -->
@@ -541,7 +529,6 @@ onMounted(() => {
                 class="progress-bar self-center active:cursor-default"
                 ref="progressBarElement"
                 @mousedown="onProgressBarMouseDown"
-                @mouseup="() => onProgressBarMouseUp(newTime)"
               >
                 <div
                   class="progress-current"
