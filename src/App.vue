@@ -66,7 +66,25 @@ const onTimeUpdateHandler = () => {
   }
 }
 
-
+const updateTime = (e) => {
+  if (isProgressBarClicked.value) {
+    const boundingRect = progressBarElement.value.getBoundingClientRect();
+    const toValidX = (x) => {
+      // clientX is a property of the event object in JavaScript
+      // boundingRect.width = width of progress bar
+      if (x < boundingRect.left) {
+        return 0;
+      } else if (x > boundingRect.right) {
+        return boundingRect.width + 2;
+      } else {
+        return x - boundingRect.left;
+      }
+    };
+    newTime = (toValidX(e.clientX) / boundingRect.width) * audioElement.value.duration;
+    barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%';
+    console.log('updateTime')
+  }
+};
 const onProgressBarMouseDown = (e) => {
   e.preventDefault();
   const boundingRect = progressBarElement.value.getBoundingClientRect();
@@ -84,28 +102,13 @@ const onProgressBarMouseDown = (e) => {
   };
   barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%';
   updateTime(e);
+  console.log('onProgressBarMouseDown')
 };
-const updateTime = (e) => {
-  if (isProgressBarClicked.value) {
-    const boundingRect = progressBarElement.value.getBoundingClientRect();
-    const toValidX = (x) => {
-      // clientX is a property of the event object in JavaScript
-      // boundingRect.width = width of progress bar
-      if (x < boundingRect.left) {
-        return 0;
-      } else if (x > boundingRect.right) {
-        return boundingRect.width + 2;
-      } else {
-        return x - boundingRect.left;
-      }
-    };
-    newTime = (toValidX(e.clientX) / boundingRect.width) * audioElement.value.duration;
-    barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%';
-  }
-};
+
 const onProgressBarMouseUp = (newTime) =>{
   audioElement.value.currentTime  = newTime;
   isProgressBarClicked.value = false;
+  console.log('onProgressBarMouseUp')
 }
 
 const onMouseDownChooseTrackHandler = (e) => {
