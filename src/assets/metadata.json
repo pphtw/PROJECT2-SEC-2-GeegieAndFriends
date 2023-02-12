@@ -61,26 +61,51 @@
       "background": "https://images.pexels.com/photos/11721417/pexels-photo-11721417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
         1,
-        2,
-        3,
+        10,
+        13,
+        14,
+        25,
+        26,
+        27,
+        38,
+        49,
+        50]
+    },
+    {
+      "name": "Relax & Chill",
+      "background": "https://images.pexels.com/photos/8239819/pexels-photo-8239819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "tracks": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27]
+      
+    },
+    {
+      "name": "J-POP",
+      "background": "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "tracks": [
         4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10]
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        33,
+        36,
+        37,
+        51]
     },
     {
-      "name": "Playlist 1",
-      "background": "https://images.pexels.com/photos/8239819/pexels-photo-8239819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    },
-    {
-      "name": "Playlist 2",
-      "background": "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-    },
-    {
-      "name": "Playlist 3",
+      "name": "K-POP",
       "background": "https://images.pexels.com/photos/63703/pexels-photo-63703.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
