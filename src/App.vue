@@ -265,9 +265,15 @@ const getCurrentPlaylist = (e) => {
   // console.log(currentIndex);
   // console.log(tracksInPlaylist);
 
-  currentPlaylist.value = tracks.filter(e => tracksInPlaylist.includes(e.trackId))
-  console.log(currentPlaylist.value);
-  return currentPlaylist.value
+  if(tracksInPlaylist === undefined || tracksInPlaylist.length === 0){
+    return currentPlaylist.value = tracks
+  }
+  else{
+    currentPlaylist.value = tracks.filter(e => tracksInPlaylist.includes(e.trackId))
+  // console.log(currentPlaylist.value);
+    return currentPlaylist.value
+  }
+  
 }
 
 // Hooks
@@ -795,7 +801,7 @@ onMounted(() => {
             <!-- for-loop here -->
             <div
               class="flex items-center mb-1 h-fit sm:h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-              v-for="(track, index) in tracks"
+              v-for="(track, index) in currentPlaylist"
               :key="track.trackId"
               :id="track.trackId"
               @mousedown="onMouseDownChooseTrackHandler"
