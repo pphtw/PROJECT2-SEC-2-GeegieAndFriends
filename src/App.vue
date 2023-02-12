@@ -270,10 +270,10 @@ const getCurrentPlaylist = (e) => {
   }
   else{
     currentPlaylist.value = tracks.filter(e => tracksInPlaylist.includes(e.trackId))
-  // console.log(currentPlaylist.value);
+    console.log(currentPlaylist.value);
     return currentPlaylist.value
   }
-  
+
 }
 
 // Hooks
@@ -810,7 +810,7 @@ onMounted(() => {
             >
               <!-- #Ranking -->
               <div class="w-fit">
-                <h1 class="text-center font-bold w-12">{{ track.trackId }}</h1>
+                <h1 class="text-center font-bold w-12">{{ index+1 }}</h1>
               </div>
               <!-- #MusicCover -->
               <div class="h-full max-sm:w-24 aspect-square">
