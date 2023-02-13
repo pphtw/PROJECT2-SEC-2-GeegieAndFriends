@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
 const tracks = metadata.tracks
@@ -9,6 +9,40 @@ const musicQueue = reactive({
   queue: [],
   isShuffled: false,
   isLooping: false,
+  isPlaying: false,
+})
+
+const progressBar = reactive({
+  barWidth: '0%',
+  isProgressBarClicked: false,
+  currentTime: '00:00',
+  duration: '00:00',
+  boundingRect: new DOMRect(),
+  newTime: 0,
+  updateProgressBar: () => {
+    progressBar.barWidth =
+      (audioElement.value.currentTime / audioElement.value.duration) * 100 + '%'
+  },
+  updateTime: (e) => {
+    const x = progressBar.validateX(e.clientX)
+    progressBar.newTime =
+      (x / progressBar.boundingRect.width) * audioElement.value.duration
+    progressBar.barWidth =
+      (progressBar.validateX(e.clientX) / progressBar.boundingRect.width) *
+        100 +
+      '%'
+  },
+  validateX: (x) => {
+    // clientX is a property of the event object in JavaScript
+    // progressBar.boundingRect.width = width of progress bar
+    if (x < progressBar.boundingRect.left) {
+      return 0
+    } else if (x > progressBar.boundingRect.right) {
+      return progressBar.boundingRect.width + 2
+    } else {
+      return x - progressBar.boundingRect.left
+    }
+  },
 })
 
 // DOM Element
@@ -17,13 +51,6 @@ const tracksElement = ref(null)
 const progressBarElement = ref(null)
 const trendingElement = ref(null)
 const titleElement = ref(null)
-
-const repeat = ref(false)
-const currentTime = ref('00:00')
-const duration = ref('00:00')
-const isPlaying = ref(false)
-const barWidth = ref('0%')
-const isProgressBarClicked = ref(false)
 
 // isOverflow
 const isOverflow = ref(null)
@@ -34,84 +61,66 @@ const currentTrack = computed(() => findTrack(musicQueue?.queue[0]))
 const playerHandler = () => {
   if (audioElement.value.paused) {
     audioElement.value.play()
-    isPlaying.value = true
+    musicQueue.isPlaying = true
   } else {
     audioElement.value.pause()
-    isPlaying.value = false
+    musicQueue.isPlaying = false
   }
 }
 const onNextHandler = () => {
   skipTrack()
-  toggleDelayedPlayPause(300)
+  toggleDelayedPlayPause()
 }
 const onPreviousHandler = () => {
   skipTrack(false)
-  toggleDelayedPlayPause(300)
+  toggleDelayedPlayPause()
 }
 const onEndedHandler = () => {
   onNextHandler()
-  isPlaying.value = true
+  musicQueue.isPlaying = true
 }
 const onLoadMetadataHandler = () => {
-  duration.value = msToMin(audioElement.value.duration)
-  currentTime.value = msToMin(audioElement.value.currentTime)
-  updateProgressBar()
+  progressBar.duration = msToMin(audioElement.value.duration)
+  progressBar.currentTime = msToMin(audioElement.value.currentTime)
+  progressBar.updateProgressBar()
   isOverflowed()
 }
 const onTimeUpdateHandler = () => {
-  currentTime.value = msToMin(audioElement.value.currentTime)
-  if (!isProgressBarClicked.value) {
-    updateProgressBar()
+  progressBar.currentTime = msToMin(audioElement.value.currentTime)
+  if (!progressBar.isProgressBarClicked) {
+    progressBar.updateProgressBar()
   }
 }
-
 const onProgressBarMouseDown = (e) => {
-  // getBoundingClientRect = object that represents the layout of an element in the viewport.
-  const boundingRect = progressBarElement.value.getBoundingClientRect()
-  isProgressBarClicked.value = true
-  // update time current
-  let newTime
-  const toValidX = (x) => {
-    // clientX is a property of the event object in JavaScript
-    // boundingRect.width = width of progress bar
-    if (x < boundingRect.left) {
-      return 0
-    } else if (x > boundingRect.right) {
-      return boundingRect.width + 2
-    } else {
-      return x - boundingRect.left
-    }
-  }
-  const updateTime = (e) => {
-    const x = toValidX(e.clientX)
-    newTime = (x / boundingRect.width) * audioElement.value.duration
-    barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%'
-  }
   e.preventDefault()
-  barWidth.value = (toValidX(e.clientX) / boundingRect.width) * 100 + '%'
-  updateTime(e)
-  window.addEventListener('mousemove', updateTime)
-  window.addEventListener(
-      'mouseup',
-      () => {
-        window.removeEventListener('mousemove', updateTime)
-        audioElement.value.currentTime = newTime
-        isProgressBarClicked.value = false
-      },
-      { once: true }
-  )
+  progressBar.isProgressBarClicked = true
+  progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
+  progressBar.barWidth =
+    (progressBar.validateX(e.clientX) / progressBar.boundingRect.width) * 100 +
+    '%'
+  progressBar.updateTime(e)
 }
-const onMouseDownChooseTrackHandler = (e) => {
+const onProgressBarMouseMove = (e) => {
+  if (progressBar.isProgressBarClicked) {
+    progressBar.updateTime(e)
+  }
+}
+const onProgressBarMouseUp = (e) => {
+  if (progressBar.isProgressBarClicked) {
+    progressBar.updateTime(e)
+    audioElement.value.currentTime = progressBar.newTime
+    progressBar.isProgressBarClicked = false
+  }
+}
+const onChooseTrackMouseDown = (e) => {
   e.preventDefault()
 }
-const onMouseUpChooseTrackHandler = (e) => {
+const onChooseTrackMouseUp = (e) => {
   const chooseTrackId = Number(e.currentTarget.id)
   skipToTrack(chooseTrackId)
   setBackgroundOnChange()
   toggleDelayedPlayPause(300)
 }
-
-
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
     if (musicQueue.defaultQueue.length === 0) {
@@ -126,11 +135,15 @@ const onShuffleHandler = (e) => {
     }
   }
 }
+const onLoopHandler = (e) => {
+  console.log('Create Loop Handler Here')
+  console.log(e)
+}
 
 // Utils
 const toggleDelayedPlayPause = (delay = 0) => {
   setTimeout(() => {
-    if (isPlaying.value) {
+    if (musicQueue.isPlaying) {
       audioElement.value.play()
     } else {
       audioElement.value.pause()
@@ -140,10 +153,7 @@ const toggleDelayedPlayPause = (delay = 0) => {
 const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
 }
-const updateProgressBar = () => {
-  barWidth.value =
-    (audioElement.value.currentTime / audioElement.value.duration) * 100 + '%'
-}
+
 const setBackgroundOnChange = () => {
   const trackParent = tracksElement.value
   trackParent.forEach((trackNode) => {
@@ -217,12 +227,11 @@ const playlist = ref(metadata.playlist)
 const idx = ref(0)
 
 const getPlaylistOfCurrentGroup = (currentGroup) => {
-  const currentGroupItem = playlist.value.slice( 4 * currentGroup,4 * currentGroup + 4)
-  return currentGroupItem
+  return playlist.value.slice(4 * currentGroup, 4 * currentGroup + 4)
 }
 
 const getTotalGroup = () => {
-  return Math.ceil(playlist.value.length/4)
+  return Math.ceil(playlist.value.length / 4)
 }
 
 const playListIdx = ref(getPlaylistOfCurrentGroup(0))
@@ -233,47 +242,42 @@ const nextGroup = () => {
     playListIdx.value = getPlaylistOfCurrentGroup(0)
     idx.value = 0
   } else {
-    playListIdx.value = getPlaylistOfCurrentGroup (idx.value)
+    playListIdx.value = getPlaylistOfCurrentGroup(idx.value)
   }
 }
 const prevGroup = () => {
   if (idx.value === 0) {
     const last = getTotalGroup() - 1
-    playListIdx.value = getPlaylistOfCurrentGroup (last)
+    playListIdx.value = getPlaylistOfCurrentGroup(last)
     idx.value = last
   } else {
     idx.value--
-    playListIdx.value = getPlaylistOfCurrentGroup (idx.value)
+    playListIdx.value = getPlaylistOfCurrentGroup(idx.value)
   }
 }
-
-// const extractDuration = (track) => {
-//   const audio = new Audio(track.source)
-//   audio.addEventListener('loadedmetadata', function () {
-//     track.duration = msToMin(audio.duration)
-//   })
-// }
 
 // Playlist Tracks
 const currentPlaylist = ref(tracks)
 
 const getCurrentPlaylist = (e) => {
   const currentPlaytlistName = e.currentTarget.id
-  const currentIndex = playlist.value.findIndex(e => e.name === currentPlaytlistName)
+  const currentIndex = playlist.value.findIndex(
+    (e) => e.name === currentPlaytlistName
+  )
   const tracksInPlaylist = playlist.value[currentIndex].tracks
   // console.log(currentPlaytlistName);
   // console.log(currentIndex);
   // console.log(tracksInPlaylist);
 
-  if(tracksInPlaylist === undefined || tracksInPlaylist.length === 0){
-    return currentPlaylist.value = tracks
-  }
-  else{
-    currentPlaylist.value = tracks.filter(e => tracksInPlaylist.includes(e.trackId))
-    console.log(currentPlaylist.value);
+  if (tracksInPlaylist === undefined || tracksInPlaylist.length === 0) {
+    return (currentPlaylist.value = tracks)
+  } else {
+    currentPlaylist.value = tracks.filter((e) =>
+      tracksInPlaylist.includes(e.trackId)
+    )
+    console.log(currentPlaylist.value)
     return currentPlaylist.value
   }
-
 }
 
 // Hooks
@@ -293,6 +297,8 @@ onMounted(() => {
     @keyup.left="onPreviousHandler"
     @keyup.space="playerHandler"
     @keyup="onShuffleHandler"
+    @mousemove="onProgressBarMouseMove"
+    @mouseup="onProgressBarMouseUp"
     tabindex="-1"
   >
     <!-- #NavigationBar -->
@@ -538,15 +544,15 @@ onMounted(() => {
               >
                 <div
                   class="progress-current"
-                  :style="{ width: barWidth }"
+                  :style="{ width: progressBar.barWidth }"
                 ></div>
               </div>
             </div>
             <!-- #CurrentTime&Duration -->
             <div>
               <div class="flex justify-between w-full items-center">
-                <p class="px-2 text-sm">{{ currentTime }}</p>
-                <p class="px-2 text-sm">{{ duration }}</p>
+                <p class="px-2 text-sm">{{ progressBar.currentTime }}</p>
+                <p class="px-2 text-sm">{{ progressBar.duration }}</p>
               </div>
             </div>
             <!-- #MusicTitle&Controller -->
@@ -649,7 +655,7 @@ onMounted(() => {
                 <div>
                   <button class="[clip-path:circle()]" @click="playerHandler">
                     <svg
-                      v-if="isPlaying"
+                      v-if="musicQueue.isPlaying"
                       width="40"
                       height="40"
                       viewBox="0 0 50 50"
@@ -705,14 +711,14 @@ onMounted(() => {
                 </div>
                 <!-- #LoopButton -->
                 <div class="repeat-track">
-                  <button v-if="!repeat">
+                  <button v-if="!musicQueue.isLooping">
                     <svg
                       width="30"
                       height="30"
                       viewBox="0 0 32 32"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      @click="playLoop"
+                      @click="onLoopHandler"
                     >
                       <path
                         d="M6.54398 6.88H23.2267C25.44 6.88 27.2267 8.66667 27.2267 10.88V15.3067"
@@ -751,7 +757,7 @@ onMounted(() => {
                       viewBox="0 0 32 32"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      @click="playLoop"
+                      @click="onLoopHandler"
                     >
                       <path
                         d="M6.54398 6.88H23.2267C25.44 6.88 27.2267 8.66667 27.2267 10.88V15.3067"
@@ -800,17 +806,17 @@ onMounted(() => {
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class="flex items-center mb-1 h-fit sm:h-[18.3%] bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in currentPlaylist"
               :key="track.trackId"
               :id="track.trackId"
-              @mousedown="onMouseDownChooseTrackHandler"
-              @mouseup="onMouseUpChooseTrackHandler"
+              @mousedown="onChooseTrackMouseDown"
+              @mouseup="onChooseTrackMouseUp"
               ref="tracksElement"
             >
               <!-- #Ranking -->
               <div class="w-fit">
-                <h1 class="text-center font-bold w-12">{{ index+1 }}</h1>
+                <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
               </div>
               <!-- #MusicCover -->
               <div class="h-full max-sm:w-24 aspect-square">
