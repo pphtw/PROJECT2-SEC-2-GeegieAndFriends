@@ -227,12 +227,10 @@ const skipToTrack = (id, queue = musicQueue.queue) => {
   if (Boolean(indexToSkip)) {
     if (indexToSkip < queue.length / 2) {
       while (queue[0] !== id) {
-        console.log(indexToSkip)
         skipTrack(true, queue)
       }
     } else {
       while (queue[0] !== id) {
-        console.log(indexToSkip)
         skipTrack(false, queue)
       }
     }
@@ -779,7 +777,7 @@ onMounted(() => {
           <h1
             class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
           >
-            Trending
+            {{ currentPlaytlistName }}
           </h1>
           <div
             class="rounded-2xl no-scrollbar overflow-y-scroll sm:pr-2 h-[12rem] sm:h-full"
