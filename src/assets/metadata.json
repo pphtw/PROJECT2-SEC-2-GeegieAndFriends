@@ -1,6 +1,7 @@
 {
-  "playlist": [
+  "playlists": [
     {
+      "playlistId": 1,
       "name": "Trending",
       "tracks": [
         1,
@@ -57,6 +58,7 @@
       ]
     },
     {
+      "playlistId": 2,
       "name": "Wanna try something new!",
       "background": "https://images.pexels.com/photos/11721417/pexels-photo-11721417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -72,6 +74,7 @@
         50]
     },
     {
+      "playlistId": 3,
       "name": "Relax & Chill",
       "background": "https://images.pexels.com/photos/8239819/pexels-photo-8239819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -89,6 +92,7 @@
       
     },
     {
+      "playlistId": 4,
       "name": "J-POP",
       "background": "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -105,23 +109,28 @@
         51]
     },
     {
+      "playlistId": 5,
       "name": "K-POP",
       "background": "https://images.pexels.com/photos/63703/pexels-photo-63703.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
-      "name": "Playlist 4",
+      "playlistId": 6,
+      "name": "Playlist 6",
       "background": "https://images.pexels.com/photos/144429/pexels-photo-144429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
-      "name": "Playlist 5",
+      "playlistId": 7,
+      "name": "Playlist 7",
       "background": "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
-      "name": "Playlist 6",
+      "playlistId": 8,
+      "name": "Playlist 8",
       "background": "https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     },
     {
-      "name": "Playlist 7",
+      "playlistId": 9,
+      "name": "Playlist 9",
       "background": "https://images.pexels.com/photos/8239819/pexels-photo-8239819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     }
   ],
