@@ -59,7 +59,7 @@ const getCurrentPlaylist = (e) => {
     currentPlaylist.value = tracks.filter((e) =>
       tracksInPlaylist.includes(e.trackId)
     )
-    console.log(currentPlaylist.value)
+    // console.log(currentPlaylist.value)
     return currentPlaylist.value
   }
 }
