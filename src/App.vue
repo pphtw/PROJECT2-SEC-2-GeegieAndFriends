@@ -258,14 +258,15 @@ const prevGroup = () => {
 
 // Playlist Tracks
 const currentPlaylist = ref(tracks)
+const currentPlaytlistName = ref("Trending")
 
 const getCurrentPlaylist = (e) => {
-  const currentPlaytlistName = e.currentTarget.id
+  currentPlaytlistName.value = e.currentTarget.id
   const currentIndex = playlist.value.findIndex(
-    (e) => e.name === currentPlaytlistName
+    (e) => e.name === currentPlaytlistName.value
   )
   const tracksInPlaylist = playlist.value[currentIndex].tracks
-  // console.log(currentPlaytlistName);
+  // console.log(currentPlaytlistName.value);
   // console.log(currentIndex);
   // console.log(tracksInPlaylist);
 
@@ -798,7 +799,7 @@ onMounted(() => {
           <h1
             class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
           >
-            Trending
+            {{ currentPlaytlistName }}
           </h1>
           <div
             class="rounded-2xl no-scrollbar overflow-y-scroll sm:pr-2 h-[12rem] sm:h-full"
