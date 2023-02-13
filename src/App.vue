@@ -117,6 +117,7 @@ const onChooseTrackMouseDown = (e) => {
 }
 const onChooseTrackMouseUp = (e) => {
   const chooseTrackId = Number(e.currentTarget.id)
+  console.log("Track Id: "+chooseTrackId);
   skipToTrack(chooseTrackId)
   setBackgroundOnChange()
   toggleDelayedPlayPause(300)
@@ -159,9 +160,11 @@ const setBackgroundOnChange = () => {
   trackParent.forEach((trackNode) => {
     trackNode.style = 'background : white'
   })
-  const currentTrackIndex = tracks.findIndex(
+  const currentTrackIndex = currentPlaylist.value.findIndex(
     (e) => e['trackId'] === currentTrack.value.trackId
   )
+  console.log(currentPlaylist.value);
+  console.log("Current Track Index : "+currentTrackIndex);
   trackParent[currentTrackIndex].style = 'background : #dcbfed'
   trackParent[currentTrackIndex].scrollIntoView({
     behavior: 'smooth',
