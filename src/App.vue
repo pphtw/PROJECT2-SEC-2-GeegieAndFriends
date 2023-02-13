@@ -2,16 +2,17 @@
 import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
+const playlists = metadata.playlists
 const tracks = metadata.tracks
 
 const musicQueue = reactive({
+  currentPlaylistId: 1,
   defaultQueue: [],
   queue: [],
   isShuffled: false,
   isLooping: false,
   isPlaying: false,
 })
-
 const progressBar = reactive({
   barWidth: '0%',
   isProgressBarClicked: false,
@@ -44,6 +45,27 @@ const progressBar = reactive({
     }
   },
 })
+const playlist = reactive({
+  selectedPlaylistId: 1,
+  selectedPlaylist: computed(() =>
+    tracks.filter((e) =>
+      getTrackList(playlist.selectedPlaylistId).includes(e.trackId)
+    )
+  ),
+  paginatedPlaylist: computed(() => {
+    const arr = [],
+      pageSize = 4,
+      numberOfPage = Math.ceil(playlists.length / pageSize)
+    for (let i = 0; i < numberOfPage; i++) {
+      if (i < numberOfPage - 1) {
+        arr.push(playlists.slice(pageSize * i, pageSize * i + pageSize))
+      } else {
+        arr.push(playlists.slice(0 - (playlists.length % pageSize)))
+      }
+    }
+    return arr
+  }),
+})
 
 // DOM Element
 const audioElement = ref(null)
@@ -55,7 +77,7 @@ const titleElement = ref(null)
 // isOverflow
 const isOverflow = ref(null)
 
-const currentTrack = computed(() => findTrack(musicQueue?.queue[0]))
+const currentTrack = computed(() => getTrack(musicQueue?.queue[0]))
 
 // Event Handlers
 const playerHandler = () => {
@@ -117,9 +139,16 @@ const onChooseTrackMouseDown = (e) => {
 }
 const onChooseTrackMouseUp = (e) => {
   const chooseTrackId = Number(e.currentTarget.id)
+  if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
+    musicQueue.currentPlaylistId = playlist.selectedPlaylistId
+    musicQueue.queue = getTrackList(musicQueue.currentPlaylistId)
+  }
   skipToTrack(chooseTrackId)
   setBackgroundOnChange()
   toggleDelayedPlayPause(300)
+}
+const onChoosePlaylist = (e) => {
+  playlist.selectedPlaylistId = Number(e.currentTarget.id)
 }
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
@@ -182,22 +211,28 @@ const skipTrack = (toNext = true, queue = musicQueue.queue) => {
     queue.unshift(queue.pop())
   }
 }
-const findTrack = (trackId = 1) => {
+const getTrack = (trackId = 1) => {
   return tracks.find((track) => track['trackId'] === trackId)
 }
-const findPlaylist = (playlistName) => {
-  return metadata.playlist.find((playlist) => playlist['name'] === playlistName)
-    .tracks
+const getTrackList = (playlistId) => {
+  return playlists.find(
+    (playlist) => playlist['playlistId'] === Number(playlistId)
+  ).tracks
+}
+const getPlaylist = (playlistName) => {
+  return playlists.find((playlist) => playlist['name'] === playlistName)
 }
 const skipToTrack = (id, queue = musicQueue.queue) => {
-  const indexToSkip = queue.findIndex((trackId) => trackId === id)
+  const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
   if (Boolean(indexToSkip)) {
-    if (indexToSkip > queue.length / 2) {
+    if (indexToSkip < queue.length / 2) {
       while (queue[0] !== id) {
+        console.log(indexToSkip)
         skipTrack(true, queue)
       }
     } else {
       while (queue[0] !== id) {
+        console.log(indexToSkip)
         skipTrack(false, queue)
       }
     }
@@ -206,7 +241,6 @@ const skipToTrack = (id, queue = musicQueue.queue) => {
 const toggleShuffle = (shuffle) => {
   const currentTrackId = musicQueue.queue[0]
   if (shuffle) {
-    console.log(musicQueue.queue)
     const restOfQueue = musicQueue.queue.filter((e, i) => i !== 0)
     for (let i = restOfQueue.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
@@ -221,68 +255,9 @@ const toggleShuffle = (shuffle) => {
   }
 }
 
-// Carousel playlist
-
-const playlist = ref(metadata.playlist)
-const idx = ref(0)
-
-const getPlaylistOfCurrentGroup = (currentGroup) => {
-  return playlist.value.slice(4 * currentGroup, 4 * currentGroup + 4)
-}
-
-const getTotalGroup = () => {
-  return Math.ceil(playlist.value.length / 4)
-}
-
-const playListIdx = ref(getPlaylistOfCurrentGroup(0))
-
-const nextGroup = () => {
-  idx.value++
-  if (idx.value === getTotalGroup()) {
-    playListIdx.value = getPlaylistOfCurrentGroup(0)
-    idx.value = 0
-  } else {
-    playListIdx.value = getPlaylistOfCurrentGroup(idx.value)
-  }
-}
-const prevGroup = () => {
-  if (idx.value === 0) {
-    const last = getTotalGroup() - 1
-    playListIdx.value = getPlaylistOfCurrentGroup(last)
-    idx.value = last
-  } else {
-    idx.value--
-    playListIdx.value = getPlaylistOfCurrentGroup(idx.value)
-  }
-}
-
-// Playlist Tracks
-const currentPlaylist = ref(tracks)
-
-const getCurrentPlaylist = (e) => {
-  const currentPlaytlistName = e.currentTarget.id
-  const currentIndex = playlist.value.findIndex(
-    (e) => e.name === currentPlaytlistName
-  )
-  const tracksInPlaylist = playlist.value[currentIndex].tracks
-  // console.log(currentPlaytlistName);
-  // console.log(currentIndex);
-  // console.log(tracksInPlaylist);
-
-  if (tracksInPlaylist === undefined || tracksInPlaylist.length === 0) {
-    return (currentPlaylist.value = tracks)
-  } else {
-    currentPlaylist.value = tracks.filter((e) =>
-      tracksInPlaylist.includes(e.trackId)
-    )
-    console.log(currentPlaylist.value)
-    return currentPlaylist.value
-  }
-}
-
 // Hooks
 onBeforeMount(() => {
-  musicQueue.queue = findPlaylist('Trending')
+  musicQueue.queue = getTrackList(1)
 })
 
 onMounted(() => {
@@ -449,7 +424,7 @@ onMounted(() => {
           <div class="col-span-1 flex justify-end gap-2">
             <!-- #NextButton&PreviousButton -->
             <svg
-              @click="prevGroup"
+              @click="previousPageHandler"
               class="hover:scale-110 transition ease-in-out"
               width="40"
               height="40"
@@ -468,7 +443,7 @@ onMounted(() => {
               />
             </svg>
             <svg
-              @click="nextGroup"
+              @click="nextPageHandler"
               class="hover:scale-110 transition ease-in-out"
               width="40"
               height="40"
@@ -489,20 +464,26 @@ onMounted(() => {
           </div>
         </div>
         <!-- #Playlist -->
-        <div
-          class="h-40 grid grid-cols-4 gap-[2.8%] text-center ease-linear duration-75"
-        >
+        <div class="h-40 w-full flex flex-row gap-[2.8%] overflow-hidden">
           <div
-            v-for="(playlist, index) in playListIdx"
-            :style="{
-              backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
-            }"
-            :key="index"
-            :id="playlist.name"
-            @click="getCurrentPlaylist"
-            class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 transition ease-in-out duration-200 bg-cover"
+            class="w-full flex flex-row"
+            v-for="page in playlist.paginatedPlaylist"
           >
-            <p class="text-white text-lg font-semibold">{{ playlist.name }}</p>
+            <div
+              v-for="playlist in page"
+              :style="{
+                backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
+              }"
+              :key="playlist['playlistId']"
+              :id="playlist['playlistId']"
+              @click="onChoosePlaylist"
+              class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+              tabindex="-1"
+            >
+              <p class="text-white text-lg font-semibold">
+                {{ playlist.name }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -807,7 +788,7 @@ onMounted(() => {
             <!-- for-loop here -->
             <div
               class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-              v-for="(track, index) in currentPlaylist"
+              v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
               @mousedown="onChooseTrackMouseDown"
