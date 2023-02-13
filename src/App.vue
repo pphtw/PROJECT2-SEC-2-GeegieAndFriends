@@ -47,6 +47,9 @@ const progressBar = reactive({
 })
 const playlist = reactive({
   selectedPlaylistId: 1,
+  selectedPlaylistName: computed(
+    () => getPlaylist(playlist.selectedPlaylistId).name
+  ),
   selectedPlaylist: computed(() =>
     tracks.filter((e) =>
       getTrackList(playlist.selectedPlaylistId).includes(e.trackId)
@@ -219,8 +222,8 @@ const getTrackList = (playlistId) => {
     (playlist) => playlist['playlistId'] === Number(playlistId)
   ).tracks
 }
-const getPlaylist = (playlistName) => {
-  return playlists.find((playlist) => playlist['name'] === playlistName)
+const getPlaylist = (playlistId) => {
+  return playlists.find((playlist) => playlist['playlistId'] === playlistId)
 }
 const skipToTrack = (id, queue = musicQueue.queue) => {
   const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
@@ -777,7 +780,7 @@ onMounted(() => {
           <h1
             class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
           >
-            {{ currentPlaytlistName }}
+            {{ playlist.selectedPlaylistName }}
           </h1>
           <div
             class="rounded-2xl no-scrollbar overflow-y-scroll sm:pr-2 h-[12rem] sm:h-full"
