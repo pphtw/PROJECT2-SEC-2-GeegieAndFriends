@@ -4,6 +4,66 @@ import metadata from '@/assets/metadata.json'
 
 const tracks = metadata.tracks
 
+// Carousel playlist
+
+const playlist = ref(metadata.playlist)
+const idx = ref(0)
+
+const getPlaylistOfCurrentGroup = (currentGroup) => {
+  return playlist.value.slice(4 * currentGroup, 4 * currentGroup + 4)
+}
+
+const getTotalGroup = () => {
+  return Math.ceil(playlist.value.length / 4)
+}
+
+const playListIdx = ref(getPlaylistOfCurrentGroup(0))
+
+const nextGroup = () => {
+  idx.value++
+  if (idx.value === getTotalGroup()) {
+    playListIdx.value = getPlaylistOfCurrentGroup(0)
+    idx.value = 0
+  } else {
+    playListIdx.value = getPlaylistOfCurrentGroup(idx.value)
+  }
+}
+const prevGroup = () => {
+  if (idx.value === 0) {
+    const last = getTotalGroup() - 1
+    playListIdx.value = getPlaylistOfCurrentGroup(last)
+    idx.value = last
+  } else {
+    idx.value--
+    playListIdx.value = getPlaylistOfCurrentGroup(idx.value)
+  }
+}
+
+// Playlist Tracks
+const currentPlaylist = ref(tracks)
+const currentPlaytlistName = ref("Trending")
+
+const getCurrentPlaylist = (e) => {
+  currentPlaytlistName.value = e.currentTarget.id
+  const currentIndex = playlist.value.findIndex(
+    (e) => e.name === currentPlaytlistName.value
+  )
+  const tracksInPlaylist = playlist.value[currentIndex].tracks
+  // console.log(currentPlaytlistName.value);
+  // console.log(currentIndex);
+  // console.log(tracksInPlaylist);
+
+  if (tracksInPlaylist === undefined || tracksInPlaylist.length === 0) {
+    return (currentPlaylist.value = tracks)
+  } else {
+    currentPlaylist.value = tracks.filter((e) =>
+      tracksInPlaylist.includes(e.trackId)
+    )
+    console.log(currentPlaylist.value)
+    return currentPlaylist.value
+  }
+}
+
 const musicQueue = reactive({
   defaultQueue: [],
   queue: [],
@@ -224,65 +284,7 @@ const toggleShuffle = (shuffle) => {
   }
 }
 
-// Carousel playlist
 
-const playlist = ref(metadata.playlist)
-const idx = ref(0)
-
-const getPlaylistOfCurrentGroup = (currentGroup) => {
-  return playlist.value.slice(4 * currentGroup, 4 * currentGroup + 4)
-}
-
-const getTotalGroup = () => {
-  return Math.ceil(playlist.value.length / 4)
-}
-
-const playListIdx = ref(getPlaylistOfCurrentGroup(0))
-
-const nextGroup = () => {
-  idx.value++
-  if (idx.value === getTotalGroup()) {
-    playListIdx.value = getPlaylistOfCurrentGroup(0)
-    idx.value = 0
-  } else {
-    playListIdx.value = getPlaylistOfCurrentGroup(idx.value)
-  }
-}
-const prevGroup = () => {
-  if (idx.value === 0) {
-    const last = getTotalGroup() - 1
-    playListIdx.value = getPlaylistOfCurrentGroup(last)
-    idx.value = last
-  } else {
-    idx.value--
-    playListIdx.value = getPlaylistOfCurrentGroup(idx.value)
-  }
-}
-
-// Playlist Tracks
-const currentPlaylist = ref(tracks)
-const currentPlaytlistName = ref("Trending")
-
-const getCurrentPlaylist = (e) => {
-  currentPlaytlistName.value = e.currentTarget.id
-  const currentIndex = playlist.value.findIndex(
-    (e) => e.name === currentPlaytlistName.value
-  )
-  const tracksInPlaylist = playlist.value[currentIndex].tracks
-  // console.log(currentPlaytlistName.value);
-  // console.log(currentIndex);
-  // console.log(tracksInPlaylist);
-
-  if (tracksInPlaylist === undefined || tracksInPlaylist.length === 0) {
-    return (currentPlaylist.value = tracks)
-  } else {
-    currentPlaylist.value = tracks.filter((e) =>
-      tracksInPlaylist.includes(e.trackId)
-    )
-    console.log(currentPlaylist.value)
-    return currentPlaylist.value
-  }
-}
 
 // Hooks
 onBeforeMount(() => {
