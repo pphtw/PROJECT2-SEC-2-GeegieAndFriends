@@ -227,7 +227,6 @@ const setBackgroundOnChange = () => {
   trackParent.sort((a, b) => a.id - b.id)
   // const trackParent = tracksElement.value
   // console.log(trackParent)
-
   trackParent.forEach((trackNode) => {
     trackNode.style = 'background : white'
   })
@@ -243,7 +242,7 @@ const setBackgroundOnChange = () => {
   trackParent[currentTrackIndex].style = 'background : #dcbfed'
   trackParent[currentTrackIndex].scrollIntoView({
     behavior: 'smooth',
-    block: 'center',
+    block: 'end',
   })
 }
 const isOverflowed = () => {
@@ -478,9 +477,11 @@ onMounted(() => {
           </div>
         </div>
         <!-- #Playlist -->
-        <div class="h-40 w-full flex flex-row gap-[2.8%] overflow-hidden">
+        <div
+          class="h-40 w-full flex flex-row gap-[2.8%] py-3 justify-start overflow-x-scroll"
+        >
           <div
-            class="w-full flex flex-row"
+            class="w-full flex justify-around gap-5"
             v-for="page in playlist.paginatedPlaylist"
           >
             <div
@@ -491,10 +492,10 @@ onMounted(() => {
               :key="playlist['playlistId']"
               :id="playlist['playlistId']"
               @click="onChoosePlaylist"
-              class="flex flex-col justify-center col-span-1 bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+              class="flex justify-center w-screen bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
               tabindex="-1"
             >
-              <p class="text-white text-lg font-semibold">
+              <p class="text-white text-lg font-semibold self-center">
                 {{ playlist.name }}
               </p>
             </div>
