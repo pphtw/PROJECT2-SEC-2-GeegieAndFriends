@@ -93,19 +93,6 @@ const playlist = reactive({
       getTrackList(playlist.selectedPlaylistId).includes(e.trackId)
     )
   ),
-  paginatedPlaylist: computed(() => {
-    const arr = [],
-      pageSize = 4,
-      numberOfPage = Math.ceil(playlistData.length / pageSize)
-    for (let i = 0; i < numberOfPage; i++) {
-      if (i < numberOfPage - 1) {
-        arr.push(playlistData.slice(pageSize * i, pageSize * i + pageSize))
-      } else {
-        arr.push(playlistData.slice(0 - (playlistData.length % pageSize)))
-      }
-    }
-    return arr
-  }),
 })
 
 // DOM Element
@@ -273,7 +260,7 @@ onMounted(() => {
   >
     <!-- #NavigationBar -->
     <div
-      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full py-3 sm:py-0 sm:w-[5.4%] h-fit sm:h-full max-sm:fixed bg-[#162750]"
+      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:fixed bg-[#162750]"
     >
       <!-- #HomePageButton -->
       <svg
@@ -409,10 +396,10 @@ onMounted(() => {
     </div>
     <!-- #HomeContainer -->
     <div
-      class="max-sm:grow order-1 sm:order-2 w-full h-fit sm:h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col sm:justify-center justify-end"
+      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col sm:justify-center justify-end"
     >
       <!-- #Header&Playlist -->
-      <div class="h-fit flex-col hidden sm:flex">
+      <div class="h-fit sm:h-[28%] flex-col hidden sm:flex">
         <!-- #Header -->
         <div class="grid grid-cols-2 pb-3">
           <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
@@ -463,24 +450,19 @@ onMounted(() => {
           class="h-52 w-full flex flex-row gap-[2.8%] py-3 justify-start overflow-x-scroll"
         >
           <div
-            class="w-full flex justify-around gap-10"
-            v-for="page in playlist.paginatedPlaylist"
+            v-for="playlist in playlistData"
+            :style="{
+              backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
+            }"
+            :key="playlist['playlistId']"
+            :id="playlist['playlistId']"
+            @click="onChoosePlaylist"
+            class="flex justify-center w-screen bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+            tabindex="-1"
           >
-            <div
-              v-for="playlist in page"
-              :style="{
-                backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
-              }"
-              :key="playlist['playlistId']"
-              :id="playlist['playlistId']"
-              @click="onChoosePlaylist"
-              class="flex justify-center w-screen bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
-              tabindex="-1"
-            >
-              <p class="text-white text-lg font-semibold self-center">
-                {{ playlist.name }}
-              </p>
-            </div>
+            <p class="text-white text-lg font-semibold self-center">
+              {{ playlist.name }}
+            </p>
           </div>
         </div>
       </div>
@@ -884,6 +866,7 @@ onMounted(() => {
   transform: translateX(20px);
   opacity: 0;
 }
+
 .progress-bar {
   height: 0.3em;
   width: 100%;
