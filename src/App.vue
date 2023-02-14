@@ -2,16 +2,54 @@
 import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 import metadata from '@/assets/metadata.json'
 
-const playlists = metadata.playlists
-const tracks = metadata.tracks
+const playlistData = metadata.playlists
+const trackData = metadata.tracks
 
 const musicQueue = reactive({
   currentPlaylistId: 1,
+  currentTrack: computed(() => getTrack(musicQueue?.queue[0])),
   defaultQueue: [],
   queue: [],
   isShuffled: false,
   isLooping: false,
   isPlaying: false,
+  toggleShuffle: (shuffle) => {
+    const currentTrackId = musicQueue.queue[0]
+    if (shuffle) {
+      const restOfQueue = musicQueue.queue.filter((e, i) => i !== 0)
+      for (let i = restOfQueue.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        const temp = restOfQueue[i]
+        restOfQueue[i] = restOfQueue[j]
+        restOfQueue[j] = temp
+      }
+      musicQueue.queue = [currentTrackId, ...restOfQueue]
+    } else {
+      musicQueue.skipToTrack(currentTrackId, musicQueue.defaultQueue)
+      musicQueue.queue = musicQueue.defaultQueue
+    }
+  },
+  skipTrack: (toNext = true, queue = musicQueue.queue) => {
+    if (toNext) {
+      queue.push(queue.shift())
+    } else {
+      queue.unshift(queue.pop())
+    }
+  },
+  skipToTrack: (id, queue = musicQueue.queue) => {
+    const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
+    if (Boolean(indexToSkip)) {
+      if (indexToSkip < queue.length / 2) {
+        while (queue[0] !== id) {
+          musicQueue.skipTrack(true, queue)
+        }
+      } else {
+        while (queue[0] !== id) {
+          musicQueue.skipTrack(false, queue)
+        }
+      }
+    }
+  },
 })
 const progressBar = reactive({
   barWidth: '0%',
@@ -51,19 +89,19 @@ const playlist = reactive({
     () => getPlaylist(playlist.selectedPlaylistId).name
   ),
   selectedPlaylist: computed(() =>
-    tracks.filter((e) =>
+    trackData.filter((e) =>
       getTrackList(playlist.selectedPlaylistId).includes(e.trackId)
     )
   ),
   paginatedPlaylist: computed(() => {
     const arr = [],
       pageSize = 4,
-      numberOfPage = Math.ceil(playlists.length / pageSize)
+      numberOfPage = Math.ceil(playlistData.length / pageSize)
     for (let i = 0; i < numberOfPage; i++) {
       if (i < numberOfPage - 1) {
-        arr.push(playlists.slice(pageSize * i, pageSize * i + pageSize))
+        arr.push(playlistData.slice(pageSize * i, pageSize * i + pageSize))
       } else {
-        arr.push(playlists.slice(0 - (playlists.length % pageSize)))
+        arr.push(playlistData.slice(0 - (playlistData.length % pageSize)))
       }
     }
     return arr
@@ -77,10 +115,8 @@ const progressBarElement = ref(null)
 const trendingElement = ref(null)
 const titleElement = ref(null)
 
-// isOverflow
+// State
 const isOverflow = ref(null)
-
-const currentTrack = computed(() => getTrack(musicQueue?.queue[0]))
 
 // Event Handlers
 const playerHandler = () => {
@@ -93,11 +129,11 @@ const playerHandler = () => {
   }
 }
 const onNextHandler = () => {
-  skipTrack()
+  musicQueue.skipTrack()
   toggleDelayedPlayPause()
 }
 const onPreviousHandler = () => {
-  skipTrack(false)
+  musicQueue.skipTrack(false)
   toggleDelayedPlayPause()
 }
 const onEndedHandler = () => {
@@ -146,7 +182,7 @@ const onChooseTrackMouseUp = (e) => {
     musicQueue.currentPlaylistId = playlist.selectedPlaylistId
     musicQueue.queue = getTrackList(musicQueue.currentPlaylistId)
   }
-  skipToTrack(chooseTrackId)
+  musicQueue.skipToTrack(chooseTrackId)
   setBackgroundOnChange()
   toggleDelayedPlayPause(300)
 }
@@ -159,10 +195,10 @@ const onShuffleHandler = (e) => {
       musicQueue.defaultQueue = musicQueue.queue
     }
     if (!musicQueue.isShuffled) {
-      toggleShuffle(true)
+      musicQueue.toggleShuffle(true)
       musicQueue.isShuffled = true
     } else {
-      toggleShuffle(false)
+      musicQueue.toggleShuffle(false)
       musicQueue.isShuffled = false
     }
   }
@@ -185,15 +221,20 @@ const toggleDelayedPlayPause = (delay = 0) => {
 const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
 }
-
 const setBackgroundOnChange = () => {
   const trackParent = tracksElement.value
   trackParent.forEach((trackNode) => {
     trackNode.style = 'background : white'
   })
-  const currentTrackIndex = tracks.findIndex(
-    (e) => e['trackId'] === currentTrack.value.trackId
-  )
+  const currentTrackIndex = getTrackList(
+    musicQueue.currentPlaylistId
+  ).findIndex((e) => {
+    console.log(e)
+    console.log(musicQueue.queue[0])
+    return e === musicQueue.queue[0]
+  })
+  getTrackList(musicQueue.currentPlaylistId)
+  console.log(currentTrackIndex)
   trackParent[currentTrackIndex].style = 'background : #dcbfed'
   trackParent[currentTrackIndex].scrollIntoView({
     behavior: 'smooth',
@@ -207,58 +248,25 @@ const isOverflowed = () => {
     isOverflow.value = element.scrollHeight > element.offsetHeight
   }, 100)
 }
-const skipTrack = (toNext = true, queue = musicQueue.queue) => {
-  if (toNext) {
-    queue.push(queue.shift())
-  } else {
-    queue.unshift(queue.pop())
-  }
-}
+
+// Getters
 const getTrack = (trackId = 1) => {
-  return tracks.find((track) => track['trackId'] === trackId)
+  return trackData.find((track) => track['trackId'] === trackId)
 }
 const getTrackList = (playlistId) => {
-  return playlists.find(
-    (playlist) => playlist['playlistId'] === Number(playlistId)
-  ).tracks
+  return [
+    ...playlistData.find(
+      (playlist) => playlist['playlistId'] === Number(playlistId)
+    ).tracks,
+  ]
 }
 const getPlaylist = (playlistId) => {
-  return playlists.find((playlist) => playlist['playlistId'] === playlistId)
-}
-const skipToTrack = (id, queue = musicQueue.queue) => {
-  const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
-  if (Boolean(indexToSkip)) {
-    if (indexToSkip < queue.length / 2) {
-      while (queue[0] !== id) {
-        skipTrack(true, queue)
-      }
-    } else {
-      while (queue[0] !== id) {
-        skipTrack(false, queue)
-      }
-    }
-  }
-}
-const toggleShuffle = (shuffle) => {
-  const currentTrackId = musicQueue.queue[0]
-  if (shuffle) {
-    const restOfQueue = musicQueue.queue.filter((e, i) => i !== 0)
-    for (let i = restOfQueue.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      const temp = restOfQueue[i]
-      restOfQueue[i] = restOfQueue[j]
-      restOfQueue[j] = temp
-    }
-    musicQueue.queue = [currentTrackId, ...restOfQueue]
-  } else {
-    skipToTrack(currentTrackId, musicQueue.defaultQueue)
-    musicQueue.queue = musicQueue.defaultQueue
-  }
+  return playlistData.find((playlist) => playlist['playlistId'] === playlistId)
 }
 
 // Hooks
 onBeforeMount(() => {
-  musicQueue.queue = getTrackList(1)
+  musicQueue.queue = [...getTrackList(1)]
 })
 
 onMounted(() => {
@@ -506,14 +514,15 @@ onMounted(() => {
             <div
               class="h-fit sm:h-[70%] bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
               :style="{
-                backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
+                backgroundImage:
+                  'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
               }"
             ></div>
             <!-- #ProgressBar -->
             <div class="overflow-clip">
               <audio
                 ref="audioElement"
-                :src="currentTrack.source"
+                :src="musicQueue.currentTrack.source"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
@@ -550,7 +559,7 @@ onMounted(() => {
                   :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''"
                 >
                   <h1 class="text-2xl font-bold">
-                    {{ currentTrack.name }}
+                    {{ musicQueue.currentTrack.name }}
                   </h1>
                 </div>
                 <div
@@ -561,13 +570,13 @@ onMounted(() => {
                   "
                 >
                   <h1 class="text-2xl font-bold">
-                    {{ currentTrack.name }}
+                    {{ musicQueue.currentTrack.name }}
                   </h1>
                 </div>
               </div>
               <div class="text-center h-fit w-[70%]">
                 <h3 class="font-semibold w-full">
-                  {{ currentTrack.artist }}
+                  {{ musicQueue.currentTrack.artist }}
                 </h3>
               </div>
 
