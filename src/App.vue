@@ -496,7 +496,7 @@ onMounted(() => {
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
-                @playing="setBackgroundOnChange"
+                @durationchange="setBackgroundOnChange"
               ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
