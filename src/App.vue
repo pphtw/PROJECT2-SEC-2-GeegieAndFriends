@@ -242,7 +242,7 @@ const setBackgroundOnChange = () => {
   trackParent[currentTrackIndex].style = 'background : #dcbfed'
   trackParent[currentTrackIndex].scrollIntoView({
     behavior: 'smooth',
-    block: 'end',
+    block: 'center',
   })
 }
 const isOverflowed = () => {
@@ -492,7 +492,7 @@ onMounted(() => {
               :key="playlist['playlistId']"
               :id="playlist['playlistId']"
               @click="onChoosePlaylist"
-              class="flex justify-center w-screen bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+              class="flex justify-center w-screen cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
               tabindex="-1"
             >
               <p class="text-white text-lg font-semibold self-center">
@@ -532,7 +532,7 @@ onMounted(() => {
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
-                @playing="setBackgroundOnChange"
+                @durationchange="setBackgroundOnChange"
               ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
