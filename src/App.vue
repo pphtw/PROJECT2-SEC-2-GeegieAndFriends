@@ -478,10 +478,10 @@ onMounted(() => {
         </div>
         <!-- #Playlist -->
         <div
-          class="h-40 w-full flex flex-row gap-[2.8%] py-3 justify-start overflow-x-scroll"
+          class="h-52 w-full flex flex-row gap-[2.8%] py-3 justify-start overflow-x-scroll"
         >
           <div
-            class="w-full flex justify-around gap-5"
+            class="w-full flex justify-around gap-10"
             v-for="page in playlist.paginatedPlaylist"
           >
             <div
