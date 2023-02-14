@@ -118,8 +118,6 @@ const playerHandler = () => {
 const onNextHandler = () => {
   musicQueue.skipTrack()
   toggleDelayedPlayPause()
-  console.log(musicQueue.queue)
-  console.log(musicQueue.defaultQueue)
 }
 const onPreviousHandler = () => {
   musicQueue.skipTrack(false)
@@ -212,27 +210,13 @@ const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
 }
 const setBackgroundOnChange = () => {
-  // const trackParent = tracksElement.value
-  // trackParent.sort((a, b) => a.id - b.id)
-  // // const trackParent = tracksElement.value
-  // // console.log(trackParent)
-  // trackParent.forEach((trackNode) => {
-  //   trackNode.style = 'background : white'
-  // })
-  // const currentTrackIndex = getTrackList(
-  //   musicQueue.currentPlaylistId
-  // ).findIndex((e) => {
-  //   // console.log(e)
-  //   // console.log(musicQueue.queue[0])
-  //   return e === musicQueue.queue[0]
-  // })
-  // getTrackList(musicQueue.currentPlaylistId)
-  // // console.log(currentTrackIndex)
-  // trackParent[currentTrackIndex].style = 'background : #dcbfed'
-  // trackParent[currentTrackIndex].scrollIntoView({
-  //   behavior: 'smooth',
-  //   block: 'end',
-  // })
+  const currentTrackIndex = getTrackList(
+    musicQueue.currentPlaylistId
+  ).findIndex((e) => e === musicQueue.queue[0])
+  tracksElement.value[currentTrackIndex].scrollIntoView({
+    behavior: 'smooth',
+    block: 'end',
+  })
 }
 const isOverflowed = () => {
   const element = titleElement.value
@@ -798,6 +782,7 @@ onMounted(() => {
               }"
               @mousedown="onChooseTrackMouseDown"
               @mouseup="onChooseTrackMouseUp"
+              ref="tracksElement"
             >
               <!-- #Ranking -->
               <div class="w-fit">
