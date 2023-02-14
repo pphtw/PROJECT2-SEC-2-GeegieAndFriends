@@ -131,6 +131,8 @@ const playerHandler = () => {
 const onNextHandler = () => {
   musicQueue.skipTrack()
   toggleDelayedPlayPause()
+  console.log(musicQueue.queue)
+  console.log(musicQueue.defaultQueue)
 }
 const onPreviousHandler = () => {
   musicQueue.skipTrack(false)
@@ -178,10 +180,10 @@ const onChooseTrackMouseDown = (e) => {
 }
 const onChooseTrackMouseUp = (e) => {
   const chooseTrackId = Number(e.currentTarget.id)
-  console.log(chooseTrackId)
   if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
     musicQueue.currentPlaylistId = playlist.selectedPlaylistId
-    musicQueue.queue = getTrackList(musicQueue.currentPlaylistId)
+    musicQueue.queue = [...getTrackList(musicQueue.currentPlaylistId)]
+    musicQueue.defaultQueue = musicQueue.queue
   }
   musicQueue.skipToTrack(chooseTrackId)
   setBackgroundOnChange()
@@ -223,27 +225,7 @@ const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
 }
 const setBackgroundOnChange = () => {
-  const trackParent = tracksElement.value
-  trackParent.sort((a, b) => a.id - b.id)
-  // const trackParent = tracksElement.value
-  // console.log(trackParent)
-  trackParent.forEach((trackNode) => {
-    trackNode.style = 'background : white'
-  })
-  const currentTrackIndex = getTrackList(
-    musicQueue.currentPlaylistId
-  ).findIndex((e) => {
-    // console.log(e)
-    // console.log(musicQueue.queue[0])
-    return e === musicQueue.queue[0]
-  })
-  getTrackList(musicQueue.currentPlaylistId)
-  // console.log(currentTrackIndex)
-  trackParent[currentTrackIndex].style = 'background : #dcbfed'
-  trackParent[currentTrackIndex].scrollIntoView({
-    behavior: 'smooth',
-    block: 'center',
-  })
+  console.log('Do scroll in to view here')
 }
 const isOverflowed = () => {
   const element = titleElement.value
@@ -807,9 +789,12 @@ onMounted(() => {
               v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
+              :class="{
+                'is-playing':
+                  musicQueue.currentTrack.trackId === Number(track.trackId),
+              }"
               @mousedown="onChooseTrackMouseDown"
               @mouseup="onChooseTrackMouseUp"
-              ref="tracksElement"
             >
               <!-- #Ranking -->
               <div class="w-fit">
@@ -912,5 +897,9 @@ onMounted(() => {
   width: 0;
   background-color: #c493e1;
   border-radius: 0 2em 2em 0;
+}
+
+.is-playing {
+  background: #dcbfed;
 }
 </style>
