@@ -446,23 +446,25 @@ onMounted(() => {
           </div>
         </div>
         <!-- #Playlist -->
-        <div
-          class="h-52 w-full flex flex-row gap-[2.8%] py-3 justify-start overflow-x-scroll"
-        >
+        <div class="relative h-fit overflow-x-auto">
           <div
-            v-for="playlist in playlistData"
-            :style="{
-              backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
-            }"
-            :key="playlist['playlistId']"
-            :id="playlist['playlistId']"
-            @click="onChoosePlaylist"
-            class="flex justify-center w-screen bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
-            tabindex="-1"
+            class="h-full inline-flex gap-10 justify-start overflow-x-scroll"
           >
-            <p class="text-white text-lg font-semibold self-center">
-              {{ playlist.name }}
-            </p>
+            <div
+              v-for="playlist in playlistData"
+              :style="{
+                backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
+              }"
+              :key="playlist['playlistId']"
+              :id="playlist['playlistId']"
+              @click="onChoosePlaylist"
+              class="flex justify-center h-[10rem] w-[17.6rem] bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+              tabindex="-1"
+            >
+              <p class="text-white text-lg font-semibold self-center">
+                {{ playlist.name }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
