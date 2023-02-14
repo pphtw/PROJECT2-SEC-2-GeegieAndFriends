@@ -178,6 +178,7 @@ const onChooseTrackMouseDown = (e) => {
 }
 const onChooseTrackMouseUp = (e) => {
   const chooseTrackId = Number(e.currentTarget.id)
+  console.log(chooseTrackId)
   if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
     musicQueue.currentPlaylistId = playlist.selectedPlaylistId
     musicQueue.queue = getTrackList(musicQueue.currentPlaylistId)
@@ -223,18 +224,22 @@ const msToMin = (timeInMs) => {
 }
 const setBackgroundOnChange = () => {
   const trackParent = tracksElement.value
+  trackParent.sort((a, b) => a.id - b.id)
+  // const trackParent = tracksElement.value
+  // console.log(trackParent)
+
   trackParent.forEach((trackNode) => {
     trackNode.style = 'background : white'
   })
   const currentTrackIndex = getTrackList(
     musicQueue.currentPlaylistId
   ).findIndex((e) => {
-    console.log(e)
-    console.log(musicQueue.queue[0])
+    // console.log(e)
+    // console.log(musicQueue.queue[0])
     return e === musicQueue.queue[0]
   })
   getTrackList(musicQueue.currentPlaylistId)
-  console.log(currentTrackIndex)
+  // console.log(currentTrackIndex)
   trackParent[currentTrackIndex].style = 'background : #dcbfed'
   trackParent[currentTrackIndex].scrollIntoView({
     behavior: 'smooth',
