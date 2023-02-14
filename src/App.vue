@@ -790,8 +790,7 @@ onMounted(() => {
               :key="track.trackId"
               :id="track.trackId"
               :class="{
-                'is-playing':
-                  musicQueue.currentTrack.trackId === Number(track.trackId),
+                'is-playing': musicQueue.currentTrack.trackId === track.trackId,
               }"
               @mousedown="onChooseTrackMouseDown"
               @mouseup="onChooseTrackMouseUp"
