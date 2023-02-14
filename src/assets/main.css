@@ -33,3 +33,6 @@ body {
     scrollbar-width: none; /* Firefox */
   }
 }
+.no-scrollbar-full::-webkit-scrollbar {
+  display: none;
+}

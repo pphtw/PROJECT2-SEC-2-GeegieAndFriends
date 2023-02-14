@@ -265,6 +265,19 @@ onBeforeMount(() => {
 onMounted(() => {
   audioElement.value.volume = 0.07
 })
+
+const playlistElement = ref(null)
+const nextPageHandler = (e) => {
+  const playlist = playlistElement.value
+  console.log(playlistElement.value)
+
+  playlist.scrollLeft += 1350
+}
+const previousPageHandler = (e) => {
+  const playlist = playlistElement.value
+  console.log(playlistElement.value)
+  playlist.scrollLeft -= 1350
+}
 </script>
 
 <template>
@@ -466,10 +479,11 @@ onMounted(() => {
           </div>
         </div>
         <!-- #Playlist -->
-        <div class="relative h-fit overflow-x-auto">
-          <div
-            class="h-full inline-flex gap-10 justify-start overflow-x-scroll"
-          >
+        <div
+          class="relative h-fit overflow-x-auto no-scrollbar-full"
+          ref="playlistElement"
+        >
+          <div class="h-full inline-flex gap-10 justify-start">
             <div
               v-for="playlist in playlistData"
               :style="{
