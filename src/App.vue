@@ -466,7 +466,7 @@ const previousPageHandler = () => {
           class="grow relative h-fit overflow-x-auto scroll-smooth no-scrollbar-full"
           ref="playlistElement"
         >
-          <div class="h-[90%] inline-flex gap-10 justify-start">
+          <div class="h-full inline-flex gap-10 justify-start">
             <div
               v-for="playlist in playlistData"
               :style="{
@@ -475,10 +475,12 @@ const previousPageHandler = () => {
               :key="playlist['playlistId']"
               :id="playlist['playlistId']"
               @click="onChoosePlaylist"
-              class="flex justify-center w-[16rem] cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+              class="flex justify-center w-[26rem] cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
               tabindex="-1"
             >
-              <p class="text-white text-lg font-semibold self-center">
+              <p
+                class="text-white truncate text-lg font-semibold self-center text-center"
+              >
                 {{ playlist.name }}
               </p>
             </div>
@@ -513,7 +515,6 @@ const previousPageHandler = () => {
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
-               
               ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
@@ -779,7 +780,7 @@ const previousPageHandler = () => {
             {{ playlist.selectedPlaylistName }}
           </h1>
           <div
-            class="rounded-2xl no-scrollbar overflow-y-scroll sm:pr-2 h-[12rem] sm:h-full"
+            class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full"
           >
             <!-- #TrendingList -->
             <!-- for-loop here -->
