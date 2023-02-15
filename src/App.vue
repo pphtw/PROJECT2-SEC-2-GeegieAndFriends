@@ -281,7 +281,7 @@ const previousPageHandler = (e) => {
   >
     <!-- #NavigationBar -->
     <div
-      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:fixed bg-[#162750]"
+      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:fixed max-sm:z-10 bg-[#162750]"
     >
       <!-- #HomePageButton -->
       <svg
@@ -417,7 +417,7 @@ const previousPageHandler = (e) => {
     </div>
     <!-- #HomeContainer -->
     <div
-      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] p-0 sm:px-28 py-[1%] flex flex-col sm:justify-center justify-end"
+      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%]  sm:px-28 sm:pt-0 pt-[20%] flex flex-col sm:justify-center justify-end"
     >
       <!-- #Header&Playlist -->
       <div class="h-fit sm:h-[28%] flex-col hidden sm:flex">
@@ -496,11 +496,9 @@ const previousPageHandler = (e) => {
       >
         <!-- #MusicPlayerCard #NowPlaying -->
         <div
-          class="col-span-1 row-span-1 max-sm:w-[80%] sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center"
+          class="col-span-1 row-span-1 max-sm:w-full sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center"
         >
-          <h1
-            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
-          >
+          <h1 class="text-2xl font-bold pb-3 max-sm:hidden text-white truncate">
             Now Playing
           </h1>
           <div class="flex flex-col rounded-2xl bg-white h-fit sm:h-full">
