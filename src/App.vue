@@ -171,7 +171,7 @@ const onChooseTrackMouseUp = (e) => {
     musicQueue.defaultQueue = musicQueue.queue
   }
   musicQueue.skipToTrack(chooseTrackId)
-  setBackgroundOnChange()
+  // setBackgroundOnChange()
   toggleDelayedPlayPause(300)
 }
 const onChoosePlaylist = (e) => {
@@ -209,18 +209,18 @@ const toggleDelayedPlayPause = (delay = 0) => {
 const msToMin = (timeInMs) => {
   return new Date(timeInMs * 1000).toISOString().substring(14, 19)
 }
-const setBackgroundOnChange = () => {
-  const currentTrackIndex = getTrackList(
-    musicQueue.currentPlaylistId
-  ).findIndex((e) => e === musicQueue.queue[0])
-  console.log(currentTrackIndex)
-  console.log(tracksElement.value[currentTrackIndex].id)
-  tracksElement.value.sort((a, b) => a.id - b.id)
-  tracksElement.value[currentTrackIndex].scrollIntoView({
-    behavior: 'smooth',
-    block: 'start',
-  })
-}
+// const setBackgroundOnChange = () => {
+//   const currentTrackIndex = getTrackList(
+//     musicQueue.currentPlaylistId
+//   ).findIndex((e) => e === musicQueue.queue[0])
+//   console.log(currentTrackIndex)
+//   console.log(tracksElement.value[currentTrackIndex].id)
+//   tracksElement.value.sort((a, b) => a.id - b.id)
+//   tracksElement.value[currentTrackIndex].scrollIntoView({
+//     behavior: 'smooth',
+//     block: 'start',
+//   })
+// }
 const isOverflowed = () => {
   const element = titleElement.value
   isOverflow.value = false
@@ -255,13 +255,13 @@ onMounted(() => {
 
 // Playlist Scroll
 const playlistElement = ref(null)
-const nextPageHandler = (e) => {
+const nextPageHandler = () => {
   const playlist = playlistElement.value
   console.log(playlistElement.value)
 
   playlist.scrollLeft += 1400
 }
-const previousPageHandler = (e) => {
+const previousPageHandler = () => {
   const playlist = playlistElement.value
   console.log(playlistElement.value)
   playlist.scrollLeft -= 1400
@@ -468,7 +468,7 @@ const previousPageHandler = (e) => {
         </div>
         <!-- #Playlist -->
         <div
-          class="grow relative h-fit overflow-x-auto no-scrollbar-full"
+          class="grow relative h-fit overflow-x-auto scroll-smooth no-scrollbar-full"
           ref="playlistElement"
         >
           <div class="h-[90%] inline-flex gap-10 justify-start">
@@ -518,7 +518,7 @@ const previousPageHandler = (e) => {
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
-                @play="setBackgroundOnChange"
+               
               ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
