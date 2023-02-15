@@ -476,7 +476,7 @@ const previousPageHandler = (e) => {
               :key="playlist['playlistId']"
               :id="playlist['playlistId']"
               @click="onChoosePlaylist"
-              class="flex justify-center w-72 bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+              class="flex justify-center w-72 cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
               tabindex="-1"
             >
               <p class="text-white text-lg font-semibold self-center">
