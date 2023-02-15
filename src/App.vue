@@ -213,9 +213,12 @@ const setBackgroundOnChange = () => {
   const currentTrackIndex = getTrackList(
     musicQueue.currentPlaylistId
   ).findIndex((e) => e === musicQueue.queue[0])
+  console.log(currentTrackIndex)
+  console.log(tracksElement.value[currentTrackIndex].id)
+  tracksElement.value.sort((a, b) => a.id - b.id)
   tracksElement.value[currentTrackIndex].scrollIntoView({
     behavior: 'smooth',
-    block: 'end',
+    block: 'start',
   })
 }
 const isOverflowed = () => {
@@ -250,6 +253,7 @@ onMounted(() => {
   audioElement.value.volume = 0.07
 })
 
+// Playlist Scroll
 const playlistElement = ref(null)
 const nextPageHandler = (e) => {
   const playlist = playlistElement.value
@@ -476,7 +480,7 @@ const previousPageHandler = (e) => {
               :key="playlist['playlistId']"
               :id="playlist['playlistId']"
               @click="onChoosePlaylist"
-              class="flex justify-center w-72 cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+              class="flex justify-center w-[16rem] cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
               tabindex="-1"
             >
               <p class="text-white text-lg font-semibold self-center">
@@ -516,7 +520,7 @@ const previousPageHandler = (e) => {
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
                 @ended="onEndedHandler"
-                @durationchange="setBackgroundOnChange"
+                @play="setBackgroundOnChange"
               ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
