@@ -271,12 +271,12 @@ const nextPageHandler = (e) => {
   const playlist = playlistElement.value
   console.log(playlistElement.value)
 
-  playlist.scrollLeft += 1350
+  playlist.scrollLeft += 1400
 }
 const previousPageHandler = (e) => {
   const playlist = playlistElement.value
   console.log(playlistElement.value)
-  playlist.scrollLeft -= 1350
+  playlist.scrollLeft -= 1400
 }
 </script>
 
@@ -480,10 +480,10 @@ const previousPageHandler = (e) => {
         </div>
         <!-- #Playlist -->
         <div
-          class="relative h-fit overflow-x-auto no-scrollbar-full"
+          class="grow relative h-fit overflow-x-auto no-scrollbar-full"
           ref="playlistElement"
         >
-          <div class="h-full inline-flex gap-10 justify-start">
+          <div class="h-[90%] inline-flex gap-10 justify-start">
             <div
               v-for="playlist in playlistData"
               :style="{
@@ -492,7 +492,7 @@ const previousPageHandler = (e) => {
               :key="playlist['playlistId']"
               :id="playlist['playlistId']"
               @click="onChoosePlaylist"
-              class="flex justify-center h-[10rem] w-[17.6rem] bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+              class="flex justify-center w-72 bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
               tabindex="-1"
             >
               <p class="text-white text-lg font-semibold self-center">
