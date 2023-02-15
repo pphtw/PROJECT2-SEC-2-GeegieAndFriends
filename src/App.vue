@@ -270,7 +270,7 @@ const previousPageHandler = (e) => {
 
 <template>
   <div
-    class="flex flex-col justify-end sm:flex-row w-screen h-full sm:h-screen sm:px-0 bg-[#2D3967]"
+    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
     @keyup.right="onNextHandler"
     @keyup.left="onPreviousHandler"
     @keyup.space="playerHandler"
