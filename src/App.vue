@@ -412,7 +412,7 @@ const previousPageHandler = () => {
     </div>
     <!-- #HomeContainer -->
     <div
-      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-28 sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
+      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
     >
       <!-- #Header&Playlist -->
       <div class="h-fit sm:h-[28%] flex-col hidden sm:flex">
@@ -489,7 +489,7 @@ const previousPageHandler = () => {
       </div>
       <!-- #MusicPlayer&Trending -->
       <div
-        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-4 gap-0 sm:gap-[2.8%]"
+        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10"
       >
         <!-- #MusicPlayerCard #NowPlaying -->
         <div
