@@ -424,7 +424,7 @@ const previousPageHandler = (e) => {
             <!-- #NextButton&PreviousButton -->
             <svg
               @click="previousPageHandler"
-              class="hover:scale-110 transition ease-in-out"
+              class="hover:scale-110 cursor-pointer transition ease-in-out"
               width="40"
               height="40"
               viewBox="0 0 50 50"
@@ -443,7 +443,7 @@ const previousPageHandler = (e) => {
             </svg>
             <svg
               @click="nextPageHandler"
-              class="hover:scale-110 transition ease-in-out"
+              class="hover:scale-110 cursor-pointer transition ease-in-out"
               width="40"
               height="40"
               viewBox="0 0 50 50"
