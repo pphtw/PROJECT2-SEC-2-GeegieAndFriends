@@ -501,7 +501,7 @@ const previousPageHandler = () => {
           <div class="flex flex-col rounded-2xl bg-white h-fit sm:h-full">
             <!-- #MusicCover -->
             <div
-              class="h-fit sm:h-[70%] bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
+              class="h-fit sm:h-full bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
               :style="{
                 backgroundImage:
                   'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
@@ -536,7 +536,7 @@ const previousPageHandler = () => {
             </div>
             <!-- #MusicTitle&Controller -->
             <div
-              class="flex flex-col gap-3 justify-around items-center h-fit bg-white rounded-b-2xl"
+              class="flex flex-col gap-1 justify-around items-center h-fit bg-white rounded-b-2xl"
             >
               <!-- #MusicTitle&Artist -->
               <div
