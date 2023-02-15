@@ -270,7 +270,7 @@ const previousPageHandler = (e) => {
 
 <template>
   <div
-    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
+    class="flex flex-col justify-end sm:flex-row w-screen h-full sm:h-screen sm:px-0 bg-[#2D3967]"
     @keyup.right="onNextHandler"
     @keyup.left="onPreviousHandler"
     @keyup.space="playerHandler"
@@ -417,7 +417,7 @@ const previousPageHandler = (e) => {
     </div>
     <!-- #HomeContainer -->
     <div
-      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%]  sm:px-28 sm:pt-0 pt-[20%] flex flex-col sm:justify-center justify-end"
+      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-28 sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
     >
       <!-- #Header&Playlist -->
       <div class="h-fit sm:h-[28%] flex-col hidden sm:flex">
