@@ -256,15 +256,10 @@ onMounted(() => {
 // Playlist Scroll
 const playlistElement = ref(null)
 const nextPageHandler = () => {
-  const playlist = playlistElement.value
-  console.log(playlistElement.value)
-
-  playlist.scrollLeft += 1400
+  playlistElement.value.scrollLeft += 1400
 }
 const previousPageHandler = () => {
-  const playlist = playlistElement.value
-  console.log(playlistElement.value)
-  playlist.scrollLeft -= 1400
+  playlistElement.value.scrollLeft -= 1400
 }
 </script>
 
