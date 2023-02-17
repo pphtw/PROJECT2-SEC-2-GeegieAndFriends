@@ -1,6 +1,5 @@
 <script setup>
-import {computed, nextTick, onBeforeMount, onMounted, reactive, ref} from 'vue'
-import metadata from '@/assets/metadata.json'
+import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 
 // icons
 import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
@@ -9,20 +8,19 @@ import PlaylistPageButton from '@/icon/NavigationBar/PlaylistPageButton.vue'
 import CreditPageButton from '@/icon/NavigationBar/CreditPageButton.vue'
 import SettingPageButton from '@/icon/NavigationBar/SettingPageButton.vue'
 import PreviousPageHandler from '@/icon/HomeContainer/previousPageHandler.vue'
-import NextPageHandler from "@/icon/HomeContainer/NextPageHandler.vue";
-import IsShuffled from "@/icon/HomeContainer/IsShuffled.vue";
-import NoShuffled from "@/icon/HomeContainer/NoShuffled.vue";
-import PreviousButton from "@/icon/HomeContainer/PreviousButton.vue";
-import IsPlaying from "@/icon/HomeContainer/IsPlaying.vue";
-import NoPlaying from "@/icon/HomeContainer/NoPlaying.vue";
-import SkipButton from "@/icon/HomeContainer/SkipButton.vue";
-import IsLooping from "@/icon/HomeContainer/NoLooping.vue";
-import NoLooping from "@/icon/HomeContainer/IsLooping.vue";
-import LikeButton from "@/icon/HomeContainer/LikeButton.vue";
-import MenuButton from "@/icon/HomeContainer/MenuButton.vue";
+import NextPageHandler from '@/icon/HomeContainer/NextPageHandler.vue'
+import IsShuffled from '@/icon/HomeContainer/IsShuffled.vue'
+import NoShuffled from '@/icon/HomeContainer/NoShuffled.vue'
+import PreviousButton from '@/icon/HomeContainer/PreviousButton.vue'
+import IsPlaying from '@/icon/HomeContainer/IsPlaying.vue'
+import NoPlaying from '@/icon/HomeContainer/NoPlaying.vue'
+import SkipButton from '@/icon/HomeContainer/SkipButton.vue'
+import IsLooping from '@/icon/HomeContainer/NoLooping.vue'
+import NoLooping from '@/icon/HomeContainer/IsLooping.vue'
+import LikeButton from '@/icon/HomeContainer/LikeButton.vue'
+import MenuButton from '@/icon/HomeContainer/MenuButton.vue'
 
-
-
+import metadata from '@/assets/metadata.json'
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
 
@@ -55,7 +53,7 @@ const musicQueue = reactive({
       queue.push(queue.shift())
     } else {
       queue.unshift(queue.pop())
-    }  
+    }
   },
   skipToTrack: (id, queue = musicQueue.queue) => {
     const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
@@ -288,15 +286,15 @@ const previousPageHandler = () => {
       class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:fixed max-sm:z-10 bg-[#162750]"
     >
       <!-- #HomePageButton -->
-      <HomePageButton/>
+      <HomePageButton />
       <!-- #SearchPageButton -->
-      <SearchPageButton/>
+      <SearchPageButton />
       <!-- #PlaylistPageButton -->
-      <PlaylistPageButton/>
+      <PlaylistPageButton />
       <!-- #CreditPageButton -->
-      <CreditPageButton/>
+      <CreditPageButton />
       <!-- #SettingPageButton -->
-      <SettingPageButton/>
+      <SettingPageButton />
     </div>
     <!-- #HomeContainer -->
     <div
@@ -309,7 +307,7 @@ const previousPageHandler = () => {
           <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
           <div class="col-span-1 flex justify-end gap-2">
             <!-- #NextButton&PreviousButton -->
-            <PreviousPageHandler @click="previousPageHandler"/>
+            <PreviousPageHandler @click="previousPageHandler" />
             <NextPageHandler @click="nextPageHandler" />
           </div>
         </div>
@@ -341,9 +339,12 @@ const previousPageHandler = () => {
       </div>
       <!-- #MusicPlayer&Trending -->
       <div
-        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10">
+        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10"
+      >
         <!-- #MusicPlayerCard #NowPlaying -->
-        <div class="col-span-1 row-span-1 max-sm:w-full sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center">
+        <div
+          class="col-span-1 row-span-1 max-sm:w-full sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center"
+        >
           <h1 class="text-2xl font-bold pb-3 max-sm:hidden text-white truncate">
             Now Playing
           </h1>
@@ -425,33 +426,33 @@ const previousPageHandler = () => {
                 <div class="random-track">
                   <button @click="onShuffleHandler">
                     <IsShuffled v-if="musicQueue.isShuffled" />
-                    <NoShuffled v-else/>
+                    <NoShuffled v-else />
                   </button>
                 </div>
                 <!-- #PreviousButton -->
                 <div class="prev-track" @click="onPreviousHandler">
                   <button>
-                    <PreviousButton/>
+                    <PreviousButton />
                   </button>
                 </div>
                 <!-- #PlayButton/PauseButton -->
                 <div>
                   <button class="[clip-path:circle()]" @click="playerHandler">
-                    <IsPlaying v-if="musicQueue.isPlaying"/>
-                    <NoPlaying v-else/>
+                    <IsPlaying v-if="musicQueue.isPlaying" />
+                    <NoPlaying v-else />
                   </button>
                 </div>
                 <!-- #SkipButton -->
                 <div class="next-track" @click="onNextHandler">
                   <button>
-                    <SkipButton/>
+                    <SkipButton />
                   </button>
                 </div>
                 <!-- #LoopButton -->
                 <div class="repeat-track">
                   <button @click="onLoopHandler">
-                    <NoLooping v-if="musicQueue.isLooping"/>
-                    <IsLooping v-else/>
+                    <NoLooping v-if="musicQueue.isLooping" />
+                    <IsLooping v-else />
                   </button>
                 </div>
               </div>
@@ -514,11 +515,11 @@ const previousPageHandler = () => {
               </div>
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
-                <LikeButton/>
+                <LikeButton />
               </div>
               <!-- #MenuButton -->
               <div class="px-3">
-                <MenuButton/>
+                <MenuButton />
               </div>
             </div>
           </div>
@@ -528,7 +529,6 @@ const previousPageHandler = () => {
   </div>
 </template>
 <style scoped>
-
 .progress-bar {
   height: 0.3em;
   width: 100%;
