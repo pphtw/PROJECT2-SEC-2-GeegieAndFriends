@@ -2,7 +2,7 @@
 import {computed, nextTick, onBeforeMount, onMounted, reactive, ref} from 'vue'
 import metadata from '@/assets/metadata.json'
 
-// icon
+// icons
 import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
 import SearchPageButton from '@/icon/NavigationBar/SearchPageButton.vue'
 import PlaylistPageButton from '@/icon/NavigationBar/PlaylistPageButton.vue'
@@ -55,7 +55,7 @@ const musicQueue = reactive({
       queue.push(queue.shift())
     } else {
       queue.unshift(queue.pop())
-    }
+    }  
   },
   skipToTrack: (id, queue = musicQueue.queue) => {
     const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
