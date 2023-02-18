@@ -269,6 +269,20 @@ const nextPageHandler = () => {
 const previousPageHandler = () => {
   playlistElement.value.scrollLeft -= 1400
 }
+
+//Favorite
+const onLikeHandler = (trackId) => {
+  let track = getTrack(trackId)
+  track.favourited = !track.favourited
+  let elem =
+    tracksElement.value[trackId - 1].children[4].children[0].children[0].style
+
+  if (track.favourited) {
+    elem.fill = 'red'
+  } else {
+    elem.fill = 'none'
+  }
+}
 </script>
 
 <template>
@@ -516,7 +530,10 @@ const previousPageHandler = () => {
               </div>
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
-                <LikeButton />
+                <button @click="onLikeHandler(track.trackId)">
+                  <LikeButton style="fill: red" v-if="track.favourited" />
+                  <LikeButton style="fill: none" v-else />
+                </button>
               </div>
               <!-- #MenuButton -->
               <div class="px-3">
