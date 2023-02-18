@@ -295,7 +295,7 @@ const onLikeHandler = (trackId) => {
   >
     <!-- #NavigationBar -->
     <div
-      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:fixed max-sm:z-10 bg-[#162750]"
+      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:z-10 bg-[#162750]"
     >
       <!-- #HomePageButton -->
       <HomePageButton />
