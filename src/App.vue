@@ -148,13 +148,13 @@ const onEndedHandler = () => {
   musicQueue.isPlaying = true
 }
 const onLoadMetadataHandler = () => {
-  progressBar.duration = msToMin(audioElement.value.duration)
-  progressBar.currentTime = msToMin(audioElement.value.currentTime)
+  progressBar.duration = secToMin(audioElement.value.duration)
+  progressBar.currentTime = secToMin(audioElement.value.currentTime)
   progressBar.updateProgressBar()
   isOverflowed()
 }
 const onTimeUpdateHandler = () => {
-  progressBar.currentTime = msToMin(audioElement.value.currentTime)
+  progressBar.currentTime = secToMin(audioElement.value.currentTime)
   if (!progressBar.isProgressBarClicked) {
     progressBar.updateProgressBar()
   }
@@ -163,9 +163,6 @@ const onProgressBarMouseDown = (e) => {
   e.preventDefault()
   progressBar.isProgressBarClicked = true
   progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
-  progressBar.barWidth =
-    (progressBar.validateX(e.clientX) / progressBar.boundingRect.width) * 100 +
-    '%'
   progressBar.updateTime(e)
 }
 const onProgressBarMouseMove = (e) => {
@@ -226,8 +223,8 @@ const toggleDelayedPlayPause = (delay = 0) => {
     }
   }, delay)
 }
-const msToMin = (timeInMs) => {
-  return new Date(timeInMs * 1000).toISOString().substring(14, 19)
+const secToMin = (timeInSec) => {
+  return new Date(timeInSec * 1000).toISOString().substring(14, 19)
 }
 const isOverflowed = () => {
   const element = titleElement.value
