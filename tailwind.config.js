@@ -7,18 +7,18 @@ module.exports = {
         content: '1820px',
       },
       animation: {
-        marquee: 'marquee 15s linear infinite',
-        marquee2: 'marquee2 15s linear infinite',
+        marquee: 'marquee 13s linear infinite',
+        marquee2: 'marquee2 13s linear infinite',
       },
       keyframes: {
         marquee: {
           '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-230%)' },
+          '100%': { transform: 'translateX(-160%)' },
           
           
         },
         marquee2: {
-          '0%': { transform: 'translateX(230%)' },
+          '0%': { transform: 'translateX(130%)' },
           '100%': { transform: 'translateX(0%)' },
           
         },
