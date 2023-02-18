@@ -528,6 +528,7 @@ const onLikeHandler = (trackId) => {
               <div class="px-3 font-semibold hidden sm:block">
                 {{ track.duration }}
               </div>
+              <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler(track.trackId)">
                   <LikeButton style="fill: red" v-if="track.favourited" />
