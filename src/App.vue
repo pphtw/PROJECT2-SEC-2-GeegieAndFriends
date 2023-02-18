@@ -21,8 +21,6 @@ import NoLooping from "@/icon/HomeContainer/IsLooping.vue";
 import LikeButton from "@/icon/HomeContainer/LikeButton.vue";
 import MenuButton from "@/icon/HomeContainer/MenuButton.vue";
 
-
-
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
 
