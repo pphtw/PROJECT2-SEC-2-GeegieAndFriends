@@ -109,8 +109,8 @@ const playlist = reactive({
     () => getPlaylist(playlist.selectedPlaylistId).name
   ),
   selectedPlaylist: computed(() =>
-    trackData.filter((e) =>
-      getTrackList(playlist.selectedPlaylistId).includes(e.trackId)
+    getPlaylist(playlist.selectedPlaylistId).tracks.map((trackId) =>
+      getTrack(trackId)
     )
   ),
 })
