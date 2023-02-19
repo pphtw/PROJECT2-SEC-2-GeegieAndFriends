@@ -119,7 +119,6 @@ const playlist = reactive({
 const audioElement = ref(null)
 const tracksElement = ref(null)
 const progressBarElement = ref(null)
-const trendingElement = ref(null)
 const titleElement = ref(null)
 
 // State
@@ -474,7 +473,6 @@ const onLikeHandler = (trackId) => {
         <!-- #TrendingSection -->
         <div
           class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center"
-          ref="trendingElement"
         >
           <h1
             class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
