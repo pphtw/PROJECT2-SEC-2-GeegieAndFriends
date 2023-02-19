@@ -134,17 +134,9 @@ const playerHandler = () => {
     musicQueue.isPlaying = false
   }
 }
-const onNextHandler = () => {
-  musicQueue.skipTrack()
+const trackSkipHandler = (toNext = true) => {
+  musicQueue.skipTrack(toNext)
   toggleDelayedPlayPause()
-}
-const onPreviousHandler = () => {
-  musicQueue.skipTrack(false)
-  toggleDelayedPlayPause()
-}
-const onEndedHandler = () => {
-  onNextHandler()
-  musicQueue.isPlaying = true
 }
 const onLoadMetadataHandler = () => {
   progressBar.duration = secToMin(audioElement.value.duration)
@@ -284,8 +276,8 @@ const onLikeHandler = (trackId) => {
 <template>
   <div
     class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
-    @keyup.right="onNextHandler"
-    @keyup.left="onPreviousHandler"
+    @keyup.right="trackSkipHandler"
+    @keyup.left="trackSkipHandler(false)"
     @keyup.space="playerHandler"
     @keyup="onShuffleHandler"
     @mousemove="onProgressBarMouseMove"
@@ -375,7 +367,7 @@ const onLikeHandler = (trackId) => {
                 :src="musicQueue.currentTrack.source"
                 @timeupdate="onTimeUpdateHandler"
                 @loadedmetadata="onLoadMetadataHandler"
-                @ended="onEndedHandler"
+                @ended="trackSkipHandler"
               ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
@@ -441,7 +433,7 @@ const onLikeHandler = (trackId) => {
                   </button>
                 </div>
                 <!-- #PreviousButton -->
-                <div class="prev-track" @click="onPreviousHandler">
+                <div class="prev-track" @click="trackSkipHandler(false)">
                   <button>
                     <PreviousButton />
                   </button>
@@ -454,7 +446,7 @@ const onLikeHandler = (trackId) => {
                   </button>
                 </div>
                 <!-- #SkipButton -->
-                <div class="next-track" @click="onNextHandler">
+                <div class="next-track" @click="trackSkipHandler">
                   <button>
                     <SkipButton />
                   </button>
