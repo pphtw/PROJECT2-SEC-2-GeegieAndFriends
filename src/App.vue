@@ -73,7 +73,7 @@ const musicQueue = reactive({
 })
 const progressBar = reactive({
   barWidth: '0%',
-  isProgressBarClicked: false,
+  isClicked: false,
   currentTime: '00:00',
   duration: '00:00',
   boundingRect: new DOMRect(),
@@ -146,41 +146,42 @@ const onLoadMetadataHandler = () => {
 }
 const onTimeUpdateHandler = () => {
   progressBar.currentTime = secToMin(audioElement.value.currentTime)
-  if (!progressBar.isProgressBarClicked) {
+  if (!progressBar.isClicked) {
     progressBar.updateProgressBar()
   }
 }
 const onProgressBarMouseDown = (e) => {
   e.preventDefault()
-  progressBar.isProgressBarClicked = true
+  progressBar.isClicked = true
   progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
   progressBar.updateTime(e)
 }
 const onProgressBarMouseMove = (e) => {
-  if (progressBar.isProgressBarClicked) {
+  if (progressBar.isClicked) {
     progressBar.updateTime(e)
   }
 }
 const onProgressBarMouseUp = (e) => {
-  if (progressBar.isProgressBarClicked) {
+  if (progressBar.isClicked) {
     progressBar.updateTime(e)
     audioElement.value.currentTime = progressBar.newTime
-    progressBar.isProgressBarClicked = false
+    progressBar.isClicked = false
   }
 }
 const onChooseTrackMouseDown = (e) => {
   e.preventDefault()
 }
 const onChooseTrackMouseUp = (e) => {
-  const chooseTrackId = Number(e.currentTarget.id)
-  if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
-    musicQueue.currentPlaylistId = playlist.selectedPlaylistId
-    musicQueue.queue = [...getTrackList(musicQueue.currentPlaylistId)]
-    musicQueue.defaultQueue = musicQueue.queue
+  if (!progressBar.isClicked) {
+    const chooseTrackId = Number(e.currentTarget.id)
+    if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
+      musicQueue.currentPlaylistId = playlist.selectedPlaylistId
+      musicQueue.queue = [...getTrackList(musicQueue.currentPlaylistId)]
+      musicQueue.defaultQueue = musicQueue.queue
+    }
+    musicQueue.skipToTrack(chooseTrackId)
+    toggleDelayedPlayPause(300)
   }
-  musicQueue.skipToTrack(chooseTrackId)
-  // setBackgroundOnChange()
-  toggleDelayedPlayPause(300)
 }
 const onChoosePlaylist = (e) => {
   playlist.selectedPlaylistId = Number(e.currentTarget.id)
@@ -262,14 +263,6 @@ const previousPageHandler = () => {
 const onLikeHandler = (trackId) => {
   let track = getTrack(trackId)
   track.favourited = !track.favourited
-  let elem =
-    tracksElement.value[trackId - 1].children[4].children[0].children[0].style
-
-  if (track.favourited) {
-    elem.fill = 'red'
-  } else {
-    elem.fill = 'none'
-  }
 }
 </script>
 
@@ -477,7 +470,7 @@ const onLikeHandler = (trackId) => {
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-gray-400 transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
@@ -518,8 +511,12 @@ const onLikeHandler = (trackId) => {
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler(track.trackId)">
-                  <LikeButton style="fill: red" v-if="track.favourited" />
-                  <LikeButton style="fill: none" v-else />
+                  <LikeButton
+                    fill="#c493e1"
+                    stroke="#c493e1"
+                    v-if="track.favourited"
+                  />
+                  <LikeButton fill="none" stroke="black" v-else />
                 </button>
               </div>
               <!-- #MenuButton -->
@@ -535,8 +532,10 @@ const onLikeHandler = (trackId) => {
 </template>
 <style scoped>
 .progress-bar {
-  height: 0.3em;
+  height: 0.4em;
   width: 100%;
+  top: -2em;
+  bottom: -2em;
   cursor: pointer;
   background-color: #b9b9b9;
 }
@@ -549,6 +548,6 @@ const onLikeHandler = (trackId) => {
 }
 
 .is-playing {
-  background: #dcbfed;
+  background: #eedff6;
 }
 </style>
