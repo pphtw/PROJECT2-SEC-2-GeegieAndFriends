@@ -171,7 +171,7 @@ const onProgressBarMouseUp = (e) => {
 const onChooseTrackMouseDown = (e) => {
   e.preventDefault()
 }
-const onChooseTrackMouseUp = (e) => {
+const onChooseTrackClick = (e) => {
   if (!progressBar.isClicked) {
     const chooseTrackId = Number(e.currentTarget.id)
     if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
@@ -260,9 +260,18 @@ const previousPageHandler = () => {
 }
 
 //Favorite
-const onLikeHandler = (trackId) => {
+const onLikeHandler = (e, trackId) => {
+  e.stopPropagation()
   let track = getTrack(trackId)
   track.favourited = !track.favourited
+  // let elem =
+  //   tracksElement.value[trackId - 1].children[4].children[0].children[0].style
+  //
+  // if (track.favourited) {
+  //   elem.fill = 'c493e1'
+  // } else {
+  //   elem.fill = 'none'
+  // }
 }
 </script>
 
@@ -478,7 +487,7 @@ const onLikeHandler = (trackId) => {
                 'is-playing': musicQueue.currentTrack.trackId === track.trackId,
               }"
               @mousedown="onChooseTrackMouseDown"
-              @mouseup="onChooseTrackMouseUp"
+              @click="onChooseTrackClick"
               ref="tracksElement"
             >
               <!-- #Ranking -->
@@ -510,7 +519,7 @@ const onLikeHandler = (trackId) => {
               </div>
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
-                <button @click="onLikeHandler(track.trackId)">
+                <button @click="onLikeHandler($event, track.trackId)">
                   <LikeButton
                     fill="#c493e1"
                     stroke="#c493e1"
