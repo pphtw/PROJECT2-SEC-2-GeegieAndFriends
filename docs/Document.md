@@ -259,32 +259,31 @@ Music in this project
 - [Love Song](https://youtu.be/X03kXXiQHaQ) (Song by _Dept_) Provided to YouTube by WM Korea
 - [Magic Shop](https://youtu.be/38k5zr1e0HI) (Song by _BTS_) Provided to YouTube by Big Hit Ent.
 - [Stay](https://youtu.be/evBAiaYal1o) (Song by _BTS_) Provided to YouTube by Big Hit Ent.
-- [Wave](https://youtu.be/JCLPMoT8FRY)
-- [ทรงอย่างแบด (Bad Boy)](https://youtu.be/cqQAzpZBpAw)
-- [Guitar, Loneliness and Blue Planet](https://youtu.be/SDk1RA4g8CA)
-- [Timemachine](https://youtu.be/oMwm_Km9YhU)
-- [I Like You (A Happier Song)](https://youtu.be/7aekxC_monc)
-- [Night Dancer](https://youtu.be/QbHBfxAOucI)
-- [Say It](https://youtu.be/F64yFFnZfkI)
-- [Stay](https://youtu.be/kTJczUoc26U)
-- [Blinding Lights](https://youtu.be/fHI8X4OXluQ)
-- [Comedy](https://youtu.be/sKWYqop8pOc)
-- [踊り子](https://youtu.be/7HgJIAUtICU)
-- [YOU AND I](https://youtu.be/pH-rL_7TuTA)
-- [Dandelions](https://youtu.be/W8a4sUabCUo)
-- [Everything Goes On](https://youtu.be/izHyKdrSKvo)
-- [Wish You Were Sober](https://www.youtube.com/watch?v=hEDBZtmKPmg)
-- [See You Again](https://www.youtube.com/watch?v=RgKAFK5djSk)
-- [Perfect](https://www.youtube.com/watch?v=2Vv-BfVoq4g)
-- [Die For You](https://www.youtube.com/watch?v=QLCpqdqeoII)
-- [Pano](https://www.youtube.com/watch?v=s3eKZJI-oKA)
-- [Heres Your Perfect](https://www.youtube.com/watch?v=cRi-x2r88no)
-- [Dive Into You](https://www.youtube.com/watch?v=hlrP9GXTx84)
-- [Cant slow me down](https://www.youtube.com/watch?v=xU2U73Tk-DM)
-- [idontwannabeyouanymore](https://www.youtube.com/watch?v=-tn2S3kJlyU)
-- [17 นาที](https://www.youtube.com/watch?v=qDrMDFhTdTw)
-- [Damn Good Day](https://www.youtube.com/watch?v=PUJ9qXbLyfE)
-
+- [Wave](https://youtu.be/JCLPMoT8FRY) (Song by _Fiji Blue_) 
+- [ทรงอย่างแบด (Bad Boy)](https://youtu.be/cqQAzpZBpAw) (Song by _Paper Planes_) 
+- [Guitar, Loneliness and Blue Planet](https://youtu.be/SDk1RA4g8CA) (Song by _Kessoku Band_) Provided to YouTube by Aniplex Inc.
+- [Timemachine](https://youtu.be/oMwm_Km9YhU) (Song by _ปอน นิพนธ์ x โต๋ เหน่อ_)
+- [I Like You (A Happier Song)](https://youtu.be/7aekxC_monc) (Song by _Post Malone_)
+- [Night Dancer](https://youtu.be/QbHBfxAOucI) (Song by _imase_)
+- [Say It](https://youtu.be/F64yFFnZfkI) (Song by _Yorushika_)
+- [Stay](https://youtu.be/kTJczUoc26U) (Song by _The Kid Laroi_)
+- [Blinding Lights](https://youtu.be/fHI8X4OXluQ) (Song by _The Weeknd_) 
+- [Comedy](https://youtu.be/sKWYqop8pOc) (Song by _Miori Celesta_) Provided to YouTube by DistroKid
+- [踊り子](https://youtu.be/7HgJIAUtICU) (Song by _Vaundy_)
+- [YOU AND I](https://youtu.be/pH-rL_7TuTA) (Song by _Music oc | Missizfreak_)
+- [Dandelions](https://youtu.be/W8a4sUabCUo) (Song by _Ruth B._)
+- [Everything Goes On](https://youtu.be/izHyKdrSKvo) (Song by _Porter Robinson_) 
+- [Wish You Were Sober](https://youtu.be/hEDBZtmKPmg) (Song by _Conan Gray_) Official music video by Conan Gray performing "Wish You Were Sober"
+- [See You Again](https://youtu.be/RgKAFK5djSk) (Song by _Wiz Khalifa feat. Charlie Puth_)
+- [Perfect](https://youtu.be/2Vv-BfVoq4g) (Song by _One Direction_) 
+- [Die For You](https://youtu.be/QLCpqdqeoII) (Song by _The weeknd_) Provided to YouTube by Universal Music Group
+- [Pano](https://youtu.be/s3eKZJI-oKA) (Song by _Zack Tabudlo_)
+- [Heres Your Perfect](https://youtu.be/cRi-x2r88no) (Song by _Jamie Miller_) 
+- [Dive Into You](https://youtu.be/hlrP9GXTx84) (Song by _NCT DREAM_) Provided to YouTube by SM Entertainment
+- [Cant slow me down](https://youtu.be/xU2U73Tk-DM) (Song by _Mirani, lIlBOI, GroovyRoom, VALORANT_)
+- [idontwannabeyouanymore](https://youtu.be/-tn2S3kJlyU) (Song by _Billie Eilish_)
+- [17 นาที](https://youtu.be/qDrMDFhTdTw) (Song by _MILLI ft. mints (Prod. by SpatChies) | YUPP!_) 
+- [Damn Good Day](https://youtu.be/PUJ9qXbLyfE) (Song by _Hoshimachi Suisei_) Provided to YouTube by cover corp.
 
 ### Inspirations
 
