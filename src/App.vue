@@ -22,6 +22,9 @@ import MenuButton from '@/icon/HomeContainer/MenuButton.vue'
 
 import metadata from './assets/metadata.json'
 
+//cookies
+import Cookies from 'js-cookie'
+
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
 
@@ -110,6 +113,13 @@ const playlist = reactive({
       getTrack(trackId)
     )
   ),
+  favourites: computed(() => {
+    const favourites = Cookies.get('favourites')
+    if (favourites) {
+      return JSON.parse(favourites)
+    }
+    return {}
+  }),
 })
 
 // DOM Element
@@ -259,28 +269,20 @@ const previousPageHandler = () => {
 }
 
 //Favorite
-const onLikeHandler = (e, trackId) => {
-  e.stopPropagation()
-  let track = getTrack(trackId)
-  track.favourited = !track.favourited
+const onLikeHandler = (_, trackId) => {
+  playlist.favourites[trackId] = !playlist.favourites[trackId]
+  Cookies.set('favourites', JSON.stringify(playlist.favourites))
+  this.$forceUpdate()
 }
 </script>
 
 <template>
-  <div
-    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
-    @keyup.right="trackSkipHandler"
-    @keyup.left="trackSkipHandler(false)"
-    @keyup.space="playerHandler"
-    @keyup="onShuffleHandler"
-    @mousemove="onProgressBarMouseMove"
-    @mouseup="onProgressBarMouseUp"
-    tabindex="-1"
-  >
+  <div class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
+    @keyup.right="trackSkipHandler" @keyup.left="trackSkipHandler(false)" @keyup.space="playerHandler"
+    @keyup="onShuffleHandler" @mousemove="onProgressBarMouseMove" @mouseup="onProgressBarMouseUp" tabindex="-1">
     <!-- #NavigationBar -->
     <div
-      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:z-10 bg-[#162750]"
-    >
+      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:z-10 bg-[#162750]">
       <!-- #HomePageButton -->
       <HomePageButton />
       <!-- #SearchPageButton -->
@@ -294,8 +296,7 @@ const onLikeHandler = (e, trackId) => {
     </div>
     <!-- #HomeContainer -->
     <div
-      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
-    >
+      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end">
       <!-- #Header&Playlist -->
       <div class="h-fit sm:h-[28%] flex-col hidden sm:flex">
         <!-- #Header -->
@@ -308,25 +309,14 @@ const onLikeHandler = (e, trackId) => {
           </div>
         </div>
         <!-- #Playlist -->
-        <div
-          class="grow relative h-fit overflow-x-auto scroll-smooth no-scrollbar-full"
-          ref="playlistElement"
-        >
+        <div class="grow relative h-fit overflow-x-auto scroll-smooth no-scrollbar-full" ref="playlistElement">
           <div class="h-full inline-flex gap-10 justify-start">
-            <div
-              v-for="playlist in playlistData"
-              :style="{
-                backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
-              }"
-              :key="playlist['playlistId']"
-              :id="playlist['playlistId']"
-              @click="onChoosePlaylist"
+            <div v-for="playlist in playlistData" :style="{
+              backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
+            }" :key="playlist['playlistId']" :id="playlist['playlistId']" @click="onChoosePlaylist"
               class="flex justify-center w-[20rem] cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
-              tabindex="-1"
-            >
-              <p
-                class="text-white truncate text-lg font-semibold self-center text-center"
-              >
+              tabindex="-1">
+              <p class="text-white truncate text-lg font-semibold self-center text-center">
                 {{ playlist.name }}
               </p>
             </div>
@@ -335,42 +325,26 @@ const onLikeHandler = (e, trackId) => {
       </div>
       <!-- #MusicPlayer&Trending -->
       <div
-        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10"
-      >
+        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10">
         <!-- #MusicPlayerCard #NowPlaying -->
         <div
-          class="col-span-1 row-span-1 max-sm:w-full sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center"
-        >
+          class="col-span-1 row-span-1 max-sm:w-full sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center">
           <h1 class="text-2xl font-bold pb-3 max-sm:hidden text-white truncate">
             Now Playing
           </h1>
           <div class="flex flex-col rounded-2xl bg-white h-fit sm:h-full">
             <!-- #MusicCover -->
-            <div
-              class="h-fit sm:h-full bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
-              :style="{
-                backgroundImage:
-                  'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
-              }"
-            ></div>
+            <div class="h-fit sm:h-full bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto" :style="{
+              backgroundImage:
+                'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
+            }"></div>
             <!-- #ProgressBar -->
             <div class="overflow-clip">
-              <audio
-                ref="audioElement"
-                :src="musicQueue.currentTrack.source"
-                @timeupdate="onTimeUpdateHandler"
-                @loadedmetadata="onLoadMetadataHandler"
-                @ended="trackSkipHandler"
-              ></audio>
-              <div
-                class="progress-bar self-center active:cursor-default"
-                ref="progressBarElement"
-                @mousedown="onProgressBarMouseDown"
-              >
-                <div
-                  class="progress-current"
-                  :style="{ width: progressBar.barWidth }"
-                ></div>
+              <audio ref="audioElement" :src="musicQueue.currentTrack.source" @timeupdate="onTimeUpdateHandler"
+                @loadedmetadata="onLoadMetadataHandler" @ended="trackSkipHandler"></audio>
+              <div class="progress-bar self-center active:cursor-default" ref="progressBarElement"
+                @mousedown="onProgressBarMouseDown">
+                <div class="progress-current" :style="{ width: progressBar.barWidth }"></div>
               </div>
             </div>
             <!-- #CurrentTime&Duration -->
@@ -381,26 +355,19 @@ const onLikeHandler = (e, trackId) => {
               </div>
             </div>
             <!-- #MusicTitle&Controller -->
-            <div
-              class="flex flex-col gap-1 justify-around items-center h-fit bg-white rounded-b-2xl"
-            >
+            <div class="flex flex-col gap-1 justify-around items-center h-fit bg-white rounded-b-2xl">
               <!-- #MusicTitle&Artist -->
-              <div
-                class="relative text-center h-8 w-[80%] overflow-x-hidden"
-                ref="titleElement">
-                <div
-                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''">
+              <div class="relative text-center h-8 w-[80%] overflow-x-hidden" ref="titleElement">
+                <div :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''">
                   <h1 class="text-2xl font-bold">
                     {{ musicQueue.currentTrack.name }}
                   </h1>
                 </div>
-                <div
-                  :class="
-                    isOverflow
-                      ? 'absolute top-0 animate-marquee2 whitespace-nowrap visible'
-                      : 'hidden'
-                  "
-                >
+                <div :class="
+                  isOverflow
+                    ? 'absolute top-0 animate-marquee2 whitespace-nowrap visible'
+                    : 'hidden'
+                ">
                   <h1 class="text-2xl font-bold">
                     {{ musicQueue.currentTrack.name }}
                   </h1>
@@ -414,8 +381,7 @@ const onLikeHandler = (e, trackId) => {
 
               <!-- #Controller -->
               <div
-                class="flex justify-center basis-16 items-center gap-5 h-fit w-full sm:overflow-hidden max-sm:gap-4 2xl:gap-6"
-              >
+                class="flex justify-center basis-16 items-center gap-5 h-fit w-full sm:overflow-hidden max-sm:gap-4 2xl:gap-6">
                 <!-- #ShuffleButton -->
                 <div class="random-track">
                   <button @click="onShuffleHandler">
@@ -455,46 +421,28 @@ const onLikeHandler = (e, trackId) => {
         </div>
         <!-- #TrendingSection -->
         <div
-          class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center"
-        >
-          <h1
-            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
-          >
+          class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center">
+          <h1 class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate">
             {{ playlist.selectedPlaylistName }}
           </h1>
-          <div
-            class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full"
-          >
+          <div class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full">
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
               class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-              v-for="(track, index) in playlist.selectedPlaylist"
-              :key="track.trackId"
-              :id="track.trackId"
-              :class="{
+              v-for="(track, index) in playlist.selectedPlaylist" :key="track.trackId" :id="track.trackId" :class="{
                 'is-playing': musicQueue.currentTrack.trackId === track.trackId,
-              }"
-              @mousedown="onChooseTrackMouseDown"
-              @click="onChooseTrackClick"
-              ref="tracksElement"
-            >
+              }" @mousedown="onChooseTrackMouseDown" @click="onChooseTrackClick" ref="tracksElement">
               <!-- #Ranking -->
               <div class="w-fit">
                 <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
               </div>
               <!-- #MusicCover -->
               <div class="h-full max-sm:w-24 aspect-square">
-                <img
-                  class="h-full aspect-square"
-                  alt="Song Cover"
-                  :src="track.cover"
-                />
+                <img class="h-full aspect-square" alt="Song Cover" :src="track.cover" />
               </div>
               <!-- #Title&Artist -->
-              <div
-                class="grow grid grid-rows-2 h-fit max-sm:w-full pl-3 sm:pl-5"
-              >
+              <div class="grow grid grid-rows-2 h-fit max-sm:w-full pl-3 sm:pl-5">
                 <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
                 </h1>
@@ -509,11 +457,7 @@ const onLikeHandler = (e, trackId) => {
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler($event, track.trackId)">
-                  <LikeButton
-                    fill="#c493e1"
-                    stroke="#c493e1"
-                    v-if="track.favourited"
-                  />
+                  <LikeButton fill="#c493e1" stroke="#c493e1" v-if="playlist.favourites[track.trackId]" />
                   <LikeButton fill="none" stroke="black" v-else />
                 </button>
               </div>
