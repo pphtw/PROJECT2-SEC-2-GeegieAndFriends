@@ -1,4 +1,4 @@
-# Project Music Player (Release v2.0.0)
+# Project Music Player (Release v2.1.0)
 
 ##### By _Geegie and Friends_, an INT203 Project Team
 
