@@ -267,7 +267,7 @@ See full contribution log [here](CONTRIBUTION.md)
 This section can also be called as `Resources` or `References`
 
 ### Credits
-- View all song credits [here](CREDITS.md)
+- View all song credits [here](CREDIT.md)
 
 ### Inspirations
 
