@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onBeforeMount, reactive, ref} from 'vue'
+import { computed, onBeforeMount, reactive, ref } from 'vue'
 
 // icons
 import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
@@ -181,7 +181,6 @@ const onChooseTrackClick = (e) => {
     toggleDelayedPlayPause(300)
     audioElement.value.play()
     musicQueue.isPlaying = true
-
   }
 }
 const onChoosePlaylist = (e) => {
@@ -226,7 +225,7 @@ const isOverflowed = () => {
     isOverflow.value =
       element.scrollHeight > element.offsetHeight ||
       element.scrollWidth > element.offsetWidth
-  }, 100)
+  }, 0)
 }
 
 // Getters
@@ -388,11 +387,9 @@ const onLikeHandler = (e, trackId) => {
               <!-- #MusicTitle&Artist -->
               <div
                 class="relative text-center h-8 w-[80%] overflow-x-hidden"
-                ref="titleElement"
-              >
+                ref="titleElement">
                 <div
-                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''"
-                >
+                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''">
                   <h1 class="text-2xl font-bold">
                     {{ musicQueue.currentTrack.name }}
                   </h1>
@@ -457,11 +454,17 @@ const onLikeHandler = (e, trackId) => {
           </div>
         </div>
         <!-- #TrendingSection -->
-        <div class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center">
-          <h1 class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate">
+        <div
+          class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center"
+        >
+          <h1
+            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
+          >
             {{ playlist.selectedPlaylistName }}
           </h1>
-          <div class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full">
+          <div
+            class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full"
+          >
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
