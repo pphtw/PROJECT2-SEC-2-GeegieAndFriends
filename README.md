@@ -1,39 +1,39 @@
-# INT203 #1 Project: Music Player Web Application
-
-## Group: _Geegie and Friends_
+# INT203 Project #1: GeegieAndFriends's Vuesic Player
+## Group: _GeegieAndFriends_
 
 Our team including:
 
 | Student ID  | Name                     | Email                      | Github Username |
-| ----------- | ------------------------ | -------------------------- | --------------- |
+|-------------|--------------------------|----------------------------|-----------------|
 | 64130500066 | Phutawan Palakavong      | Phutawan.pala@kmutt.ac.th  | pphtw           |
 | 64130500079 | Siripoom Kusonsong       | Siripoom.kuso@kmutt.ac.th  | PhuMiZz         |
 | 64130500080 | Supapit Krawsaikom       | Supapit.kraw@kmutt.ac.th   | supapitploy     |
 | 64130500105 | Banlearit Siriboon       | Banlearit.siri@kmutt.ac.th | banlearit       |
 | 64130500119 | Bowonwit Anothaisintavee | Bowonwit.anot@kmutt.ac.th  | NewBww          |
 
+## Overview
+Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
+Features References
+
+- Music Player
+  - Music Controller
+  - Playing Queue
+  - Shuffle-able Queue
+  - Draggable Progress Bar
+- Playlist
+  - Choose Any Track From Playlist
+  - Add tracks to favorites
+
 ## Tech Stack
 
 [Our Stack](https://stackshare.io/newbww/project1-sec-2-geegie-and-friends)
 
-## Tools Required
-
-You would require the following tools to develop and run the project:
+## Prerequisite and Installation
+You would require the following tools to develop and run the project on your local machine:
 
 - A text editor or an IDE (Recommended: _WebStorm_ or _Visual Studio Code_)
-- _NodeJs_ v16.9.0 or later
-- _Yarn_ for package management
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Installation
-
-These installation steps are required to build the project from your local machine.
-
-- Install NodeJs from this [_link_](https://nodejs.org/en/download/)
-- Install Yarn through the [_npm package manager_](http://npmjs.org/):
+- _NodeJs_ v16.9.0 or later (Install [NodeJs](https://nodejs.org/en/download/))
+- _Yarn_ for package management. (Install Yarn through the [_npm package manager_](http://npmjs.org/))
 
   ```
   npm install --global yarn
@@ -44,6 +44,11 @@ These installation steps are required to build the project from your local machi
   ```
   yarn --version
   ```
+
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Running the App
 
@@ -66,3 +71,24 @@ yarn build
 ```sh
 yarn preview
 ```
+
+### App Instructions
+
+#### Music Player Card
+
+![A music player card](docs/img/music-player-card.png "Music Player Card")
+
+- Play/Pause button for toggle play-pause track
+- Shuffle button for shuffle queue
+- Skip button for skip to next/previous track
+
+![Available playlist to choose](docs/img/playlists.png "Playlists")
+
+![List of tracks in playlist](docs/img/playlist-tracks.png "Playlist Tracks")
+- You can scroll to view all playlist by click previous / next button on top right screen and select playlist for your music taste, then track list in the right screen will change you can select track from that too
+
+### Credit and Inspirations
+
+- [Music Player Web App](https://dribbble.com/shots/18946599-Music-Player-Web-App) (Dribble)
+- [Web Music Player Concept](https://dribbble.com/shots/19753283-Web-Music-Player-Concept) (Dribble)
+- [Spotify](https://www.spotify.com/)

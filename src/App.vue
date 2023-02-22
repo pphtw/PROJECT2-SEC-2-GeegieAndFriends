@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onBeforeMount, reactive, ref} from 'vue'
+import { computed, onBeforeMount, reactive, ref } from 'vue'
 
 // icons
 import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
@@ -86,8 +86,7 @@ const progressBar = reactive({
     const x = progressBar.validateX(e.clientX)
     progressBar.newTime =
       (x / progressBar.boundingRect.width) * audioElement.value.duration
-    progressBar.barWidth =
-      (x / progressBar.boundingRect.width) * 100 + '%'
+    progressBar.barWidth = (x / progressBar.boundingRect.width) * 100 + '%'
   },
   validateX: (x) => {
     // clientX is a property of the event object in JavaScript
@@ -182,7 +181,6 @@ const onChooseTrackClick = (e) => {
     toggleDelayedPlayPause(300)
     audioElement.value.play()
     musicQueue.isPlaying = true
-
   }
 }
 const onChoosePlaylist = (e) => {
@@ -227,7 +225,7 @@ const isOverflowed = () => {
     isOverflow.value =
       element.scrollHeight > element.offsetHeight ||
       element.scrollWidth > element.offsetWidth
-  }, 100)
+  }, 0)
 }
 
 // Getters
@@ -456,11 +454,17 @@ const onLikeHandler = (e, trackId) => {
           </div>
         </div>
         <!-- #TrendingSection -->
-        <div class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center">
-          <h1 class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate">
+        <div
+          class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center"
+        >
+          <h1
+            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
+          >
             {{ playlist.selectedPlaylistName }}
           </h1>
-          <div class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full">
+          <div
+            class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full"
+          >
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
