@@ -236,20 +236,20 @@ Music in this project
 - [Matsuri](https://youtu.be/NwOvu-j_WjY) (Song by _Fujii Kaze_) Licensed to YouTube by UMG (on behalf of Universal Music LLC); UMPG Publishing, BMI - Broadcast Music Inc., NexTone Inc. (Publishing), and 5 Music Rights Societies
 - [double take](https://youtu.be/R8FHtIhWqNo) (Song by _dhruv_) Licensed to YouTube by SME (on behalf of Little Worry/RCA Records); BMI - Broadcast Music Inc., LatinAutor, LatinAutorPerf, and 11 Music Rights Societies
 - [วาดไว้ (recall)](https://youtu.be/a0M_QUS3kC0) (Song by BOWKYLION) Licensed to What The Duck
-- [After Rain (Scarlet Version)]()
-- [Attention]()
-- [Cookie]()
-- [Ditto]()
-- [Hurt]()
-- [Hype Boy]()
-- [夜に駆ける (Racing into the Night)]()
-- [OMG]()
-- [Orion]()
-- [Overdose]()
-- [Pretender]()
-- [好きだから。]()
-- [Zenzenzense]()
-- [2002]()
+- [After Rain (Scarlet Version)](https://youtu.be/BLqH4O7zq0s) Provided to YouTube by Sony Music Labels Inc.
+- [Attention](https://youtu.be/kdOS94IjzzE) Provided to YouTube by 'ADOR'
+- [Cookie](https://youtu.be/0M4QMVQJRsw) Provided to YouTube by 'ADOR'
+- [Ditto](https://youtu.be/-g9I2neQR7w) Provided to YouTube by 'ADOR'
+- [Hurt](https://youtu.be/8QWtOgBJZNc) Provided to YouTube by 'ADOR'
+- [Hype Boy](https://youtu.be/ghrlZIMDzbM) Provided to YouTube by 'ADOR'
+- [夜に駆ける (Racing into the Night)](https://youtu.be/by4SYYWlhEs) Provided to YouTube by The Orchard Enterprises
+- [OMG](https://youtu.be/2Kff0U8w-aU) Provided to YouTube by 'ADOR'
+- [Orion](https://youtu.be/lzAyrgSqeeE) Provided to YouTube by Sony Music Labels Inc.
+- [Overdose](https://youtu.be/H08YWE4CIFQ) Provided to YouTube by The Orchard Music (on behalf of なとり) 
+- [Pretender](https://youtu.be/37W7Y2RRyiM) Provided to YouTube by ポニーキャニオン
+- [好きだから。](https://youtu.be/jlZJcx2Ighc) Provided to YouTube by Universal Music Group
+- [Zenzenzense](https://youtu.be/Mw66DyjQxBI) Provided to YouTube by TuneCore Japan
+- [2002](https://youtu.be/1tvLIhEaEKo)
 - [About Time]()
 - [Christmas Tree]()
 - [Daisy]()
