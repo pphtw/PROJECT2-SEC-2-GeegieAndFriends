@@ -250,15 +250,15 @@ Music in this project
 - [好きだから。](https://youtu.be/jlZJcx2Ighc) (Song by Yuika) Provided to YouTube by Universal Music Group
 - [Zenzenzense](https://youtu.be/Mw66DyjQxBI) (Song by RADWIMPS) Provided to YouTube by TuneCore Japan
 - [2002](https://youtu.be/1tvLIhEaEKo) (Song by Anne-Marie) 
-- [About Time]()
-- [Christmas Tree]()
-- [Daisy]()
-- [Far Away]()
-- [Favorite Thing]()
-- [Forever Rain]()
-- [Love Song]()
-- [Magic Shop]()
-- [Stay]()
+- [About Time](https://youtu.be/ACFSpkO-b48) (Song by Dept) Provided to YouTube by WM Korea
+- [Christmas Tree](https://youtu.be/1oq8Iesr1AU) (Song by V) Provided to YouTube by NHN BUGS
+- [Daisy](https://youtu.be/NutHKRKBgR0) (Song by Katy Perry) Provided to YouTube by 2020 Capitol Records, LLC
+- [Far Away](https://youtu.be/40uhlWGibBA) (Song by Peter Fenn) Provided to YouTube by DMRS Ltd
+- [Favorite Thing](https://youtu.be/8Yx7-gGd6JI) (Song by Rangga Jones) Provided to YouTube by Believe SAS
+- [Forever Rain](https://www.youtube.com/watch?v=Cvb76hBX_Oc) (Song by RM) Provided to YouTube BigHit Entertainment
+- [Love Song](https://youtu.be/X03kXXiQHaQ) (Song by Dept) Provided to YouTube by WM Korea
+- [Magic Shop](https://youtu.be/38k5zr1e0HI) (Song by BTS) Provided to YouTube by Big Hit Ent.
+- [Stay](https://youtu.be/evBAiaYal1o) (Song by BTS) Provided to YouTube by Big Hit Ent.
 - [Wave](https://youtu.be/JCLPMoT8FRY)
 - [ทรงอย่างแบด (Bad Boy)](https://youtu.be/cqQAzpZBpAw)
 - [Guitar, Loneliness and Blue Planet](https://youtu.be/SDk1RA4g8CA)
@@ -273,17 +273,17 @@ Music in this project
 - [YOU AND I](https://youtu.be/pH-rL_7TuTA)
 - [Dandelions](https://youtu.be/W8a4sUabCUo)
 - [Everything Goes On](https://youtu.be/izHyKdrSKvo)
-- [Wish You Were Sober](https://youtu.be/hEDBZtmKPmg)
-- [See You Again](https://youtu.be/RgKAFK5djSk)
-- [Perfect](https://youtu.be/2Vv-BfVoq4g)
-- [Die For You](https://youtu.be/QLCpqdqeoII)
-- [Pano](https://youtu.be/s3eKZJI-oKA)
-- [Heres Your Perfect](https://youtu.be/cRi-x2r88no)
-- [Dive Into You](https://youtu.be/hlrP9GXTx84)
-- [Cant slow me down](https://youtu.be/xU2U73Tk-DM)
-- [idontwannabeyouanymore](https://youtu.be/-tn2S3kJlyU)
-- [17 นาที](https://youtu.be/qDrMDFhTdTw)
-- [Damn Good Day](https://youtu.be/PUJ9qXbLyfE)
+- [Wish You Were Sober](https://www.youtube.com/watch?v=hEDBZtmKPmg)
+- [See You Again](https://www.youtube.com/watch?v=RgKAFK5djSk)
+- [Perfect](https://www.youtube.com/watch?v=2Vv-BfVoq4g)
+- [Die For You](https://www.youtube.com/watch?v=QLCpqdqeoII)
+- [Pano](https://www.youtube.com/watch?v=s3eKZJI-oKA)
+- [Heres Your Perfect](https://www.youtube.com/watch?v=cRi-x2r88no)
+- [Dive Into You](https://www.youtube.com/watch?v=hlrP9GXTx84)
+- [Cant slow me down](https://www.youtube.com/watch?v=xU2U73Tk-DM)
+- [idontwannabeyouanymore](https://www.youtube.com/watch?v=-tn2S3kJlyU)
+- [17 นาที](https://www.youtube.com/watch?v=qDrMDFhTdTw)
+- [Damn Good Day](https://www.youtube.com/watch?v=PUJ9qXbLyfE)
 
 
 ### Inspirations
