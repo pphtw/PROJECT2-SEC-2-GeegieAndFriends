@@ -249,9 +249,7 @@ onBeforeMount(() => {
 
 })
 
-onMounted(() => {
-  audioElement.value.volume = 0.07
-})
+
 
 // Playlist Scroll
 const playlistElement = ref(null)
