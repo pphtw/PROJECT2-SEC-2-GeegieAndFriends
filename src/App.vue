@@ -222,7 +222,9 @@ const isOverflowed = () => {
   const element = titleElement.value
   isOverflow.value = false
   setTimeout(() => {
-    isOverflow.value = element.scrollHeight > element.offsetHeight
+    isOverflow.value =
+      element.scrollHeight > element.offsetHeight ||
+      element.scrollWidth > element.offsetWidth
   }, 100)
 }
 
@@ -244,6 +246,8 @@ const getPlaylist = (playlistId) => {
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackList(1)]
+  // console.log(getTrackList(2))
+  // console.log(musicQueue.queue);
 })
 
 onMounted(() => {
