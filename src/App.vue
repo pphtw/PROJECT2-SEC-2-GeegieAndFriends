@@ -1,8 +1,8 @@
 <script setup>
-import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
+import {computed, onBeforeMount, reactive, ref} from 'vue'
 
 // icons
-import  HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
+import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
 import SearchPageButton from '@/icon/NavigationBar/SearchPageButton.vue'
 import PlaylistPageButton from '@/icon/NavigationBar/PlaylistPageButton.vue'
 import CreditPageButton from '@/icon/NavigationBar/CreditPageButton.vue'
@@ -20,7 +20,7 @@ import NoLooping from '@/icon/HomeContainer/IsLooping.vue'
 import LikeButton from '@/icon/HomeContainer/LikeButton.vue'
 import MenuButton from '@/icon/HomeContainer/MenuButton.vue'
 
-import metadata from '@/assets/metadata.json'
+import metadata from './assets/metadata.json'
 
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
@@ -246,11 +246,7 @@ const getPlaylist = (playlistId) => {
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackList(1)]
-
 })
-
-
-
 // Playlist Scroll
 const playlistElement = ref(null)
 const nextPageHandler = () => {
