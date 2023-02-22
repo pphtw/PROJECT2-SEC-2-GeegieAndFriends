@@ -263,6 +263,28 @@ Music in this project
 - [Wave]()
 - [ทรงอย่างแบด (Bad Boy)]()
 - [Guitar, Loneliness and Blue Planet]()
+- [Timemachine]()
+- [I Like You (A Happier Song)]
+- [Night Dancer]()
+- [Say It]()
+- [Stay]()
+- [Blinding Lights]()
+- [Comedy]()
+- [踊り子]()
+- [YOU AND I]()
+- [Dandelions]()
+- [Everything Goes On]()
+- [Wish You Were Sober]()
+- [See You Again]()
+- [Perfect]()
+- [Die For You]()
+- [Pano]()
+- [Heres Your Perfect]()
+- [Dive Into You]()
+- [Cant slow me down]()
+- [idontwannabeyouanymore]()
+- [17 นาที]()
+- [Damn Good Day]()
 
 
 ### Inspirations
