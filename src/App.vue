@@ -389,11 +389,9 @@ const onLikeHandler = (e, trackId) => {
               <!-- #MusicTitle&Artist -->
               <div
                 class="relative text-center h-8 w-[80%] overflow-x-hidden"
-                ref="titleElement"
-              >
+                ref="titleElement">
                 <div
-                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''"
-                >
+                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''">
                   <h1 class="text-2xl font-bold">
                     {{ musicQueue.currentTrack.name }}
                   </h1>
