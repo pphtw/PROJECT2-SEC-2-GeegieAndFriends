@@ -87,9 +87,7 @@ const progressBar = reactive({
     progressBar.newTime =
       (x / progressBar.boundingRect.width) * audioElement.value.duration
     progressBar.barWidth =
-      (progressBar.validateX(e.clientX) / progressBar.boundingRect.width) *
-        100 +
-      '%'
+      (x / progressBar.boundingRect.width) *100 + '%'
   },
   validateX: (x) => {
     // clientX is a property of the event object in JavaScript
