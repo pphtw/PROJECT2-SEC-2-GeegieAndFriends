@@ -2,7 +2,7 @@
 import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
 
 // icons
-import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
+import  HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
 import SearchPageButton from '@/icon/NavigationBar/SearchPageButton.vue'
 import PlaylistPageButton from '@/icon/NavigationBar/PlaylistPageButton.vue'
 import CreditPageButton from '@/icon/NavigationBar/CreditPageButton.vue'
@@ -87,7 +87,7 @@ const progressBar = reactive({
     progressBar.newTime =
       (x / progressBar.boundingRect.width) * audioElement.value.duration
     progressBar.barWidth =
-      (x / progressBar.boundingRect.width) *100 + '%'
+      (x / progressBar.boundingRect.width) * 100 + '%'
   },
   validateX: (x) => {
     // clientX is a property of the event object in JavaScript
@@ -179,6 +179,8 @@ const onChooseTrackClick = (e) => {
     }
     musicQueue.skipToTrack(chooseTrackId)
     toggleDelayedPlayPause(300)
+    audioElement.value.play()
+    musicQueue.isPlaying = true
   }
 }
 const onChoosePlaylist = (e) => {
