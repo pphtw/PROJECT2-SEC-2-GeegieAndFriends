@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onBeforeMount, onMounted, reactive, ref} from 'vue'
+import { computed, onBeforeMount, reactive, ref } from 'vue'
 
 // icons
 import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
@@ -25,7 +25,8 @@ import metadata from './assets/metadata.json'
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
 
-const favourite = ref([])
+const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
+
 
 const musicQueue = reactive({
   currentPlaylistId: 1,
@@ -125,7 +126,6 @@ const isOverflow = ref(null)
 
 // Event Handlers
 const playerHandler = () => {
-  console.log(getTrackList(2))
   if (audioElement.value.paused) {
     audioElement.value.play()
     musicQueue.isPlaying = true
@@ -245,7 +245,7 @@ const getTrack = (trackId = 1) => {
 const getTrackList = (playlistId) => {
   return [
     ...playlistData.find(
-        (playlist) => playlist['playlistId'] === Number(playlistId)
+      (playlist) => playlist['playlistId'] === Number(playlistId)
     ).tracks,
   ]
 }
@@ -257,9 +257,8 @@ const getPlaylist = (playlistId) => {
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackList(1)]
-  // console.log(getTrackList(2))
-  // console.log(musicQueue.queue);
 })
+
 
 // Playlist Scroll
 const playlistElement = ref(null)
@@ -272,21 +271,18 @@ const previousPageHandler = () => {
 
 //Favorite
 const onLikeHandler = (e, trackId) => {
-  e.stopPropagation()
-  favourite.value.push(trackId)
-  if  (true){
-    console.log("1")
+  e.stopPropagation();
+  if (checkFavourite(trackId)) {
+    favourite.value.splice(favourite.value.indexOf(trackId),1)
+  } else {
+    favourite.value.push(trackId)
   }
-  else {
-    console.log("2")
-  }
-
-}
+  localStorage.setItem('favourite', JSON.stringify(favourite.value));
+};
 </script>
-
 <template>
   <div
-    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#2D3967]"
+    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#162750]"
     @keyup.right="trackSkipHandler"
     @keyup.left="trackSkipHandler(false)"
     @keyup.space="playerHandler"
@@ -312,7 +308,7 @@ const onLikeHandler = (e, trackId) => {
     </div>
     <!-- #HomeContainer -->
     <div
-      class="max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
+      class="container-gradient max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
     >
       <!-- #Header&Playlist -->
       <div class="h-fit sm:h-[28%] flex-col hidden sm:flex">
@@ -405,9 +401,11 @@ const onLikeHandler = (e, trackId) => {
               <!-- #MusicTitle&Artist -->
               <div
                 class="relative text-center h-8 w-[80%] overflow-x-hidden"
-                ref="titleElement">
+                ref="titleElement"
+              >
                 <div
-                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''">
+                  :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''"
+                >
                   <h1 class="text-2xl font-bold">
                     {{ musicQueue.currentTrack.name }}
                   </h1>
@@ -486,7 +484,7 @@ const onLikeHandler = (e, trackId) => {
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class=" flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
@@ -528,9 +526,9 @@ const onLikeHandler = (e, trackId) => {
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler($event, track['trackId'])">
                   <LikeButton
-                      fill="#c493e1"
-                      stroke="#c493e1"
-                      v-if="checkFavourite(track['trackId'])"
+                    fill="#c493e1"
+                    stroke="#c493e1"
+                    v-if="checkFavourite(track['trackId'])"
                   />
                   <LikeButton fill="none" stroke="black" v-else />
                 </button>
@@ -562,8 +560,23 @@ const onLikeHandler = (e, trackId) => {
   background-color: #c493e1;
   border-radius: 0 2em 2em 0;
 }
-
-.is-playing {
-  background: #eedff6;
+.is-playing,
+.is-playing:hover {
+  background-color: #eedff6;
+}
+.container-gradient {
+  background-image: linear-gradient(
+    0deg,
+    hsl(228deg 39% 29%) 0%,
+    hsl(228deg 39% 32%) 33%,
+    hsl(229deg 39% 34%) 47%,
+    hsl(230deg 39% 37%) 58%,
+    hsl(230deg 39% 40%) 67%,
+    hsl(231deg 39% 43%) 74%,
+    hsl(232deg 38% 46%) 81%,
+    hsl(233deg 38% 49%) 87%,
+    hsl(235deg 41% 53%) 93%,
+    hsl(236deg 46% 56%) 100%
+  );
 }
 </style>
