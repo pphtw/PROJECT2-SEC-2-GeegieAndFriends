@@ -14,7 +14,6 @@
     "node": ">= 16.9.0"
   },
   "dependencies": {
-    "js-cookie": "^3.0.1",
     "vue": "^3.2.45"
   },
   "devDependencies": {
