@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref } from 'vue'
+import {computed, onBeforeMount, onMounted, reactive, ref} from 'vue'
 
 // icons
 import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
@@ -24,6 +24,9 @@ import metadata from './assets/metadata.json'
 
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
+
+// retrieve favourited state from local storage
+const favourite = ref([])
 
 const musicQueue = reactive({
   currentPlaylistId: 1,
@@ -123,7 +126,7 @@ const isOverflow = ref(null)
 
 // Event Handlers
 const playerHandler = () => {
-  console.log(playlist.selectedPlaylistId)
+  console.log(getTrackList(2))
   if (audioElement.value.paused) {
     audioElement.value.play()
     musicQueue.isPlaying = true
@@ -206,6 +209,10 @@ const onLoopHandler = (e) => {
 }
 
 // Utils
+const checkFavourite = (trackId) => {
+  const arr = [...favourite.value]
+  return arr.includes(trackId)
+}
 const toggleDelayedPlayPause = (delay = 0) => {
   setTimeout(() => {
     if (musicQueue.isPlaying) {
@@ -232,13 +239,15 @@ const isOverflowed = () => {
 const getTrack = (trackId = 1) => {
   return trackData.find((track) => track['trackId'] === trackId)
 }
+
 const getTrackList = (playlistId) => {
   return [
     ...playlistData.find(
-      (playlist) => playlist['playlistId'] === Number(playlistId)
+        (playlist) => playlist['playlistId'] === Number(playlistId)
     ).tracks,
   ]
 }
+
 const getPlaylist = (playlistId) => {
   return playlistData.find((playlist) => playlist['playlistId'] === playlistId)
 }
@@ -249,6 +258,7 @@ onBeforeMount(() => {
   // console.log(getTrackList(2))
   // console.log(musicQueue.queue);
 })
+
 // Playlist Scroll
 const playlistElement = ref(null)
 const nextPageHandler = () => {
@@ -261,8 +271,14 @@ const previousPageHandler = () => {
 //Favorite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
-  let track = getTrack(trackId)
-  track.favourited = !track.favourited
+  favourite.value.push(trackId)
+  if  (true){
+
+  }
+  else {
+
+  }
+
 }
 </script>
 
@@ -508,11 +524,11 @@ const onLikeHandler = (e, trackId) => {
               </div>
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
-                <button @click="onLikeHandler($event, track.trackId)">
+                <button @click="onLikeHandler($event, track['trackId'])">
                   <LikeButton
-                    fill="#c493e1"
-                    stroke="#c493e1"
-                    v-if="track.favourited"
+                      fill="#c493e1"
+                      stroke="#c493e1"
+                      v-if="checkFavourite(track['trackId'])"
                   />
                   <LikeButton fill="none" stroke="black" v-else />
                 </button>
