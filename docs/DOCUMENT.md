@@ -244,7 +244,7 @@ This documentation also hosted on [Github Pages]
   Release v2.1.1
   ----------------------------------------------------------------------------------
   [FIX] Favorites tracks function
-  [FIX] Shuffle queue when change playlist
+  [FIX] Shuffle queue when changing playlist
   ----------------------------------------------------------------------------------
 ```
 
