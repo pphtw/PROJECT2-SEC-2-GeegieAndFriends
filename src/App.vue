@@ -27,6 +27,7 @@ const trackData = metadata.tracks
 
 const favourite = ref([])
 
+
 const musicQueue = reactive({
   currentPlaylistId: 1,
   currentTrack: computed(() => getTrack(musicQueue?.queue[0])),
@@ -125,7 +126,6 @@ const isOverflow = ref(null)
 
 // Event Handlers
 const playerHandler = () => {
-  console.log(getTrackList(2))
   if (audioElement.value.paused) {
     audioElement.value.play()
     musicQueue.isPlaying = true
@@ -214,6 +214,9 @@ const onLoopHandler = (e) => {
 const checkFavourite = (trackId) => {
   const arr = [...favourite.value]
   return arr.includes(trackId)
+   
+
+
 }
 const toggleDelayedPlayPause = (delay = 0) => {
   setTimeout(() => {
@@ -261,6 +264,7 @@ onBeforeMount(() => {
   // console.log(musicQueue.queue);
 })
 
+
 // Playlist Scroll
 const playlistElement = ref(null)
 const nextPageHandler = () => {
@@ -270,15 +274,16 @@ const previousPageHandler = () => {
   playlistElement.value.scrollLeft -= 1400
 }
 
-//Favorite
+
+// Favourite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
-  favourite.value.push(trackId)
-  if (true) {
-    console.log('1')
+  if (checkFavourite(trackId)) {
+  favourite.value.splice(favourite.value.indexOf(trackId), 1) 
   } else {
-    console.log('2')
-  }
+  favourite.value.push(trackId)  
+
+}
 }
 </script>
 
@@ -486,7 +491,7 @@ const onLikeHandler = (e, trackId) => {
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class=" flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
@@ -562,9 +567,9 @@ const onLikeHandler = (e, trackId) => {
   background-color: #c493e1;
   border-radius: 0 2em 2em 0;
 }
-
-.is-playing {
-  background: #eedff6;
+.is-playing,
+.is-playing:hover {
+  background-color: #eedff6;
 }
 .container-gradient {
   background-image: linear-gradient(
