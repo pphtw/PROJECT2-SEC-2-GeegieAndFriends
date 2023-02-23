@@ -232,7 +232,7 @@ This documentation also hosted on [Github Pages]
 ```
   Release v2.1.0
   ----------------------------------------------------------------------------------
-  [NEW] Changable Playlist
+  [NEW] Changeable Playlist
   [FIX] Optimized Track Queuing
   [FIX] Some UI optimizations
   [FIX] Bug fixes
