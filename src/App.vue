@@ -27,6 +27,7 @@ const trackData = metadata.tracks
 
 const favourite = ref([])
 
+
 const musicQueue = reactive({
   currentPlaylistId: 1,
   currentTrack: computed(() => getTrack(musicQueue?.queue[0])),
@@ -214,6 +215,9 @@ const onLoopHandler = (e) => {
 const checkFavourite = (trackId) => {
   const arr = [...favourite.value]
   return arr.includes(trackId)
+   
+
+
 }
 const toggleDelayedPlayPause = (delay = 0) => {
   setTimeout(() => {
@@ -270,17 +274,18 @@ const previousPageHandler = () => {
   playlistElement.value.scrollLeft -= 1400
 }
 
-//Favorite
+
+// Favourite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
-  favourite.value.push(trackId)
-  if  (true){
-    console.log("1")
-  }
-  else {
-    console.log("2")
-  }
-
+  console.log(e.currentTarget)
+  if (checkFavourite(trackId)) {
+  favourite.value.splice(favourite.value.indexOf(trackId), 1)
+   console.log(favourite.value)
+  } else {
+  favourite.value.push(trackId)  
+console.log(favourite.value)
+}
 }
 </script>
 
@@ -527,13 +532,13 @@ const onLikeHandler = (e, trackId) => {
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler($event, track['trackId'])">
-                  <LikeButton
-                      fill="#c493e1"
-                      stroke="#c493e1"
-                      v-if="checkFavourite(track['trackId'])"
-                  />
-                  <LikeButton fill="none" stroke="black" v-else />
-                </button>
+              <LikeButton
+                fill="#c493e1"
+                stroke="#c493e1"
+              v-if="checkFavourite(track['trackId'])"
+                 />
+               <LikeButton fill="none" stroke="black" v-else />
+</button>
               </div>
               <!-- #MenuButton -->
               <div class="px-3">
