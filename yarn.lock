@@ -1612,13 +1612,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-cookie@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "js-cookie@npm:3.0.1"
-  checksum: bb48de67e2a6bd1ae3dfd6b2d5a167c33dd0c5a37e909206161eb0358c98f17cb55acd55827a58e9eea3630d89444e7479f7938ef4420dda443218b8c434a4c3
-  languageName: node
-  linkType: hard
-
 "js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -2280,7 +2273,6 @@ __metadata:
     "@types/js-cookie": ^3.0.3
     "@vitejs/plugin-vue": ^4.0.0
     autoprefixer: ^10.4.13
-    js-cookie: ^3.0.1
     postcss: ^8.4.21
     prettier: 2.8.3
     stylelint: ^14.16.1
