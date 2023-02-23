@@ -25,7 +25,8 @@ import metadata from './assets/metadata.json'
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
 
-const favourite = ref([])
+const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
+
 
 const musicQueue = reactive({
   currentPlaylistId: 1,
@@ -125,7 +126,6 @@ const isOverflow = ref(null)
 
 // Event Handlers
 const playerHandler = () => {
-  console.log(getTrackList(2))
   if (audioElement.value.paused) {
     audioElement.value.play()
     musicQueue.isPlaying = true
@@ -257,10 +257,10 @@ const getPlaylist = (playlistId) => {
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackList(1)]
-  // console.log(getTrackList(2))
-  // console.log(musicQueue.queue);
 })
-
+onMounted(() =>{
+  audioElement.value.volume = 0.06;
+})
 
 // Playlist Scroll
 const playlistElement = ref(null)
@@ -273,16 +273,15 @@ const previousPageHandler = () => {
 
 //Favorite
 const onLikeHandler = (e, trackId) => {
-  e.stopPropagation()
-  favourite.value.push(trackId)
-  if (true) {
-    console.log('1')
+  e.stopPropagation();
+  if (checkFavourite(trackId)) {
+    favourite.value.splice(favourite.value.indexOf(trackId),1)
   } else {
-    console.log('2')
+    favourite.value.push(trackId)
   }
-}
+  localStorage.setItem('favourite', JSON.stringify(favourite.value));
+};
 </script>
-
 <template>
   <div
     class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#162750]"
