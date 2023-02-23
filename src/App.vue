@@ -126,7 +126,6 @@ const isOverflow = ref(null)
 
 // Event Handlers
 const playerHandler = () => {
-  console.log(getTrackList(2))
   if (audioElement.value.paused) {
     audioElement.value.play()
     musicQueue.isPlaying = true
@@ -278,13 +277,11 @@ const previousPageHandler = () => {
 // Favourite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
-  console.log(e.currentTarget)
   if (checkFavourite(trackId)) {
-  favourite.value.splice(favourite.value.indexOf(trackId), 1)
-   console.log(favourite.value)
+  favourite.value.splice(favourite.value.indexOf(trackId), 1) 
   } else {
   favourite.value.push(trackId)  
-console.log(favourite.value)
+
 }
 }
 </script>
@@ -538,7 +535,7 @@ console.log(favourite.value)
               v-if="checkFavourite(track['trackId'])"
                  />
                <LikeButton fill="none" stroke="black" v-else />
-</button>
+              </button>
               </div>
               <!-- #MenuButton -->
               <div class="px-3">
