@@ -167,6 +167,16 @@ This section includes the development strategies, processes and contributions wi
   - drag-to-seek progress bar
   - choose and play music from trending list
 
+### Sprint 4 Code Optimization, Bug fixing and Code Review
+
+![UI of our app in sprint 4](img/sprint-4-final.png "Sprint 4 Final")
+
+#### Step 1 Code optimize and refactoring
+  - remove unnecessary code
+  - merge redundant code
+
+#### Step 2 Code Review for every group members
+
 ## Running the App
 
 Steps and commands for running the app:
@@ -206,6 +216,31 @@ This documentation also hosted on [Github Pages]
   [New] Homepage
   ----------------------------------------------------------------------------------
 ```
+```
+  Release v2.0.0
+  ----------------------------------------------------------------------------------
+  [NEW] Carousel Playlist
+  [NEW] Music Queuing System
+  [NEW] Shuffle Song in Queue
+  [NEW] Music Choosing From Trending Section
+  [NEW] Homepage UI
+  [FIX] Drag-to-Seek Progress Bar
+  
+  [ADDED] More Songs up to 29 new songs
+  ----------------------------------------------------------------------------------
+```
+```
+  Release v2.1.0
+  ----------------------------------------------------------------------------------
+  [NEW] Changable Playlist
+  [FIX] Optimized Track Queuing
+  [FIX] Some UI optimizations
+  [FIX] Bug fixes
+
+  [ADDED] Available songs over 50 songs
+  ----------------------------------------------------------------------------------
+```
+
 
 ## Contributors
 
@@ -219,6 +254,8 @@ This documentation also hosted on [Github Pages]
 
 You can also see the complete [list of contributors][Contributors] who participated in this project.
 
+See full contribution log [here](CONTRIBUTION.md)
+
 ## Authors
 
 #### _Bowonwit Anothaisintavee_
@@ -230,7 +267,7 @@ You can also see the complete [list of contributors][Contributors] who participa
 This section can also be called as `Resources` or `References`
 
 ### Credits
-- View all song credits [here](CREDITS.md)
+- View all song credits [here](CREDIT.md)
 
 ### Inspirations
 
