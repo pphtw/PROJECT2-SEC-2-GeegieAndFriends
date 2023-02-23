@@ -284,6 +284,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/js-cookie@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "@types/js-cookie@npm:3.0.3"
+  checksum: 927254ec37ce4fbe4d9d54f53a446b4351259799d9933db5808ddb7c430396aa2496bdd0a4e47e1b56048ffbec98645cbd4daa9e3ed9a6fff55e25eb640fcb15
+  languageName: node
+  linkType: hard
+
 "@types/minimist@npm:^1.2.0":
   version: 1.2.2
   resolution: "@types/minimist@npm:1.2.2"
@@ -2263,6 +2270,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "project1-sec-2-geegieandfriends@workspace:."
   dependencies:
+    "@types/js-cookie": ^3.0.3
     "@vitejs/plugin-vue": ^4.0.0
     autoprefixer: ^10.4.13
     postcss: ^8.4.21
