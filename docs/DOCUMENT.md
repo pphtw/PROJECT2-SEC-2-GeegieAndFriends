@@ -1,4 +1,4 @@
-# Project Music Player (Release v2.1.0)
+# Project Music Player (Release v2.1.1)
 
 ##### By _Geegie and Friends_, an INT203 Project Team
 
@@ -238,6 +238,13 @@ This documentation also hosted on [Github Pages]
   [FIX] Bug fixes
 
   [ADDED] Available songs over 50 songs
+  ----------------------------------------------------------------------------------
+```
+```
+  Release v2.1.1
+  ----------------------------------------------------------------------------------
+  [FIX] Favorites tracks function
+  [FIX] Shuffle queue when change playlist
   ----------------------------------------------------------------------------------
 ```
 
