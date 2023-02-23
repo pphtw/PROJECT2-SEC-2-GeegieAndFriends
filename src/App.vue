@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue'
+import { computed, onBeforeMount, reactive, ref } from 'vue'
 
 // icons
 import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
@@ -258,9 +258,7 @@ const getPlaylist = (playlistId) => {
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackList(1)]
 })
-onMounted(() =>{
-  audioElement.value.volume = 0.06;
-})
+
 
 // Playlist Scroll
 const playlistElement = ref(null)

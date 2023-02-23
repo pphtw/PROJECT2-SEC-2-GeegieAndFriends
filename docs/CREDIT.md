@@ -1,6 +1,6 @@
-### Credits
+# Credits
 
-Music in this project
+## Music in this project
 
 - [Matsuri](https://youtu.be/NwOvu-j_WjY) (Song by _Fujii Kaze_) Licensed to YouTube by UMG (on behalf of Universal Music LLC); UMPG Publishing, BMI - Broadcast Music Inc., NexTone Inc. (Publishing), and 5 Music Rights Societies
 - [double take](https://youtu.be/R8FHtIhWqNo) (Song by _dhruv_) Licensed to YouTube by SME (on behalf of Little Worry/RCA Records); BMI - Broadcast Music Inc., LatinAutor, LatinAutorPerf, and 11 Music Rights Societies
