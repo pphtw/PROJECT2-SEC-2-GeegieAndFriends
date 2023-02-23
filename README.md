@@ -38,8 +38,12 @@ Our team including:
 - Split icon to Component (banlearit)
 - Keyboard Music Controller (NewBww)
 
+### Release V 2.1.1
+- Fix favorites tracks func (supapitploy)
+- Fix shuffle queue when change playlist (NewBww)
 
 ## Overview
+![homepage-2-1-1.png](docs/img/homepage-2-1-1.png)
 Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
 
 ### Features
@@ -115,7 +119,7 @@ yarn preview
 
 ![List of tracks in playlist](docs/img/playlist-tracks.png "Playlist Tracks")
 - You can scroll to view all playlist by click previous / next button on top right screen and select playlist for your music taste, then track list in the right screen will change you can select track from that too
-
+- Add track to favourites by clicking on the heart icon
 ### Credit and Inspirations
 
 - [Music Player Web App](https://dribbble.com/shots/18946599-Music-Player-Web-App) (Dribble)
