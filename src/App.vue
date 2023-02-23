@@ -25,7 +25,7 @@ import metadata from './assets/metadata.json'
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
 
-const favourite = ref([])
+const favorite = ref([])
 
 
 const musicQueue = reactive({
@@ -211,8 +211,8 @@ const onLoopHandler = (e) => {
 }
 
 // Utils
-const checkFavourite = (trackId) => {
-  const arr = [...favourite.value]
+const checkFavorite = (trackId) => {
+  const arr = [...favorite.value]
   return arr.includes(trackId)
    
 
@@ -275,13 +275,13 @@ const previousPageHandler = () => {
 }
 
 
-// Favourite
+// Favorite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
-  if (checkFavourite(trackId)) {
-  favourite.value.splice(favourite.value.indexOf(trackId), 1) 
+  if (checkFavorite(trackId)) {
+  favorite.value.splice(favorite.value.indexOf(trackId), 1) 
   } else {
-  favourite.value.push(trackId)  
+  favorite.value.push(trackId)  
 
 }
 }
@@ -535,7 +535,7 @@ const onLikeHandler = (e, trackId) => {
                   <LikeButton
                     fill="#c493e1"
                     stroke="#c493e1"
-                    v-if="checkFavourite(track['trackId'])"
+                    v-if="checkFavorite(track['trackId'])"
                   />
                   <LikeButton fill="none" stroke="black" v-else />
                 </button>
