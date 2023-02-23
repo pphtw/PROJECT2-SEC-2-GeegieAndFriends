@@ -25,7 +25,6 @@ import metadata from './assets/metadata.json'
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
 
-// retrieve favourited state from local storage
 const favourite = ref([])
 
 const musicQueue = reactive({
@@ -179,6 +178,9 @@ const onChooseTrackClick = (e) => {
       musicQueue.currentPlaylistId = playlist.selectedPlaylistId
       musicQueue.queue = [...getTrackList(musicQueue.currentPlaylistId)]
       musicQueue.defaultQueue = musicQueue.queue
+      if (musicQueue.isShuffled) {
+        musicQueue.toggleShuffle(true)
+      }
     }
     musicQueue.skipToTrack(chooseTrackId)
     toggleDelayedPlayPause(300)
@@ -273,10 +275,10 @@ const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
   favourite.value.push(trackId)
   if  (true){
-
+    console.log("1")
   }
   else {
-
+    console.log("2")
   }
 
 }
