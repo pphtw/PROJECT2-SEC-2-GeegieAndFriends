@@ -261,6 +261,7 @@ onBeforeMount(() => {
   // console.log(musicQueue.queue);
 })
 
+
 // Playlist Scroll
 const playlistElement = ref(null)
 const nextPageHandler = () => {
@@ -486,7 +487,7 @@ const onLikeHandler = (e, trackId) => {
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class=" flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
@@ -562,9 +563,9 @@ const onLikeHandler = (e, trackId) => {
   background-color: #c493e1;
   border-radius: 0 2em 2em 0;
 }
-
-.is-playing {
-  background: #eedff6;
+.is-playing,
+.is-playing:hover {
+  background-color: #eedff6;
 }
 .container-gradient {
   background-image: linear-gradient(
