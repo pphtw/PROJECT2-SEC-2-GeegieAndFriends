@@ -227,244 +227,243 @@
   "tracks": [
     {
       "trackId": 1,
-      "name": "Matsuri",
-      "artist": "Fuji Kaze",
-      "cover": "https://images.genius.com/7b91bead281b6ac86ec75545c4bc7114.1000x1000x1.jpg",
-      "source": "/tracks/matsuri.mp3",
-      "duration": "04:09"
+      "name": "Light (feat. Dualistic)",
+      "artist": "Andromedik, Murdock, Dualistic",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/0dd130e4-ed99-4124-a33e-15a9819085ec/artwork-440x440.jpg",
+      "source": "/tracks/light.mp3",
+      "duration": "04:13"
     },
     {
       "trackId": 2,
-      "name": "Double take",
-      "artist": "dhruv",
-      "cover": "https://i.scdn.co/image/ab67616d0000b273834f16100678d3e800fb5fb9",
-      "source": "/tracks/double_take.mp3",
-      "duration": "02:52"
+      "name": "Need You",
+      "artist": "Thorne, Sam Riley",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/dbefa5f1-f007-431c-9c7e-ca2e22672d79/artwork-440x440.jpg",
+      "source": "/tracks/need_you.mp3",
+      "duration": "02:36"
     },
     {
       "trackId": 3,
-      "name": "Recall",
-      "artist": "bowkylion",
-      "cover": "https://i.scdn.co/image/ab67616d0000b2734772590e4a680bd6ecaefb0e",
-      "source": "/tracks/recall.mp3",
-      "duration": "04:32"
+      "name": "Pressure (ft. imallryt)",
+      "artist": "Wiguez, borne",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/ff8cf43e-d227-4fe1-8ab0-0a9c29240ffa/artwork-440x440.jpg",
+      "source": "/tracks/pressure.mp3",
+      "duration": "02:49"
     },
     {
       "trackId": 4,
-      "name": "After Rain (Scarlet Version)",
-      "artist": "Aimer",
-      "cover": "https://i.scdn.co/image/ab67616d0000b2735f8edd201c2dbeb1a10af3b1",
-      "source": "/tracks/after_rain_scarlet.mp3",
-      "duration": "05:01"
+      "name": "Insides (feat. JESSY KVGE)",
+      "artist": "NO QVLT, JESSY KVGE",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/0e6d017f-e737-4709-854a-8441f0b46781/artwork-440x440.jpg",
+      "source": "/tracks/insides.mp3",
+      "duration": "02:48"
     },
     {
       "trackId": 5,
-      "name": "Attention",
-      "artist": "NewJeans",
-      "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
-      "source": "/tracks/attention.mp3",
-      "duration": "03:00"
+      "name": "LET THEM HAVE IT",
+      "artist": "ANGELPLAYA",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/08bec402-d87d-40ca-912c-caf63e292f0c/artwork-440x440.jpg",
+      "source": "/tracks/let_them_have_it.mp3",
+      "duration": "02:19"
     },
     {
       "trackId": 6,
-      "name": "Cookie",
-      "artist": "NewJeans",
-      "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
-      "source": "/tracks/cookie.mp3",
-      "duration": "03:55"
-    },
-    {
-      "trackId": 7,
-      "name": "Ditto",
-      "artist": "NewJeans",
-      "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
-      "source": "/tracks/ditto.mp3",
-      "duration": "03:05"
-    },
-    {
-      "trackId": 8,
-      "name": "Hurt",
-      "artist": "NewJeans",
-      "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
-      "source": "/tracks/hurt.mp3",
-      "duration": "02:57"
-    },
-    {
-      "trackId": 9,
-      "name": "Hype Boy",
-      "artist": "NewJeans",
-      "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
-      "source": "/tracks/hype_boy.mp3",
-      "duration": "02:59"
-    },
-    {
-      "trackId": 10,
-      "name": "夜に駆ける",
-      "name-eng": "Racing into the Night",
-      "artist": "Yoasobi",
-      "cover": "https://i.scdn.co/image/ab67616d00001e02fc62f8192dfedb0434f49197",
-      "source": "/tracks/racing_into_the_night.mp3",
-      "duration": "04:21"
-    },
-    {
-      "trackId": 11,
-      "name": "OMG",
-      "artist": "NewJeans",
-      "cover": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1DqglDXGgHJCYP_oz9mgY0OlPwffEyrAWrAwK4073sE02wtLouFNUinQM8Si7yNIEl_GAFh5bk7LMJVZrYRXl7AkgIp_eBXZaRzXq4Dlo_4FIoS-8H32h1TPhM74U92JkMTo6e37VfgmPG2duoEop96fkYEcHZ0k7kzqsfIWrQNiQvl_AZgkodcs0vg/s600/82842800_1659340238924_1_600x600.jpeg",
-      "source": "/tracks/omg.mp3",
-      "duration": "03:32"
-    },
-    {
-      "trackId": 12,
-      "name": "Orion",
-      "artist": "Kenshi Yonezu",
-      "cover": "https://i.scdn.co/image/ab67616d0000b2734a39a8fffea6582b4339dec0",
-      "source": "/tracks/orion.mp3",
-      "duration": "04:50"
-    },
-    {
-      "trackId": 13,
-      "name": "Overdose",
-      "artist": "なとり",
-      "cover": "https://i.scdn.co/image/ab67616d0000b273d29582617459e5bb81bd90a6",
-      "source": "/tracks/overdose.mp3",
-      "duration": "03:14"
-    },
-    {
-      "trackId": 14,
-      "name": "Pretender",
-      "artist": "Official髭男dism",
-      "cover": "https://i.scdn.co/image/ab67616d0000b27316972c5ba20b2ba6b6d7891c",
-      "source": "/tracks/pretender.mp3",
-      "duration": "05:26"
-    },
-    {
-      "trackId": 15,
-      "name": "好きだから。",
-      "artist": "ユイカ",
-      "cover": "https://i.scdn.co/image/ab67616d0000b273d36c9f45b61735554adbaa03",
-      "source": "/tracks/sukidakara.mp3",
-      "duration": "04:58"
-    },
-    {
-      "trackId": 16,
-      "name": "Zenzenzense",
-      "artist": "RADWIMPS",
-      "cover": "https://i.scdn.co/image/ab67616d00001e02512668c8cf31d12749a6fa40",
-      "source": "/tracks/zenzenzense.mp3",
-      "duration": "04:35"
-    },
-    {
-      "trackId": 17,
-      "name": "2002",
-      "artist": "Anne-Marie",
-      "cover": "https://cdns-images.dzcdn.net/images/cover/05324f09b36811d11f160b72eb5fb354/500x500.jpg",
-      "source": "/tracks/2002.mp3",
-      "duration": "03:14"
-    },
-    {
-      "trackId": 18,
-      "name": "About Time",
-      "artist": "Dept, Kelsey Kuan, prettyhappy",
-      "cover": "https://s.isanook.com/jo/0/rp/r/w300/ya0xa0m1w0/aHR0cDovL2ltYWdlLmpvb3guY29tL0pPT1hjb3Zlci8wL2RjOThkNDc3YjU3MTIyZDMvMTAwMC5qcGc=.jpg",
-      "source": "/tracks/about_time.mp3",
-      "duration": "02:47"
-    },
-    {
-      "trackId": 19,
-      "name": "Christmas Tree",
-      "artist": "V",
-      "cover": "https://cdn1.kgasa.com/wp-content/uploads/2021/12/V-Our-Beloved-Summer-OST-Part-5.jpg",
-      "source": "/tracks/christmas_tree.mp3",
-      "duration": "03:41"
-    },
-    {
-      "trackId": 20,
-      "name": "Daisy",
-      "artist": "Katy Perry",
-      "cover": "https://upload.wikimedia.org/wikipedia/en/b/bb/Katy_Perry_Daisies.png",
-      "source": "/tracks/daisy.mp3",
-      "duration": "02:57"
-    },
-    {
-      "trackId": 21,
-      "name": "Far Away",
-      "artist": "Peter Fenn",
-      "cover": "https://cdns-images.dzcdn.net/images/cover/db9e002b2057b689f49e6610cb294eff/500x500.jpg",
-      "source": "/tracks/far_away.mp3",
+      "name": "LA VIBE",
+      "artist": "JOXION",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/a0b399f9-1371-4bc4-b5fb-d07a0de5e1df/artwork-440x440.jpg",
+      "source": "/tracks/la_vibe.mp3",
       "duration": "02:12"
     },
     {
+      "trackId": 7,
+      "name": "Dum Dum",
+      "artist": "Raven & Kreyn, KDH, Scarlett",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/83f783b0-2a5b-4cee-9c4c-a8737ad9cca7/artwork-440x440.jpg",
+      "source": "/tracks/dum_dum.mp3",
+      "duration": "02:47"
+    },
+    {
+      "trackId": 8,
+      "name": "La Manera De Vivir",
+      "artist": "NOYSE, ÆSTRØ",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/277687d1-45cd-4d59-a435-d9eaad33ce23/artwork-440x440.jpg",
+      "source": "/tracks/la_manera_de_vivir.mp3",
+      "duration": "02:06"
+    },
+    {
+      "trackId": 9,
+      "name": "What You Gonna Do",
+      "artist": "MADZI",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/b71d0336-3022-4ec6-999c-b96ca8e8b809/artwork-440x440.jpg",
+      "source": "/tracks/what_you_gonna_do.mp3",
+      "duration": "03:05"
+    },
+    {
+      "trackId": 10,
+      "name": "Volcano",
+      "artist": "Jim Yosef, Scarlett",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/bb1c2f49-5092-4659-9a77-d4c185daf5ac/artwork-440x440.jpg",
+      "source": "/tracks/volcano.mp3",
+      "duration": "02:40"
+    },
+    {
+      "trackId": 11,
+      "name": "Sympathy (feat. Coral Oulu)",
+      "artist": "Coral Oulu",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/aef57c5c-7e6a-47d5-a3a1-180cc7dff3c9/artwork-440x440.jpg",
+      "source": "/tracks/sympathy.mp3",
+      "duration": "02:33"
+    },
+    {
+      "trackId": 12,
+      "name": "Kadak",
+      "artist": "Zack Merci, Nieko, Blxk Trey",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/7b14cbd4-6988-4b98-b4fe-7b6852128cc0/artwork-440x440.jpg",
+      "source": "/tracks/kadak.mp3",
+      "duration": "03:00"
+    },
+    {
+      "trackId": 13,
+      "name": "Lost",
+      "artist": "VIANI, Andrew A",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/662cc780-b61b-483b-9a1a-0d081cb98583/artwork-440x440.jpg",
+      "source": "/tracks/lost.mp3",
+      "duration": "02:52"
+    },
+    {
+      "trackId": 14,
+      "name": "Drop In The Ocean (feat. India Dupriez)",
+      "artist": "MAD SNAX, Harry Taylor, Poylow",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/ea7d3833-2616-4763-a4eb-35757b76d4b4/artwork-440x440.jpg",
+      "source": "/tracks/drop_in_the_ocean.mp3",
+      "duration": "02:43"
+    },
+    {
+      "trackId": 15,
+      "name": "Try Again",
+      "artist": "Goodknight.",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/b64be2ef-9078-466c-a90d-da51d2f5c4d3/artwork-440x440.jpg",
+      "source": "/tracks/try_again.mp3",
+      "duration": "02:30"
+    },
+    {
+      "trackId": 16,
+      "name": "Get Out Here (Ft. MaryQueen)",
+      "artist": "Wiguez, Josh Levoid, MaryQueen",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/d7a8f784-4822-4f40-9cad-244dd3f426e3/artwork-440x440.jpg",
+      "source": "/tracks/get_out_here.mp3",
+      "duration": "03:56"
+    },
+    {
+      "trackId": 17,
+      "name": "Consume Me",
+      "artist": "CITYWLKR, Voicians",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/8cc3d70f-e888-4209-b6e9-2c20db4d361d/artwork-440x440.jpg",
+      "source": "/tracks/consume_me.mp3",
+      "duration": "05:12"
+    },
+    {
+      "trackId": 18,
+      "name": "Vision",
+      "artist": "iFeature, just alex",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/ae0512d3-fc45-45f2-b6ee-d4f471adf7b8/artwork-440x440.jpg",
+      "source": "/tracks/vision.mp3",
+      "duration": "02:25"
+    },
+    {
+      "trackId": 19,
+      "name": "For You (feat. Eline Mann)",
+      "artist": "Eline Mann, ReauBeau",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/7dd68578-e606-46a7-859a-5705f2c3d40e/artwork-440x440.jpg",
+      "source": "/tracks/for_you.mp3",
+      "duration": "02:44"
+    },
+    {
+      "trackId": 20,
+      "name": "Tension",
+      "artist": "EXXO",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/901e6960-0615-4bf1-a398-1e6501897b81/artwork-440x440.jpg",
+      "source": "/tracks/tension.mp3",
+      "duration": "02:40"
+    },
+    {
+      "trackId": 21,
+      "name": "Alive",
+      "artist": "PLEEG",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/1b521ab9-b30d-41a5-bee6-7c22d72b5983/artwork-440x440.jpg",
+      "source": "/tracks/alive.mp3",
+      "duration": "02:40"
+    },
+    {
       "trackId": 22,
-      "name": "Favorite Thing",
-      "artist": "Rangga Jones",
-      "cover": "https://i.scdn.co/image/ab67616d0000b2738cd2a3746e52b2f691223808",
-      "source": "/tracks/favorite_thing.mp3",
-      "duration": "02:53"
+      "name": "Unstoppable",
+      "artist": "JOXION, Thorne, iFeature",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/b455917d-b786-47ca-b3b6-793af6d795bd/artwork-440x440.jpg",
+      "source": "/tracks/unstoppable.mp3",
+      "duration": "02:50"
     },
     {
       "trackId": 23,
-      "name": "Forever Rain",
-      "artist": "RM",
-      "cover": "https://i.scdn.co/image/ab67616d00001e02876df70c59db46f63d74e20d",
-      "source": "/tracks/forever_rain.mp3",
-      "duration": "04:28"
+      "name": "No More Levitation",
+      "artist": "Rex Hooligan, Anna Simone",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/f3d5719f-7d77-4aff-be39-9aa980f0710b/artwork-440x440.jpg",
+      "source": "/tracks/no_more_levitation.mp3",
+      "duration": "04:08"
     },
     {
       "trackId": 24,
-      "name": "Love Song",
-      "artist": "Dept, Sonny Zero, Jae Luna",
-      "cover": "https://images.genius.com/3178e63c398d1943bb09b81e2b409c1d.1000x1000x1.jpg",
-      "source": "/tracks/love_song.mp3",
-      "duration": "02:53"
+      "name": "Can't Say No",
+      "artist": "JJD",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/6000321e-a435-4044-8b84-fcc464a2b9ef/artwork-440x440.jpg",
+      "source": "/tracks/cant_say_no.mp3",
+      "duration": "03:35"
     },
     {
       "trackId": 25,
-      "name": "Magic Shop",
-      "artist": "BTS",
-      "cover": "https://ibighit.com/bts/images/bts/discography/love_yourself-tear/album-cover.jpg",
-      "source": "/tracks/magic_shop.mp3",
-      "duration": "04:36"
+      "name": "Light Me Up (feat. Giin)",
+      "artist": "Tatsunoshin, Giin",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/a4a89b82-6344-4297-b8f6-37a97d4db92b/artwork-440x440.jpg",
+      "source": "/tracks/light_me_up.mp3",
+      "duration": "03:01"
     },
     {
       "trackId": 26,
-      "name": "Stay",
-      "artist": "BTS",
-      "cover": "https://i.scdn.co/image/ab67616d0000b273c07d5d2fdc02ae252fcd07e5",
-      "source": "/tracks/stay.mp3",
-      "duration": "03:24"
+      "name": "PULL UP",
+      "artist": "ANGELPLAYA",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/cb4bc127-ac32-4e42-8b2f-82ec687daeab/artwork-440x440.jpg",
+      "source": "/tracks/pull_up.mp3",
+      "duration": "02:02"
     },
     {
       "trackId": 27,
-      "name": "Wave",
-      "artist": "Fiji Blue",
-      "cover": "https://images.genius.com/288eea80b6aa705315c3cb0ba6b3b11e.1000x1000x1.jpg",
-      "source": "/tracks/wave.mp3",
-      "duration": "02:15"
+      "name": "The Other Side",
+      "artist": "ROY KNOX",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/50f27399-861b-4f28-b950-127c0f49f160/artwork-440x440.jpg",
+      "source": "/tracks/the_other_side.mp3",
+      "duration": "02:39"
     },
     {
       "trackId": 28,
-      "name": "ทรงอย่างแบด (Bad Boy)",
-      "artist": "Paper Planes",
-      "cover": "https://i.scdn.co/image/ab67616d0000b27376c6bd9f695412a77ae705c0",
-      "source": "/tracks/song_yang_bad_sad_yang_boi.mp3",
-      "duration": "03:55"
+      "name": "Rift",
+      "artist": "Rob Gasser, Miss Lina",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/386d0db7-a1d6-44a1-9616-b596391903ad/artwork-440x440.jpg",
+      "source": "/tracks/rift.mp3",
+      "duration": "03:26"
     },
     {
       "trackId": 29,
-      "name": "Guitar, Loneliness and Blue Planet",
-      "artist": "Kessoku Band",
-      "cover": "https://www.crownnote.com/sites/default/files/styles/large/public/3b89eb518b906ad0ae95033d450f2b36.1000x1000x1.png.webp?itok=KUblpGvp",
-      "source": "/tracks/guitar_Loneliness_and_Blue_Planet.mp3",
+      "name": "Behind",
+      "artist": "Thorne, Andrew A",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/1dca44f9-fad2-4dde-92d1-943c2cc4cfda/artwork-440x440.jpg",
+      "source": "/tracks/behind.mp3",
       "duration": "03:49"
     },
     {
       "trackId": 30,
-      "name": "Timemachine",
-      "artist": "ปอน นิพนธ์ x โต๋ เหน่อ",
-      "cover": "https://i.scdn.co/image/ab67616d0000b27359e3d28958517d86667326a3",
-      "source": "/tracks/timemachine.mp3",
-      "duration": "05:04"
+      "name": "Memory Nights",
+      "artist": "Jack Shore, KORA",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/c29689a5-a0a9-4f7a-8de4-6a03307fbb73/artwork-440x440.jpg",
+      "source": "/tracks/memory_nights.mp3",
+      "duration": "03:16"
     },
     {
       "trackId": 31,
