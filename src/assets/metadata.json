@@ -59,6 +59,24 @@
     },
     {
       "playlistId": 2,
+      "name": "No Copyright Sounds",
+      "background": "https://cdn.pixabay.com/photo/2023/02/14/18/55/flowers-7790227_960_720.jpg",
+      "tracks": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ]
+    },
+    {
+      "playlistId": 3,
       "name": "Wanna try something new!",
       "background": "https://images.pexels.com/photos/11721417/pexels-photo-11721417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -75,7 +93,7 @@
       ]
     },
     {
-      "playlistId": 3,
+      "playlistId": 4,
       "name": "Relax & Chill",
       "background": "https://images.pexels.com/photos/8239819/pexels-photo-8239819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -93,7 +111,7 @@
       ]
     },
     {
-      "playlistId": 4,
+      "playlistId": 5,
       "name": "J-POP",
       "background": "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -111,7 +129,7 @@
       ]
     },
     {
-      "playlistId": 5,
+      "playlistId": 6,
       "name": "K-POP",
       "background": "https://images.pexels.com/photos/63703/pexels-photo-63703.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -129,7 +147,7 @@
       ]
     },
     {
-      "playlistId": 6,
+      "playlistId": 7,
       "name": "International Playlist",
       "background": "https://images.pexels.com/photos/144429/pexels-photo-144429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -159,7 +177,7 @@
       ]
     },
     {
-      "playlistId": 7,
+      "playlistId": 8,
       "name": "T-POP",
       "background": "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -170,7 +188,7 @@
       ]
     },
     {
-      "playlistId": 8,
+      "playlistId": 9,
       "name": "Something Fun!",
       "background": "https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
       "tracks": [
@@ -185,7 +203,7 @@
       ]
     },
     {
-      "playlistId": 9,
+      "playlistId": 10,
       "name": "Love Song",
       "background": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSddKc95PYthpYIUA7tbype0WziRjKMbb26fg&usqp=CAU",
       "tracks": [
@@ -615,6 +633,94 @@
       "cover": "https://i.scdn.co/image/ab67616d0000b273d71845bf949eb9130ef61481",
       "source": "/tracks/damm_good_day.mp3",
       "duration": "03:02"
+    },
+    {
+      "trackId": 52,
+      "name": "die 4 you (feat. damnboy!)",
+      "artist": "if found, nøll, damnboy!",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/8bdb9c71-364c-42f8-9d82-32abd84dcbe0/artwork-440x440.jpg",
+      "source": "/tracks/die_4_u.mp3",
+      "duration": "02:54"
+    },
+    {
+      "trackId": 53,
+      "name": "Bring It Back",
+      "artist": "Polygon",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/77698996-a621-4ebf-b0bc-ea53f03612c8/artwork-440x440.jpg",
+      "source": "/tracks/bring_it_back.mp3",
+      "duration": "03:25"
+    },
+    {
+      "trackId": 54,
+      "name": "Trust Me",
+      "artist": "Blackryst",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/76659e2f-1e3f-423d-a90c-fd1ba00820db/artwork-440x440.jpg",
+      "source": "/tracks/trust_me.mp3",
+      "duration": "02:36"
+    },
+    {
+      "trackId": 55,
+      "name": "Enemies",
+      "artist": "ATSMXN, XTOM",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/575954ef-01df-4f1d-890b-3393a97c0f8e/artwork-440x440.jpg",
+      "source": "/tracks/enemies.mp3",
+      "duration": "01:54"
+    },
+    {
+      "trackId": 56,
+      "name": "Paradise",
+      "artist": "N3WPORT, Britt Lari",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/c8d4239a-99d2-43ab-ba4a-06ad045c8728/artwork-440x440.jpg",
+      "source": "/tracks/paradise.mp3",
+      "duration": "02:43"
+    },
+    {
+      "trackId": 57,
+      "name": "Guide You Home",
+      "artist": "Diviners, Level 8",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/43cfc4eb-58b0-4f0c-a361-4af680ef9478/artwork-440x440.jpg",
+      "source": "/tracks/guide_you_home.mp3",
+      "duration": "03:12"
+    },
+    {
+      "trackId": 58,
+      "name": "Cozy Thunder",
+      "artist": "iFeature",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/de7a1c81-e0ce-4b98-9665-77d934aee20b/artwork-440x440.jpg",
+      "source": "/tracks/cozy_thunder.mp3",
+      "duration": "03:16"
+    },
+    {
+      "trackId": 59,
+      "name": "Make Waves (feat. Brynja Mary)",
+      "artist": "ReauBeau, Brynja Mary",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/20f9b5d2-edae-4282-9e03-775a4894b984/artwork-440x440.jpg",
+      "source": "/tracks/make_waves.mp3",
+      "duration": "03:09"
+    },
+    {
+      "trackId": 60,
+      "name": "Dynamiser",
+      "artist": "Outlandr, Dani King",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/a5b4621a-3db9-441d-820a-f1f55ee615e3/artwork-440x440.jpg",
+      "source": "/tracks/dynamiser.mp3",
+      "duration": "04:10"
+    },
+    {
+      "trackId": 61,
+      "name": "4 Love (Ft. P-One)",
+      "artist": "Wiguez, Alltair, P-One",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/bdbe58df-e6f4-4895-b56e-610ce6d81562/artwork-440x440.jpg",
+      "source": "/tracks/4_love.mp3",
+      "duration": "03:03"
+    },
+    {
+      "trackId": 62,
+      "name": "Psycho",
+      "artist": "More Plastic, URBANO",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/b61be371-88f4-4731-9724-e4d83100f116/artwork-440x440.jpg",
+      "source": "/tracks/psycho.mp3",
+      "duration": "02:51"
     }
   ]
 }
