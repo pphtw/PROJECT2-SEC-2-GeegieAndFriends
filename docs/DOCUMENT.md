@@ -273,9 +273,6 @@ See full contribution log [here](CONTRIBUTION.md)
 
 This section can also be called as `Resources` or `References`
 
-### Credits
-- View all song credits [here](CREDIT.md)
-
 ### Inspirations
 
 - [Music Player Web App](https://dribbble.com/shots/18946599-Music-Player-Web-App) (Dribble)
