@@ -720,6 +720,14 @@
       "cover": "https://linkstorage.linkfire.com/medialinks/images/b61be371-88f4-4731-9724-e4d83100f116/artwork-440x440.jpg",
       "source": "/tracks/psycho.mp3",
       "duration": "02:51"
+    },
+    {
+      "trackId": 63,
+      "name": "Why we lose",
+      "artist": "Cartoon",
+      "cover": "https://linkstorage.linkfire.com/medialinks/images/bff6e824-059d-4bfe-bd2c-06a6905d5b96/artwork-440x440.jpg",
+      "source": "/public/tracks/why_we_lose.mp3",
+      "duration": "03.33"
     }
   ]
 }
