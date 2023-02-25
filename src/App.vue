@@ -27,7 +27,6 @@ const trackData = metadata.tracks
 
 const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
 
-
 const musicQueue = reactive({
   currentPlaylistId: 1,
   currentTrack: computed(() => getTrack(musicQueue?.queue[0])),
