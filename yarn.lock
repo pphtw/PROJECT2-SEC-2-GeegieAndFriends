@@ -2266,9 +2266,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"project1-sec-2-geegieandfriends@workspace:.":
+"project2-sec-2-geegieandfriends@workspace:.":
   version: 0.0.0-use.local
-  resolution: "project1-sec-2-geegieandfriends@workspace:."
+  resolution: "project2-sec-2-geegieandfriends@workspace:."
   dependencies:
     "@types/js-cookie": ^3.0.3
     "@vitejs/plugin-vue": ^4.0.0
