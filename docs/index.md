@@ -26,7 +26,6 @@ The project is also hosted on [Netlify](https://geegie.netlify.app) (for develop
     - [Step 3: Develop new features for the app](#step-3-develop-new-features-for-the-app)
 - [Running the App](#running-the-app)
 - [Deployment](#deployment)
-- [Versioning](#versioning)
 - [Contributors](#contributors)
 - [Authors](#authors)
 - [Acknowledgments](#acknowledgments)
@@ -206,48 +205,6 @@ The `main` branch is automatically deployed to production on [geegie.netlify.app
 The `dev` branch is automatically deployed to preview the development on [geegie-dev.netlify.app]
 
 This documentation also hosted on [Github Pages]
-
-## Versioning
-
-```
-  Pre-release v1.0.0
-  ----------------------------------------------------------------------------------
-  [New] Music Player Component
-  [New] Homepage
-  ----------------------------------------------------------------------------------
-```
-```
-  Release v2.0.0
-  ----------------------------------------------------------------------------------
-  [NEW] Carousel Playlist
-  [NEW] Music Queuing System
-  [NEW] Shuffle Song in Queue
-  [NEW] Music Choosing From Trending Section
-  [NEW] Homepage UI
-  [FIX] Drag-to-Seek Progress Bar
-  
-  [ADDED] More Songs up to 29 new songs
-  ----------------------------------------------------------------------------------
-```
-```
-  Release v2.1.0
-  ----------------------------------------------------------------------------------
-  [NEW] Changeable Playlist
-  [FIX] Optimized Track Queuing
-  [FIX] Some UI optimizations
-  [FIX] Bug fixes
-
-  [ADDED] Available songs over 50 songs
-  ----------------------------------------------------------------------------------
-```
-```
-  Release v2.1.1
-  ----------------------------------------------------------------------------------
-  [FIX] Favorites tracks function
-  [FIX] Shuffle queue when changing playlist
-  ----------------------------------------------------------------------------------
-```
-
 
 ## Contributors
 
