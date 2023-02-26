@@ -261,7 +261,7 @@ This documentation also hosted on [Github Pages]
 
 You can also see the complete [list of contributors][Contributors] who participated in this project.
 
-See full contribution log [here](CONTRIBUTION.md)
+See full contribution log [here](contribution.md)
 
 ## Authors
 
