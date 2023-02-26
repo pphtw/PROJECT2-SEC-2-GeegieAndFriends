@@ -1,4 +1,4 @@
-# INT203 Project #1: GeegieAndFriends's Vuesic Player
+# INT203 Project #2: GeegieAndFriends's Vuesic Player
 ## Group: _GeegieAndFriends_
 
 Our team including:
