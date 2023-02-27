@@ -2,28 +2,31 @@
 import { computed, onBeforeMount, reactive, ref } from 'vue'
 
 // icons
-import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
-import SearchPageButton from '@/icon/NavigationBar/SearchPageButton.vue'
-import PlaylistPageButton from '@/icon/NavigationBar/PlaylistPageButton.vue'
-import CreditPageButton from '@/icon/NavigationBar/CreditPageButton.vue'
-import SettingPageButton from '@/icon/NavigationBar/SettingPageButton.vue'
-import PreviousPageHandler from '@/icon/HomeContainer/previousPageHandler.vue'
-import NextPageHandler from '@/icon/HomeContainer/NextPageHandler.vue'
-import IsShuffled from '@/icon/HomeContainer/IsShuffled.vue'
-import NoShuffled from '@/icon/HomeContainer/NoShuffled.vue'
-import PreviousButton from '@/icon/HomeContainer/PreviousButton.vue'
-import IsPlaying from '@/icon/HomeContainer/IsPlaying.vue'
-import NoPlaying from '@/icon/HomeContainer/NoPlaying.vue'
-import SkipButton from '@/icon/HomeContainer/SkipButton.vue'
-import IsLooping from '@/icon/HomeContainer/NoLooping.vue'
-import NoLooping from '@/icon/HomeContainer/IsLooping.vue'
-import LikeButton from '@/icon/HomeContainer/LikeButton.vue'
-import MenuButton from '@/icon/HomeContainer/MenuButton.vue'
+import HomePageButton from '@/components/icon/NavigationBar/HomePageButton.vue'
+import SearchPageButton from '@/components/icon/NavigationBar/SearchPageButton.vue'
+import PlaylistPageButton from '@/components/icon/NavigationBar/PlaylistPageButton.vue'
+import CreditPageButton from '@/components/icon/NavigationBar/CreditPageButton.vue'
+import SettingPageButton from '@/components/icon/NavigationBar/SettingPageButton.vue'
+import PreviousPageHandler from '@/components/icon/HomeContainer/previousPageHandler.vue'
+import NextPageHandler from '@/components/icon/HomeContainer/NextPageHandler.vue'
+import IsShuffled from '@/components/icon/HomeContainer/IsShuffled.vue'
+import NoShuffled from '@/components/icon/HomeContainer/NoShuffled.vue'
+import PreviousButton from '@/components/icon/HomeContainer/PreviousButton.vue'
+import IsPlaying from '@/components/icon/HomeContainer/IsPlaying.vue'
+import NoPlaying from '@/components/icon/HomeContainer/NoPlaying.vue'
+import SkipButton from '@/components/icon/HomeContainer/SkipButton.vue'
+import IsLooping from '@/components/icon/HomeContainer/NoLooping.vue'
+import NoLooping from '@/components/icon/HomeContainer/IsLooping.vue'
+import LikeButton from '@/components/icon/HomeContainer/LikeButton.vue'
+import MenuButton from '@/components/icon/HomeContainer/MenuButton.vue'
+import {getPlaylist} from "@/utils/storage";
+import {getTrackList} from "@/utils/storage";
+import {getTrack} from "@/utils/storage";
+import {secToMin} from "@/utils/util";
 
 import metadata from './assets/metadata.json'
 
 const playlistData = metadata.playlists
-const trackData = metadata.tracks
 
 const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
 
@@ -223,9 +226,7 @@ const toggleDelayedPlayPause = (delay = 0) => {
     }
   }, delay)
 }
-const secToMin = (timeInSec) => {
-  return new Date(timeInSec * 1000).toISOString().substring(14, 19)
-}
+
 const isOverflowed = () => {
   const element = titleElement.value
   isOverflow.value = false
@@ -236,22 +237,7 @@ const isOverflowed = () => {
   }, 0)
 }
 
-// Getters
-const getTrack = (trackId = 1) => {
-  return trackData.find((track) => track['trackId'] === trackId)
-}
 
-const getTrackList = (playlistId) => {
-  return [
-    ...playlistData.find(
-      (playlist) => playlist['playlistId'] === Number(playlistId)
-    ).tracks,
-  ]
-}
-
-const getPlaylist = (playlistId) => {
-  return playlistData.find((playlist) => playlist['playlistId'] === playlistId)
-}
 
 // Hooks
 onBeforeMount(() => {
