@@ -1,13 +1,12 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
-import {getTrackList} from "@/utils/storage";
+import { getTrackList } from '@/utils/storage'
+// Components
+import HomeContainer from './components/HomeContainer.vue'
+import NavigationBar from './components/NavigationBar.vue'
 
 // icons
-import HomePageButton from '@/components/icon/NavigationBar/HomePageButton.vue'
-import SearchPageButton from '@/components/icon/NavigationBar/SearchPageButton.vue'
-import PlaylistPageButton from '@/components/icon/NavigationBar/PlaylistPageButton.vue'
-import CreditPageButton from '@/components/icon/NavigationBar/CreditPageButton.vue'
-import SettingPageButton from '@/components/icon/NavigationBar/SettingPageButton.vue'
+
 import PreviousPageHandler from '@/components/icon/HomeContainer/previousPageHandler.vue'
 import NextPageHandler from '@/components/icon/HomeContainer/NextPageHandler.vue'
 import IsShuffled from '@/components/icon/HomeContainer/IsShuffled.vue'
@@ -20,25 +19,28 @@ import IsLooping from '@/components/icon/HomeContainer/NoLooping.vue'
 import NoLooping from '@/components/icon/HomeContainer/IsLooping.vue'
 import LikeButton from '@/components/icon/HomeContainer/LikeButton.vue'
 import MenuButton from '@/components/icon/HomeContainer/MenuButton.vue'
-import {musicQueue} from "@/utils/util";
-import {progressBar,audioElement} from "@/utils/util";
-import {playlist} from "@/utils/util";
-import {secToMin} from "@/utils/util";
-import {playerHandler} from "@/utils/eventhandlers";
-import {toggleDelayedPlayPause} from "@/utils/util";
-import {trackSkipHandler} from "@/utils/eventhandlers";
-import {onLoadMetadataHandler} from "@/utils/util";
-import {isOverflow,titleElement} from "@/utils/util";
+import { musicQueue } from '@/utils/util'
+import { progressBar, audioElement } from '@/utils/util'
+import { playlist } from '@/utils/util'
+import { secToMin } from '@/utils/util'
+import { playerHandler } from '@/utils/eventhandlers'
+import { toggleDelayedPlayPause } from '@/utils/util'
+import { trackSkipHandler } from '@/utils/eventhandlers'
+import { onLoadMetadataHandler } from '@/utils/util'
+import { isOverflow, titleElement } from '@/utils/util'
 import metadata from './assets/metadata.json'
-const playlistData = metadata.playlists
 
+//Favorite
+import { onLikeHandler } from '@/utils/storage'
+import { checkFavourite } from '@/utils/storage'
+
+const playlistData = metadata.playlists
 
 // DOM Element
 const tracksElement = ref(null)
 const progressBarElement = ref(null)
 
 // State
-
 
 const onTimeUpdateHandler = () => {
   progressBar.currentTime = secToMin(audioElement.value.currentTime)
@@ -106,12 +108,10 @@ const onLoopHandler = (e) => {
   console.log(e)
 }
 
-
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackList(1)]
 })
-
 
 // Playlist Scroll
 const playlistElement = ref(null)
@@ -121,18 +121,14 @@ const nextPageHandler = () => {
 const previousPageHandler = () => {
   playlistElement.value.scrollLeft -= 1400
 }
-//Favorite
-import {onLikeHandler} from "@/utils/storage";
-import {checkFavourite} from "@/utils/storage";
-
 </script>
 <template>
   <audio
-      ref="audioElement"
-      :src="musicQueue.currentTrack.source"
-      @timeupdate="onTimeUpdateHandler"
-      @loadedmetadata="onLoadMetadataHandler"
-      @ended="trackSkipHandler"
+    ref="audioElement"
+    :src="musicQueue.currentTrack.source"
+    @timeupdate="onTimeUpdateHandler"
+    @loadedmetadata="onLoadMetadataHandler"
+    @ended="trackSkipHandler"
   ></audio>
   <div
     class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#162750]"
@@ -145,20 +141,7 @@ import {checkFavourite} from "@/utils/storage";
     tabindex="-1"
   >
     <!-- #NavigationBar -->
-    <div
-      class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:z-10 bg-[#162750]"
-    >
-      <!-- #HomePageButton -->
-      <HomePageButton />
-      <!-- #SearchPageButton -->
-      <SearchPageButton />
-      <!-- #PlaylistPageButton -->
-      <PlaylistPageButton />
-      <!-- #CreditPageButton -->
-      <CreditPageButton />
-      <!-- #SettingPageButton -->
-      <SettingPageButton />
-    </div>
+    <NavigationBar />
     <!-- #HomeContainer -->
     <div
       class="container-gradient max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
@@ -330,7 +313,7 @@ import {checkFavourite} from "@/utils/storage";
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class=" flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
