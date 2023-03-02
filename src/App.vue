@@ -1,138 +1,41 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
+import {getTrackList} from "@/components/gettrackdata/getTrackData";
 
 // icons
-import HomePageButton from '@/icon/NavigationBar/HomePageButton.vue'
-import SearchPageButton from '@/icon/NavigationBar/SearchPageButton.vue'
-import PlaylistPageButton from '@/icon/NavigationBar/PlaylistPageButton.vue'
-import CreditPageButton from '@/icon/NavigationBar/CreditPageButton.vue'
-import SettingPageButton from '@/icon/NavigationBar/SettingPageButton.vue'
-import PreviousPageHandler from '@/icon/HomeContainer/previousPageHandler.vue'
-import NextPageHandler from '@/icon/HomeContainer/NextPageHandler.vue'
-import IsShuffled from '@/icon/HomeContainer/IsShuffled.vue'
-import NoShuffled from '@/icon/HomeContainer/NoShuffled.vue'
-import PreviousButton from '@/icon/HomeContainer/PreviousButton.vue'
-import IsPlaying from '@/icon/HomeContainer/IsPlaying.vue'
-import NoPlaying from '@/icon/HomeContainer/NoPlaying.vue'
-import SkipButton from '@/icon/HomeContainer/SkipButton.vue'
-import IsLooping from '@/icon/HomeContainer/NoLooping.vue'
-import NoLooping from '@/icon/HomeContainer/IsLooping.vue'
-import LikeButton from '@/icon/HomeContainer/LikeButton.vue'
-import MenuButton from '@/icon/HomeContainer/MenuButton.vue'
+import HomePageButton from '@/components/icon/NavigationBar/HomePageButton.vue'
+import SearchPageButton from '@/components/icon/NavigationBar/SearchPageButton.vue'
+import PlaylistPageButton from '@/components/icon/NavigationBar/PlaylistPageButton.vue'
+import CreditPageButton from '@/components/icon/NavigationBar/CreditPageButton.vue'
+import SettingPageButton from '@/components/icon/NavigationBar/SettingPageButton.vue'
+import PreviousPageHandler from '@/components/icon/HomeContainer/previousPageHandler.vue'
+import NextPageHandler from '@/components/icon/HomeContainer/NextPageHandler.vue'
+import IsShuffled from '@/components/icon/HomeContainer/IsShuffled.vue'
+import NoShuffled from '@/components/icon/HomeContainer/NoShuffled.vue'
+import PreviousButton from '@/components/icon/HomeContainer/PreviousButton.vue'
+import IsPlaying from '@/components/icon/HomeContainer/IsPlaying.vue'
+import NoPlaying from '@/components/icon/HomeContainer/NoPlaying.vue'
+import SkipButton from '@/components/icon/HomeContainer/SkipButton.vue'
+import IsLooping from '@/components/icon/HomeContainer/NoLooping.vue'
+import NoLooping from '@/components/icon/HomeContainer/IsLooping.vue'
+import LikeButton from '@/components/icon/HomeContainer/LikeButton.vue'
+import MenuButton from '@/components/icon/HomeContainer/MenuButton.vue'
+import {musicQueue} from './components/musicplayer/musicQueue.js'
+import {playlist} from "@/components/musicplayer/playList.js"
+import { progressBar, audioElement } from '@/components/musicplayer/progressBar.js'
+import {playerHandler} from "@/components/musicplayer/eventhandlers/playerHandler.js"
 
 import metadata from './assets/metadata.json'
-
 const playlistData = metadata.playlists
-const trackData = metadata.tracks
-
-const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
-
-const musicQueue = reactive({
-  currentPlaylistId: 1,
-  currentTrack: computed(() => getTrack(musicQueue?.queue[0])),
-  defaultQueue: [],
-  queue: [],
-  isShuffled: false,
-  isLooping: false,
-  isPlaying: false,
-  toggleShuffle: (shuffle) => {
-    const currentTrackId = musicQueue.queue[0]
-    if (shuffle) {
-      const restOfQueue = musicQueue.queue.filter((e, i) => i !== 0)
-      for (let i = restOfQueue.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        const temp = restOfQueue[i]
-        restOfQueue[i] = restOfQueue[j]
-        restOfQueue[j] = temp
-      }
-      musicQueue.queue = [currentTrackId, ...restOfQueue]
-    } else {
-      musicQueue.skipToTrack(currentTrackId, musicQueue.defaultQueue)
-      musicQueue.queue = musicQueue.defaultQueue
-    }
-  },
-  skipTrack: (toNext = true, queue = musicQueue.queue) => {
-    if (toNext) {
-      queue.push(queue.shift())
-    } else {
-      queue.unshift(queue.pop())
-    }
-  },
-  skipToTrack: (id, queue = musicQueue.queue) => {
-    const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
-    if (Boolean(indexToSkip)) {
-      if (indexToSkip < queue.length / 2) {
-        while (queue[0] !== id) {
-          musicQueue.skipTrack(true, queue)
-        }
-      } else {
-        while (queue[0] !== id) {
-          musicQueue.skipTrack(false, queue)
-        }
-      }
-    }
-  },
-})
-const progressBar = reactive({
-  barWidth: '0%',
-  isClicked: false,
-  currentTime: '00:00',
-  duration: '00:00',
-  boundingRect: new DOMRect(),
-  newTime: 0,
-  updateProgressBar: () => {
-    progressBar.barWidth =
-      (audioElement.value.currentTime / audioElement.value.duration) * 100 + '%'
-  },
-  updateTime: (e) => {
-    const x = progressBar.validateX(e.clientX)
-    progressBar.newTime =
-      (x / progressBar.boundingRect.width) * audioElement.value.duration
-    progressBar.barWidth = (x / progressBar.boundingRect.width) * 100 + '%'
-  },
-  validateX: (x) => {
-    // clientX is a property of the event object in JavaScript
-    // progressBar.boundingRect.width = width of progress bar
-    if (x < progressBar.boundingRect.left) {
-      return 0
-    } else if (x > progressBar.boundingRect.right) {
-      return progressBar.boundingRect.width + 2
-    } else {
-      return x - progressBar.boundingRect.left
-    }
-  },
-})
-const playlist = reactive({
-  selectedPlaylistId: 1,
-  selectedPlaylistName: computed(
-    () => getPlaylist(playlist.selectedPlaylistId).name
-  ),
-  selectedPlaylist: computed(() =>
-    getPlaylist(playlist.selectedPlaylistId).tracks.map((trackId) =>
-      getTrack(trackId)
-    )
-  ),
-})
-
 // DOM Element
-const audioElement = ref(null)
 const tracksElement = ref(null)
 const progressBarElement = ref(null)
 const titleElement = ref(null)
 
 // State
 const isOverflow = ref(null)
-
 // Event Handlers
-const playerHandler = () => {
-  if (audioElement.value.paused) {
-    audioElement.value.play()
-    musicQueue.isPlaying = true
-  } else {
-    audioElement.value.pause()
-    musicQueue.isPlaying = false
-  }
-}
+
 const trackSkipHandler = (toNext = true) => {
   musicQueue.skipTrack(toNext)
   toggleDelayedPlayPause()
@@ -236,23 +139,6 @@ const isOverflowed = () => {
   }, 0)
 }
 
-// Getters
-const getTrack = (trackId = 1) => {
-  return trackData.find((track) => track['trackId'] === trackId)
-}
-
-const getTrackList = (playlistId) => {
-  return [
-    ...playlistData.find(
-      (playlist) => playlist['playlistId'] === Number(playlistId)
-    ).tracks,
-  ]
-}
-
-const getPlaylist = (playlistId) => {
-  return playlistData.find((playlist) => playlist['playlistId'] === playlistId)
-}
-
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackList(1)]
@@ -269,6 +155,8 @@ const previousPageHandler = () => {
 }
 
 //Favorite
+const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
+
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation();
   if (checkFavourite(trackId)) {
@@ -280,6 +168,13 @@ const onLikeHandler = (e, trackId) => {
 };
 </script>
 <template>
+  <audio
+      ref="audioElement"
+      :src="musicQueue.currentTrack.source"
+      @timeupdate="onTimeUpdateHandler"
+      @loadedmetadata="onLoadMetadataHandler"
+      @ended="trackSkipHandler"
+  ></audio>
   <div
     class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#162750]"
     @keyup.right="trackSkipHandler"
@@ -368,13 +263,6 @@ const onLikeHandler = (e, trackId) => {
             ></div>
             <!-- #ProgressBar -->
             <div class="overflow-clip">
-              <audio
-                ref="audioElement"
-                :src="musicQueue.currentTrack.source"
-                @timeupdate="onTimeUpdateHandler"
-                @loadedmetadata="onLoadMetadataHandler"
-                @ended="trackSkipHandler"
-              ></audio>
               <div
                 class="progress-bar self-center active:cursor-default"
                 ref="progressBarElement"
