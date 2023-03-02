@@ -20,8 +20,6 @@ import metadata from '../../assets/metadata.json'
 
 const playlistData = metadata.playlists
 
-const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'))
-
 const progressBar = reactive({
   barWidth: '0%',
   isClicked: false,
@@ -61,6 +59,7 @@ const playlist = reactive({
       getTrack(trackId)
     )
   ),
+  favourite: JSON.parse(localStorage.getItem('favourite') || '[]'),
 })
 
 // DOM Element
@@ -160,7 +159,7 @@ const onLoopHandler = (e) => {
 
 // Utils
 const checkFavourite = (trackId) => {
-  const arr = [...favourite.value]
+  const arr = [...playlist.favourite]
   return arr.includes(trackId)
 }
 const toggleDelayedPlayPause = (delay = 0) => {
@@ -196,11 +195,11 @@ const previousPageHandler = () => {
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
   if (checkFavourite(trackId)) {
-    favourite.value.splice(favourite.value.indexOf(trackId), 1)
+    playlist.favourite.splice(playlist.favourite.indexOf(trackId), 1)
   } else {
-    favourite.value.push(trackId)
+    playlist.favourite.push(trackId)
   }
-  localStorage.setItem('favourite', JSON.stringify(favourite.value))
+  localStorage.setItem('favourite', JSON.stringify(playlist.favourite))
 }
 </script>
 
