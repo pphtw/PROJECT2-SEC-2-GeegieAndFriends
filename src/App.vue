@@ -20,32 +20,26 @@ import IsLooping from '@/components/icon/HomeContainer/NoLooping.vue'
 import NoLooping from '@/components/icon/HomeContainer/IsLooping.vue'
 import LikeButton from '@/components/icon/HomeContainer/LikeButton.vue'
 import MenuButton from '@/components/icon/HomeContainer/MenuButton.vue'
-import {musicQueue} from './utils/musicplayer/musicQueue.js'
-import {playlist} from "@/utils/musicplayer/playList.js"
-import { progressBar, audioElement } from '@/utils/musicplayer/progressBar.js'
-import {playerHandler} from "@/utils/musicplayer/eventhandlers/playerHandler.js"
-
+import {musicQueue} from "@/utils/util";
+import {progressBar,audioElement} from "@/utils/util";
+import {playlist} from "@/utils/util";
+import {secToMin} from "@/utils/util";
+import {playerHandler} from "@/utils/eventhandlers";
+import {toggleDelayedPlayPause} from "@/utils/util";
+import {trackSkipHandler} from "@/utils/eventhandlers";
+import {onLoadMetadataHandler} from "@/utils/util";
+import {isOverflow,titleElement} from "@/utils/util";
 import metadata from './assets/metadata.json'
 const playlistData = metadata.playlists
+
+
 // DOM Element
 const tracksElement = ref(null)
 const progressBarElement = ref(null)
-const titleElement = ref(null)
 
 // State
-const isOverflow = ref(null)
-// Event Handlers
 
-const trackSkipHandler = (toNext = true) => {
-  musicQueue.skipTrack(toNext)
-  toggleDelayedPlayPause()
-}
-const onLoadMetadataHandler = () => {
-  progressBar.duration = secToMin(audioElement.value.duration)
-  progressBar.currentTime = secToMin(audioElement.value.currentTime)
-  progressBar.updateProgressBar()
-  isOverflowed()
-}
+
 const onTimeUpdateHandler = () => {
   progressBar.currentTime = secToMin(audioElement.value.currentTime)
   if (!progressBar.isClicked) {
@@ -112,32 +106,6 @@ const onLoopHandler = (e) => {
   console.log(e)
 }
 
-// Utils
-const checkFavourite = (trackId) => {
-  const arr = [...favourite.value]
-  return arr.includes(trackId)
-}
-const toggleDelayedPlayPause = (delay = 0) => {
-  setTimeout(() => {
-    if (musicQueue.isPlaying) {
-      audioElement.value.play()
-    } else {
-      audioElement.value.pause()
-    }
-  }, delay)
-}
-const secToMin = (timeInSec) => {
-  return new Date(timeInSec * 1000).toISOString().substring(14, 19)
-}
-const isOverflowed = () => {
-  const element = titleElement.value
-  isOverflow.value = false
-  setTimeout(() => {
-    isOverflow.value =
-      element.scrollHeight > element.offsetHeight ||
-      element.scrollWidth > element.offsetWidth
-  }, 0)
-}
 
 // Hooks
 onBeforeMount(() => {
@@ -153,19 +121,10 @@ const nextPageHandler = () => {
 const previousPageHandler = () => {
   playlistElement.value.scrollLeft -= 1400
 }
-
 //Favorite
-const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
+import {onLikeHandler} from "@/utils/storage";
+import {checkFavourite} from "@/utils/storage";
 
-const onLikeHandler = (e, trackId) => {
-  e.stopPropagation();
-  if (checkFavourite(trackId)) {
-    favourite.value.splice(favourite.value.indexOf(trackId),1)
-  } else {
-    favourite.value.push(trackId)
-  }
-  localStorage.setItem('favourite', JSON.stringify(favourite.value));
-};
 </script>
 <template>
   <audio
