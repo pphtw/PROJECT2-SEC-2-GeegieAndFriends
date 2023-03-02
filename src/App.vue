@@ -2,33 +2,17 @@
 import { computed, onBeforeMount, reactive, ref } from 'vue'
 
 // icons
-import HomePageButton from '@/components/icon/NavigationBar/HomePageButton.vue'
-import SearchPageButton from '@/components/icon/NavigationBar/SearchPageButton.vue'
-import PlaylistPageButton from '@/components/icon/NavigationBar/PlaylistPageButton.vue'
-import CreditPageButton from '@/components/icon/NavigationBar/CreditPageButton.vue'
-import SettingPageButton from '@/components/icon/NavigationBar/SettingPageButton.vue'
-import PreviousPageHandler from '@/components/icon/HomeContainer/previousPageHandler.vue'
-import NextPageHandler from '@/components/icon/HomeContainer/NextPageHandler.vue'
-import IsShuffled from '@/components/icon/HomeContainer/IsShuffled.vue'
-import NoShuffled from '@/components/icon/HomeContainer/NoShuffled.vue'
-import PreviousButton from '@/components/icon/HomeContainer/PreviousButton.vue'
-import IsPlaying from '@/components/icon/HomeContainer/IsPlaying.vue'
-import NoPlaying from '@/components/icon/HomeContainer/NoPlaying.vue'
-import SkipButton from '@/components/icon/HomeContainer/SkipButton.vue'
-import IsLooping from '@/components/icon/HomeContainer/NoLooping.vue'
-import NoLooping from '@/components/icon/HomeContainer/IsLooping.vue'
-import LikeButton from '@/components/icon/HomeContainer/LikeButton.vue'
-import MenuButton from '@/components/icon/HomeContainer/MenuButton.vue'
-import {getPlaylist} from "@/utils/storage";
-import {getTrackList} from "@/utils/storage";
-import {getTrack} from "@/utils/storage";
-import {secToMin} from "@/utils/util";
+
+import { getPlaylist } from '@/utils/storage'
+import { getTrackList } from '@/utils/storage'
+import { getTrack } from '@/utils/storage'
+import { secToMin } from '@/utils/util'
 
 import metadata from './assets/metadata.json'
 
 const playlistData = metadata.playlists
 
-const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
+const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'))
 
 const musicQueue = reactive({
   currentPlaylistId: 1,
@@ -237,13 +221,10 @@ const isOverflowed = () => {
   }, 0)
 }
 
-
-
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackList(1)]
 })
-
 
 // Playlist Scroll
 const playlistElement = ref(null)
@@ -256,14 +237,14 @@ const previousPageHandler = () => {
 
 //Favorite
 const onLikeHandler = (e, trackId) => {
-  e.stopPropagation();
+  e.stopPropagation()
   if (checkFavourite(trackId)) {
-    favourite.value.splice(favourite.value.indexOf(trackId),1)
+    favourite.value.splice(favourite.value.indexOf(trackId), 1)
   } else {
     favourite.value.push(trackId)
   }
-  localStorage.setItem('favourite', JSON.stringify(favourite.value));
-};
+  localStorage.setItem('favourite', JSON.stringify(favourite.value))
+}
 </script>
 <template>
   <div
@@ -469,7 +450,7 @@ const onLikeHandler = (e, trackId) => {
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class=" flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
