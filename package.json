@@ -1,24 +1,23 @@
 {
   "name": "project2-sec-2-geegieandfriends",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "stylelint \"**/*.css\"",
-    "format": "prettier --write .",
-    "backend": "json-server --watch ./data/db.json --port 5000"
+    "format": "prettier --write ."
   },
   "engines": {
     "yarn": ">= 1.22.19",
     "node": ">= 16.9.0"
   },
   "dependencies": {
-    "json-server": "^0.17.2",
     "vue": "^3.2.45"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.3",
     "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
