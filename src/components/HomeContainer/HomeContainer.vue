@@ -15,9 +15,13 @@ import LikeButton from './Icons/LikeButton.vue'
 import MenuButton from './Icons/MenuButton.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
 import { secToMin } from '@/utils/utils'
-
 import metadata from '../../assets/metadata.json'
 
+const props = defineProps({
+  musicQueue: {
+    type: Object,
+  },
+})
 const playlistData = metadata.playlists
 
 const progressBar = reactive({

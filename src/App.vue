@@ -72,7 +72,7 @@ onBeforeMount(() => {
     <!-- #NavigationBar -->
     <NavigationBar />
     <!-- #HomeContainer -->
-    <HomeContainer />
+    <HomeContainer :music-queue="musicQueue" />
   </div>
 </template>
 <style scoped></style>
