@@ -21,52 +21,7 @@ import metadata from '../../assets/metadata.json'
 const playlistData = metadata.playlists
 
 const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'))
-const musicQueue = reactive({
-  currentPlaylistId: 1,
-  currentTrack: computed(() => getTrack(musicQueue?.queue[0])),
-  defaultQueue: [],
-  queue: [],
-  isShuffled: false,
-  isLooping: false,
-  isPlaying: false,
-  toggleShuffle: (shuffle) => {
-    const currentTrackId = musicQueue.queue[0]
-    if (shuffle) {
-      const restOfQueue = musicQueue.queue.filter((e, i) => i !== 0)
-      for (let i = restOfQueue.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        const temp = restOfQueue[i]
-        restOfQueue[i] = restOfQueue[j]
-        restOfQueue[j] = temp
-      }
-      musicQueue.queue = [currentTrackId, ...restOfQueue]
-    } else {
-      musicQueue.skipToTrack(currentTrackId, musicQueue.defaultQueue)
-      musicQueue.queue = musicQueue.defaultQueue
-    }
-  },
-  skipTrack: (toNext = true, queue = musicQueue.queue) => {
-    if (toNext) {
-      queue.push(queue.shift())
-    } else {
-      queue.unshift(queue.pop())
-    }
-  },
-  skipToTrack: (id, queue = musicQueue.queue) => {
-    const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
-    if (Boolean(indexToSkip)) {
-      if (indexToSkip < queue.length / 2) {
-        while (queue[0] !== id) {
-          musicQueue.skipTrack(true, queue)
-        }
-      } else {
-        while (queue[0] !== id) {
-          musicQueue.skipTrack(false, queue)
-        }
-      }
-    }
-  },
-})
+
 const progressBar = reactive({
   barWidth: '0%',
   isClicked: false,
@@ -169,7 +124,7 @@ const onChooseTrackClick = (e) => {
     const chooseTrackId = Number(e.currentTarget.id)
     if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
       musicQueue.currentPlaylistId = playlist.selectedPlaylistId
-      musicQueue.queue = [...getTrackList(musicQueue.currentPlaylistId)]
+      musicQueue.queue = [...getTrackIdList(musicQueue.currentPlaylistId)]
       musicQueue.defaultQueue = musicQueue.queue
       if (musicQueue.isShuffled) {
         musicQueue.toggleShuffle(true)
@@ -227,11 +182,6 @@ const isOverflowed = () => {
       element.scrollWidth > element.offsetWidth
   }, 0)
 }
-
-// Hooks
-onBeforeMount(() => {
-  musicQueue.queue = [...getTrackList(1)]
-})
 
 // Playlist Scroll
 const playlistElement = ref(null)
@@ -317,13 +267,6 @@ const onLikeHandler = (e, trackId) => {
           ></div>
           <!-- #ProgressBar -->
           <div class="overflow-clip">
-            <audio
-              ref="audioElement"
-              :src="musicQueue.currentTrack.source"
-              @timeupdate="onTimeUpdateHandler"
-              @loadedmetadata="onLoadMetadataHandler"
-              @ended="trackSkipHandler"
-            ></audio>
             <div
               class="progress-bar self-center active:cursor-default"
               ref="progressBarElement"
@@ -490,4 +433,39 @@ const onLikeHandler = (e, trackId) => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.progress-bar {
+  height: 0.4em;
+  width: 100%;
+  top: -2em;
+  bottom: -2em;
+  cursor: pointer;
+  background-color: #b9b9b9;
+}
+
+.progress-current {
+  height: inherit;
+  width: 0;
+  background-color: #c493e1;
+  border-radius: 0 2em 2em 0;
+}
+.is-playing,
+.is-playing:hover {
+  background-color: #eedff6;
+}
+.container-gradient {
+  background-image: linear-gradient(
+    0deg,
+    hsl(228deg 39% 29%) 0%,
+    hsl(228deg 39% 32%) 33%,
+    hsl(229deg 39% 34%) 47%,
+    hsl(230deg 39% 37%) 58%,
+    hsl(230deg 39% 40%) 67%,
+    hsl(231deg 39% 43%) 74%,
+    hsl(232deg 38% 46%) 81%,
+    hsl(233deg 38% 49%) 87%,
+    hsl(235deg 41% 53%) 93%,
+    hsl(236deg 46% 56%) 100%
+  );
+}
+</style>
