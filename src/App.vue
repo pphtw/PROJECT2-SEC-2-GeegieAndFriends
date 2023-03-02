@@ -19,16 +19,14 @@ import IsLooping from '@/components/icon/HomeContainer/NoLooping.vue'
 import NoLooping from '@/components/icon/HomeContainer/IsLooping.vue'
 import LikeButton from '@/components/icon/HomeContainer/LikeButton.vue'
 import MenuButton from '@/components/icon/HomeContainer/MenuButton.vue'
-import {getPlaylist} from "@/utils/storage";
-import {getTrackList} from "@/utils/storage";
-import {getTrack} from "@/utils/storage";
-import {secToMin} from "@/utils/util";
+import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
+import { secToMin } from '@/utils/utils'
 
 import metadata from './assets/metadata.json'
 
 const playlistData = metadata.playlists
 
-const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'));
+const favourite = ref(JSON.parse(localStorage.getItem('favourite') || '[]'))
 
 const musicQueue = reactive({
   currentPlaylistId: 1,
@@ -178,7 +176,7 @@ const onChooseTrackClick = (e) => {
     const chooseTrackId = Number(e.currentTarget.id)
     if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
       musicQueue.currentPlaylistId = playlist.selectedPlaylistId
-      musicQueue.queue = [...getTrackList(musicQueue.currentPlaylistId)]
+      musicQueue.queue = [...getTrackIdList(musicQueue.currentPlaylistId)]
       musicQueue.defaultQueue = musicQueue.queue
       if (musicQueue.isShuffled) {
         musicQueue.toggleShuffle(true)
@@ -237,13 +235,10 @@ const isOverflowed = () => {
   }, 0)
 }
 
-
-
 // Hooks
 onBeforeMount(() => {
-  musicQueue.queue = [...getTrackList(1)]
+  musicQueue.queue = [...getTrackIdList(1)]
 })
-
 
 // Playlist Scroll
 const playlistElement = ref(null)
@@ -256,14 +251,14 @@ const previousPageHandler = () => {
 
 //Favorite
 const onLikeHandler = (e, trackId) => {
-  e.stopPropagation();
+  e.stopPropagation()
   if (checkFavourite(trackId)) {
-    favourite.value.splice(favourite.value.indexOf(trackId),1)
+    favourite.value.splice(favourite.value.indexOf(trackId), 1)
   } else {
     favourite.value.push(trackId)
   }
-  localStorage.setItem('favourite', JSON.stringify(favourite.value));
-};
+  localStorage.setItem('favourite', JSON.stringify(favourite.value))
+}
 </script>
 <template>
   <div
@@ -469,7 +464,7 @@ const onLikeHandler = (e, trackId) => {
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class=" flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in playlist.selectedPlaylist"
               :key="track.trackId"
               :id="track.trackId"
