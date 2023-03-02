@@ -13,10 +13,8 @@ import IsLooping from './Icons/NoLooping.vue'
 import NoLooping from './Icons/IsLooping.vue'
 import LikeButton from './Icons/LikeButton.vue'
 import MenuButton from './Icons/MenuButton.vue'
-import { getPlaylist } from '../../utils/storage'
-import { getTrackList } from '../../utils/storage'
-import { getTrack } from '../../utils/storage'
-import { secToMin } from '../../utils/util'
+import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
+import { secToMin } from '@/utils/utils'
 
 import metadata from '../../assets/metadata.json'
 
