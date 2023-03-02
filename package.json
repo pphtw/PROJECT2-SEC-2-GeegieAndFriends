@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "lint": "stylelint \"**/*.css\"",
     "format": "prettier --write .",
-    "backend":  "json-server --watch ./data/db.json --port 5000"
+    "backend": "json-server --watch ./data/db.json --port 5000"
   },
   "engines": {
     "yarn": ">= 1.22.19",
