@@ -1,5 +1,5 @@
 import {computed, reactive} from "vue";
-import {getPlaylist, getTrack} from "@/components/gettrackdata/getTrackData";
+import {getPlaylist, getTrack} from "@/utils/storage";
 
 const playlist = reactive({
     selectedPlaylistId: 1,

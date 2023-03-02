@@ -1,4 +1,4 @@
-import metadata from '../../assets/metadata.json'
+import metadata from '../assets/metadata.json'
 
 const playlistData = metadata.playlists
 const trackData = metadata.tracks
