@@ -1,4 +1,5 @@
 import metadata from '../assets/metadata.json'
+import {reactive} from "vue";
 
 
 const playlistData = metadata.playlists
@@ -34,14 +35,12 @@ const storage = {
         if (STORAGE){
             STORAGE.setItem(key, val)
         }
-    },
-    clear(key){
-        if (STORAGE){
-            STORAGE.clear()
-        }
     }
 }
-const favourite = storage.get(FAVOURITE_KEY)
+const getFavourite = () => {
+    return storage.get(FAVOURITE_KEY)
+}
+const favourite = reactive(getFavourite())
 export const checkFavourite = (trackId) => {
     const arr = [...favourite]
     return arr.includes(trackId)
