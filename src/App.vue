@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
-import {getTrackList} from "@/components/gettrackdata/getTrackData";
+import {getTrackList} from "@/utils/storage";
 
 // icons
 import HomePageButton from '@/components/icon/NavigationBar/HomePageButton.vue'
@@ -20,10 +20,10 @@ import IsLooping from '@/components/icon/HomeContainer/NoLooping.vue'
 import NoLooping from '@/components/icon/HomeContainer/IsLooping.vue'
 import LikeButton from '@/components/icon/HomeContainer/LikeButton.vue'
 import MenuButton from '@/components/icon/HomeContainer/MenuButton.vue'
-import {musicQueue} from './components/musicplayer/musicQueue.js'
-import {playlist} from "@/components/musicplayer/playList.js"
-import { progressBar, audioElement } from '@/components/musicplayer/progressBar.js'
-import {playerHandler} from "@/components/musicplayer/eventhandlers/playerHandler.js"
+import {musicQueue} from './utils/musicplayer/musicQueue.js'
+import {playlist} from "@/utils/musicplayer/playList.js"
+import { progressBar, audioElement } from '@/utils/musicplayer/progressBar.js'
+import {playerHandler} from "@/utils/musicplayer/eventhandlers/playerHandler.js"
 
 import metadata from './assets/metadata.json'
 const playlistData = metadata.playlists

@@ -1,5 +1,5 @@
 import {reactive, computed} from "vue";
-import {getTrack} from "../gettrackdata/getTrackData";
+import {getTrack} from "../storage";
 
 const musicQueue = reactive({
     currentPlaylistId: 1,

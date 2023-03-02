@@ -1,5 +1,5 @@
-import {audioElement} from "@/components/musicplayer/progressBar";
-import {musicQueue} from "@/components/musicplayer/musicQueue";
+import {audioElement} from "@/utils/musicplayer/progressBar";
+import {musicQueue} from "@/utils/musicplayer/musicQueue";
 
 const playerHandler = () => {
     if (audioElement.value.paused) {
