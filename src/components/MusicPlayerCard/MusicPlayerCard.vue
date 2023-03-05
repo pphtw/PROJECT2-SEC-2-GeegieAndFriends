@@ -17,6 +17,8 @@ const props = defineProps({
     type: Object
   }
 })
+
+//progress bar
 const progressBar = reactive({
   barWidth: '0%',
   isClicked: false,
@@ -46,6 +48,74 @@ const progressBar = reactive({
     }
   },
 })
+
+//event Handler
+const playerHandler = () => {
+  if (audioElement.value.paused) {
+    audioElement.value.play()
+    musicQueue.isPlaying = true
+  } else {
+    audioElement.value.pause()
+    musicQueue.isPlaying = false
+  }
+}
+const trackSkipHandler = (toNext = true) => {
+  musicQueue.skipTrack(toNext)
+  toggleDelayedPlayPause()
+}
+const onLoadMetadataHandler = () => {
+  progressBar.duration = secToMin(audioElement.value.duration)
+  progressBar.currentTime = secToMin(audioElement.value.currentTime)
+  progressBar.updateProgressBar()
+  isOverflowed()
+}
+const onTimeUpdateHandler = () => {
+  progressBar.currentTime = secToMin(audioElement.value.currentTime)
+  if (!progressBar.isClicked) {
+    progressBar.updateProgressBar()
+  }
+}
+const onProgressBarMouseDown = (e) => {
+  e.preventDefault()
+  progressBar.isClicked = true
+  progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
+  progressBar.updateTime(e)
+}
+const onProgressBarMouseMove = (e) => {
+  if (progressBar.isClicked) {
+    progressBar.updateTime(e)
+  }
+}
+const onProgressBarMouseUp = (e) => {
+  if (progressBar.isClicked) {
+    progressBar.updateTime(e)
+    audioElement.value.currentTime = progressBar.newTime
+    progressBar.isClicked = false
+  }
+}
+
+//shuffle
+const onShuffleHandler = (e) => {
+  if (e.code === 'KeyS' || e.button === 0) {
+    if (musicQueue.defaultQueue.length === 0) {
+      musicQueue.defaultQueue = musicQueue.queue
+    }
+    if (!musicQueue.isShuffled) {
+      musicQueue.toggleShuffle(true)
+      musicQueue.isShuffled = true
+    } else {
+      musicQueue.toggleShuffle(false)
+      musicQueue.isShuffled = false
+    }
+  }
+}
+
+//loop
+const onLoopHandler = (e) => {
+  console.log('Create Loop Handler Here')
+  console.log(e)
+}
+
 </script>
  
 <template>
