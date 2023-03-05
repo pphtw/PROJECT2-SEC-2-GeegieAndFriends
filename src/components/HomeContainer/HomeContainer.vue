@@ -80,49 +80,49 @@ const titleElement = ref(null)
 const isOverflow = ref(null)
 
 // Event Handlers
-const playerHandler = () => {
-  if (audioElement.value.paused) {
-    audioElement.value.play()
-    musicQueue.isPlaying = true
-  } else {
-    audioElement.value.pause()
-    musicQueue.isPlaying = false
-  }
-}
-const trackSkipHandler = (toNext = true) => {
-  musicQueue.skipTrack(toNext)
-  toggleDelayedPlayPause()
-}
-const onLoadMetadataHandler = () => {
-  progressBar.duration = secToMin(audioElement.value.duration)
-  progressBar.currentTime = secToMin(audioElement.value.currentTime)
-  progressBar.updateProgressBar()
-  isOverflowed()
-}
-const onTimeUpdateHandler = () => {
-  progressBar.currentTime = secToMin(audioElement.value.currentTime)
-  if (!progressBar.isClicked) {
-    progressBar.updateProgressBar()
-  }
-}
-const onProgressBarMouseDown = (e) => {
-  e.preventDefault()
-  progressBar.isClicked = true
-  progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
-  progressBar.updateTime(e)
-}
-const onProgressBarMouseMove = (e) => {
-  if (progressBar.isClicked) {
-    progressBar.updateTime(e)
-  }
-}
-const onProgressBarMouseUp = (e) => {
-  if (progressBar.isClicked) {
-    progressBar.updateTime(e)
-    audioElement.value.currentTime = progressBar.newTime
-    progressBar.isClicked = false
-  }
-}
+// const playerHandler = () => {
+//   if (audioElement.value.paused) {
+//     audioElement.value.play()
+//     musicQueue.isPlaying = true
+//   } else {
+//     audioElement.value.pause()
+//     musicQueue.isPlaying = false
+//   }
+// }
+// const trackSkipHandler = (toNext = true) => {
+//   musicQueue.skipTrack(toNext)
+//   toggleDelayedPlayPause()
+// }
+// const onLoadMetadataHandler = () => {
+//   progressBar.duration = secToMin(audioElement.value.duration)
+//   progressBar.currentTime = secToMin(audioElement.value.currentTime)
+//   progressBar.updateProgressBar()
+//   isOverflowed()
+// }
+// const onTimeUpdateHandler = () => {
+//   progressBar.currentTime = secToMin(audioElement.value.currentTime)
+//   if (!progressBar.isClicked) {
+//     progressBar.updateProgressBar()
+//   }
+// }
+// const onProgressBarMouseDown = (e) => {
+//   e.preventDefault()
+//   progressBar.isClicked = true
+//   progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
+//   progressBar.updateTime(e)
+// }
+// const onProgressBarMouseMove = (e) => {
+//   if (progressBar.isClicked) {
+//     progressBar.updateTime(e)
+//   }
+// }
+// const onProgressBarMouseUp = (e) => {
+//   if (progressBar.isClicked) {
+//     progressBar.updateTime(e)
+//     audioElement.value.currentTime = progressBar.newTime
+//     progressBar.isClicked = false
+//   }
+// }
 const onChooseTrackMouseDown = (e) => {
   e.preventDefault()
 }
@@ -146,24 +146,24 @@ const onChooseTrackClick = (e) => {
 const onChoosePlaylist = (e) => {
   playlist.selectedPlaylistId = Number(e.currentTarget.id)
 }
-const onShuffleHandler = (e) => {
-  if (e.code === 'KeyS' || e.button === 0) {
-    if (musicQueue.defaultQueue.length === 0) {
-      musicQueue.defaultQueue = musicQueue.queue
-    }
-    if (!musicQueue.isShuffled) {
-      musicQueue.toggleShuffle(true)
-      musicQueue.isShuffled = true
-    } else {
-      musicQueue.toggleShuffle(false)
-      musicQueue.isShuffled = false
-    }
-  }
-}
-const onLoopHandler = (e) => {
-  console.log('Create Loop Handler Here')
-  console.log(e)
-}
+// const onShuffleHandler = (e) => {
+//   if (e.code === 'KeyS' || e.button === 0) {
+//     if (musicQueue.defaultQueue.length === 0) {
+//       musicQueue.defaultQueue = musicQueue.queue
+//     }
+//     if (!musicQueue.isShuffled) {
+//       musicQueue.toggleShuffle(true)
+//       musicQueue.isShuffled = true
+//     } else {
+//       musicQueue.toggleShuffle(false)
+//       musicQueue.isShuffled = false
+//     }
+//   }
+// }
+// const onLoopHandler = (e) => {
+//   console.log('Create Loop Handler Here')
+//   console.log(e)
+// }
 
 // Utils
 const checkFavourite = (trackId) => {
