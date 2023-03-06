@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onBeforeMount, reactive, ref, provide, inject } from 'vue'
 
-// Conponents
+// Components
 import HomePage from '@/components/pages/HomePage.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
 import { secToMin } from '@/utils/utils'
@@ -105,6 +105,31 @@ const onTimeUpdateHandler = () => {
     progressBar.updateProgressBar()
   }
 }
+const onProgressBarMouseMove = (e) => {
+  if (progressBar.isClicked) {
+    progressBar.updateTime(e)
+  }
+}
+const onProgressBarMouseUp = (e) => {
+  if (progressBar.isClicked) {
+    progressBar.updateTime(e)
+    audioElement.value.currentTime = progressBar.newTime
+    progressBar.isClicked = false
+  }
+}
+const autoPlayPause = () => {
+  if (musicQueue.isPlaying) {
+    audioElement.value.play()
+  } else {
+    audioElement.value.pause()
+  }
+}
+const togglePlay = (ms = 0) => {
+  setTimeout(() => {
+    audioElement.value.play()
+  }, ms)
+}
+
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackIdList(1)]
@@ -118,5 +143,11 @@ onBeforeMount(() => {
     @loadedmetadata="onLoadMetadataHandler"
     @ended="trackSkipHandler"
   ></audio>
-  <HomePage />
+  <HomePage
+    @progress-bar-mouse-move="(e) => onProgressBarMouseMove(e)"
+    @progress-bar-mouse-up="(e) => onProgressBarMouseUp(e)"
+    @auto-play-pause="autoPlayPause"
+    @toggle-play="(ms) => togglePlay(ms)"
+    :is-progress-bar-clicked="progressBar.isClicked"
+  />
 </template>

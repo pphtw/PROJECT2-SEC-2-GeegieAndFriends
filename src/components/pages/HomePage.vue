@@ -1,9 +1,8 @@
 <script setup>
-import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
-import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
-
 import { computed, reactive, ref, inject } from 'vue'
 
+import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
+import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
 import LikeButton from '../UI/atoms/LikeButton.vue'
 import MenuButton from '../UI/atoms/MenuButton.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
@@ -12,6 +11,19 @@ import metadata from '../../assets/metadata.json'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 
 const musicQueue = inject('musicQueue')
+
+// Definition
+const emit = defineEmits([
+  'toggle-play',
+  'progress-bar-mouse-move',
+  'progress-bar-mouse-up',
+])
+const props = defineProps({
+  isProgressBarClicked: {
+    type: Boolean,
+    required: true,
+  },
+})
 
 const playlist = reactive({
   selectedPlaylistId: 1,
@@ -34,28 +46,30 @@ const titleElement = ref(null)
 const isOverflow = ref(false)
 
 // Handlers
-const onChooseTrackMouseDown = (e) => {
-  e.preventDefault()
-}
 const onChooseTrackClick = (e) => {
-  if (!progressBar.isClicked) {
-    const chooseTrackId = Number(e.currentTarget.id)
-    if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
-      musicQueue.currentPlaylistId = playlist.selectedPlaylistId
-      musicQueue.queue = [...getTrackIdList(musicQueue.currentPlaylistId)]
-      musicQueue.defaultQueue = musicQueue.queue
-      if (musicQueue.isShuffled) {
-        musicQueue.toggleShuffle(true)
-      }
+  const chooseTrackId = Number(e.currentTarget.id)
+  if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
+    musicQueue.currentPlaylistId = playlist.selectedPlaylistId
+    musicQueue.queue = [...getTrackIdList(musicQueue.currentPlaylistId)]
+    musicQueue.defaultQueue = musicQueue.queue
+    if (musicQueue.isShuffled) {
+      musicQueue.toggleShuffle(true)
     }
-    musicQueue.skipToTrack(chooseTrackId)
-    toggleDelayedPlayPause(300)
-    audioElement.value.play()
-    musicQueue.isPlaying = true
   }
+  musicQueue.skipToTrack(chooseTrackId)
+  emit('toggle-play', 300)
+  musicQueue.isPlaying = true
 }
 const onChoosePlaylist = (id) => {
   playlist.selectedPlaylistId = Number(id)
+}
+const onMouseMove = (e) => {
+  if (props.isProgressBarClicked) {
+    emit('progress-bar-mouse-move', e)
+  }
+}
+const onMouseUp = (e) => {
+  emit('progress-bar-mouse-up', e)
 }
 
 // Utils
@@ -89,6 +103,13 @@ const onLikeHandler = (e, trackId) => {
 <template>
   <div
     class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#162750]"
+    @keyup.right="trackSkipHandler"
+    @keyup.left="trackSkipHandler(false)"
+    @keyup.space="playerHandler"
+    @keyup="onShuffleHandler"
+    @mousemove="onMouseMove"
+    @mouseup="onMouseUp"
+    tabindex="-1"
   >
     <NavigationBar />
     <div
@@ -133,7 +154,7 @@ const onLikeHandler = (e, trackId) => {
               :class="{
                 'is-playing': musicQueue.currentTrack.trackId === track.trackId,
               }"
-              @mousedown="onChooseTrackMouseDown"
+              @mousedown="$event.preventDefault()"
               @click="onChooseTrackClick"
               ref="tracksElement"
             >
@@ -192,6 +213,7 @@ const onLikeHandler = (e, trackId) => {
 .is-playing:hover {
   background-color: #eedff6;
 }
+
 .container-gradient {
   background-image: linear-gradient(
     0deg,
