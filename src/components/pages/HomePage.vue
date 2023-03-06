@@ -188,21 +188,6 @@ const onLikeHandler = (e, trackId) => {
 </template>
 
 <style scoped>
-.progress-bar {
-  height: 0.4em;
-  width: 100%;
-  top: -2em;
-  bottom: -2em;
-  cursor: pointer;
-  background-color: #b9b9b9;
-}
-
-.progress-current {
-  height: inherit;
-  width: 0;
-  background-color: #c493e1;
-  border-radius: 0 2em 2em 0;
-}
 .is-playing,
 .is-playing:hover {
   background-color: #eedff6;
