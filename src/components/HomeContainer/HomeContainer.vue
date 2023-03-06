@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref } from 'vue'
+import { computed, onBeforeMount, reactive, ref, inject } from 'vue'
 
 import PreviousPageHandler from './Icons/previousPageHandler.vue'
 import NextPageHandler from './Icons/NextPageHandler.vue'
@@ -10,45 +10,10 @@ import { secToMin } from '@/utils/utils'
 import metadata from '../../assets/metadata.json'
 import MusicPlayerCard from '../MusicPlayerCard/MusicPlayerCard.vue'
 
-const props = defineProps({ 
-  musicQueue: {
-    type: Object
-  },
-  audioElement: {
-    type: Object
-  }
-})
+const musicQueue = inject('musicQueue')
 const playlistData = metadata.playlists
 
-// const progressBar = reactive({
-//   barWidth: '0%',
-//   isClicked: false,
-//   currentTime: '00:00',
-//   duration: '00:00',
-//   boundingRect: new DOMRect(),
-//   newTime: 0,
-//   updateProgressBar: () => {
-//     progressBar.barWidth =
-//       (audioElement.value.currentTime / audioElement.value.duration) * 100 + '%'
-//   },
-//   updateTime: (e) => {
-//     const x = progressBar.validateX(e.clientX)
-//     progressBar.newTime =
-//       (x / progressBar.boundingRect.width) * audioElement.value.duration
-//     progressBar.barWidth = (x / progressBar.boundingRect.width) * 100 + '%'
-//   },
-//   validateX: (x) => {
-//     // clientX is a property of the event object in JavaScript
-//     // progressBar.boundingRect.width = width of progress bar
-//     if (x < progressBar.boundingRect.left) {
-//       return 0
-//     } else if (x > progressBar.boundingRect.right) {
-//       return progressBar.boundingRect.width + 2
-//     } else {
-//       return x - progressBar.boundingRect.left
-//     }
-//   },
-// })
+
 const playlist = reactive({
   selectedPlaylistId: 1,
   selectedPlaylistName: computed(
@@ -69,50 +34,6 @@ const titleElement = ref(null)
 // State
 const isOverflow = ref(null)
 
-// Event Handlers
-// const playerHandler = () => {
-//   if (audioElement.value.paused) {
-//     audioElement.value.play()
-//     musicQueue.isPlaying = true
-//   } else {
-//     audioElement.value.pause()
-//     musicQueue.isPlaying = false
-//   }
-// }
-// const trackSkipHandler = (toNext = true) => {
-//   musicQueue.skipTrack(toNext)
-//   toggleDelayedPlayPause()
-// }
-// const onLoadMetadataHandler = () => {
-//   progressBar.duration = secToMin(audioElement.value.duration)
-//   progressBar.currentTime = secToMin(audioElement.value.currentTime)
-//   progressBar.updateProgressBar()
-//   isOverflowed()
-// }
-// const onTimeUpdateHandler = () => {
-//   progressBar.currentTime = secToMin(audioElement.value.currentTime)
-//   if (!progressBar.isClicked) {
-//     progressBar.updateProgressBar()
-//   }
-// }
-// const onProgressBarMouseDown = (e) => {
-//   e.preventDefault()
-//   progressBar.isClicked = true
-//   progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
-//   progressBar.updateTime(e)
-// }
-// const onProgressBarMouseMove = (e) => {
-//   if (progressBar.isClicked) {
-//     progressBar.updateTime(e)
-//   }
-// }
-// const onProgressBarMouseUp = (e) => {
-//   if (progressBar.isClicked) {
-//     progressBar.updateTime(e)
-//     audioElement.value.currentTime = progressBar.newTime
-//     progressBar.isClicked = false
-//   }
-// }
 const onChooseTrackMouseDown = (e) => {
   e.preventDefault()
 }
@@ -136,38 +57,11 @@ const onChooseTrackClick = (e) => {
 const onChoosePlaylist = (e) => {
   playlist.selectedPlaylistId = Number(e.currentTarget.id)
 }
-// const onShuffleHandler = (e) => {
-//   if (e.code === 'KeyS' || e.button === 0) {
-//     if (musicQueue.defaultQueue.length === 0) {
-//       musicQueue.defaultQueue = musicQueue.queue
-//     }
-//     if (!musicQueue.isShuffled) {
-//       musicQueue.toggleShuffle(true)
-//       musicQueue.isShuffled = true
-//     } else {
-//       musicQueue.toggleShuffle(false)
-//       musicQueue.isShuffled = false
-//     }
-//   }
-// }
-// const onLoopHandler = (e) => {
-//   console.log('Create Loop Handler Here')
-//   console.log(e)
-// }
 
 // Utils
 const checkFavourite = (trackId) => {
   const arr = [...playlist.favourite]
   return arr.includes(trackId)
-}
-const toggleDelayedPlayPause = (delay = 0) => {
-  setTimeout(() => {
-    if (musicQueue.isPlaying) {
-      audioElement.value.play()
-    } else {
-      audioElement.value.pause()
-    }
-  }, delay)
 }
 
 const isOverflowed = () => {
