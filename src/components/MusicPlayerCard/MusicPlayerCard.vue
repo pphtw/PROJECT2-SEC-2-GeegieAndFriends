@@ -50,19 +50,8 @@ const progressBar = reactive({
 })
 
 //event Handler
-const playerHandler = () => {
-  if (audioElement.value.paused) {
-    audioElement.value.play()
-    musicQueue.isPlaying = true
-  } else {
-    audioElement.value.pause()
-    musicQueue.isPlaying = false
-  }
-}
-const trackSkipHandler = (toNext = true) => {
-  musicQueue.skipTrack(toNext)
-  toggleDelayedPlayPause()
-}
+
+
 const onLoadMetadataHandler = () => {
   progressBar.duration = secToMin(audioElement.value.duration)
   progressBar.currentTime = secToMin(audioElement.value.currentTime)
@@ -194,20 +183,20 @@ const onLoopHandler = (e) => {
                 </button>
               </div>
               <!-- #PreviousButton -->
-              <div class="prev-track" @click="trackSkipHandler(false)">
+              <div class="prev-track" @click="$emit('trackSkipPrev')">
                 <button>
                   <PreviousButton />
                 </button>
               </div>
               <!-- #PlayButton/PauseButton -->
               <div>
-                <button class="[clip-path:circle()]" @click="playerHandler">
+                <button class="[clip-path:circle()]" @click="$emit('playerHandler')">
                   <IsPlaying v-if="musicQueue.isPlaying" />
                   <NoPlaying v-else />
                 </button>
               </div>
               <!-- #SkipButton -->
-              <div class="next-track" @click="trackSkipHandler">
+              <div class="next-track" @click="$emit('trackSkipNext')">
                 <button>
                   <SkipButton />
                 </button>
