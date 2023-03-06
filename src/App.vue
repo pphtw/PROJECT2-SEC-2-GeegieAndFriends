@@ -1,8 +1,8 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref , provide, inject} from 'vue'
+import { computed, onBeforeMount, reactive, ref, provide, inject } from 'vue'
+
 // Conponents
-import HomeContainer from './components/HomeContainer/HomeContainer.vue'
-import NavigationBar from './components/NavigationBar/NavigationBar.vue'
+import HomePage from '@/components/pages/HomePage.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
 import { secToMin } from '@/utils/utils'
 
@@ -84,7 +84,6 @@ const progressBar = reactive({
   },
 })
 
-
 //DOM Elements
 const audioElement = ref(null)
 
@@ -119,12 +118,5 @@ onBeforeMount(() => {
     @loadedmetadata="onLoadMetadataHandler"
     @ended="trackSkipHandler"
   ></audio>
-  <div
-    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#162750]"
-  >
-    <!-- #NavigationBar -->
-    <NavigationBar />
-    <HomeContainer />
-  </div>
+  <HomePage />
 </template>
-<style scoped></style>
