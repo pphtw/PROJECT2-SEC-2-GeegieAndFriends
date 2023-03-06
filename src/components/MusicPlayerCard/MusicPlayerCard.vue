@@ -7,6 +7,7 @@ import NoPlaying from './Icons/NoPlaying.vue'
 import SkipButton from './Icons/SkipButton.vue'
 import IsLooping from './Icons/NoLooping.vue'
 import NoLooping from './Icons/IsLooping.vue'
+import { ref } from 'vue'
 
 import { reactive } from 'vue';
 const props = defineProps({
@@ -48,22 +49,11 @@ const progressBar = reactive({
     }
   },
 })
+//DOM Element
+const progressBarElement = ref(null)
 
 //event Handler
 
-
-const onLoadMetadataHandler = () => {
-  progressBar.duration = secToMin(audioElement.value.duration)
-  progressBar.currentTime = secToMin(audioElement.value.currentTime)
-  progressBar.updateProgressBar()
-  isOverflowed()
-}
-const onTimeUpdateHandler = () => {
-  progressBar.currentTime = secToMin(audioElement.value.currentTime)
-  if (!progressBar.isClicked) {
-    progressBar.updateProgressBar()
-  }
-}
 const onProgressBarMouseDown = (e) => {
   e.preventDefault()
   progressBar.isClicked = true
