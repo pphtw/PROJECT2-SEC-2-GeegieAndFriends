@@ -69,6 +69,27 @@ const trackSkipHandler = (toNext = true) => {
   musicQueue.skipTrack(toNext)
   toggleDelayedPlayPause()
 }
+const onLoadMetadataHandler = () => {
+  progressBar.duration = secToMin(audioElement.value.duration)
+  progressBar.currentTime = secToMin(audioElement.value.currentTime)
+  progressBar.updateProgressBar()
+  isOverflowed()
+}
+const onTimeUpdateHandler = () => {
+  progressBar.currentTime = secToMin(audioElement.value.currentTime)
+  if (!progressBar.isClicked) {
+    progressBar.updateProgressBar()
+  }
+}
+const toggleDelayedPlayPause = (delay = 0) => {
+  setTimeout(() => {
+    if (musicQueue.isPlaying) {
+      audioElement.value.play()
+    } else {
+      audioElement.value.pause()
+    }
+  }, delay)
+}
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackIdList(1)]

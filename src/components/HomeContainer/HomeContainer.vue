@@ -3,14 +3,6 @@ import { computed, onBeforeMount, reactive, ref } from 'vue'
 
 import PreviousPageHandler from './Icons/previousPageHandler.vue'
 import NextPageHandler from './Icons/NextPageHandler.vue'
-// import IsShuffled from '../MusicPlayerCard/Icons/IsShuffled.vue'
-// import NoShuffled from '../MusicPlayerCard/Icons/NoShuffled.vue'
-// import PreviousButton from './Icons/PreviousButton.vue'
-// import IsPlaying from './Icons/IsPlaying.vue'
-// import NoPlaying from './Icons/NoPlaying.vue'
-// import SkipButton from './Icons/SkipButton.vue'
-// import IsLooping from './Icons/NoLooping.vue'
-// import NoLooping from './Icons/IsLooping.vue'
 import LikeButton from './Icons/LikeButton.vue'
 import MenuButton from './Icons/MenuButton.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
@@ -18,7 +10,7 @@ import { secToMin } from '@/utils/utils'
 import metadata from '../../assets/metadata.json'
 import MusicPlayerCard from '../MusicPlayerCard/MusicPlayerCard.vue'
 
-const props = defineProps({
+const props = defineProps({ 
   musicQueue: {
     type: Object
   },
@@ -71,9 +63,7 @@ const playlist = reactive({
 })
 
 // DOM Element
-// const audioElement = ref(null)
 const tracksElement = ref(null)
-const progressBarElement = ref(null)
 const titleElement = ref(null)
 
 // State
