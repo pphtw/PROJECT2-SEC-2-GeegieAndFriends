@@ -109,9 +109,6 @@ const onLikeHandler = (e, trackId) => {
           <MusicPlayerCard
             :music-queue="musicQueue"
             :is-overflow="isOverflow"
-            @player-handler="$emit('playerHandler')"
-            @track-skip-prev="$emit('trackSkipPrev')"
-            @track-skip-next="$emit('trackSkipNext')"
           />
         </div>
         <!-- #TrendingSection -->
