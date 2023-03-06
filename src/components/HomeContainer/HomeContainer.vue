@@ -71,7 +71,7 @@ const playlist = reactive({
 })
 
 // DOM Element
-const audioElement = ref(null)
+// const audioElement = ref(null)
 const tracksElement = ref(null)
 const progressBarElement = ref(null)
 const titleElement = ref(null)
@@ -263,7 +263,12 @@ const onLikeHandler = (e, trackId) => {
         <h1 class="text-2xl font-bold pb-3 max-sm:hidden text-white truncate">
           Now Playing
         </h1>
-        <MusicPlayerCard :musicQueue="musicQueue"/>
+        <MusicPlayerCard 
+        :music-queue="musicQueue"
+        @player-handler="$emit('playerHandler')" 
+        @track-skip-prev="$emit('trackSkipPrev')"
+        @track-skip-next="$emit('trackSkipNext')"
+        />
       </div>
       <!-- #TrendingSection -->
       <div

@@ -52,7 +52,23 @@ const musicQueue = reactive({
     }
   },
 })
+//DOM Elements
+const audioElement = ref(null)
 
+//event handler
+const playerHandler = () => {
+  if (audioElement.value.paused) {
+    audioElement.value.play()
+    musicQueue.isPlaying = true
+  } else {
+    audioElement.value.pause()
+    musicQueue.isPlaying = false
+  }
+}
+const trackSkipHandler = (toNext = true) => {
+  musicQueue.skipTrack(toNext)
+  toggleDelayedPlayPause()
+}
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackIdList(1)]
@@ -72,7 +88,12 @@ onBeforeMount(() => {
     <!-- #NavigationBar -->
     <NavigationBar />
     <!-- #HomeContainer -->
-    <HomeContainer :music-queue="musicQueue" :audioElement="audioElement" />
+    <HomeContainer 
+    :music-queue="musicQueue"
+    @player-handler="playerHandler" 
+    @track-skip-prev="trackSkipHandler(false)"
+    @track-skip-next="trackSkipHandler"
+    />
   </div>
 </template>
 <style scoped></style>
