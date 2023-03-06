@@ -14,12 +14,13 @@ const audioElement = inject('audioElement')
 const musicQueue = inject('musicQueue')
 const progressBar = inject('progressBar')
 
-// Props
+// Definitions
 const props = defineProps({
   'is-overflow': {
     type: Boolean,
   },
 })
+const emit = defineEmits(['auto-play-pause'])
 
 //DOM Element
 const progressBarElement = ref(null)
@@ -36,35 +37,14 @@ const playerHandler = () => {
 }
 const trackSkipHandler = (toNext = true) => {
   musicQueue.skipTrack(toNext)
-  toggleDelayedPlayPause()
+  emit('auto-play-pause')
 }
 
-const toggleDelayedPlayPause = (delay = 0) => {
-  setTimeout(() => {
-    if (musicQueue.isPlaying) {
-      audioElement.value.play()
-    } else {
-      audioElement.value.pause()
-    }
-  }, delay)
-}
 const onProgressBarMouseDown = (e) => {
   e.preventDefault()
   progressBar.isClicked = true
   progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
   progressBar.updateTime(e)
-}
-const onProgressBarMouseMove = (e) => {
-  if (progressBar.isClicked) {
-    progressBar.updateTime(e)
-  }
-}
-const onProgressBarMouseUp = (e) => {
-  if (progressBar.isClicked) {
-    progressBar.updateTime(e)
-    audioElement.value.currentTime = progressBar.newTime
-    progressBar.isClicked = false
-  }
 }
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
