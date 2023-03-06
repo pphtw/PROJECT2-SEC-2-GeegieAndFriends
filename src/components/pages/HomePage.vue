@@ -1,10 +1,9 @@
 <script setup>
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
+import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
 
 import { computed, reactive, ref, inject } from 'vue'
 
-import PreviousPageHandler from '../UI/atoms/previousPageHandler.vue'
-import NextPageHandler from '../UI/atoms/NextPageHandler.vue'
 import LikeButton from '../UI/atoms/LikeButton.vue'
 import MenuButton from '../UI/atoms/MenuButton.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
@@ -13,7 +12,6 @@ import metadata from '../../assets/metadata.json'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 
 const musicQueue = inject('musicQueue')
-const playlistData = metadata.playlists
 
 const playlist = reactive({
   selectedPlaylistId: 1,
@@ -25,16 +23,17 @@ const playlist = reactive({
       getTrack(trackId)
     )
   ),
-  favourite: JSON.parse(localStorage.getItem('favourite') || '[]'),
+  favourites: JSON.parse(localStorage.getItem('favourites') || '[]'),
 })
 
 // DOM Element
 const tracksElement = ref(null)
 const titleElement = ref(null)
 
-// State
-const isOverflow = ref(null)
+// States
+const isOverflow = ref(false)
 
+// Handlers
 const onChooseTrackMouseDown = (e) => {
   e.preventDefault()
 }
@@ -55,17 +54,17 @@ const onChooseTrackClick = (e) => {
     musicQueue.isPlaying = true
   }
 }
-const onChoosePlaylist = (e) => {
-  playlist.selectedPlaylistId = Number(e.currentTarget.id)
+const onChoosePlaylist = (id) => {
+  playlist.selectedPlaylistId = Number(id)
 }
 
 // Utils
 const checkFavourite = (trackId) => {
-  const arr = [...playlist.favourite]
+  const arr = [...playlist.favourites]
   return arr.includes(trackId)
 }
 
-const isOverflowed = () => {
+const checkOverflow = () => {
   const element = titleElement.value
   isOverflow.value = false
   setTimeout(() => {
@@ -75,24 +74,15 @@ const isOverflowed = () => {
   }, 0)
 }
 
-// Playlist Scroll
-const playlistElement = ref(null)
-const nextPageHandler = () => {
-  playlistElement.value.scrollLeft += 1400
-}
-const previousPageHandler = () => {
-  playlistElement.value.scrollLeft -= 1400
-}
-
 //Favorite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
   if (checkFavourite(trackId)) {
-    playlist.favourite.splice(playlist.favourite.indexOf(trackId), 1)
+    playlist.favourites.splice(playlist.favourites.indexOf(trackId), 1)
   } else {
-    playlist.favourite.push(trackId)
+    playlist.favourites.push(trackId)
   }
-  localStorage.setItem('favourite', JSON.stringify(playlist.favourite))
+  localStorage.setItem('favourites', JSON.stringify(playlist.favourites))
 }
 </script>
 
@@ -104,43 +94,7 @@ const onLikeHandler = (e, trackId) => {
     <div
       class="container-gradient max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
     >
-      <!-- #Header&Playlist -->
-      <div class="h-fit sm:h-[28%] flex-col hidden sm:flex">
-        <!-- #Header -->
-        <div class="grid grid-cols-2 pb-3">
-          <h1 class="text-2xl font-bold text-white col-start-1">Your Style</h1>
-          <div class="col-span-1 flex justify-end gap-2">
-            <!-- #NextButton&PreviousButton -->
-            <PreviousPageHandler @click="previousPageHandler" />
-            <NextPageHandler @click="nextPageHandler" />
-          </div>
-        </div>
-        <!-- #Playlist -->
-        <div
-          class="grow relative h-fit overflow-x-auto scroll-smooth no-scrollbar-full"
-          ref="playlistElement"
-        >
-          <div class="h-full inline-flex gap-10 justify-start">
-            <div
-              v-for="playlist in playlistData"
-              :style="{
-                backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
-              }"
-              :key="playlist['playlistId']"
-              :id="playlist['playlistId']"
-              @click="onChoosePlaylist"
-              class="flex justify-center w-[20rem] cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
-              tabindex="-1"
-            >
-              <p
-                class="text-white truncate text-lg font-semibold self-center text-center"
-              >
-                {{ playlist.name }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PlaylistCarousel @click-playlist="(id) => onChoosePlaylist(id)" />
       <!-- #MusicPlayer&Trending -->
       <div
         class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10"
@@ -154,6 +108,7 @@ const onLikeHandler = (e, trackId) => {
           </h1>
           <MusicPlayerCard
             :music-queue="musicQueue"
+            :is-overflow="isOverflow"
             @player-handler="$emit('playerHandler')"
             @track-skip-prev="$emit('trackSkipPrev')"
             @track-skip-next="$emit('trackSkipNext')"

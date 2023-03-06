@@ -1,4 +1,6 @@
 <script setup>
+import { ref, reactive, inject } from 'vue'
+
 import IsShuffled from '../atoms/IsShuffled.vue'
 import NoShuffled from '../atoms/NoShuffled.vue'
 import PreviousButton from '../atoms/PreviousButton.vue'
@@ -7,15 +9,22 @@ import NoPlaying from '../atoms/NoPlaying.vue'
 import SkipButton from '../atoms/SkipButton.vue'
 import IsLooping from '../atoms/NoLooping.vue'
 import NoLooping from '../atoms/IsLooping.vue'
-import { ref, reactive, inject } from 'vue'
 
 const audioElement = inject('audioElement')
 const musicQueue = inject('musicQueue')
 const progressBar = inject('progressBar')
+
+// Props
+const props = defineProps({
+  'is-overflow': {
+    type: Boolean,
+  },
+})
+
 //DOM Element
 const progressBarElement = ref(null)
 
-//event Handler
+//Event Handler
 const playerHandler = () => {
   if (audioElement.value.paused) {
     audioElement.value.play()
@@ -57,8 +66,6 @@ const onProgressBarMouseUp = (e) => {
     progressBar.isClicked = false
   }
 }
-
-//shuffle
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
     if (musicQueue.defaultQueue.length === 0) {
@@ -73,8 +80,6 @@ const onShuffleHandler = (e) => {
     }
   }
 }
-
-//loop
 const onLoopHandler = (e) => {
   console.log('Create Loop Handler Here')
   console.log(e)
