@@ -7,17 +7,10 @@ import NoPlaying from './Icons/NoPlaying.vue'
 import SkipButton from './Icons/SkipButton.vue'
 import IsLooping from './Icons/NoLooping.vue'
 import NoLooping from './Icons/IsLooping.vue'
-import { ref } from 'vue'
+import { ref, reactive ,inject } from 'vue'
 
-import { reactive } from 'vue';
-const props = defineProps({
-  musicQueue: {
-    type: Object
-  },
-  audioElement: {
-    type: Object
-  }
-})
+const audioElement = inject('audioElement')
+const musicQueue = inject('musicQueue')
 
 //progress bar
 const progressBar = reactive({
@@ -53,7 +46,40 @@ const progressBar = reactive({
 const progressBarElement = ref(null)
 
 //event Handler
-
+const playerHandler = () => {
+  if (audioElement.value.paused) {
+    audioElement.value.play()
+    musicQueue.isPlaying = true
+  } else {
+    audioElement.value.pause()
+    musicQueue.isPlaying = false
+  }
+}
+const trackSkipHandler = (toNext = true) => {
+  musicQueue.skipTrack(toNext)
+  toggleDelayedPlayPause()
+}
+const onLoadMetadataHandler = () => {
+  progressBar.duration = secToMin(audioElement.value.duration)
+  progressBar.currentTime = secToMin(audioElement.value.currentTime)
+  progressBar.updateProgressBar()
+  isOverflowed()
+}
+const onTimeUpdateHandler = () => {
+  progressBar.currentTime = secToMin(audioElement.value.currentTime)
+  if (!progressBar.isClicked) {
+    progressBar.updateProgressBar()
+  }
+}
+const toggleDelayedPlayPause = (delay = 0) => {
+  setTimeout(() => {
+    if (musicQueue.isPlaying) {
+      audioElement.value.play()
+    } else {
+      audioElement.value.pause()
+    }
+  }, delay)
+}
 const onProgressBarMouseDown = (e) => {
   e.preventDefault()
   progressBar.isClicked = true
@@ -173,20 +199,20 @@ const onLoopHandler = (e) => {
                 </button>
               </div>
               <!-- #PreviousButton -->
-              <div class="prev-track" @click="$emit('trackSkipPrev')">
+              <div class="prev-track" @click="trackSkipHandler(false)">
                 <button>
                   <PreviousButton />
                 </button>
               </div>
               <!-- #PlayButton/PauseButton -->
               <div>
-                <button class="[clip-path:circle()]" @click="$emit('playerHandler')">
+                <button class="[clip-path:circle()]" @click="playerHandler">
                   <IsPlaying v-if="musicQueue.isPlaying" />
                   <NoPlaying v-else />
                 </button>
               </div>
               <!-- #SkipButton -->
-              <div class="next-track" @click="$emit('trackSkipNext')">
+              <div class="next-track" @click="trackSkipHandler">
                 <button>
                   <SkipButton />
                 </button>

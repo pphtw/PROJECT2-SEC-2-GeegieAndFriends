@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref } from 'vue'
+import { computed, onBeforeMount, reactive, ref , provide} from 'vue'
 // Conponents
 import HomeContainer from './components/HomeContainer/HomeContainer.vue'
 import NavigationBar from './components/NavigationBar/NavigationBar.vue'
@@ -52,44 +52,47 @@ const musicQueue = reactive({
     }
   },
 })
-//DOM Elements
+// //DOM Elements
 const audioElement = ref(null)
+provide('audioElement', audioElement)
+provide('musicQueue', musicQueue)
 
-//event handler
-const playerHandler = () => {
-  if (audioElement.value.paused) {
-    audioElement.value.play()
-    musicQueue.isPlaying = true
-  } else {
-    audioElement.value.pause()
-    musicQueue.isPlaying = false
-  }
-}
-const trackSkipHandler = (toNext = true) => {
-  musicQueue.skipTrack(toNext)
-  toggleDelayedPlayPause()
-}
-const onLoadMetadataHandler = () => {
-  progressBar.duration = secToMin(audioElement.value.duration)
-  progressBar.currentTime = secToMin(audioElement.value.currentTime)
-  progressBar.updateProgressBar()
-  isOverflowed()
-}
-const onTimeUpdateHandler = () => {
-  progressBar.currentTime = secToMin(audioElement.value.currentTime)
-  if (!progressBar.isClicked) {
-    progressBar.updateProgressBar()
-  }
-}
-const toggleDelayedPlayPause = (delay = 0) => {
-  setTimeout(() => {
-    if (musicQueue.isPlaying) {
-      audioElement.value.play()
-    } else {
-      audioElement.value.pause()
-    }
-  }, delay)
-}
+// //event handler
+// const playerHandler = () => {
+//   if (audioElement.value.paused) {
+//     audioElement.value.play()
+//     musicQueue.isPlaying = true
+//   } else {
+//     audioElement.value.pause()
+//     musicQueue.isPlaying = false
+//   }
+// }
+// const trackSkipHandler = (toNext = true) => {
+//   musicQueue.skipTrack(toNext)
+//   toggleDelayedPlayPause()
+// }
+// const onLoadMetadataHandler = () => {
+//   progressBar.duration = secToMin(audioElement.value.duration)
+//   progressBar.currentTime = secToMin(audioElement.value.currentTime)
+//   progressBar.updateProgressBar()
+//   isOverflowed()
+// }
+// const onTimeUpdateHandler = () => {
+//   progressBar.currentTime = secToMin(audioElement.value.currentTime)
+//   if (!progressBar.isClicked) {
+//     progressBar.updateProgressBar()
+//   }
+// }
+// const toggleDelayedPlayPause = (delay = 0) => {
+//   setTimeout(() => {
+//     if (musicQueue.isPlaying) {
+//       audioElement.value.play()
+//     } else {
+//       audioElement.value.pause()
+//     }
+//   }, delay)
+// }
+
 // Hooks
 onBeforeMount(() => {
   musicQueue.queue = [...getTrackIdList(1)]
@@ -109,11 +112,14 @@ onBeforeMount(() => {
     <!-- #NavigationBar -->
     <NavigationBar />
     <!-- #HomeContainer -->
-    <HomeContainer 
+    <!-- <HomeContainer 
     :music-queue="musicQueue"
     @player-handler="playerHandler" 
     @track-skip-prev="trackSkipHandler(false)"
     @track-skip-next="trackSkipHandler"
+    /> -->
+    <HomeContainer 
+    
     />
   </div>
 </template>
