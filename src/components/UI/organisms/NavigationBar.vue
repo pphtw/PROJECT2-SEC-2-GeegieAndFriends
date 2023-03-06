@@ -1,9 +1,9 @@
 <script setup>
-import HomePageButton from './Icons/HomePageButton.vue'
-import SearchPageButton from './Icons/SearchPageButton.vue'
-import PlaylistPageButton from './Icons/PlaylistPageButton.vue'
-import CreditPageButton from './Icons/CreditPageButton.vue'
-import SettingPageButton from './Icons/SettingPageButton.vue'
+import HomePageButton from '../atoms/HomePageButton.vue'
+import SearchPageButton from '../atoms/SearchPageButton.vue'
+import PlaylistPageButton from '../atoms/PlaylistPageButton.vue'
+import CreditPageButton from '../atoms/CreditPageButton.vue'
+import SettingPageButton from '../atoms/SettingPageButton.vue'
 </script>
 
 <template>
