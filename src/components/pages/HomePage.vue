@@ -186,7 +186,7 @@ const onLikeHandler = (e, trackId) => {
 <!--              <div class="px-3 font-semibold hidden sm:block">-->
 <!--                {{ track.duration }}-->
 <!--              </div>-->
-              <Timer :time="track.duration" :size="3" />
+              <Timer :time="track.duration" :size="5" :weight="2"/>
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler($event, track['trackId'])">
