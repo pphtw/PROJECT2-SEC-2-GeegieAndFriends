@@ -35,7 +35,7 @@ const playlist = reactive({
       getTrack(trackId)
     )
   ),
-  favourites: JSON.parse(localStorage.getItem('favourites') || '[]'),
+  favourites: JSON.parse(localStorage.getItem('favourites')) ?? [],
 })
 
 // DOM Element
