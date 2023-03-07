@@ -1,5 +1,13 @@
 <script setup>
-import { ref, reactive, inject } from 'vue'
+import {
+  ref,
+  reactive,
+  inject,
+  onBeforeMount,
+  onMounted,
+  onUpdated,
+  onBeforeUpdate,
+} from 'vue'
 
 import IsShuffled from '../atoms/IsShuffled.vue'
 import NoShuffled from '../atoms/NoShuffled.vue'
@@ -9,24 +17,32 @@ import NoPlaying from '../atoms/NoPlaying.vue'
 import SkipButton from '../atoms/SkipButton.vue'
 import IsLooping from '../atoms/NoLooping.vue'
 import NoLooping from '../atoms/IsLooping.vue'
-import Timer from "@/components/UI/atoms/Timer.vue";
+import Timer from '@/components/UI/atoms/Timer.vue'
 
 const audioElement = inject('audioElement')
 const musicQueue = inject('musicQueue')
 const progressBar = inject('progressBar')
 
-// Definitions
-const props = defineProps({
-  'is-overflow': {
-    type: Boolean,
-  },
-})
 const emit = defineEmits(['auto-play-pause'])
 
 //DOM Element
 const progressBarElement = ref(null)
+const titleElement = ref(null)
+
+// States
+const isOverflow = ref(false)
 
 //Event Handler
+
+const checkOverflow = () => {
+  const element = titleElement.value
+  isOverflow.value = false
+  setTimeout(() => {
+    isOverflow.value =
+      element.scrollHeight > element.offsetHeight ||
+      element.scrollWidth > element.offsetWidth
+  }, 0)
+}
 const playerHandler = () => {
   if (audioElement.value.paused) {
     audioElement.value.play()
@@ -65,6 +81,24 @@ const onLoopHandler = (e) => {
   console.log('Create Loop Handler Here')
   console.log(e)
 }
+const config = { attributes: true, childList: true, subtree: true }
+
+const callback = (mutationList) => {
+  mutationList.forEach((mutation) => {
+    if (mutation.type === 'childList') {
+      checkOverflow()
+      // console.log(mutation.target)
+    }
+  })
+}
+onBeforeUpdate(() => {
+  const observer = new MutationObserver(callback)
+  observer.observe(titleElement.value, config)
+})
+onUpdated(() => {
+  const observer = new MutationObserver(callback)
+  observer.disconnect()
+})
 </script>
 
 <template>
@@ -76,6 +110,7 @@ const onLoopHandler = (e) => {
         backgroundImage:
           'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
       }"
+      @click="checkOverflow"
     ></div>
     <!-- #ProgressBar -->
     <div class="overflow-clip">
@@ -93,8 +128,8 @@ const onLoopHandler = (e) => {
     <!-- #CurrentTime&Duration -->
     <div>
       <div class="flex justify-between w-full items-center">
-        <Timer :time="progressBar.currentTime"/>
-        <Timer :time="progressBar.duration"/>
+        <Timer :time="progressBar.currentTime" />
+        <Timer :time="progressBar.duration" />
       </div>
     </div>
     <!-- #MusicTitle&Controller -->
