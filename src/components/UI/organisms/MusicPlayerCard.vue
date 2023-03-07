@@ -9,6 +9,7 @@ import NoPlaying from '../atoms/NoPlaying.vue'
 import SkipButton from '../atoms/SkipButton.vue'
 import IsLooping from '../atoms/NoLooping.vue'
 import NoLooping from '../atoms/IsLooping.vue'
+import Timer from "@/components/UI/atoms/Timer.vue";
 
 const audioElement = inject('audioElement')
 const musicQueue = inject('musicQueue')
@@ -92,8 +93,8 @@ const onLoopHandler = (e) => {
     <!-- #CurrentTime&Duration -->
     <div>
       <div class="flex justify-between w-full items-center">
-        <p class="px-2 text-sm">{{ progressBar.currentTime }}</p>
-        <p class="px-2 text-sm">{{ progressBar.duration }}</p>
+        <Timer :time="progressBar.currentTime"/>
+        <Timer :time="progressBar.duration"/>
       </div>
     </div>
     <!-- #MusicTitle&Controller -->

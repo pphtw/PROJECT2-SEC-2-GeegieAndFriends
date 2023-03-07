@@ -9,6 +9,7 @@ import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
 import { secToMin } from '@/utils/utils'
 import metadata from '../../assets/metadata.json'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
+import Timer from "@/components/UI/atoms/Timer.vue";
 
 const musicQueue = inject('musicQueue')
 
@@ -182,9 +183,10 @@ const onLikeHandler = (e, trackId) => {
                 </h1>
               </div>
               <!-- #Duration -->
-              <div class="px-3 font-semibold hidden sm:block">
-                {{ track.duration }}
-              </div>
+<!--              <div class="px-3 font-semibold hidden sm:block">-->
+<!--                {{ track.duration }}-->
+<!--              </div>-->
+              <Timer :time="track.duration" :size="3" />
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler($event, track['trackId'])">
