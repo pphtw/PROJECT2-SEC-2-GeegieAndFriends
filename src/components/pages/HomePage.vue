@@ -41,10 +41,6 @@ const playlist = reactive({
 
 // DOM Element
 const tracksElement = ref(null)
-const titleElement = ref(null)
-
-// States
-const isOverflow = ref(false)
 
 // Handlers
 const onChooseTrackClick = (e) => {
@@ -79,15 +75,6 @@ const checkFavourite = (trackId) => {
   return arr.includes(trackId)
 }
 
-const checkOverflow = () => {
-  const element = titleElement.value
-  isOverflow.value = false
-  setTimeout(() => {
-    isOverflow.value =
-      element.scrollHeight > element.offsetHeight ||
-      element.scrollWidth > element.offsetWidth
-  }, 0)
-}
 
 //Favorite
 const onLikeHandler = (e, trackId) => {
@@ -130,7 +117,6 @@ const onLikeHandler = (e, trackId) => {
           </h1>
           <MusicPlayerCard
             :music-queue="musicQueue"
-            :is-overflow="isOverflow"
           />
         </div>
         <!-- #TrendingSection -->
