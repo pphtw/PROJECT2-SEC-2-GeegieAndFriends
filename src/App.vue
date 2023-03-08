@@ -5,7 +5,6 @@ import { computed, onBeforeMount, reactive, ref, provide, inject } from 'vue'
 import HomePage from '@/components/pages/HomePage.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
 import { secToMin } from '@/utils/utils'
-
 const musicQueue = reactive({
   currentPlaylistId: 1,
   currentTrack: computed(() => getTrack(musicQueue?.queue[0])),
@@ -149,5 +148,6 @@ onBeforeMount(() => {
     @auto-play-pause="autoPlayPause"
     @toggle-play="(ms) => togglePlay(ms)"
     :is-progress-bar-clicked="progressBar.isClicked"
+    @click-playlist="on"
   />
 </template>

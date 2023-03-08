@@ -3,13 +3,12 @@ import { computed, inject, reactive, ref } from 'vue'
 
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
 import TrendingList from '../UI/organisms/TrendingList.vue'
-import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
+import {getPlaylist, getTrackList, getTrack, getTrackIdList,getPlayListData} from '@/utils/getTracksData'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
-import metadata from '@/assets/metadata.json'
-
-const playlistData = metadata.playlists
+import PlaylistCarousel from "@/components/UI/organisms/PlaylistCarousel.vue";
+import metadata from "@/assets/metadata.json";
 const musicQueue = inject('musicQueue')
 
 // Definition
@@ -20,7 +19,6 @@ const props = defineProps({
     required: true,
   },
 })
-
 const onMouseMove = (e) => {
   if (props.isProgressBarClicked) {
     emit('progress-bar-mouse-move', e)
@@ -32,6 +30,15 @@ const onMouseUp = (e) => {
 const playlistName = computed(() => {
   return getPlaylist(musicQueue.currentPlaylistId).name
 })
+const currentTargetId = (e) =>{
+  return getPlaylist(musicQueue.currentTarget)
+}
+console.log(getTrackIdList(1))
+console.log(getPlaylist(1))
+console.log(getTrack(1))
+const playlistData = metadata.playlists
+console.log(playlistData)
+console.log(getPlayListData)
 </script>
 
 <template>
@@ -50,31 +57,36 @@ const playlistName = computed(() => {
       class="container-gradient w-full px-16 py-8 gap-16 grid grid-cols-[1fr_3fr] grid-rows-[1fr_3fr]"
     >
       <ContentSection class="col-span-2">
-        <!--        <template v-slot:header>-->
-        <!--          <div class="grid grid-cols-2 pb-3">-->
-        <!--            <SectionHeader input-text-header="Your Style" />-->
-        <!--            <div class="col-span-1 flex justify-end gap-2">-->
-        <!--              &lt;!&ndash; #NextButton&PreviousButton &ndash;&gt;-->
-        <!--              <PreviousPageHandler @click="previousPageHandler" />-->
-        <!--              <NextPageHandler @click="nextPageHandler" />-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </template>-->
+        <template v-slot:header>
+          <div class="grid grid-cols-3 pb-3">
+            <div>
+              <SectionHeader input-text-header="Your Style" />
+            </div>
+              <!-- #NextButton&PreviousButton -->
+          </div>
+        </template>
+        <PlaylistCarousel  />
       </ContentSection>
-      <!-- #MusicPlayerCard #NowPlaying -->
-      <ContentSection>
-        <!--        <template v-slot:header>-->
-        <!--          <SectionHeader input-text-header="Now Playing" />-->
-        <!--        </template>-->
-        <!--        <MusicPlayerCard />-->
-      </ContentSection>
-      <!-- #TrendingSection -->
-      <ContentSection>
-        <!--        <template v-slot:header>-->
-        <!--          <SectionHeader :input-text-header="playlistName" />-->
-        <!--        </template>-->
-        <!--        <TrendingList />-->
-      </ContentSection>
+      <!-- #MusicPlayer&Trending -->
+      <div
+        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr] gap-0 sm:gap-10"
+      >
+        <!-- #MusicPlayerCard #NowPlaying -->
+        <ContentSection>
+          <template v-slot:header>
+            <SectionHeader input-text-header="Now Playing" />
+          </template>
+          <MusicPlayerCard />
+        </ContentSection>
+
+        <!-- #TrendingSection -->
+        <ContentSection>
+          <template v-slot:header>
+            <SectionHeader :input-text-header="playlistName" />
+          </template>
+          <TrendingList />
+        </ContentSection>
+      </div>
     </div>
   </div>
 </template>
