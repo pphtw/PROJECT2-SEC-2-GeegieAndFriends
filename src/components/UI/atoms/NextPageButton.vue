@@ -1,3 +1,6 @@
+<script setup>
+
+</script>
 <template>
   <svg
       class="hover:scale-110 cursor-pointer transition ease-in-out"
@@ -18,11 +21,3 @@
     />
   </svg>
 </template>
-
-<script setup>
-
-</script>
-
-<style scoped>
-
-</style>
