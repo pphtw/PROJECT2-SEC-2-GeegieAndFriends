@@ -2,16 +2,15 @@
 import { computed, reactive, ref, inject } from 'vue'
 
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
-import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
 import LikeButton from '../UI/atoms/LikeButton.vue'
 import MenuButton from '../UI/atoms/MenuButton.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
-import { secToMin } from '@/utils/utils'
-import metadata from '../../assets/metadata.json'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from "@/components/UI/atoms/SectionHeader.vue";
 import Timer from '@/components/UI/atoms/Timer.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
+import metadata from '@/assets/metadata.json'
+const playlistData = metadata.playlists
 
 const musicQueue = inject('musicQueue')
 
