@@ -9,6 +9,8 @@ import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from "@/components/UI/organisms/PlaylistCarousel.vue";
 import metadata from "@/assets/metadata.json";
+import PreviousPageButton from "@/components/UI/atoms/previousPageButton.vue";
+import NextPageButton from "@/components/UI/atoms/NextPageButton.vue";
 const musicQueue = inject('musicQueue')
 
 // Definition
@@ -57,6 +59,8 @@ const currentTargetId = (e) =>{
             <div>
               <SectionHeader input-text-header="Your Style" />
             </div>
+            <PreviousPageButton/>
+            <NextPageButton/>
             <!-- #NextButton&PreviousButton -->
           </div>
         </template>
