@@ -8,6 +8,7 @@ import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 import metadata from '@/assets/metadata.json'
+
 const playlistData = metadata.playlists
 const musicQueue = inject('musicQueue')
 
@@ -35,7 +36,7 @@ const playlistName = computed(() => {
 
 <template>
   <div
-    class="flex flex-col justify-end sm:flex-row w-screen h-screen sm:h-screen sm:px-0 bg-[#162750]"
+    class="w-screen h-screen flex flex-row bg-[#162750]"
     @keyup.right="trackSkipHandler"
     @keyup.left="trackSkipHandler(false)"
     @keyup.space="playerHandler"
@@ -46,40 +47,34 @@ const playlistName = computed(() => {
   >
     <NavigationBar />
     <div
-      class="container-gradient max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
+      class="container-gradient w-full px-16 py-8 gap-16 grid grid-cols-[1fr_3fr] grid-rows-[1fr_3fr]"
     >
-      <ContentSection>
-        <template v-slot:header>
-          <div class="grid grid-cols-2 pb-3">
-            <SectionHeader input-text-header="Your Style" />
-            <div class="col-span-1 flex justify-end gap-2">
-              <!-- #NextButton&PreviousButton -->
-              <PreviousPageHandler @click="previousPageHandler" />
-              <NextPageHandler @click="nextPageHandler" />
-            </div>
-          </div>
-        </template>
+      <ContentSection class="col-span-2">
+        <!--        <template v-slot:header>-->
+        <!--          <div class="grid grid-cols-2 pb-3">-->
+        <!--            <SectionHeader input-text-header="Your Style" />-->
+        <!--            <div class="col-span-1 flex justify-end gap-2">-->
+        <!--              &lt;!&ndash; #NextButton&PreviousButton &ndash;&gt;-->
+        <!--              <PreviousPageHandler @click="previousPageHandler" />-->
+        <!--              <NextPageHandler @click="nextPageHandler" />-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </template>-->
       </ContentSection>
-      <!-- #MusicPlayer&Trending -->
-      <div
-        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr] gap-0 sm:gap-10"
-      >
-        <!-- #MusicPlayerCard #NowPlaying -->
-        <ContentSection>
-          <template v-slot:header>
-            <SectionHeader input-text-header="Now Playing" />
-          </template>
-          <MusicPlayerCard />
-        </ContentSection>
-
-        <!-- #TrendingSection -->
-        <ContentSection>
-          <template v-slot:header>
-            <SectionHeader :input-text-header="playlistName" />
-          </template>
-          <TrendingList />
-        </ContentSection>
-      </div>
+      <!-- #MusicPlayerCard #NowPlaying -->
+      <ContentSection>
+        <!--        <template v-slot:header>-->
+        <!--          <SectionHeader input-text-header="Now Playing" />-->
+        <!--        </template>-->
+        <!--        <MusicPlayerCard />-->
+      </ContentSection>
+      <!-- #TrendingSection -->
+      <ContentSection>
+        <!--        <template v-slot:header>-->
+        <!--          <SectionHeader :input-text-header="playlistName" />-->
+        <!--        </template>-->
+        <!--        <TrendingList />-->
+      </ContentSection>
     </div>
   </div>
 </template>
