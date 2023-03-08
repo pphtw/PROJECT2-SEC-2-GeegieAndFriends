@@ -1,12 +1,12 @@
 <script setup>
 import { ref, reactive, computed, inject } from 'vue'
-import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
+import { getPlaylist, getTrack, getTrackIdList,getTrackList } from '@/utils/getTracksData'
 import LikeButton from '../atoms/LikeButton.vue'
 import MenuButton from '../atoms/MenuButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
 
 const musicQueue = inject('musicQueue')
-const emit = defineEmits(['toggle-play'])
+const emit = defineEmits(['toggle-play','onChoosePlaylist'])
 
 const playlist = reactive({
   selectedPlaylistId: 1,
@@ -14,9 +14,7 @@ const playlist = reactive({
     () => getPlaylist(playlist.selectedPlaylistId).name
   ),
   selectedPlaylist: computed(() =>
-    getPlaylist(playlist.selectedPlaylistId).tracks.map((trackId) =>
-      getTrack(trackId)
-    )
+      getTrackList(playlist.selectedPlaylistId)
   ),
   favourites: JSON.parse(localStorage.getItem('favourites')) ?? [],
 })
@@ -44,7 +42,10 @@ const checkFavourite = (trackId) => {
   const arr = [...playlist.favourites]
   return arr.includes(trackId)
 }
-
+const onChoosePlaylist = (e) => {
+  playlist.selectedPlaylistId = Number(e.currentTarget.id)
+  emit('onChoosePlaylist')
+}
 //Favorite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
