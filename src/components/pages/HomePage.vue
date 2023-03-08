@@ -3,15 +3,13 @@ import { computed, inject, reactive, ref } from 'vue'
 
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
 import TrendingList from '../UI/organisms/TrendingList.vue'
-import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
+import {getPlaylist, getTrack, getTrackIdList} from '@/utils/getTracksData'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
-import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
-import metadata from '@/assets/metadata.json'
-import PreviousPageButton from '@/components/UI/atoms/previousPageButton.vue'
-import NextPageButton from '@/components/UI/atoms/NextPageButton.vue'
-
+import PlaylistCarousel from "@/components/UI/organisms/PlaylistCarousel.vue";
+import PreviousPageButton from "@/components/UI/atoms/previousPageButton.vue";
+import NextPageButton from "@/components/UI/atoms/NextPageButton.vue";
 const musicQueue = inject('musicQueue')
 
 // Definition
@@ -36,6 +34,7 @@ const playlistName = computed(() => {
 const currentTargetId = (e) => {
   return getPlaylist(musicQueue.currentTarget)
 }
+
 </script>
 
 <template>
