@@ -33,7 +33,3 @@ const getBoldness = (n = 1) => {
 <template>
     <p class="px-2" :class="[getFontSize(size),getBoldness(weight)]">{{ time }}</p>
 </template>
-
-<style scoped>
-
-</style>
