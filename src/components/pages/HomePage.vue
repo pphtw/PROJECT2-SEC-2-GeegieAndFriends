@@ -62,7 +62,7 @@ const playlistName = computed(() => {
       </ContentSection>
       <!-- #MusicPlayer&Trending -->
       <div
-        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10"
+        class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr] gap-0 sm:gap-10"
       >
         <!-- #MusicPlayerCard #NowPlaying -->
         <ContentSection>
