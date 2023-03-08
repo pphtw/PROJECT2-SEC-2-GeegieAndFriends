@@ -83,13 +83,9 @@ const callback = (mutationList) => {
     }
   })
 }
-onBeforeUpdate(() => {
-  const observer = new MutationObserver(callback)
-  observer.observe(titleElement.value, config)
-})
+const observer = new MutationObserver(callback)
 onUpdated(() => {
-  const observer = new MutationObserver(callback)
-  observer.disconnect()
+  observer.observe(titleElement.value, config)
 })
 </script>
 
