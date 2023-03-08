@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref, provide, inject } from 'vue'
+import { computed, onBeforeMount, reactive, ref, provide } from 'vue'
 
 // Components
 import HomePage from '@/components/pages/HomePage.vue'
