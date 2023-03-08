@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import PreviousPageButton from "@/components/UI/atoms/previousPageButton.vue";
 import NextPageButton from "@/components/UI/atoms/NextPageButton.vue";
 import metadata from '@/assets/metadata.json'
-import {getTrackList} from "@/utils/getTracksData";
 
 const playlistData = metadata.playlists
 const playlistElement = ref(null)
@@ -17,8 +16,6 @@ const previousPageHandler = () => {
 </script>
 <template>
 <!--         #NextButton&PreviousButton -->
-    <PreviousPageButton @click="previousPageHandler" />
-    <NextPageButton @click="nextPageHandler" />
     <!-- #Playlist -->
     <div
         class="grow relative h-fit overflow-x-auto scroll-smooth no-scrollbar-full"
