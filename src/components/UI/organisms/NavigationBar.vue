@@ -8,7 +8,7 @@ import SettingPageButton from '../atoms/SettingPageButton.vue'
 
 <template>
   <div
-    class="flex flex-row order-2 sm:order-1 sm:flex-col justify-center row-span-6 gap-5 items-center w-full sm:w-[5.4%] py-3 sm:py-0 h-fit sm:h-full max-sm:z-10 bg-[#162750]"
+    class="bg-[#162750] w-[4.5rem] flex flex-col shrink-0 justify-center items-center gap-8"
   >
     <!-- #HomePageButton -->
     <HomePageButton />
