@@ -3,12 +3,12 @@ import { computed, inject, reactive, ref } from 'vue'
 
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
 import TrendingList from '../UI/organisms/TrendingList.vue'
-import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
+import {getPlaylist, getTrackList, getTrack, getTrackIdList,getPlayListData} from '@/utils/getTracksData'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
-import metadata from '@/assets/metadata.json'
-const playlistData = metadata.playlists
+import PlaylistCarousel from "@/components/UI/organisms/PlaylistCarousel.vue";
+import metadata from "@/assets/metadata.json";
 const musicQueue = inject('musicQueue')
 
 // Definition
@@ -19,7 +19,6 @@ const props = defineProps({
     required: true,
   },
 })
-
 const onMouseMove = (e) => {
   if (props.isProgressBarClicked) {
     emit('progress-bar-mouse-move', e)
@@ -31,6 +30,15 @@ const onMouseUp = (e) => {
 const playlistName = computed(() => {
   return getPlaylist(musicQueue.currentPlaylistId).name
 })
+const currentTargetId = (e) =>{
+  return getPlaylist(musicQueue.currentTarget)
+}
+console.log(getTrackIdList(1))
+console.log(getPlaylist(1))
+console.log(getTrack(1))
+const playlistData = metadata.playlists
+console.log(playlistData)
+console.log(getPlayListData)
 </script>
 
 <template>
@@ -50,15 +58,14 @@ const playlistName = computed(() => {
     >
       <ContentSection>
         <template v-slot:header>
-          <div class="grid grid-cols-2 pb-3">
-            <SectionHeader input-text-header="Your Style" />
-            <div class="col-span-1 flex justify-end gap-2">
-              <!-- #NextButton&PreviousButton -->
-              <PreviousPageHandler @click="previousPageHandler" />
-              <NextPageHandler @click="nextPageHandler" />
+          <div class="grid grid-cols-3 pb-3">
+            <div>
+              <SectionHeader input-text-header="Your Style" />
             </div>
+              <!-- #NextButton&PreviousButton -->
           </div>
         </template>
+        <PlaylistCarousel  />
       </ContentSection>
       <!-- #MusicPlayer&Trending -->
       <div
