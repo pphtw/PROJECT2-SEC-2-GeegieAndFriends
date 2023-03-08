@@ -9,6 +9,7 @@ import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
 import { secToMin } from '@/utils/utils'
 import metadata from '../../assets/metadata.json'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
+import SectionHeader from "@/components/UI/atoms/SectionHeader.vue";
 import Timer from '@/components/UI/atoms/Timer.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 
@@ -76,6 +77,7 @@ const checkFavourite = (trackId) => {
   return arr.includes(trackId)
 }
 
+
 //Favorite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
@@ -103,7 +105,42 @@ const onLikeHandler = (e, trackId) => {
     <div
       class="container-gradient max-sm:grow order-1 sm:order-2 w-full sm:w-[94.6%] h-fit sm:h-full gap-[4%] sm:px-[5%] sm:py-0 py-[5%] flex flex-col sm:justify-center justify-end"
     >
-      <PlaylistCarousel @click-playlist="(id) => onChoosePlaylist(id)" />
+      <ContentSection>
+        <template v-slot:header>
+          <div class="grid grid-cols-2 pb-3">
+            <SectionHeader input-text-header="Your Style"/>
+            <div class="col-span-1 flex justify-end gap-2">
+              <!-- #NextButton&PreviousButton -->
+              <PreviousPageHandler @click="previousPageHandler" />
+              <NextPageHandler @click="nextPageHandler" />
+            </div>
+          </div>
+        </template>
+        <div
+            class="grow relative h-fit overflow-x-auto scroll-smooth no-scrollbar-full"
+            ref="playlistElement"
+        >
+          <div class="h-full inline-flex gap-10 justify-start">
+            <div
+                v-for="playlist in playlistData"
+                :style="{
+            backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
+          }"
+                :key="playlist['playlistId']"
+                :id="playlist['playlistId']"
+                @click="$emit('click-playlist', $event.currentTarget.id)"
+                class="flex justify-center w-[20rem] cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+                tabindex="-1"
+            >
+              <p
+                  class="text-white truncate text-lg font-semibold self-center text-center"
+              >
+                {{ playlist.name }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </ContentSection>
       <!-- #MusicPlayer&Trending -->
       <div
         class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10"
@@ -111,39 +148,31 @@ const onLikeHandler = (e, trackId) => {
         <!-- #MusicPlayerCard #NowPlaying -->
         <ContentSection>
           <template v-slot:header>
-            <h1
-              class="text-2xl font-bold pb-3 max-sm:hidden text-white truncate"
-            >
-              Now Playing
-            </h1>
+            <SectionHeader input-text-header="Now Playing"/>
           </template>
           <MusicPlayerCard />
         </ContentSection>
         <!-- #TrendingSection -->
-        <div
-          class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center"
-        >
-          <h1
-            class="text-2xl font-bold pb-3 max-sm:text-center text-white truncate"
-          >
-            {{ playlist.selectedPlaylistName }}
-          </h1>
+        <ContentSection>
+          <template v-slot:header>
+            <SectionHeader :input-text-header="playlist.selectedPlaylistName"/>
+          </template>
           <div
-            class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full"
+              class="rounded-2xl no-scrollbar overflow-y-scroll scroll-smooth sm:pr-2 h-[12rem] sm:h-full"
           >
             <!-- #TrendingList -->
             <!-- for-loop here -->
             <div
-              class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-              v-for="(track, index) in playlist.selectedPlaylist"
-              :key="track.trackId"
-              :id="track.trackId"
-              :class="{
+                class="flex items-center mb-1 h-fit sm:h-16 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+                v-for="(track, index) in playlist.selectedPlaylist"
+                :key="track.trackId"
+                :id="track.trackId"
+                :class="{
                 'is-playing': musicQueue.currentTrack.trackId === track.trackId,
               }"
-              @mousedown="$event.preventDefault()"
-              @click="onChooseTrackClick"
-              ref="tracksElement"
+                @mousedown="$event.preventDefault()"
+                @click="onChooseTrackClick"
+                ref="tracksElement"
             >
               <!-- #Ranking -->
               <div class="w-fit">
@@ -152,14 +181,14 @@ const onLikeHandler = (e, trackId) => {
               <!-- #MusicCover -->
               <div class="h-full max-sm:w-24 aspect-square">
                 <img
-                  class="h-full aspect-square"
-                  alt="Song Cover"
-                  :src="track.cover"
+                    class="h-full aspect-square"
+                    alt="Song Cover"
+                    :src="track.cover"
                 />
               </div>
               <!-- #Title&Artist -->
               <div
-                class="grow grid grid-rows-2 h-fit max-sm:w-full pl-3 sm:pl-5"
+                  class="grow grid grid-rows-2 h-fit max-sm:w-full pl-3 sm:pl-5"
               >
                 <h1 class="row-span-1 text-xl font-bold truncate">
                   {{ track.name }}
@@ -173,9 +202,9 @@ const onLikeHandler = (e, trackId) => {
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler($event, track['trackId'])">
                   <LikeButton
-                    fill="#c493e1"
-                    stroke="#c493e1"
-                    v-if="checkFavourite(track['trackId'])"
+                      fill="#c493e1"
+                      stroke="#c493e1"
+                      v-if="checkFavourite(track['trackId'])"
                   />
                   <LikeButton fill="none" stroke="black" v-else />
                 </button>
@@ -186,7 +215,8 @@ const onLikeHandler = (e, trackId) => {
               </div>
             </div>
           </div>
-        </div>
+        </ContentSection>
+
       </div>
     </div>
   </div>
