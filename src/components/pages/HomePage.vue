@@ -9,7 +9,8 @@ import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
 import { secToMin } from '@/utils/utils'
 import metadata from '../../assets/metadata.json'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
-import Timer from "@/components/UI/atoms/Timer.vue";
+import Timer from '@/components/UI/atoms/Timer.vue'
+import ContentSection from '@/components/templates/ContentSection.vue'
 
 const musicQueue = inject('musicQueue')
 
@@ -75,7 +76,6 @@ const checkFavourite = (trackId) => {
   return arr.includes(trackId)
 }
 
-
 //Favorite
 const onLikeHandler = (e, trackId) => {
   e.stopPropagation()
@@ -109,16 +109,16 @@ const onLikeHandler = (e, trackId) => {
         class="h-fit sm:h-[62%] grid grid-rows-[60%-40%] max-sm:grow px-4 sm:px-0 sm:grid sm:grid-rows-1 grid-cols-1 sm:grid-cols-[20rem_1fr_1fr_1fr] gap-0 sm:gap-10"
       >
         <!-- #MusicPlayerCard #NowPlaying -->
-        <div
-          class="col-span-1 row-span-1 max-sm:w-full sm:row-auto sm:flex sm:flex-col sm:justify-start sm:h-full max-sm:place-self-center"
-        >
-          <h1 class="text-2xl font-bold pb-3 max-sm:hidden text-white truncate">
-            Now Playing
-          </h1>
-          <MusicPlayerCard
-            :music-queue="musicQueue"
-          />
-        </div>
+        <ContentSection>
+          <template v-slot:header>
+            <h1
+              class="text-2xl font-bold pb-3 max-sm:hidden text-white truncate"
+            >
+              Now Playing
+            </h1>
+          </template>
+          <MusicPlayerCard />
+        </ContentSection>
         <!-- #TrendingSection -->
         <div
           class="row-span-1 col-span-1 sm:col-span-3 sm:row-auto flex flex-col justify-start h-fit sm:h-full max-sm:place-self-center"
@@ -168,11 +168,7 @@ const onLikeHandler = (e, trackId) => {
                   {{ track.artist }}
                 </h1>
               </div>
-              <!-- #Duration -->
-<!--              <div class="px-3 font-semibold hidden sm:block">-->
-<!--                {{ track.duration }}-->
-<!--              </div>-->
-              <Timer :time="track.duration" :size="5" :weight="2"/>
+              <Timer :time="track.duration" :size="5" :weight="2" />
               <!-- #LikeButton -->
               <div class="px-3 hidden sm:block">
                 <button @click="onLikeHandler($event, track['trackId'])">

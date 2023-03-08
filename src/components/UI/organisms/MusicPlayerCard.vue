@@ -1,13 +1,5 @@
 <script setup>
-import {
-  ref,
-  reactive,
-  inject,
-  onBeforeMount,
-  onMounted,
-  onUpdated,
-  onBeforeUpdate,
-} from 'vue'
+import { ref, inject, onUpdated, onBeforeUpdate } from 'vue'
 
 import IsShuffled from '../atoms/IsShuffled.vue'
 import NoShuffled from '../atoms/NoShuffled.vue'
