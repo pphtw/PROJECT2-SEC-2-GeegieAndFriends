@@ -1,23 +1,24 @@
 <script setup>
 import { ref, reactive, computed, inject } from 'vue'
-import { getPlaylist, getTrack, getTrackIdList,getTrackList } from '@/utils/getTracksData'
+import {
+  getPlaylist,
+  getTrack,
+  getTrackIdList,
+  getTrackList,
+} from '@/utils/getTracksData'
 import LikeButton from '../atoms/LikeButton.vue'
 import MenuButton from '../atoms/MenuButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
 
 const musicQueue = inject('musicQueue')
-const emit = defineEmits(['toggle-play','onChoosePlaylist'])
-
-const playlist = reactive({
-  selectedPlaylistId: 1,
-  selectedPlaylistName: computed(
-    () => getPlaylist(playlist.selectedPlaylistId).name
-  ),
-  selectedPlaylist: computed(() =>
-      getTrackList(playlist.selectedPlaylistId)
-  ),
-  favourites: JSON.parse(localStorage.getItem('favourites')) ?? [],
+const emit = defineEmits(['toggle-play', 'onChoosePlaylist'])
+const props = defineProps({
+  playlist: {
+    type: Object,
+    required: true,
+  },
 })
+const { playlist } = props
 
 // DOM Element
 const tracksElement = ref(null)
