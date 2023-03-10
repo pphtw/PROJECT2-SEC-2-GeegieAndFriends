@@ -2,7 +2,7 @@
 import { computed, inject, reactive, ref } from 'vue'
 
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
-import TrendingList from '../UI/organisms/TrendingList.vue'
+import SingleTrack from '../UI/organisms/SingleTrack.vue'
 import { getPlaylist, getTrack, getTrackList } from '@/utils/getTracksData'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
@@ -66,7 +66,7 @@ const currentTargetId = (e) => {
             <SectionHeader input-text-header="Your Style" />
           </div>
         </template>
-        <PlaylistCarousel :playlist="playlist"/>
+        <PlaylistCarousel :playlist="playlist" />
       </ContentSection>
       <ContentSection>
         <template v-slot:header>
@@ -80,7 +80,7 @@ const currentTargetId = (e) => {
         <template v-slot:header>
           <SectionHeader :input-text-header="playlistName" />
         </template>
-        <TrendingList :playlist="playlist" />
+        <SingleTrack :playlist="playlist" />
       </ContentSection>
     </div>
   </div>
