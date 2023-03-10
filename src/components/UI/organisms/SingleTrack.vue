@@ -9,6 +9,8 @@ import {
 import LikeButton from '../atoms/LikeButton.vue'
 import MenuButton from '../atoms/MenuButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
+import MusicCover from '../atoms/MusicCover.vue'
+import TitleAndArtist from '../atoms/TitleAndArtist.vue'
 
 const musicQueue = inject('musicQueue')
 const emit = defineEmits(['toggle-play', 'onChoosePlaylist'])
@@ -60,57 +62,46 @@ const onLikeHandler = (e, trackId) => {
 </script>
 
 <template>
-  <div
-    class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll "
-  >
+  <div class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll">
     <!-- #TrendingList -->
     <!-- for-loop here -->
 
     <div class="h-10">
       <div
-          class="flex items-center mb-1 h-12  bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip  cursor-pointer"
-          v-for="(track, index) in playlist.selectedPlaylist"
-          :key="track.trackId"
-          :id="track.trackId"
-          :class="{
-            'is-playing': musicQueue.currentTrack.trackId === track.trackId,
-          }"
-          @mousedown="$event.preventDefault()"
-          @click="onChooseTrackClick"
-          ref="tracksElement"
+        class="flex items-center mb-1 h-12 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+        v-for="(track, index) in playlist.selectedPlaylist"
+        :key="track.trackId"
+        :id="track.trackId"
+        :class="{
+          'is-playing': musicQueue.currentTrack.trackId === track.trackId,
+        }"
+        @mousedown="$event.preventDefault()"
+        @click="onChooseTrackClick"
+        ref="tracksElement"
       >
         <!-- #Ranking -->
         <div class="w-fit">
           <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
         </div>
         <!-- #MusicCover -->
-        <div class="h-full max-sm:w-24 aspect-square">
-          <img class="h-full aspect-square" alt="Song Cover" :src="track.cover"/>
-        </div>
+        <MusicCover :track="track" />
         <!-- #Title&Artist -->
-        <div class="grow grid grid-rows-2 h-fit max-sm:w-full pl-3 sm:pl-5">
-          <h1 class="row-span-1 text-xl font-bold truncate">
-            {{ track.name }}
-          </h1>
-          <h1 class="row-span-1 font-semibold truncate" :id="index">
-            {{ track.artist }}
-          </h1>
-        </div>
-        <Timer :time="track.duration" :size="5" :weight="2"/>
+        <TitleAndArtist :track="track" :index="index" />
+        <Timer :time="track.duration" :size="5" :weight="2" />
         <!-- #LikeButton -->
         <div class="px-3 hidden sm:block">
           <button @click="onLikeHandler($event, track['trackId'])">
             <LikeButton
-                fill="#c493e1"
-                stroke="#c493e1"
-                v-if="checkFavourite(track['trackId'])"
+              fill="#c493e1"
+              stroke="#c493e1"
+              v-if="checkFavourite(track['trackId'])"
             />
-            <LikeButton fill="none" stroke="black" v-else/>
+            <LikeButton fill="none" stroke="black" v-else />
           </button>
         </div>
         <!-- #MenuButton -->
         <div class="px-3">
-          <MenuButton/>
+          <MenuButton />
         </div>
       </div>
     </div>
