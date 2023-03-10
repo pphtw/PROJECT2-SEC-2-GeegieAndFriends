@@ -1,5 +1,10 @@
 <script setup>
-
+const props = defineProps({
+  netPage: {
+    type: Object,
+    required: true,
+  }
+})
 </script>
 <template>
   <svg
