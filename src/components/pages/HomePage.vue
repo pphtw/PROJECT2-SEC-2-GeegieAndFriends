@@ -64,14 +64,9 @@ const currentTargetId = (e) => {
         <template v-slot:header>
           <div class="flex flex-row justify-between">
             <SectionHeader input-text-header="Your Style" />
-
-            <div class="flex flex-row">
-              <PreviousPageButton />
-              <NextPageButton />
-            </div>
           </div>
         </template>
-        <PlaylistCarousel />
+        <PlaylistCarousel :playlist="playlist"/>
       </ContentSection>
       <ContentSection>
         <template v-slot:header>

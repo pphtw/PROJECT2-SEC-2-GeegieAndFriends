@@ -1,17 +1,28 @@
 <script setup>
 import { ref } from 'vue'
-import PreviousPageButton from '@/components/UI/atoms/previousPageButton.vue'
-import NextPageButton from '@/components/UI/atoms/NextPageButton.vue'
 import metadata from '@/assets/metadata.json'
 
 const playlistData = metadata.playlists
 const playlistElement = ref(null)
-defineEmits(['nextPageHandler', 'previousPageHandler'])
+const emit =  defineEmits(['nextPageHandler', 'previousPageHandler','onChoosePlaylist'])
+const props = defineProps({
+  playlist: {
+    type: Object,
+    required: true,
+  }
+})
+const {playlist} = props
 const nextPageHandler = () => {
   playlistElement.value.scrollLeft += 1400
+  emit('nextPageHandler')
 }
 const previousPageHandler = () => {
   playlistElement.value.scrollLeft -= 1400
+  emit('previousPageHandler')
+}
+const onChoosePlaylist = (e) => {
+  playlist.selectedPlaylistId = Number(e.currentTarget.id)
+  emit('onChoosePlaylist')
 }
 </script>
 <template>
@@ -29,7 +40,7 @@ const previousPageHandler = () => {
         }"
         :key="playlist['playlistId']"
         :id="playlist['playlistId']"
-        @click="$emit('click-playlist', $event.currentTarget.id)"
+        @click="onChoosePlaylist"
         class="flex justify-center w-[18rem] cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
         tabindex="-1"
       >
