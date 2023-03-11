@@ -1,6 +1,6 @@
 <template>
   <svg
-      class="hover:scale-125 transition ease-in-out"
+      :class="transition"
       width="24"
       height="24"
       viewBox="0 0 24 24"
@@ -9,7 +9,7 @@
   >
     <path
         d="M14 5H20M14 8H17M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2M22 22L20 20"
-        stroke="#E5E5E5"
+        :stroke="stroke"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-
+defineProps(['stroke','transition'])
 </script>
 
 <style scoped>

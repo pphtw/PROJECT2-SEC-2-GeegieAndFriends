@@ -3,6 +3,7 @@ import { computed, onBeforeMount, reactive, ref, provide } from 'vue'
 
 // Components
 import HomePage from '@/components/pages/HomePage.vue'
+import SearchPage from '@/components/pages/SearchPage.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
 import { secToMin } from '@/utils/utils'
 const musicQueue = reactive({
@@ -150,4 +151,6 @@ onBeforeMount(() => {
     :is-progress-bar-clicked="progressBar.isClicked"
     @click-playlist="on"
   />
+    <!-- <SearchPage /> -->
+    
 </template>
