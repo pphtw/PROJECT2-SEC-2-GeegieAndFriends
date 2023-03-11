@@ -143,14 +143,14 @@ onBeforeMount(() => {
     @loadedmetadata="onLoadMetadataHandler"
     @ended="trackSkipHandler"
   ></audio>
-  <HomePage
+  <!-- <HomePage
     @progress-bar-mouse-move="(e) => onProgressBarMouseMove(e)"
     @progress-bar-mouse-up="(e) => onProgressBarMouseUp(e)"
     @auto-play-pause="autoPlayPause"
     @toggle-play="(ms) => togglePlay(ms)"
     :is-progress-bar-clicked="progressBar.isClicked"
     @click-playlist="on"
-  />
-    <!-- <SearchPage /> -->
+  /> -->
+    <SearchPage />
     
 </template>
