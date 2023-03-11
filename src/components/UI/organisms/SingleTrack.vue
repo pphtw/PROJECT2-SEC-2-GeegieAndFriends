@@ -10,7 +10,7 @@ import LikeButton from '../atoms/LikeButton.vue'
 import MenuButton from '../atoms/MenuButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
 import MusicCover from '../atoms/MusicCover.vue'
-import TitleAndArtist from '../atoms/TitleAndArtist.vue'
+import TitleAndArtist from '../molecules/TitleAndArtist.vue'
 
 const musicQueue = inject('musicQueue')
 const emit = defineEmits(['toggle-play', 'onChoosePlaylist'])
