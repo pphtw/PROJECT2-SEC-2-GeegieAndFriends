@@ -19,27 +19,19 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  track: {
+    type: [Number, Object],
+    required: true,
+  },
+  trackIndex: {
+    type: Number,
+    required: false,
+  },
 })
-const { playlist } = props
 
-// DOM Element
-const tracksElement = ref(null)
+const { playlist, track, trackIndex } = props
+console.log(track)
 
-// Handlers
-const onChooseTrackClick = (e) => {
-  const chooseTrackId = Number(e.currentTarget.id)
-  if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
-    musicQueue.currentPlaylistId = playlist.selectedPlaylistId
-    musicQueue.queue = [...getTrackIdList(musicQueue.currentPlaylistId)]
-    musicQueue.defaultQueue = musicQueue.queue
-    if (musicQueue.isShuffled) {
-      musicQueue.toggleShuffle(true)
-    }
-  }
-  musicQueue.skipToTrack(chooseTrackId)
-  emit('toggle-play', 300)
-  musicQueue.isPlaying = true
-}
 // Utils
 const checkFavourite = (trackId) => {
   const arr = [...playlist.favourites]
@@ -62,49 +54,29 @@ const onLikeHandler = (e, trackId) => {
 </script>
 
 <template>
-  <div class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll">
-    <!-- #TrendingList -->
-    <!-- for-loop here -->
-
-    <div class="h-10">
-      <div
-        class="flex items-center mb-1 h-12 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-        v-for="(track, index) in playlist.selectedPlaylist"
-        :key="track.trackId"
-        :id="track.trackId"
-        :class="{
-          'is-playing': musicQueue.currentTrack.trackId === track.trackId,
-        }"
-        @mousedown="$event.preventDefault()"
-        @click="onChooseTrackClick"
-        ref="tracksElement"
-      >
-        <!-- #Ranking -->
-        <div class="w-fit">
-          <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
-        </div>
-        <!-- #MusicCover -->
-        <MusicCover :track="track" />
-        <!-- #Title&Artist -->
-        <TitleAndArtist :track="track" :index="index" />
-        <Timer :time="track.duration" :size="5" :weight="2" />
-        <!-- #LikeButton -->
-        <div class="px-3 hidden sm:block">
-          <button @click="onLikeHandler($event, track['trackId'])">
-            <LikeButton
-              fill="#c493e1"
-              stroke="#c493e1"
-              v-if="checkFavourite(track['trackId'])"
-            />
-            <LikeButton fill="none" stroke="black" v-else />
-          </button>
-        </div>
-        <!-- #MenuButton -->
-        <div class="px-3">
-          <MenuButton />
-        </div>
-      </div>
-    </div>
+  <!-- #Ranking -->
+  <div class="w-fit">
+    <h1 class="text-center font-bold w-12">{{ trackIndex + 1 }}</h1>
+  </div>
+  <!-- #MusicCover -->
+  <MusicCover :track="track" />
+  <!-- #Title&Artist -->
+  <TitleAndArtist :track="track" />
+  <Timer :time="track.duration" :size="5" :weight="2" />
+  <!-- #LikeButton -->
+  <div class="px-3 hidden sm:block">
+    <button @click="onLikeHandler($event, track['trackId'])">
+      <LikeButton
+        fill="#c493e1"
+        stroke="#c493e1"
+        v-if="checkFavourite(track['trackId'])"
+      />
+      <LikeButton fill="none" stroke="black" v-else />
+    </button>
+  </div>
+  <!-- #MenuButton -->
+  <div class="px-3">
+    <MenuButton />
   </div>
 </template>
 
