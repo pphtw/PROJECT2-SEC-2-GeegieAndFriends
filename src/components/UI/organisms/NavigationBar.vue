@@ -13,7 +13,7 @@ import SettingPageButton from '../atoms/SettingPageButton.vue'
     <!-- #HomePageButton -->
     <HomePageButton />
     <!-- #SearchPageButton -->
-    <SearchPageButton />
+    <SearchPageButton stroke="#E5E5E5" transition="hover:scale-125 transition ease-in-out"/>
     <!-- #PlaylistPageButton -->
     <PlaylistPageButton />
     <!-- #CreditPageButton -->
