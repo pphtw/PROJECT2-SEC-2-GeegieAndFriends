@@ -3,7 +3,8 @@ import SingleTrack from '../UI/organisms/SingleTrack.vue';
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue';
 import NavigationBar from '../UI/organisms/NavigationBar.vue';
 import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue';
-import FilterSection from '../UI/atoms/FilterSection.vue';
+import FilterButton from '../UI/atoms/FilterButton.vue';
+import FilterSection from '../UI/molecules/FilterSection.vue';
 import SearchBar from '../UI/molecules/SearchBar.vue';
 </script>
  
@@ -18,13 +19,14 @@ import SearchBar from '../UI/molecules/SearchBar.vue';
         <SearchBar/>
 
         <!-- #FilterSection -->
-        <div class="bg-slate-500 flex gap-2 py-4">
-            <FilterSection filterName="All"/>
-            <FilterSection filterName="Playlists"/>
-            <FilterSection filterName="Artists"/>
-            <FilterSection filterName="Profile"/>
-            <FilterSection filterName="Songs"/>
-            <FilterSection filterName="Albums"/>
+        <div class="bg-slate-500 flex gap-2 py-4">       
+            <FilterSection/>
+            <!-- <FilterButton filterName="All"/>
+            <FilterButton filterName="Playlists"/>
+            <FilterButton filterName="Artists"/>
+            <FilterButton filterName="Profile"/>
+            <FilterButton filterName="Songs"/>
+            <FilterButton filterName="Albums"/> -->
         </div>
 
         <!-- #TrackSection -->
