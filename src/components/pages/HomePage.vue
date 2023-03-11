@@ -20,7 +20,24 @@ const props = defineProps({
     required: true,
   },
 })
+// DOM Element
+const tracksElement = ref(null)
 
+// Handlers
+const onChooseTrackClick = (e) => {
+  const chooseTrackId = Number(e.currentTarget.id)
+  if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
+    musicQueue.currentPlaylistId = playlist.selectedPlaylistId
+    musicQueue.queue = [...getTrackIdList(musicQueue.currentPlaylistId)]
+    musicQueue.defaultQueue = musicQueue.queue
+    if (musicQueue.isShuffled) {
+      musicQueue.toggleShuffle(true)
+    }
+  }
+  musicQueue.skipToTrack(chooseTrackId)
+  emit('toggle-play', 300)
+  musicQueue.isPlaying = true
+}
 const playlist = reactive({
   selectedPlaylistId: 1,
   selectedPlaylistName: computed(
@@ -80,7 +97,32 @@ const currentTargetId = (e) => {
         <template v-slot:header>
           <SectionHeader :input-text-header="playlistName" />
         </template>
-        <SingleTrack :playlist="playlist" />
+        <div
+          class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll"
+        >
+          <!-- #TrendingList -->
+
+          <div class="h-10">
+            <div
+              class="flex items-center mb-1 h-12 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              v-for="(track, index) in playlist.selectedPlaylist"
+              :key="track.trackId"
+              :id="track.trackId"
+              :class="{
+                'is-playing': musicQueue.currentTrack.trackId === track.trackId,
+              }"
+              @mousedown="$event.preventDefault()"
+              @click="onChooseTrackClick"
+              ref="tracksElement"
+            >
+              <SingleTrack
+                :playlist="playlist"
+                :track="track"
+                :track-index="index"
+              />
+            </div>
+          </div>
+        </div>
       </ContentSection>
     </div>
   </div>
