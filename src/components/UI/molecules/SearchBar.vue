@@ -1,5 +1,13 @@
 <script setup>
+import { ref, computed } from 'vue';
 import SearchIcon from '../atoms/SearchPageButton.vue';
+
+const searchKeyword = ref(null)
+
+const filteredList = computed(() => {
+    return null
+})
+
 </script>
  
 <template>
@@ -9,6 +17,7 @@ import SearchIcon from '../atoms/SearchPageButton.vue';
             class="flex-none self-center"
         />
         <input
+            v-model="searchKeyword"
             class="bg-transparent flex-1" 
             type="text w-full" 
             placeholder="What do you want to listen to?"/>
