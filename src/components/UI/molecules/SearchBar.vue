@@ -4,9 +4,7 @@ import SearchIcon from '../atoms/SearchPageButton.vue';
 
 const searchKeyword = ref(null)
 
-const filteredList = computed(() => {
-    return null
-})
+
 
 </script>
  

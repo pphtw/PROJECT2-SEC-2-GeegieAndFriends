@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import SingleTrack from '../UI/organisms/SingleTrack.vue';
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue';
 import NavigationBar from '../UI/organisms/NavigationBar.vue';
@@ -6,6 +7,15 @@ import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue';
 import FilterButton from '../UI/atoms/FilterButton.vue';
 import FilterSection from '../UI/molecules/FilterSection.vue';
 import SearchBar from '../UI/molecules/SearchBar.vue';
+
+const props = defineProps(['searchKeywords'])
+console.log(props.searchKeywords);
+
+
+const filteredList = computed(() => {
+    return null
+})
+
 </script>
  
 <template>
@@ -30,8 +40,14 @@ import SearchBar from '../UI/molecules/SearchBar.vue';
         </div>
 
         <!-- #TrackSection -->
-        <div class="bg-red-500">
-        <!-- <SingleTrack :playlist="playlist" /> -->
+        <div 
+        v-for="(track, index) in filteredList" 
+        class="bg-red-500">
+            <SingleTrack 
+                :playlist="playlist"
+                :track="track"
+                :track-index="index"
+            />
         </div>
        </div> 
        
