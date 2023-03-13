@@ -7,12 +7,13 @@ import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import SkipButton from '../atoms/SkipButton.vue'
 import RepeatButton from '../atoms/RepeatButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
+import { queueStore } from '@/lib/store'
 
 const audioElement = inject('audioElement')
 const musicQueue = inject('musicQueue')
 const progressBar = inject('progressBar')
 
-const emit = defineEmits(['auto-play-pause'])
+const emit = defineEmits(['autoPlayPause'])
 
 //DOM Element
 const progressBarElement = ref(null)
@@ -42,8 +43,8 @@ const playerHandler = () => {
   }
 }
 const trackSkipHandler = (toNext = true) => {
-  musicQueue.skipTrack(toNext)
-  emit('auto-play-pause')
+  queueStore.skipTrack(toNext)
+  emit('autoPlayPause')
 }
 
 const onProgressBarMouseDown = (e) => {
@@ -54,15 +55,15 @@ const onProgressBarMouseDown = (e) => {
 }
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
-    if (musicQueue.defaultQueue.length === 0) {
-      musicQueue.defaultQueue = musicQueue.queue
+    if (queueStore.defaultQueue.length === 0) {
+      queueStore.defaultQueue = queueStore.queue
     }
-    if (!musicQueue.isShuffled) {
-      musicQueue.toggleShuffle(true)
-      musicQueue.isShuffled = true
+    if (!queueStore.isShuffled) {
+      queueStore.toggleShuffle(true)
+      queueStore.isShuffled = true
     } else {
-      musicQueue.toggleShuffle(false)
-      musicQueue.isShuffled = false
+      queueStore.toggleShuffle(false)
+      queueStore.isShuffled = false
     }
   }
 }
