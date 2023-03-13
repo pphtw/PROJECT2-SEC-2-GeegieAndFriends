@@ -8,9 +8,10 @@ import FilterButton from '../UI/atoms/FilterButton.vue';
 import FilterSection from '../UI/molecules/FilterSection.vue';
 import SearchBar from '../UI/molecules/SearchBar.vue';
 
-const props = defineProps(['searchKeywords'])
-console.log(props.searchKeywords);
 
+const searchHandler = (searchKeyword) => {
+    console.log(searchKeyword);
+}
 
 const filteredList = computed(() => {
     return null
@@ -26,7 +27,8 @@ const filteredList = computed(() => {
     <div class="w-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid grid-cols-4">
        <div class="bg-slate-500 col-span-3 gap-y-3">
         <!-- #SearchBarSection -->
-        <SearchBar/>
+        <SearchBar
+            @searchEvent="searchHandler"/>
 
         <!-- #FilterSection -->
         <div class="bg-slate-500 flex gap-2 py-4">       
