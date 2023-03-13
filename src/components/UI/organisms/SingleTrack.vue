@@ -30,7 +30,6 @@ const props = defineProps({
 })
 
 const { playlist, track, trackIndex } = props
-console.log(track)
 
 // Utils
 const checkFavourite = (trackId) => {
@@ -51,6 +50,7 @@ const onLikeHandler = (e, trackId) => {
   }
   localStorage.setItem('favourites', JSON.stringify(playlist.favourites))
 }
+console.log(trackIndex)
 </script>
 
 <template>

@@ -8,41 +8,35 @@ const props = defineProps({
   playlist: {
     type: Object,
     required: true,
+  },
+  pinnedPlaylist: {
+    type: Object,
+    required:true
   }
 })
-const {playlist} = props
+const {playlist,pinnedPlaylist} = props
 
 const onChoosePlaylist = (e) => {
   playlist.selectedPlaylistId = Number(e.currentTarget.id)
-  emit('onChoosePlaylist')
 }
+const mappedPlaylists = playlistData.filter(playlist => {
+  return pinnedPlaylist.some(pinnedPlaylist => pinnedPlaylist === playlist.playlistId);
+});
 </script>
 <template>
-  <div
-    class="grow relative overflow-x-auto scroll-smooth"
-    ref="playlistElement"
-  >
+  <div class="grid grid-cols-3 grid-rows-3 gap-8">
     <div
-      class="h-full inline-grid grid-flow-col auto-cols-[minmax(18rem,1fr)] gap-8 justify-start"
-    >
-      <div
-        v-for="playlist in playlistData"
-        :style="{
-          backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
-        }"
+        v-for="playlist in mappedPlaylists"
+        :style="{ backgroundImage: 'url(' + encodeURI(playlist.background) + ')' }"
         :key="playlist['playlistId']"
         :id="playlist['playlistId']"
         @click="onChoosePlaylist"
-        class="flex justify-center w-[18rem] cursor-pointer bg-blue-500 rounded-2xl hover:bg-blue-400 bg-cover"
+        class="flex justify-center cursor-pointer hover:opacity-80 bg-cover"
         tabindex="-1"
-      >
-        <p
-          class="text-white truncate text-lg font-semibold self-center text-center"
-        >
-          {{ playlist.name }}
-        </p>
-      </div>
+    >
+      <p class="text-white truncate text-lg font-semibold self-center text-center">
+        {{ playlist.name }}
+      </p>
     </div>
   </div>
-  <!--  </div>-->
 </template>

@@ -61,6 +61,7 @@ const playlistName = computed(() => {
 const currentTargetId = (e) => {
   return getPlaylist(musicQueue.currentTarget)
 }
+const pinnedPlaylist = reactive([1,3,4,5,7,8])
 </script>
 
 <template>
@@ -84,7 +85,7 @@ const currentTargetId = (e) => {
             <SectionHeader input-text-header="Your Style" />
           </div>
         </template>
-        <PlaylistCarousel :playlist="playlist" />
+        <PlaylistCarousel :playlist="playlist" :pinned-playlist="pinnedPlaylist"/>
       </ContentSection>
       <ContentSection>
         <template v-slot:header>
@@ -107,7 +108,7 @@ const currentTargetId = (e) => {
             <div
               class="flex items-center mb-1 h-12 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
               v-for="(track, index) in playlist.selectedPlaylist"
-              :key="track.trackId"
+              :key="index"
               :id="track.trackId"
               :class="{
                 'is-playing': musicQueue.currentTrack.trackId === track.trackId,
