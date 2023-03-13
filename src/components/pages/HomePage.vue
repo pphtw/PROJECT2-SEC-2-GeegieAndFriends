@@ -34,8 +34,6 @@ const onMouseMove = (e) => {
 const onMouseUp = (e) => {
   emit('progressBarMouseUp', e)
 }
-
-const pinnedPlaylist = [1, 3, 4, 5, 7, 8]
 </script>
 
 <template>
@@ -59,10 +57,7 @@ const pinnedPlaylist = [1, 3, 4, 5, 7, 8]
             <SectionHeader input-text-header="Your Style" />
           </div>
         </template>
-        <PlaylistCarousel
-          :playlist="playlistStore"
-          :pinnedPlaylist="pinnedPlaylist"
-        />
+        <PlaylistCarousel />
       </ContentSection>
       <ContentSection>
         <template v-slot:header>

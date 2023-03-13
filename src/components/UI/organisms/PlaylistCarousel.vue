@@ -1,29 +1,17 @@
 <script setup>
 import { ref } from 'vue'
-import metadata from '@/assets/metadata.json'
+import { playlistStore } from '@/lib/store'
+import { getPlaylist } from '@/lib/getData'
 
-const playlistData = metadata.playlists
 const playlistElement = ref(null)
 const emit = defineEmits(['nextPageHandler', 'previousPageHandler'])
-const props = defineProps({
-  playlist: {
-    type: Object,
-    required: true,
-  },
-  pinnedPlaylist: {
-    type: Array,
-    required: true,
-  },
-})
-const { playlist, pinnedPlaylist } = props
+
 const onChoosePlaylist = (e) => {
-  playlist.selectedPlaylist = Number(e.currentTarget.id)
+  playlistStore.selectedPlaylist = Number(e.currentTarget.id)
 }
-const mappedPlaylists = playlistData.filter((playlist) => {
-  return pinnedPlaylist.some(
-    (pinnedPlaylist) => pinnedPlaylist === playlist.playlistId
-  )
-})
+const mappedPlaylists = playlistStore.pinnedPlaylist.map((playlistId) =>
+  getPlaylist(playlistId)
+)
 </script>
 <template>
   <div class="grid grid-cols-3 grid-rows-3 gap-8">
