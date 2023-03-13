@@ -29,11 +29,10 @@ export const queueStore = reactive({
     }
   },
   autoPlayPause: (audioElement) => {
-    console.log(queueStore.isPlaying)
     if (queueStore.isPlaying) {
-      console.log(queueStore.isPlaying)
-      console.log(audioElement.paused)
-      audioElement.play()
+      setTimeout(() => {
+        audioElement.play()
+      }, 0)
     } else {
       audioElement.pause()
     }

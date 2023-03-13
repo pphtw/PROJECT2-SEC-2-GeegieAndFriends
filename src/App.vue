@@ -80,7 +80,8 @@ const togglePlay = (ms = 0) => {
 // Hooks
 onBeforeMount(() => {
   queueStore.queue = [...getTrackIdList(1)]
-  playlistStore.favourites = localStorage.getItem('favourites') ?? []
+  playlistStore.favourites =
+    JSON.parse(localStorage.getItem('favourites')) ?? []
 })
 </script>
 <template>

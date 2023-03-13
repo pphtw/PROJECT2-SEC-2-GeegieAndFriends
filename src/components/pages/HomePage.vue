@@ -12,6 +12,7 @@ const emit = defineEmits([
   'progressBarMouseMove',
   'progressBarMouseUp',
   'togglePlay',
+  'autoPlayPause',
 ])
 const props = defineProps({
   isProgressBarClicked: {
