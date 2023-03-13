@@ -1,67 +1,41 @@
 <script setup>
-import { computed, inject, reactive, ref } from 'vue'
-
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
 import SingleTrack from '../UI/organisms/SingleTrack.vue'
-import { getPlaylist, getTrackList } from '@/lib/getTracksData'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
-import PreviousPageButton from '@/components/UI/atoms/PreviousPageButton.vue'
-import NextPageButton from '@/components/UI/atoms/NextPageButton.vue'
-
-const musicQueue = inject('musicQueue')
+import { queueStore, playlistStore } from '@/lib/store'
 
 // Definition
-const emit = defineEmits(['progress-bar-mouse-move', 'progress-bar-mouse-up'])
+const emit = defineEmits([
+  'progressBarMouseMove',
+  'progressBarMouseUp',
+  'togglePlay',
+])
 const props = defineProps({
   isProgressBarClicked: {
     type: Boolean,
     required: true,
   },
 })
-// DOM Element
-const tracksElement = ref(null)
 
 // Handlers
 const onChooseTrackClick = (e) => {
-  const chooseTrackId = Number(e.currentTarget.id)
-  if (musicQueue.currentPlaylistId !== playlist.selectedPlaylistId) {
-    musicQueue.currentPlaylistId = playlist.selectedPlaylistId
-    musicQueue.queue = [...getTrackIdList(musicQueue.currentPlaylistId)]
-    musicQueue.defaultQueue = musicQueue.queue
-    if (musicQueue.isShuffled) {
-      musicQueue.toggleShuffle(true)
-    }
-  }
-  musicQueue.skipToTrack(chooseTrackId)
-  emit('toggle-play', 300)
-  musicQueue.isPlaying = true
+  queueStore.chooseTrack(e.currentTarget.id)
+  emit('togglePlay', 300)
 }
-const playlist = reactive({
-  selectedPlaylistId: 1,
-  selectedPlaylistName: computed(
-    () => getPlaylist(playlist.selectedPlaylistId).name
-  ),
-  selectedPlaylist: computed(() => getTrackList(playlist.selectedPlaylistId)),
-  favourites: JSON.parse(localStorage.getItem('favourites')) ?? [],
-})
+
 const onMouseMove = (e) => {
   if (props.isProgressBarClicked) {
-    emit('progress-bar-mouse-move', e)
+    emit('progressBarMouseMove', e)
   }
 }
 const onMouseUp = (e) => {
-  emit('progress-bar-mouse-up', e)
+  emit('progressBarMouseUp', e)
 }
-const playlistName = computed(() => {
-  return getPlaylist(musicQueue.currentPlaylistId).name
-})
-const currentTargetId = (e) => {
-  return getPlaylist(musicQueue.currentTarget)
-}
-const pinnedPlaylist = reactive([1,3,4,5,7,8])
+
+const pinnedPlaylist = [1, 3, 4, 5, 7, 8]
 </script>
 
 <template>
@@ -85,19 +59,24 @@ const pinnedPlaylist = reactive([1,3,4,5,7,8])
             <SectionHeader input-text-header="Your Style" />
           </div>
         </template>
-        <PlaylistCarousel :playlist="playlist" :pinned-playlist="pinnedPlaylist"/>
+        <PlaylistCarousel
+          :playlist="playlistStore"
+          :pinnedPlaylist="pinnedPlaylist"
+        />
       </ContentSection>
       <ContentSection>
         <template v-slot:header>
           <SectionHeader input-text-header="Now Playing" />
         </template>
-        <MusicPlayerCard />
+        <MusicPlayerCard @autoPlayPause="$emit('autoPlayPause')" />
       </ContentSection>
 
       <!-- #TrendingSection -->
       <ContentSection>
         <template v-slot:header>
-          <SectionHeader :input-text-header="playlistName" />
+          <SectionHeader
+            :input-text-header="playlistStore.selectedPlaylistName"
+          />
         </template>
         <div
           class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll"
@@ -107,20 +86,19 @@ const pinnedPlaylist = reactive([1,3,4,5,7,8])
           <div class="h-10">
             <div
               class="flex items-center mb-1 h-12 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-              v-for="(track, index) in playlist.selectedPlaylist"
-              :key="index"
+              v-for="(track, index) in playlistStore.selectedPlaylist"
+              :key="track.trackId"
               :id="track.trackId"
               :class="{
-                'is-playing': musicQueue.currentTrack.trackId === track.trackId,
+                'is-playing': queueStore.currentTrack.trackId === track.trackId,
               }"
               @mousedown="$event.preventDefault()"
               @click="onChooseTrackClick"
-              ref="tracksElement"
             >
               <SingleTrack
-                :playlist="playlist"
+                :playlist="playlistStore"
                 :track="track"
-                :track-index="index"
+                :trackIndex="index"
               />
             </div>
           </div>
