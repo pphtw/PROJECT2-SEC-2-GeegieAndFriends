@@ -4,7 +4,7 @@ import { computed, onBeforeMount, reactive, ref, provide } from 'vue'
 // Components
 import HomePage from '@/components/pages/HomePage.vue'
 import SearchPage from '@/components/pages/SearchPage.vue'
-import { getPlaylist, getTrack, getTrackIdList } from '@/lib/getTracksData'
+import { getPlaylist, getTrack, getTrackIdList } from '@/lib/getData'
 import { secToMin } from '@/lib/utils'
 import { playlistStore, queueStore } from '@/lib/store.js'
 
@@ -80,7 +80,7 @@ const togglePlay = (ms = 0) => {
 // Hooks
 onBeforeMount(() => {
   queueStore.queue = [...getTrackIdList(1)]
-  playlistStore.favourites = [...localStorage.getItem('favourites')]
+  playlistStore.favourites = localStorage.getItem('favourites') ?? []
 })
 </script>
 <template>

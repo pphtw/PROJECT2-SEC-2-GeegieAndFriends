@@ -3,7 +3,6 @@ const trackData = metadata.tracks
 
 const playlistData = metadata.playlists
 
-
 export const getTrack = (trackId = 1) => {
   return trackData.find((track) => track['trackId'] === trackId)
 }
@@ -14,9 +13,12 @@ export const getTrackIdList = (playlistId) => {
     ).tracks,
   ]
 }
+export const getAllPlaylists = () => {
+  return playlistData.playlists
+}
 export const getPlaylist = (playlistId) => {
   return playlistData.find((playlist) => playlist['playlistId'] === playlistId)
 }
 export const getTrackList = (PlaylistId) => {
-  return getPlaylist(PlaylistId).tracks.map((trackId) => getTrack(trackId));
+  return getPlaylist(PlaylistId).tracks.map((trackId) => getTrack(trackId))
 }

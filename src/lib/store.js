@@ -4,7 +4,7 @@ import {
   getTrack,
   getTrackIdList,
   getTrackList,
-} from '@/lib/getTracksData'
+} from '@/lib/getData'
 
 export const queueStore = reactive({
   // State
@@ -98,6 +98,7 @@ export const playlistStore = reactive({
   // State
   selectedPlaylistId: 1,
   favourites: [],
+  pinnedPlaylist: [1, 3, 4, 5, 7, 8],
 
   // Getters
   selectedPlaylistName: computed(
