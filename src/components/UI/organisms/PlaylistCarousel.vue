@@ -4,7 +4,6 @@ import metadata from '@/assets/metadata.json'
 
 const playlistData = metadata.playlists
 const playlistElement = ref(null)
-const emit =  defineEmits(['nextPageHandler', 'previousPageHandler','onChoosePlaylist'])
 const props = defineProps({
   playlist: {
     type: Object,
@@ -12,14 +11,7 @@ const props = defineProps({
   }
 })
 const {playlist} = props
-const nextPageHandler = () => {
-  playlistElement.value.scrollLeft += 1400
-  emit('nextPageHandler')
-}
-const previousPageHandler = () => {
-  playlistElement.value.scrollLeft -= 1400
-  emit('previousPageHandler')
-}
+
 const onChoosePlaylist = (e) => {
   playlist.selectedPlaylistId = Number(e.currentTarget.id)
   emit('onChoosePlaylist')

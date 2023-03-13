@@ -1,13 +1,9 @@
 <script setup>
-const props = defineProps({
-  previous:{
-    type:Object,
-    required:true
-  }
-})
+defineProps(['previousPageHandler'])
 
 </script>
 <template>
+  <div @click="previousPageHandler">
     <svg
         class="hover:scale-110 cursor-pointer transition ease-in-out"
         width="40"
@@ -26,5 +22,5 @@ const props = defineProps({
           stroke-linejoin="round"
       />
     </svg>
-
+  </div>
 </template>
