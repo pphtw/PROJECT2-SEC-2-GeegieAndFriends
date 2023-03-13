@@ -10,7 +10,6 @@ import Timer from '@/components/UI/atoms/Timer.vue'
 import { queueStore } from '@/lib/store'
 
 const audioElement = inject('audioElement')
-const musicQueue = inject('musicQueue')
 const progressBar = inject('progressBar')
 
 const emit = defineEmits(['autoPlayPause'])
@@ -32,15 +31,6 @@ const checkOverflow = () => {
       element.scrollHeight > element.offsetHeight ||
       element.scrollWidth > element.offsetWidth
   }, 0)
-}
-const playerHandler = () => {
-  if (audioElement.value.paused) {
-    audioElement.value.play()
-    musicQueue.isPlaying = true
-  } else {
-    audioElement.value.pause()
-    musicQueue.isPlaying = false
-  }
 }
 const trackSkipHandler = (toNext = true) => {
   queueStore.skipTrack(toNext)
@@ -77,7 +67,6 @@ const callback = (mutationList) => {
   mutationList.forEach((mutation) => {
     if (mutation.type === 'childList') {
       checkOverflow()
-      // console.log(mutation.target)
     }
   })
 }
@@ -94,7 +83,7 @@ onUpdated(() => {
       class="h-full bg-cover bg-center rounded-t-2xl aspect-auto"
       :style="{
         backgroundImage:
-          'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
+          'url(' + encodeURI(queueStore.currentTrack.cover) + ')',
       }"
       @click="checkOverflow"
     ></div>
@@ -129,7 +118,7 @@ onUpdated(() => {
       >
         <div :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''">
           <h1 class="text-2xl font-bold">
-            {{ musicQueue.currentTrack.name }}
+            {{ queueStore.currentTrack.name }}
           </h1>
         </div>
         <div
@@ -140,13 +129,13 @@ onUpdated(() => {
           "
         >
           <h1 class="text-2xl font-bold">
-            {{ musicQueue.currentTrack.name }}
+            {{ queueStore.currentTrack.name }}
           </h1>
         </div>
       </div>
       <div class="text-center h-fit w-[70%]">
         <h3 class="font-semibold w-full">
-          {{ musicQueue.currentTrack.artist }}
+          {{ queueStore.currentTrack.artist }}
         </h3>
       </div>
 
@@ -157,19 +146,22 @@ onUpdated(() => {
         <!-- #ShuffleButton -->
         <div class="random-track">
           <button @click="onShuffleHandler">
-            <ShuffleButton :isActive="musicQueue.isShuffled" />
+            <ShuffleButton :isActive="queueStore.isShuffled" />
           </button>
         </div>
-        <!-- #PreviousButton -->
+        <!-- #SkipBackButton -->
         <div class="prev-track" @click="trackSkipHandler(false)">
           <button>
             <PreviousButton />
           </button>
         </div>
-        <!-- #PlayPauseButton/PauseButton -->
+        <!-- #PlayPauseButton -->
         <div>
-          <button class="[clip-path:circle()]" @click="playerHandler">
-            <PlayPauseButton :isActive="musicQueue.isPlaying" />
+          <button
+            class="[clip-path:circle()]"
+            @click="queueStore.togglePlayPause(audioElement)"
+          >
+            <PlayPauseButton :isActive="queueStore.isPlaying" />
           </button>
         </div>
         <!-- #SkipButton -->
@@ -178,10 +170,10 @@ onUpdated(() => {
             <SkipButton />
           </button>
         </div>
-        <!-- #LoopButton -->
+        <!-- #RepeatButton -->
         <div class="repeat-track">
           <button @click="onLoopHandler">
-            <RepeatButton :isActive="musicQueue.isLooping" />
+            <RepeatButton :isActive="queueStore.isRepeating" />
           </button>
         </div>
       </div>
