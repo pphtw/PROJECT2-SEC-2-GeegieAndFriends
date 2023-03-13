@@ -7,7 +7,7 @@
   --secondary: rgb(199, 199, 199);
 }
 /* Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 1rem;
 }
 
@@ -15,7 +15,7 @@
   background: var(--primary);
 } */
 
-*::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: var(--primary);
   border-radius: 1.25rem;
 }

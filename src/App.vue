@@ -4,8 +4,8 @@ import { computed, onBeforeMount, reactive, ref, provide } from 'vue'
 // Components
 import HomePage from '@/components/pages/HomePage.vue'
 import SearchPage from '@/components/pages/SearchPage.vue'
-import { getPlaylist, getTrack, getTrackIdList } from '@/utils/getTracksData'
-import { secToMin } from '@/utils/utils'
+import { getPlaylist, getTrack, getTrackIdList } from '@/lib/getTracksData'
+import { secToMin } from '@/lib/utils'
 const musicQueue = reactive({
   currentPlaylistId: 1,
   currentTrack: computed(() => getTrack(musicQueue?.queue[0])),
@@ -143,13 +143,13 @@ onBeforeMount(() => {
     @loadedmetadata="onLoadMetadataHandler"
     @ended="trackSkipHandler"
   ></audio>
-  <!-- <HomePage
+  <HomePage
     @progress-bar-mouse-move="(e) => onProgressBarMouseMove(e)"
     @progress-bar-mouse-up="(e) => onProgressBarMouseUp(e)"
     @auto-play-pause="autoPlayPause"
     @toggle-play="(ms) => togglePlay(ms)"
     :is-progress-bar-clicked="progressBar.isClicked"
     @click-playlist="on"
-  /> -->
-  // <SearchPage />
+  />
+  <!--  <SearchPage />-->
 </template>

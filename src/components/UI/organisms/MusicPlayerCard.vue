@@ -1,14 +1,11 @@
 <script setup>
-import { ref, inject, onUpdated, onBeforeUpdate } from 'vue'
+import { ref, inject, onUpdated } from 'vue'
 
-import IsShuffled from '../atoms/IsShuffled.vue'
-import NoShuffled from '../atoms/NoShuffled.vue'
+import ShuffleButton from '../atoms/ShuffleButton.vue'
 import PreviousButton from '../atoms/PreviousButton.vue'
-import IsPlaying from '../atoms/IsPlaying.vue'
-import NoPlaying from '../atoms/NoPlaying.vue'
+import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import SkipButton from '../atoms/SkipButton.vue'
-import IsLooping from '../atoms/NoLooping.vue'
-import NoLooping from '../atoms/IsLooping.vue'
+import RepeatButton from '../atoms/RepeatButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
 
 const audioElement = inject('audioElement')
@@ -90,10 +87,10 @@ onUpdated(() => {
 </script>
 
 <template>
-  <div class="flex flex-col rounded-2xl bg-white h-fit sm:h-full">
+  <div class="flex flex-col rounded-2xl bg-white h-full">
     <!-- #MusicCover -->
     <div
-      class="h-fit sm:h-full bg-cover bg-center rounded-t-2xl aspect-square sm:aspect-auto"
+      class="h-full bg-cover bg-center rounded-t-2xl aspect-auto"
       :style="{
         backgroundImage:
           'url(' + encodeURI(musicQueue.currentTrack.cover) + ')',
@@ -159,8 +156,7 @@ onUpdated(() => {
         <!-- #ShuffleButton -->
         <div class="random-track">
           <button @click="onShuffleHandler">
-            <IsShuffled v-if="musicQueue.isShuffled" />
-            <NoShuffled v-else />
+            <ShuffleButton :isActive="musicQueue.isShuffled" />
           </button>
         </div>
         <!-- #PreviousButton -->
@@ -169,11 +165,10 @@ onUpdated(() => {
             <PreviousButton />
           </button>
         </div>
-        <!-- #PlayButton/PauseButton -->
+        <!-- #PlayPauseButton/PauseButton -->
         <div>
           <button class="[clip-path:circle()]" @click="playerHandler">
-            <IsPlaying v-if="musicQueue.isPlaying" />
-            <NoPlaying v-else />
+            <PlayPauseButton :isActive="musicQueue.isPlaying" />
           </button>
         </div>
         <!-- #SkipButton -->
@@ -185,8 +180,7 @@ onUpdated(() => {
         <!-- #LoopButton -->
         <div class="repeat-track">
           <button @click="onLoopHandler">
-            <NoLooping v-if="musicQueue.isLooping" />
-            <IsLooping v-else />
+            <RepeatButton :isActive="musicQueue.isLooping" />
           </button>
         </div>
       </div>

@@ -5,7 +5,7 @@ import {
   getTrack,
   getTrackIdList,
   getTrackList,
-} from '@/utils/getTracksData'
+} from '@/lib/getTracksData'
 import LikeButton from '../atoms/LikeButton.vue'
 import MenuButton from '../atoms/MenuButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
