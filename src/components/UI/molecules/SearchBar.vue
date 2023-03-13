@@ -5,7 +5,6 @@ import SearchIcon from '../atoms/SearchPageButton.vue';
 const searchKeyword = ref(null)
 
 
-
 </script>
  
 <template>
@@ -15,6 +14,7 @@ const searchKeyword = ref(null)
             class="flex-none self-center"
         />
         <input
+            @change="$emit('searchEvent', searchKeyword)"
             v-model="searchKeyword"
             class="bg-transparent flex-1" 
             type="text w-full" 
