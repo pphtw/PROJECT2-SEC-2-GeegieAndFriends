@@ -3,13 +3,14 @@ import { computed, inject, reactive, ref } from 'vue'
 
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
 import SingleTrack from '../UI/organisms/SingleTrack.vue'
-import { getPlaylist, getTrack, getTrackList } from '@/utils/getTracksData'
+import { getPlaylist, getTrackList } from '@/lib/getTracksData'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
-import PreviousPageButton from '@/components/UI/atoms/previousPageButton.vue'
+import PreviousPageButton from '@/components/UI/atoms/PreviousPageButton.vue'
 import NextPageButton from '@/components/UI/atoms/NextPageButton.vue'
+
 const musicQueue = inject('musicQueue')
 
 // Definition
