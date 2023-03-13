@@ -50,9 +50,9 @@ const onMouseUp = (e) => {
   >
     <NavigationBar />
     <div
-      class="container-gradient w-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid grid-cols-[minmax(18rem,1fr)_3fr] grid-rows-[2fr_5fr]"
+      class="container-gradient w-full h-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid grid-cols-[minmax(18rem,1fr)_3fr] grid-rows-[2fr_5fr]"
     >
-      <ContentSection class="col-span-2">
+      <ContentSection class="col-span-2 min-h-full">
         <template v-slot:header>
           <div class="flex flex-row justify-between">
             <SectionHeader input-text-header="Your Style" />
@@ -68,7 +68,7 @@ const onMouseUp = (e) => {
       </ContentSection>
 
       <!-- #TrendingSection -->
-      <ContentSection>
+      <ContentSection class="min-h-full">
         <template v-slot:header>
           <SectionHeader
             :input-text-header="playlistStore.selectedPlaylistName"
@@ -78,25 +78,22 @@ const onMouseUp = (e) => {
           class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll"
         >
           <!-- #TrendingList -->
-
-          <div class="h-10">
-            <div
-              class="flex items-center mb-1 h-12 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-              v-for="(track, index) in playlistStore.selectedPlaylist"
-              :key="track.trackId"
-              :id="track.trackId"
-              :class="{
-                'is-playing': queueStore.currentTrack.trackId === track.trackId,
-              }"
-              @mousedown="$event.preventDefault()"
-              @click="onChooseTrackClick"
-            >
-              <SingleTrack
-                :playlist="playlistStore"
-                :track="track"
-                :trackIndex="index"
-              />
-            </div>
+          <div
+            class="flex items-center mb-1 h-12 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+            v-for="(track, index) in playlistStore.selectedPlaylist"
+            :key="track.trackId"
+            :id="track.trackId"
+            :class="{
+              'is-playing': queueStore.currentTrack.trackId === track.trackId,
+            }"
+            @mousedown="$event.preventDefault()"
+            @click="onChooseTrackClick"
+          >
+            <SingleTrack
+              :playlist="playlistStore"
+              :track="track"
+              :trackIndex="index"
+            />
           </div>
         </div>
       </ContentSection>
