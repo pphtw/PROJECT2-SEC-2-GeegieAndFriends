@@ -78,12 +78,12 @@ export const queueStore = reactive({
     trackId = Number(trackId)
     if (playlistId === null || undefined) {
       queueStore.queue = [trackId]
-      queueStore.defaultQueue = [trackId]
+      queueStore.tempQueue = [trackId]
     } else {
       if (queueStore.currentPlaylistId !== playlistId) {
         queueStore.currentPlaylistId = playlistId
         queueStore.queue = [...getTrackIdList(queueStore.currentPlaylistId)]
-        queueStore.defaultQueue = queueStore.queue
+        queueStore.tempQueue = queueStore.queue
         if (queueStore.isShuffled) {
           queueStore.toggleShuffle(true)
         }
