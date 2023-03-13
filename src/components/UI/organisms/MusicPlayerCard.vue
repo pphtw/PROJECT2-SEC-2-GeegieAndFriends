@@ -45,8 +45,8 @@ const onProgressBarMouseDown = (e) => {
 }
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
-    if (queueStore.defaultQueue.length === 0) {
-      queueStore.defaultQueue = queueStore.queue
+    if (queueStore.tempQueue.length === 0) {
+      queueStore.tempQueue = queueStore.queue
     }
     if (!queueStore.isShuffled) {
       queueStore.toggleShuffle(true)
