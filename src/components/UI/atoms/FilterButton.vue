@@ -7,7 +7,8 @@ defineProps({
 </script>
  
 <template>
-    <input type="radio"
+    <!-- radio button element -->
+    <!-- <input type="radio"
         class="hidden"
         name="filterType"
         :id="`${filterName}`"
@@ -17,7 +18,15 @@ defineProps({
         :for="`${filterName}`"
         class="bg-[#162750] text-white rounded-full py-1 px-2 self-center hover:bg-[#D4AFD9] transition ease-in-out">
         {{ filterName }}
-    </label>
+    </label> -->
+
+    <!-- div element -->
+    <div
+        @click="$emit('filterEvent', $event)" 
+        class="bg-[#162750] text-white rounded-full py-1 px-2 self-center hover:bg-[#D4AFD9] transition ease-in-out">
+        {{ filterName }}
+    </div>
+
 </template>
  
 <style scoped>

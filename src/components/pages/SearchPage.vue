@@ -58,7 +58,7 @@ const filteredList = computed(() => {
 
         <!-- #PlaylistSection -->
         <div class="h-2/5">
-            <PlaylistCarousel/>
+            <!-- <PlaylistCarousel/> -->
         </div>
 
         <!-- #MusicPlayerCardSection -->
