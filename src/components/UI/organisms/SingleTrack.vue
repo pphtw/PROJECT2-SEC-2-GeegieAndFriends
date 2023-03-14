@@ -16,13 +16,9 @@ const props = defineProps({
     type: [Number, Object],
     required: true,
   },
-  trackIndex: {
-    type: Number,
-    required: true,
-  },
 })
 
-const { track, trackIndex } = props
+const { track } = props
 
 //Favorite
 const onLikeHandler = (e, trackId) => {
@@ -32,10 +28,6 @@ const onLikeHandler = (e, trackId) => {
 </script>
 
 <template>
-  <!-- #Ranking -->
-  <div class="w-fit">
-    <h1 class="text-center font-bold w-12">{{ trackIndex + 1 }}</h1>
-  </div>
   <!-- #MusicCover -->
   <MusicCover :track="track" />
   <!-- #Title&Artist -->
