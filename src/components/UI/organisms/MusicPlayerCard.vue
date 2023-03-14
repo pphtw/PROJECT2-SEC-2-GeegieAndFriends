@@ -172,7 +172,7 @@ onUpdated(() => {
         </div>
         <!-- #RepeatButton -->
         <div class="repeat-track">
-          <button @click="onLoopHandler">
+          <button @click="queueStore.toggleRepeat()">
             <RepeatButton :isActive="queueStore.isRepeating" />
           </button>
         </div>
