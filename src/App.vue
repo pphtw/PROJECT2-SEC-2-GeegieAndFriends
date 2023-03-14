@@ -90,7 +90,8 @@ onBeforeMount(() => {
     :src="queueStore.currentTrack.source"
     @timeupdate="onTimeUpdateHandler"
     @loadedmetadata="onLoadMetadataHandler"
-    @ended="queueStore.skipTrack"
+    @ended="queueStore.skipTrack()"
+    @canplay="queueStore.autoPlayPause(audioElement)"
   ></audio>
   <HomePage
     @progressBarMouseMove="(e) => onProgressBarMouseMove(e)"
