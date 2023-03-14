@@ -14,8 +14,7 @@ const mappedPlaylists = playlistStore.pinnedPlaylist.map((playlistId) =>
 )
 </script>
 <template>
-  <div class="h-full overflow-y-auto">
-    <div class="grid grid-cols-3 gap-2 h-fit overflow-auto">
+  <div class="h-full grid grid-cols-3 gap-x-6 gap-y-3">
       <div
         v-for="playlist in mappedPlaylists"
         :style="{
@@ -24,7 +23,7 @@ const mappedPlaylists = playlistStore.pinnedPlaylist.map((playlistId) =>
         :key="playlist['playlistId']"
         :id="playlist['playlistId']"
         @click="onChoosePlaylist"
-        class="flex justify-center cursor-pointer h-28 hover:opacity-80 bg-cover rounded-2xl my-auto"
+        class="flex justify-center cursor-pointer h-full hover:opacity-80 bg-cover rounded-xl my-auto"
         tabindex="-1"
       >
         <p
@@ -33,6 +32,5 @@ const mappedPlaylists = playlistStore.pinnedPlaylist.map((playlistId) =>
           {{ playlist.name }}
         </p>
       </div>
-    </div>
   </div>
 </template>

@@ -79,7 +79,7 @@ const onMouseUp = (e) => {
         >
           <!-- #TrendingList -->
           <div
-            class="flex items-center mb-1 h-12 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+            class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
             v-for="(track, index) in playlistStore.selectedPlaylist"
             :key="track.trackId"
             :id="track.trackId"
