@@ -5,6 +5,7 @@ import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
+import TrackList from '../UI/molecules/TrackList.vue'
 import { queueStore, playlistStore } from '@/lib/store'
 
 // Definition
@@ -74,28 +75,7 @@ const onMouseUp = (e) => {
             :input-text-header="playlistStore.selectedPlaylistName"
           />
         </template>
-        <div
-          class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll"
-        >
-          <!-- #TrendingList -->
-          <div
-            class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-            v-for="(track, index) in playlistStore.selectedPlaylist"
-            :key="track.trackId"
-            :id="track.trackId"
-            :class="{
-              'is-playing': queueStore.currentTrack.trackId === track.trackId,
-            }"
-            @mousedown="$event.preventDefault()"
-            @click="onChooseTrackClick"
-          >
-            <SingleTrack
-              :playlist="playlistStore"
-              :track="track"
-              :trackIndex="index"
-            />
-          </div>
-        </div>
+        <TrackList @on-choose-track-click="(e) => onChooseTrackClick(e)" />
       </ContentSection>
     </div>
   </div>

@@ -48,6 +48,7 @@ provide('progressBar', progressBar)
 
 //event handler
 const onLoadMetadataHandler = () => {
+  audioElement.value.volume = 0.1
   progressBar.duration = secToMin(audioElement.value.duration)
   progressBar.currentTime = secToMin(audioElement.value.currentTime)
   progressBar.updateProgressBar()
