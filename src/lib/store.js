@@ -5,19 +5,32 @@ import {
   getTrackIdList,
   getTrackList,
 } from '@/lib/getData'
-
+import { shuffleArray } from '@/lib/utils'
 export const queueStore = reactive({
   // State
   currentPlaylistId: 1,
-  tempQueue: [],
+
   queue: [],
+  defaultQueue: [],
+  tempQueue: [],
+  dumpQueue: [],
   isShuffled: false,
   isRepeating: false,
   isPlaying: false,
 
   // Getters
   currentTrack: computed(() => getTrack(queueStore?.queue[0])),
-
+  controllerState: computed(() => {
+    if (queueStore.isShuffled && queueStore.isRepeating) {
+      return 3
+    } else if (!queueStore.isShuffled && queueStore.isRepeating) {
+      return 2
+    } else if (queueStore.isShuffled && !queueStore.isRepeating) {
+      return 1
+    } else {
+      return 0
+    }
+  }),
   // Actions
   togglePlayPause: (audioElement) => {
     if (audioElement.paused) {
@@ -37,27 +50,48 @@ export const queueStore = reactive({
       audioElement.pause()
     }
   },
-  toggleShuffle: (shuffle) => {
-    const currentTrackId = queueStore.queue[0]
-    if (shuffle) {
-      const restOfQueue = queueStore.queue.filter((e, i) => i !== 0)
-      for (let i = restOfQueue.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        const temp = restOfQueue[i]
-        restOfQueue[i] = restOfQueue[j]
-        restOfQueue[j] = temp
-      }
-      queueStore.queue = [currentTrackId, ...restOfQueue]
-    } else {
-      queueStore.skipToTrack(currentTrackId, queueStore.tempQueue)
-      queueStore.queue = queueStore.tempQueue
+  toggleShuffle: () => {
+    switch (queueStore.controllerState) {
+      case 0: //no shuffle & no repeat
+        queueStore.queue.push(...queueStore.dumpQueue)
+        break
+      case 1: //no shuffle & repeat
+        queueStore.tempQueue = queueStore.skipToTrack(queueStore.queue[0])
+        queueStore.queue = [...queueStore.tempQueue]
+        break
+      case 2: //shuffle & no repeat
+        queueStore.queue.push(...queueStore.dumpQueue)
+        queueStore.queue = shuffleArray(queueStore.queue)
+        break
+      case 3: //shuffle & repeat
+        queueStore.tempQueue = queueStore.queue
+        queueStore.queue = shuffleArray(queueStore.queue)
+        break
     }
+    queueStore.isShuffled = !queueStore.isShuffled
+  },
+  toggleRepeat: () => {
+    switch (queueStore.controllerState) {
+      case 1:
+      case 3: {
+        queueStore.queue.push(...queueStore.dumpQueue)
+        queueStore.dumpQueue = []
+        break
+      }
+    }
+    queueStore.isRepeating = !queueStore.isRepeating
   },
   skipTrack: (toNext = true, queue = queueStore.queue) => {
-    if (toNext) {
+    let onRepeat = queueStore.isRepeating
+    if (toNext && onRepeat) {
       queue.push(queue.shift())
-    } else {
+    } else if (!toNext && onRepeat) {
       queue.unshift(queue.pop())
+    } else if (toNext && !onRepeat) {
+      queueStore.dumpQueue.push(queue.shift())
+    } else {
+      if (queueStore.dumpQueue.length !== 0)
+        queue.unshift(queueStore.dumpQueue.pop())
     }
   },
   skipToTrack: (id, queue = queueStore.queue) => {
@@ -65,11 +99,11 @@ export const queueStore = reactive({
     if (Boolean(indexToSkip)) {
       if (indexToSkip < queue.length / 2) {
         while (queue[0] !== id) {
-          queueStore.skipTrack(true, queue)
+          queueStore.skipTrack(true, true, queue)
         }
       } else {
         while (queue[0] !== id) {
-          queueStore.skipTrack(false, queue)
+          queueStore.skipTrack(false, true, queue)
         }
       }
     }
