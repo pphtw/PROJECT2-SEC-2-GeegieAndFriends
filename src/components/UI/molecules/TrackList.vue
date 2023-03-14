@@ -24,7 +24,6 @@ import { queueStore, playlistStore } from '@/lib/store.js'
       <SingleTrack
         :playlist="playlistStore"
         :track="track"
-        :trackIndex="index"
       />
     </div>
   </div>
