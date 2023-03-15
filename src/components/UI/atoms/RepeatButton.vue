@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { attrsBinder } from '@/lib/utils'
+import { attrsBinder } from '@/lib/util'
 
 const props = defineProps({
   isActive: {
