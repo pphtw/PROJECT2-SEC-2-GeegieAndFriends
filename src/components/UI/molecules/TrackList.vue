@@ -1,6 +1,6 @@
 <script setup>
 import SingleTrack from '../organisms/SingleTrack.vue'
-import { queueStore, playlistStore } from '@/lib/store.js'
+import { useControllerStore, playlistStore } from '@/stores/controllerStore.js'
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import { queueStore, playlistStore } from '@/lib/store.js'
       :key="track.trackId"
       :id="track.trackId"
       :class="{
-        'is-playing': queueStore.currentTrack.trackId === track.trackId,
+        'is-playing': useControllerStore.currentTrack.trackId === track.trackId,
       }"
       @mousedown="$event.preventDefault()"
       @click="$emit('onChooseTrackClick', $event)"
@@ -21,10 +21,7 @@ import { queueStore, playlistStore } from '@/lib/store.js'
       <div class="w-fit">
         <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
       </div>
-      <SingleTrack
-        :playlist="playlistStore"
-        :track="track"
-      />
+      <SingleTrack :playlist="playlistStore" :track="track" />
     </div>
   </div>
 </template>
