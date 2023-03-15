@@ -1,24 +1,22 @@
-import metadata from '../assets/metadata.json'
-const trackData = metadata.tracks
-
-const playlistData = metadata.playlists
-
+import {fetchPlaylistsData, fetchTracksData} from "@/lib/fetchData";
+const trackData = await fetchTracksData()
+const playlistData = await fetchPlaylistsData()
 export const getTrack = (trackId = 1) => {
   return trackData.find((track) => track['trackId'] === trackId)
 }
 export const getTrackIdList = (playlistId) => {
   return [
     ...playlistData.find(
-      (playlist) => playlist['playlistId'] === Number(playlistId)
+        (playlist) => playlist['playlistId'] === Number(playlistId)
     ).tracks,
   ]
 }
 export const getAllPlaylists = () => {
-  return playlistData.playlists
+  return playlistData
 }
 export const getPlaylist = (playlistId) => {
-  return playlistData.find((playlist) => playlist['playlistId'] === playlistId)
+  return playlistData.find((playlist) => playlist['playlistId'] === Number(playlistId))
 }
-export const getTrackList = (PlaylistId) => {
-  return getPlaylist(PlaylistId).tracks.map((trackId) => getTrack(trackId))
+export const getTrackList = (playlistId) => {
+  return getPlaylist(playlistId).tracks.map((trackId) => getTrack(trackId))
 }
