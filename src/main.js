@@ -4,4 +4,4 @@ import { createPinia } from 'pinia'
 
 import './main.css'
 
-createApp(App).use(createPinia).mount('#app')
+createApp(App).use(createPinia()).mount('#app')

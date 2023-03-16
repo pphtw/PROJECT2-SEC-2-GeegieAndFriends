@@ -4,20 +4,14 @@ import MenuButton from '../atoms/MenuButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
 import MusicCover from '../atoms/MusicCover.vue'
 import TitleAndArtist from '../molecules/TitleAndArtist.vue'
-import { useControllerStore } from '@/stores/controllerStore'
-import { usePlaylistStore } from '@/stores/usePlaylistStore'
+import { usePlaylistStore } from '@/stores/playlistStore'
 
 const playlistStore = usePlaylistStore()
-const controllerStore = useControllerStore()
 
 const { addToFavorites, checkFavorites } = playlistStore
 
 const emit = defineEmits(['toggle-play'])
 const props = defineProps({
-  playlist: {
-    type: Object,
-    required: true,
-  },
   track: {
     type: [Number, Object],
     required: true,

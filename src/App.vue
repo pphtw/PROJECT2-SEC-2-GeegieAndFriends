@@ -3,21 +3,23 @@ import { onBeforeMount, reactive, ref, provide } from 'vue'
 
 // Components
 import HomePage from '@/components/pages/HomePage.vue'
-import SearchPage from '@/components/pages/SearchPage.vue'
-import { getPlaylist, getTrack, getTrackIdList } from '@/lib/getData'
+// import SearchPage from '@/components/pages/SearchPage.vue'
+import { getTrackIdList } from '@/lib/getData'
 import { secToMin } from '@/lib/util'
 import { useControllerStore } from '@/stores/controllerStore.js'
-import { usePlaylistStore } from '@/stores/usePlaylistStore'
+import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 
 // Use Store
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
-const { likedTracks, currentTrack } = storeToRefs(playlistStore)
+const { likedTracks } = storeToRefs(playlistStore)
+const { currentTrack } = storeToRefs(controllerStore)
 
 const { q } = storeToRefs(controllerStore)
-const { skipTrack, autoPlayPause, togglePlayPause } = controllerStore
+const { skipTrack, autoPlayPause, togglePlayPause, togglePlay } =
+  controllerStore
 
 //progress bar
 const progressBar = reactive({
@@ -38,8 +40,6 @@ const progressBar = reactive({
     progressBar.barWidth = (x / progressBar.boundingRect.width) * 100 + '%'
   },
   validateX: (x) => {
-    // clientX is a property of the event object in JavaScript
-    // progressBar.boundingRect.width = width of progress bar
     if (x < progressBar.boundingRect.left) {
       return 0
     } else if (x > progressBar.boundingRect.right) {
@@ -83,12 +83,6 @@ const onProgressBarMouseUp = (e) => {
   }
 }
 
-const togglePlay = (ms = 0) => {
-  setTimeout(() => {
-    audioElement.value.play()
-  }, ms)
-}
-
 // Hooks
 onBeforeMount(() => {
   q.queue = [...getTrackIdList(1)]
@@ -108,7 +102,7 @@ onBeforeMount(() => {
     @progressBarMouseMove="(e) => onProgressBarMouseMove(e)"
     @progressBarMouseUp="(e) => onProgressBarMouseUp(e)"
     @autoPlayPause="autoPlayPause(audioElement)"
-    @togglePlay="(ms) => togglePlay(ms)"
+    @chooseTrack="(ms) => togglePlay(audioElement, ms)"
     @togglePlayPause="togglePlayPause"
     :isProgressBarClicked="progressBar.isClicked"
   />
