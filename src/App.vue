@@ -1,12 +1,23 @@
 <script setup>
-import { computed, onBeforeMount, reactive, ref, provide } from 'vue'
+import { onBeforeMount, reactive, ref, provide } from 'vue'
 
 // Components
 import HomePage from '@/components/pages/HomePage.vue'
 import SearchPage from '@/components/pages/SearchPage.vue'
 import { getPlaylist, getTrack, getTrackIdList } from '@/lib/getData'
-import { secToMin } from '@/lib/utils'
-import { playlistStore, queueStore } from '@/lib/store.js'
+import { secToMin } from '@/lib/util'
+import { useControllerStore } from '@/stores/controllerStore.js'
+import { usePlaylistStore } from '@/stores/usePlaylistStore'
+import { storeToRefs } from 'pinia'
+
+// Use Store
+const playlistStore = usePlaylistStore()
+const controllerStore = useControllerStore()
+
+const { likedTracks, currentTrack } = storeToRefs(playlistStore)
+
+const { q } = storeToRefs(controllerStore)
+const { skipTrack, autoPlayPause, togglePlayPause } = controllerStore
 
 //progress bar
 const progressBar = reactive({
@@ -48,6 +59,7 @@ provide('progressBar', progressBar)
 
 //event handler
 const onLoadMetadataHandler = () => {
+  audioElement.value.volume = 0.1
   progressBar.duration = secToMin(audioElement.value.duration)
   progressBar.currentTime = secToMin(audioElement.value.currentTime)
   progressBar.updateProgressBar()
@@ -79,25 +91,25 @@ const togglePlay = (ms = 0) => {
 
 // Hooks
 onBeforeMount(() => {
-  queueStore.queue = [...getTrackIdList(1)]
-  playlistStore.favourites =
-    JSON.parse(localStorage.getItem('favourites')) ?? []
+  q.queue = [...getTrackIdList(1)]
+  likedTracks.value = JSON.parse(localStorage.getItem('likedTracks')) ?? []
 })
 </script>
 <template>
   <audio
     ref="audioElement"
-    :src="queueStore.currentTrack.source"
+    :src="currentTrack.source"
     @timeupdate="onTimeUpdateHandler"
     @loadedmetadata="onLoadMetadataHandler"
-    @ended="queueStore.skipTrack()"
-    @canplay="queueStore.autoPlayPause(audioElement)"
+    @ended="skipTrack()"
+    @canplay="autoPlayPause(audioElement)"
   ></audio>
   <HomePage
     @progressBarMouseMove="(e) => onProgressBarMouseMove(e)"
     @progressBarMouseUp="(e) => onProgressBarMouseUp(e)"
-    @autoPlayPause="queueStore.autoPlayPause(audioElement)"
+    @autoPlayPause="autoPlayPause(audioElement)"
     @togglePlay="(ms) => togglePlay(ms)"
+    @togglePlayPause="togglePlayPause"
     :isProgressBarClicked="progressBar.isClicked"
   />
    <!-- <SearchPage /> -->

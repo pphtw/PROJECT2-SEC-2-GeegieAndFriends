@@ -7,7 +7,7 @@ import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import SkipButton from '../atoms/SkipButton.vue'
 import RepeatButton from '../atoms/RepeatButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
-import { queueStore } from '@/lib/store'
+import { useControllerStore } from '@/stores/controllerStore'
 
 const audioElement = inject('audioElement')
 const progressBar = inject('progressBar')
@@ -33,7 +33,7 @@ const checkOverflow = () => {
   }, 0)
 }
 const trackSkipHandler = (toNext = true) => {
-  queueStore.skipTrack(toNext)
+  useControllerStore().skipTrack(toNext)
   emit('autoPlayPause')
 }
 
@@ -45,16 +45,7 @@ const onProgressBarMouseDown = (e) => {
 }
 const onShuffleHandler = (e) => {
   if (e.code === 'KeyS' || e.button === 0) {
-    if (queueStore.tempQueue.length === 0) {
-      queueStore.tempQueue = queueStore.queue
-    }
-    if (!queueStore.isShuffled) {
-      queueStore.toggleShuffle(true)
-      queueStore.isShuffled = true
-    } else {
-      queueStore.toggleShuffle(false)
-      queueStore.isShuffled = false
-    }
+    toggleShuffle()
   }
 }
 const onLoopHandler = (e) => {
@@ -83,7 +74,7 @@ onUpdated(() => {
       class="h-full bg-cover bg-center rounded-t-2xl aspect-auto"
       :style="{
         backgroundImage:
-          'url(' + encodeURI(queueStore.currentTrack.cover) + ')',
+          'url(' + encodeURI(useControllerStore().currentTrack.cover) + ')',
       }"
       @click="checkOverflow"
     ></div>
@@ -118,7 +109,7 @@ onUpdated(() => {
       >
         <div :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''">
           <h1 class="text-2xl font-bold">
-            {{ queueStore.currentTrack.name }}
+            {{ useControllerStore().currentTrack.name }}
           </h1>
         </div>
         <div
@@ -129,13 +120,13 @@ onUpdated(() => {
           "
         >
           <h1 class="text-2xl font-bold">
-            {{ queueStore.currentTrack.name }}
+            {{ useControllerStore().currentTrack.name }}
           </h1>
         </div>
       </div>
       <div class="text-center h-fit w-[70%]">
         <h3 class="font-semibold w-full">
-          {{ queueStore.currentTrack.artist }}
+          {{ useControllerStore().currentTrack.artist }}
         </h3>
       </div>
 
@@ -146,7 +137,7 @@ onUpdated(() => {
         <!-- #ShuffleButton -->
         <div class="random-track">
           <button @click="onShuffleHandler">
-            <ShuffleButton :isActive="queueStore.isShuffled" />
+            <ShuffleButton :isActive="useControllerStore().isShuffled" />
           </button>
         </div>
         <!-- #SkipBackButton -->
@@ -159,9 +150,9 @@ onUpdated(() => {
         <div>
           <button
             class="[clip-path:circle()]"
-            @click="queueStore.togglePlayPause(audioElement)"
+            @click="useControllerStore().togglePlayPause(audioElement)"
           >
-            <PlayPauseButton :isActive="queueStore.isPlaying" />
+            <PlayPauseButton :isActive="useControllerStore().isPlaying" />
           </button>
         </div>
         <!-- #SkipButton -->
@@ -172,8 +163,8 @@ onUpdated(() => {
         </div>
         <!-- #RepeatButton -->
         <div class="repeat-track">
-          <button @click="onLoopHandler">
-            <RepeatButton :isActive="queueStore.isRepeating" />
+          <button @click="useControllerStore().toggleRepeat()">
+            <RepeatButton :isActive="useControllerStore().isRepeating" />
           </button>
         </div>
       </div>
