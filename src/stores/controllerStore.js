@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
 import { getTrack, getTrackIdList } from '@/lib/getData'
 import { shuffleArray } from '@/lib/util'
-import { usePlaylistStore } from '@/stores/usePlaylistStore'
+import { usePlaylistStore } from '@/stores/playlistStore'
 
 export const useControllerStore = defineStore('controller', () => {
   const playlist = usePlaylistStore()
@@ -43,6 +43,11 @@ export const useControllerStore = defineStore('controller', () => {
       audioElement.pause()
       isPlaying.value = false
     }
+  }
+  const togglePlay = (audioElement, ms = 0) => {
+    setTimeout(() => {
+      audioElement.value.play()
+    }, ms)
   }
   const autoPlayPause = (audioElement) => {
     if (isPlaying) {
@@ -130,6 +135,7 @@ export const useControllerStore = defineStore('controller', () => {
   }
 
   return {
+    q,
     isShuffled,
     isRepeating,
     isPlaying,
