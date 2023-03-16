@@ -100,5 +100,5 @@ onBeforeMount(() => {
     @togglePlay="(ms) => togglePlay(ms)"
     :isProgressBarClicked="progressBar.isClicked"
   />
-  <!--  <SearchPage />-->
+   <!-- <SearchPage /> -->
 </template>
