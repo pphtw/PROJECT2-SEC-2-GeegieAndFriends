@@ -1,11 +1,18 @@
 <script setup>
 import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
-import SingleTrack from '../UI/organisms/SingleTrack.vue'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
-import { queueStore, playlistStore } from '@/lib/store'
+import TrackList from '../UI/molecules/TrackList.vue'
+import { useControllerStore } from '@/stores/controllerStore'
+import { usePlaylistStore } from '@/stores/usePlaylistStore'
+
+// Use Store
+const playlistStore = usePlaylistStore()
+const controllerStore = useControllerStore()
+
+const { chooseTrack, skipTrack, toggleShuffle } = controllerStore
 
 // Definition
 const emit = defineEmits([
@@ -23,7 +30,7 @@ const props = defineProps({
 
 // Handlers
 const onChooseTrackClick = (e) => {
-  queueStore.chooseTrack(e.currentTarget.id)
+  chooseTrack(e.currentTarget.id)
   emit('togglePlay', 300)
 }
 
@@ -40,10 +47,10 @@ const onMouseUp = (e) => {
 <template>
   <div
     class="w-screen h-screen flex flex-row bg-[#162750]"
-    @keyup.right="trackSkipHandler"
-    @keyup.left="trackSkipHandler(false)"
-    @keyup.space="playerHandler"
-    @keyup="onShuffleHandler"
+    @keyup.right="skipTrack"
+    @keyup.left="skipTrack(false)"
+    @keyup.space="$emit('togglePlayPause')"
+    @keyup="toggleShuffle"
     @mousemove="onMouseMove"
     @mouseup="onMouseUp"
     tabindex="-1"
@@ -74,28 +81,7 @@ const onMouseUp = (e) => {
             :input-text-header="playlistStore.selectedPlaylistName"
           />
         </template>
-        <div
-          class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll"
-        >
-          <!-- #TrendingList -->
-          <div
-            class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-            v-for="(track, index) in playlistStore.selectedPlaylist"
-            :key="track.trackId"
-            :id="track.trackId"
-            :class="{
-              'is-playing': queueStore.currentTrack.trackId === track.trackId,
-            }"
-            @mousedown="$event.preventDefault()"
-            @click="onChooseTrackClick"
-          >
-            <SingleTrack
-              :playlist="playlistStore"
-              :track="track"
-              :trackIndex="index"
-            />
-          </div>
-        </div>
+        <TrackList @on-choose-track-click="(e) => onChooseTrackClick(e)" />
       </ContentSection>
     </div>
   </div>
