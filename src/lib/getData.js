@@ -1,6 +1,7 @@
 import {fetchPlaylistsData, fetchTracksData} from "@/lib/fetchData";
-const trackData = await fetchTracksData()
-const playlistData = await fetchPlaylistsData()
+
+const [trackData, playlistData] = await Promise.all([fetchTracksData(), fetchPlaylistsData()])
+
 export const getTrack = (trackId = 1) => {
   return trackData.find((track) => track['trackId'] === trackId)
 }
