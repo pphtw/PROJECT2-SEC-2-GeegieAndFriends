@@ -28,12 +28,6 @@ const filteredList = computed(() => {
         <!-- #FilterSection -->
         <div class="bg-slate-500 flex gap-2 py-4">
           <FilterSection />
-          <!-- <FilterButton filterName="All"/>
-            <FilterButton filterName="Playlists"/>
-            <FilterButton filterName="Artists"/>
-            <FilterButton filterName="Profile"/>
-            <FilterButton filterName="Songs"/>
-            <FilterButton filterName="Albums"/> -->
         </div>
 
         <!-- #TrackSection -->
