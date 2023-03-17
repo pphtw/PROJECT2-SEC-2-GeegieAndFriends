@@ -104,13 +104,13 @@ onBeforeMount(() => {
     @ended="skipTrack()"
     @canplay="autoPlayPause(audioElement)"
   ></audio>
-  <HomePage
+  <!-- <HomePage
     @progressBarMouseMove="(e) => onProgressBarMouseMove(e)"
     @progressBarMouseUp="(e) => onProgressBarMouseUp(e)"
     @autoPlayPause="autoPlayPause(audioElement)"
     @togglePlay="(ms) => togglePlay(ms)"
     @togglePlayPause="togglePlayPause"
     :isProgressBarClicked="progressBar.isClicked"
-  />
-   <!-- <SearchPage /> -->
+  /> -->
+   <SearchPage />
 </template>
