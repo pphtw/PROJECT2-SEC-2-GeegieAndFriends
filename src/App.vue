@@ -3,7 +3,7 @@ import { onBeforeMount, reactive, ref, provide } from 'vue'
 
 // Components
 import HomePage from '@/components/pages/HomePage.vue'
-// import SearchPage from '@/components/pages/SearchPage.vue'
+import SearchPage from '@/components/pages/SearchPage.vue'
 import { getTrackIdList } from '@/lib/getData'
 import { secToMin } from '@/lib/util'
 import { useControllerStore } from '@/stores/controllerStore.js'
@@ -106,5 +106,5 @@ onBeforeMount(() => {
     @togglePlayPause="togglePlayPause"
     :isProgressBarClicked="progressBar.isClicked"
   /> -->
-   <SearchPage />
+  <SearchPage />
 </template>

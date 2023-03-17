@@ -1,33 +1,25 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useSearchStore } from '../../../stores/searchStore.js'
+import { storeToRefs } from 'pinia'
+
+const searchStore = useSearchStore()
+const { selectedFilter } = storeToRefs(searchStore)
 
 defineProps({
-    filterName: String
+  index: Number,
+  filterName: String,
 })
 </script>
- 
+
 <template>
-    <!-- radio button element -->
-    <!-- <input type="radio"
-        class="hidden"
-        name="filterType"
-        :id="`${filterName}`"
-        :value="`${filterName}`"
-    >
-    <label 
-        :for="`${filterName}`"
-        class="bg-[#162750] text-white rounded-full py-1 px-2 self-center hover:bg-[#D4AFD9] transition ease-in-out">
-        {{ filterName }}
-    </label> -->
-
-    <!-- div element -->
-    <div
-        @click="$emit('filterEvent', $event)" 
-        class="bg-[#162750] text-white rounded-full py-1 px-2 self-center hover:bg-[#D4AFD9] transition ease-in-out">
-        {{ filterName }}
-    </div>
-
+  <div
+    @click="selectedFilter = index"
+    :class="[index === selectedFilter ? 'bg-[#c493e1]' : 'bg-[#162750]']"
+    class="text-white rounded-full py-1 px-2 self-center hover:bg-[#c493e1] transition ease-in-out"
+  >
+    {{ filterName }}
+  </div>
 </template>
- 
-<style scoped>
-</style>
+
+<style scoped></style>

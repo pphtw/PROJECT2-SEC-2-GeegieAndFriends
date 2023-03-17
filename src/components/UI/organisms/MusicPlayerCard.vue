@@ -145,24 +145,24 @@ onUpdated(() => {
         class="flex justify-center basis-16 items-center gap-5 h-fit w-full sm:overflow-hidden max-sm:gap-4 2xl:gap-6"
       >
         <!-- #ShuffleButton -->
-          <button @click="onShuffleHandler">
-            <ShuffleButton :isActive="isShuffled" />
-          </button>
+        <button @click="onShuffleHandler">
+          <ShuffleButton :isActive="isShuffled" />
+        </button>
         <!-- #SkipBackButton -->
-          <button @click="skipTrack(false)">
-            <PreviousButton />
-          </button>
+        <button @click="skipTrack(false)">
+          <PreviousButton />
+        </button>
         <!-- #PlayPauseButton -->
-          <button
-            class="[clip-path:circle()]"
-            @click="togglePlayPause(audioElement)"
-          >
-            <PlayPauseButton :isActive="isPlaying" />
-          </button>
+        <button
+          class="[clip-path:circle()]"
+          @click="togglePlayPause(audioElement)"
+        >
+          <PlayPauseButton :isActive="isPlaying" />
+        </button>
         <!-- #SkipButton -->
-          <button>
-            <SkipButton @click="skipTrack(true)"/>
-          </button>
+        <button>
+          <SkipButton @click="skipTrack(true)" />
+        </button>
         <!-- #RepeatButton -->
         <div class="repeat-track">
           <button @click="toggleRepeat()">
