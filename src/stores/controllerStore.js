@@ -137,9 +137,9 @@ export const useControllerStore = defineStore('controller', () => {
       isPlaying.value = true
     }
   }
-const setQueue = (queue) => {
+  const setQueue = (queue) => {
     q.queue = [...queue]
-}
+  }
 
   return {
     q,
@@ -153,6 +153,6 @@ const setQueue = (queue) => {
     autoPlayPause,
     skipTrack,
     chooseTrack,
-    setQueue
+    setQueue,
   }
 })
