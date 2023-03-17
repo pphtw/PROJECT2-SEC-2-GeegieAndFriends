@@ -50,7 +50,7 @@ export const useControllerStore = defineStore('controller', () => {
     }, ms)
   }
   const autoPlayPause = (audioElement) => {
-    if (isPlaying) {
+    if (isPlaying.value) {
       setTimeout(() => {
         audioElement.play()
       }, 0)
@@ -90,12 +90,16 @@ export const useControllerStore = defineStore('controller', () => {
     isRepeating.value = !isRepeating.value
   }
   const skipTrack = (toNext = true, queue = q.queue) => {
-    let onRepeat = isRepeating
+    const onRepeat = isRepeating.value
+    console.log(onRepeat)
+    console.log(toNext)
+    console.log(q.queue)
     if (toNext && onRepeat) {
       queue.push(queue.shift())
     } else if (!toNext && onRepeat) {
       queue.unshift(queue.pop())
     } else if (toNext && !onRepeat) {
+      console.log('hi')
       q.dumpQueue.push(queue.shift())
     } else {
       if (q.dumpQueue.length !== 0) queue.unshift(q.dumpQueue.pop())
@@ -133,6 +137,9 @@ export const useControllerStore = defineStore('controller', () => {
       isPlaying.value = true
     }
   }
+const setQueue = (queue) => {
+    q.queue = [...queue]
+}
 
   return {
     q,
@@ -146,5 +153,6 @@ export const useControllerStore = defineStore('controller', () => {
     autoPlayPause,
     skipTrack,
     chooseTrack,
+    setQueue
   }
 })

@@ -12,7 +12,7 @@ import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 
 // Use Store
-const playlistStore = useControllerStore()
+const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
 const { currentTrack, isShuffled, isRepeating, isPlaying } =
@@ -145,32 +145,24 @@ onUpdated(() => {
         class="flex justify-center basis-16 items-center gap-5 h-fit w-full sm:overflow-hidden max-sm:gap-4 2xl:gap-6"
       >
         <!-- #ShuffleButton -->
-        <div class="random-track">
           <button @click="onShuffleHandler">
             <ShuffleButton :isActive="isShuffled" />
           </button>
-        </div>
         <!-- #SkipBackButton -->
-        <div class="prev-track" @click="trackSkipHandler(false)">
-          <button>
+          <button @click="skipTrack(false)">
             <PreviousButton />
           </button>
-        </div>
         <!-- #PlayPauseButton -->
-        <div>
           <button
             class="[clip-path:circle()]"
             @click="togglePlayPause(audioElement)"
           >
             <PlayPauseButton :isActive="isPlaying" />
           </button>
-        </div>
         <!-- #SkipButton -->
-        <div class="next-track" @click="trackSkipHandler">
           <button>
-            <SkipButton />
+            <SkipButton @click="skipTrack(true)"/>
           </button>
-        </div>
         <!-- #RepeatButton -->
         <div class="repeat-track">
           <button @click="toggleRepeat()">
