@@ -4,21 +4,23 @@ import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
-import TrackList from '../UI/molecules/TrackList.vue'
+import TrackList from '../UI/organisms/TrackList.vue'
 import { useControllerStore } from '@/stores/controllerStore'
-import { usePlaylistStore } from '@/stores/usePlaylistStore'
+import { usePlaylistStore } from '@/stores/playlistStore'
+import { storeToRefs } from 'pinia'
 
 // Use Store
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
+const { selectedPlaylistName } = storeToRefs(playlistStore)
 const { chooseTrack, skipTrack, toggleShuffle } = controllerStore
 
 // Definition
 const emit = defineEmits([
   'progressBarMouseMove',
   'progressBarMouseUp',
-  'togglePlay',
+  'chooseTrack',
   'autoPlayPause',
 ])
 const props = defineProps({
@@ -31,7 +33,7 @@ const props = defineProps({
 // Handlers
 const onChooseTrackClick = (e) => {
   chooseTrack(e.currentTarget.id)
-  emit('togglePlay', 300)
+  emit('chooseTrack', 300)
 }
 
 const onMouseMove = (e) => {
@@ -77,9 +79,7 @@ const onMouseUp = (e) => {
       <!-- #TrendingSection -->
       <ContentSection class="min-h-full">
         <template v-slot:header>
-          <SectionHeader
-            :input-text-header="playlistStore.selectedPlaylistName"
-          />
+          <SectionHeader :input-text-header="selectedPlaylistName" />
         </template>
         <TrackList @on-choose-track-click="(e) => onChooseTrackClick(e)" />
       </ContentSection>

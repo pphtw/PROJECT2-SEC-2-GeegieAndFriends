@@ -8,6 +8,17 @@ import SkipButton from '../atoms/SkipButton.vue'
 import RepeatButton from '../atoms/RepeatButton.vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
 import { useControllerStore } from '@/stores/controllerStore'
+import { usePlaylistStore } from '@/stores/playlistStore'
+import { storeToRefs } from 'pinia'
+
+// Use Store
+const playlistStore = usePlaylistStore()
+const controllerStore = useControllerStore()
+
+const { currentTrack, isShuffled, isRepeating, isPlaying } =
+  storeToRefs(controllerStore)
+const { toggleShuffle, toggleRepeat, skipTrack, togglePlayPause } =
+  controllerStore
 
 const audioElement = inject('audioElement')
 const progressBar = inject('progressBar')
@@ -33,7 +44,7 @@ const checkOverflow = () => {
   }, 0)
 }
 const trackSkipHandler = (toNext = true) => {
-  useControllerStore().skipTrack(toNext)
+  skipTrack(toNext)
   emit('autoPlayPause')
 }
 
@@ -73,8 +84,7 @@ onUpdated(() => {
     <div
       class="h-full bg-cover bg-center rounded-t-2xl aspect-auto"
       :style="{
-        backgroundImage:
-          'url(' + encodeURI(useControllerStore().currentTrack.cover) + ')',
+        backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
       }"
       @click="checkOverflow"
     ></div>
@@ -109,7 +119,7 @@ onUpdated(() => {
       >
         <div :class="isOverflow ? 'animate-marquee whitespace-nowrap' : ''">
           <h1 class="text-2xl font-bold">
-            {{ useControllerStore().currentTrack.name }}
+            {{ currentTrack.name }}
           </h1>
         </div>
         <div
@@ -120,13 +130,13 @@ onUpdated(() => {
           "
         >
           <h1 class="text-2xl font-bold">
-            {{ useControllerStore().currentTrack.name }}
+            {{ currentTrack.name }}
           </h1>
         </div>
       </div>
       <div class="text-center h-fit w-[70%]">
         <h3 class="font-semibold w-full">
-          {{ useControllerStore().currentTrack.artist }}
+          {{ currentTrack.artist }}
         </h3>
       </div>
 
@@ -135,36 +145,28 @@ onUpdated(() => {
         class="flex justify-center basis-16 items-center gap-5 h-fit w-full sm:overflow-hidden max-sm:gap-4 2xl:gap-6"
       >
         <!-- #ShuffleButton -->
-        <div class="random-track">
           <button @click="onShuffleHandler">
-            <ShuffleButton :isActive="useControllerStore().isShuffled" />
+            <ShuffleButton :isActive="isShuffled" />
           </button>
-        </div>
         <!-- #SkipBackButton -->
-        <div class="prev-track" @click="trackSkipHandler(false)">
-          <button>
+          <button @click="skipTrack(false)">
             <PreviousButton />
           </button>
-        </div>
         <!-- #PlayPauseButton -->
-        <div>
           <button
             class="[clip-path:circle()]"
-            @click="useControllerStore().togglePlayPause(audioElement)"
+            @click="togglePlayPause(audioElement)"
           >
-            <PlayPauseButton :isActive="useControllerStore().isPlaying" />
+            <PlayPauseButton :isActive="isPlaying" />
           </button>
-        </div>
         <!-- #SkipButton -->
-        <div class="next-track" @click="trackSkipHandler">
           <button>
-            <SkipButton />
+            <SkipButton @click="skipTrack(true)"/>
           </button>
-        </div>
         <!-- #RepeatButton -->
         <div class="repeat-track">
-          <button @click="useControllerStore().toggleRepeat()">
-            <RepeatButton :isActive="useControllerStore().isRepeating" />
+          <button @click="toggleRepeat()">
+            <RepeatButton :isActive="isRepeating" />
           </button>
         </div>
       </div>
