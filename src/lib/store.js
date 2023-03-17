@@ -5,7 +5,7 @@ import {
   getTrackIdList,
   getTrackList,
 } from '@/lib/getData'
-import { shuffleArray } from '@/lib/utils'
+import { shuffleArray } from '@/lib/util'
 export const queueStore = reactive({
   // State
   currentPlaylistId: 1,

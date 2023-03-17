@@ -1,13 +1,21 @@
 <script setup>
 import { ref } from 'vue'
-import { playlistStore } from '@/stores/controllerStore'
 import { getPlaylist } from '@/lib/getData'
+import { useControllerStore } from '@/stores/controllerStore.js'
+import { usePlaylistStore } from '@/stores/playlistStore'
+import { storeToRefs } from 'pinia'
+
+// Use Store
+const playlistStore = usePlaylistStore()
+const controllerStore = useControllerStore()
+
+const { selectedPlaylist } = storeToRefs(playlistStore)
 
 const playlistElement = ref(null)
 const emit = defineEmits(['nextPageHandler', 'previousPageHandler'])
 
 const onChoosePlaylist = (e) => {
-  playlistStore.selectedPlaylist = Number(e.currentTarget.id)
+  selectedPlaylist(Number(e.currentTarget.id))
 }
 const mappedPlaylists = playlistStore.pinnedPlaylist.map((playlistId) =>
   getPlaylist(playlistId)
