@@ -22,13 +22,17 @@ export const useControllerStore = defineStore('controller', () => {
   // Getters
   const currentTrack = computed(() => getTrack(q.queue[0]))
   const controllerState = computed(() => {
-    if (isShuffled && isRepeating) {
+    if (isShuffled.value && isRepeating.value) {
+      console.log(3)
       return 3
-    } else if (!isShuffled && isRepeating) {
+    } else if (!isShuffled.value && isRepeating.value) {
+      console.log(2)
       return 2
-    } else if (isShuffled && !isRepeating) {
+    } else if (isShuffled.value && !isRepeating.value) {
+      console.log(1)
       return 1
     } else {
+      console.log(0)
       return 0
     }
   })
@@ -59,35 +63,38 @@ export const useControllerStore = defineStore('controller', () => {
     }
   }
   const toggleShuffle = () => {
-    switch (controllerState) {
+    switch (controllerState.value) {
       case 0: //no shuffle & no repeat
-        q.queue.push(...q.dumpQueue)
+        console.log('case 0')
+        // q.queue.push(...q.dumpQueue)
         break
       case 1: //no shuffle & repeat
-        skipToTrack(q.queue[0], q.tempQueue)
-        q.queue = [...q.tempQueue]
+        // skipToTrack(q.queue[0], q.tempQueue)
+        // q.queue = [...q.tempQueue]
+        console.log('case 1')
         break
       case 2: //shuffle & no repeat
-        q.queue.push(...q.dumpQueue)
-        q.queue = shuffleArray(q.queue)
+        // q.queue.push(...q.dumpQueue)
+        // q.queue = shuffleArray(q.queue)
+        console.log('case 2')
         break
       case 3: //shuffle & repeat
-        q.tempQueue = q.queue
-        q.queue = shuffleArray(q.queue)
+        // q.tempQueue = q.queue
+        // q.queue = shuffleArray(q.queue)
+        console.log('case 3')
         break
     }
-    isShuffled.value = !isShuffled.value
   }
   const toggleRepeat = () => {
-    switch (controllerState) {
+    switch (controllerState.value) {
       case 1:
       case 3: {
-        q.queue.push(...q.dumpQueue)
-        q.dumpQueue = []
+        // q.queue.push(...q.dumpQueue)
+        // q.dumpQueue = []
+        console.log('case 3 loop')
         break
       }
     }
-    isRepeating.value = !isRepeating.value
   }
   const skipTrack = (toNext = true, queue = q.queue) => {
     const onRepeat = isRepeating.value
