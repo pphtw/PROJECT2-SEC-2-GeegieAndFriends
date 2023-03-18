@@ -18,8 +18,14 @@ const controllerStore = useControllerStore()
 const { likedTracks } = storeToRefs(playlistStore)
 const { currentTrack, q } = storeToRefs(controllerStore)
 
-const { skipTrack, autoPlayPause, togglePlayPause, togglePlay, setQueue } =
-  controllerStore
+const {
+  skipTrack,
+  autoPlayPause,
+  togglePlayPause,
+  togglePlay,
+  setQueue,
+  initController,
+} = controllerStore
 
 //progress bar
 const progressBar = reactive({
@@ -85,9 +91,10 @@ const onProgressBarMouseUp = (e) => {
 
 // Hooks
 onBeforeMount(() => {
-  setQueue(getTrackIdList(1))
-  console.log(q.value.defautQueue)
-  likedTracks.value = JSON.parse(localStorage.getItem('likedTracks')) ?? []
+  initController()
+  // setQueue(getTrackIdList(1))
+  // console.log(q.value.defautQueue)
+  // likedTracks.value = JSON.parse(localStorage.getItem('likedTracks')) ?? []
 })
 </script>
 <template>

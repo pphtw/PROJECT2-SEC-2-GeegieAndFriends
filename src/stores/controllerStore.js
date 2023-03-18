@@ -23,16 +23,16 @@ export const useControllerStore = defineStore('controller', () => {
   const currentTrack = computed(() => getTrack(q.queue[0]))
   const controllerState = computed(() => {
     if (isShuffled.value && isRepeating.value) {
-      console.log(3)
+      // console.log(3)
       return 3
-    } else if (!isShuffled.value && isRepeating.value) {
-      console.log(2)
-      return 2
     } else if (isShuffled.value && !isRepeating.value) {
-      console.log(1)
+      // console.log(2)
+      return 2
+    } else if (!isShuffled.value && isRepeating.value) {
+      // console.log(1)
       return 1
     } else {
-      console.log(0)
+      console.log('kuy')
       return 0
     }
   })
@@ -63,31 +63,32 @@ export const useControllerStore = defineStore('controller', () => {
     }
   }
   const toggleShuffle = () => {
-    switch (controllerState.value) {
-      case 0: //no shuffle & no repeat
-        console.log('case 0')
-        console.log(currentTrack.value.trackId)
-        skipToTrack(currentTrack.value.trackId, q.defaultQueue)
-        q.queue = [...q.defaultQueue]
-
+    const state = controllerState.value
+    console.log(state)
+    switch (state) {
+      case 0: //no shuffle & no repeat -->  shuffle & no repeat
+        console.log('case 0 NoShuffle & NoRepeat')
+        // skipToTrack(currentTrack.value.trackId, q.defaultQueue)
+        // q.queue = [...q.defaultQueue]
+        q.queue = shuffleArray(q.queue)
         // q.queue.push(...q.dumpQueue)
         break
       case 1: //no shuffle & repeat
         // skipToTrack(q.queue[0], q.tempQueue)
         // q.queue = [...q.tempQueue]
-        q.queue = shuffleArray(q.queue)
-        console.log('case 1 : Shuffle & NoRepeat')
+
+        console.log('case 1: NoShuffle & Repeat')
         break
-      case 2: //shuffle & no repeat
+      case 2: //shuffle & no repeat --> no shuffle & no repeat
         // q.queue.push(...q.dumpQueue)
         // q.queue = shuffleArray(q.queue)
 
-        console.log('case 2')
+        console.log('case 2: Shuffle & NoRepeat')
         break
       case 3: //shuffle & repeat
         // q.tempQueue = q.queue
         // q.queue = shuffleArray(q.queue)
-        console.log('case 3')
+        console.log('case 3 (Shuffle): Shuffle & Repeat')
         break
     }
   }
@@ -97,16 +98,14 @@ export const useControllerStore = defineStore('controller', () => {
       case 3: {
         // q.queue.push(...q.dumpQueue)
         // q.dumpQueue = []
-        console.log('case 3 loop')
+        console.log('case 3 (Loop): Shuffle & Repeat')
         break
       }
     }
   }
   const skipTrack = (toNext = true, queue = q.queue) => {
     const onRepeat = isRepeating.value
-    console.log(onRepeat)
-    console.log(toNext)
-    console.log(q.queue)
+
     // if (toNext && onRepeat) {
     //   queue.push(queue.shift())
     // } else if (!toNext && onRepeat) {
@@ -118,9 +117,28 @@ export const useControllerStore = defineStore('controller', () => {
     //   if (q.dumpQueue.length !== 0) queue.unshift(q.dumpQueue.pop())
     // }
     if (toNext) {
-      queue.push(queue.shift())
+      if (onRepeat) {
+        console.log('Skip: Repeat')
+        queue.push(queue.shift())
+      } else {
+        console.log('Skip: NoRepeat')
+        if (q.queue.length > 0) {
+          q.dumpQueue.push(queue.shift())
+          console.log(q.dumpQueue)
+          // console.log(q.queue.length)
+        }
+      }
     } else {
-      queue.unshift(queue.pop())
+      if (onRepeat) {
+        console.log('SkipBack: Repeat')
+        queue.unshift(queue.pop())
+      } else {
+        console.log('SkipBack: NoRepeat')
+        if (q.dumpQueue.length !== 0) {
+          queue.unshift(q.dumpQueue.pop())
+          console.log(q.dumpQueue)
+        }
+      }
     }
   }
   const skipToTrack = (id, queue = q.queue) => {
@@ -159,7 +177,13 @@ export const useControllerStore = defineStore('controller', () => {
     q.queue = [...queue]
     q.defaultQueue = [...queue]
   }
-
+  const initController = () => {
+    setQueue(getTrackIdList(1))
+    console.log(controllerState.value)
+    playlist.likedTracks = JSON.parse(localStorage.getItem('likedTracks')) ?? []
+    isShuffled.value = false
+    isRepeating.value = false
+  }
   return {
     q,
     isShuffled,
@@ -173,5 +197,6 @@ export const useControllerStore = defineStore('controller', () => {
     skipTrack,
     chooseTrack,
     setQueue,
+    initController,
   }
 })

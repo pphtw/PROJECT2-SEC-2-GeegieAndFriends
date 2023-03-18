@@ -60,11 +60,10 @@ const onShuffleHandler = () => {
   // }
   if (!isShuffled.value) {
     isShuffled.value = true
-
-    console.log(isShuffled.value)
+    // console.log(isShuffled.value)
   } else {
     isShuffled.value = false
-    console.log(isShuffled.value)
+    // console.log(isShuffled.value)
   }
   toggleShuffle()
 }
