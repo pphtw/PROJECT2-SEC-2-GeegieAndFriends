@@ -11,13 +11,11 @@ import { getAllTracks } from '../../lib/getData'
 const searchKeyword = ref('')
 
 const searchHandler = (input) => {
-  console.log(typeof getAllTracks())
+  console.log(getAllTracks())
   searchKeyword.value = input
 
   console.log(
-    getAllTracks().filter((track) =>
-      track.name.toLowerCase().include(searchKeyword.value.toLowerCase())
-    )
+    getAllTracks().filter((e) => e.name === 'Light (feat. Dualistic)')
   )
 }
 
@@ -53,7 +51,7 @@ const searchHandler = (input) => {
       <div>
         <!-- #PlaylistSection -->
         <div class="h-2/5">
-          <!-- <PlaylistCarousel/> -->
+          <!-- <PlaylistCarousel /> -->
         </div>
 
         <!-- #MusicPlayerCardSection -->
