@@ -86,7 +86,7 @@ const onProgressBarMouseUp = (e) => {
 // Hooks
 onBeforeMount(() => {
   setQueue(getTrackIdList(1))
-  console.log(q.queue)
+  console.log(q.value.defautQueue)
   likedTracks.value = JSON.parse(localStorage.getItem('likedTracks')) ?? []
 })
 </script>
