@@ -9,7 +9,7 @@ const { filterType } = searchStore
 </script>
 
 <template>
-  <div class="flex gap-2 py-4 radioFilter">
+  <div class="flex gap-2 py-6 radioFilter">
     <FilterButton
       v-for="(filter, index) in filterType"
       :key="index"
