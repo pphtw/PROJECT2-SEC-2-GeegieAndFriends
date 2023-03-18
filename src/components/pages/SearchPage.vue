@@ -28,21 +28,23 @@ const filteredList = computed(() => {
 <template>
   <div class="w-screen h-screen flex flex-row bg-[#3f5586]">
     <NavigationBar />
-    <div class="w-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid grid-cols-4">
-      <div class="col-span-3">
+    <div
+      class="w-full h-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid grid-cols-4"
+    >
+      <div class="flex flex-col col-span-3 min-h-full">
         <!-- #SearchBarSection -->
-        <SearchBar @searchEvent="searchHandler" />
+        <SearchBar class="h-full" @searchEvent="searchHandler" />
 
         <!-- #FilterSection -->
-        <FilterSection />
+        <FilterSection class="h-fit" />
 
         <!-- #TrackSection -->
-        <ContentSection class="min-h-full bg-slate-600">
+        <ContentSection class="bg-slate-600 min-h-0">
           <div
-            class="rounded-2xl no-scrollbar scroll-smooth overflow-y-scroll h-full"
+            class="rounded-2xl h-full no-scrollbar scroll-smooth overflow-y-scroll"
           >
             <div
-              class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+              class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl cursor-pointer"
               v-for="(track, index) in filteredList"
             >
               <div class="w-fit">
@@ -54,7 +56,7 @@ const filteredList = computed(() => {
         </ContentSection>
       </div>
 
-      <div>
+      <div class="h-full">
         <!-- #PlaylistSection -->
         <div class="h-2/5">
           <!-- <PlaylistCarousel /> -->
