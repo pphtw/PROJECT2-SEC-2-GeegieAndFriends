@@ -11,10 +11,10 @@ export const useSearchStore = defineStore('search', () => {
     'Albums',
   ]
 
-  const selectedFilter = ref(0)
+  const selectedFilterIndex = ref(0)
 
   return {
     filterType,
-    selectedFilter,
+    selectedFilterIndex,
   }
 })

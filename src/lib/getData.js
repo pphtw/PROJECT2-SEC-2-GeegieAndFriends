@@ -5,6 +5,10 @@ const [trackData, playlistData] = await Promise.all([
   fetchPlaylistsData(),
 ])
 
+export const getAllTracks = () => {
+  return trackData
+}
+
 export const getTrack = (trackId = 1) => {
   return trackData.find((track) => track['trackId'] === trackId)
 }
