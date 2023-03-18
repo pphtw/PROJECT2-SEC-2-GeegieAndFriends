@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import SearchIcon from '../atoms/SearchPageButton.vue'
 
-const searchKeyword = ref(null)
+const searchKeyword = ref('')
 </script>
 
 <template>
