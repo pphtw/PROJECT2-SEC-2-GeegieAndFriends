@@ -9,19 +9,17 @@ import SearchBar from '../UI/molecules/SearchBar.vue'
 import { getAllTracks } from '../../lib/getData.js'
 import ContentSection from '../templates/ContentSection.vue'
 
-const searchKeyword = ref('')
+let regex
 
 const searchHandler = (input) => {
-  console.log(getAllTracks())
-  searchKeyword.value = input
-
-  console.log(
-    getAllTracks().filter((e) => e.name === 'Light (feat. Dualistic)')
-  )
+  regex = new RegExp(`${input}`, 'i')
+  console.log(regex)
 }
 
 const filteredList = computed(() => {
   return getAllTracks()
+    .filter((track) => track.name.match(regex))
+    .map((e) => e.trackId)
 })
 </script>
 
