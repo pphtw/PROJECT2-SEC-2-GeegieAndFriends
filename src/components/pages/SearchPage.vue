@@ -7,6 +7,7 @@ import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue'
 import FilterButton from '../UI/atoms/FilterButton.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
+import { RouterView } from 'vue-router'
 
 const searchHandler = (searchKeyword) => {
   console.log(searchKeyword)
