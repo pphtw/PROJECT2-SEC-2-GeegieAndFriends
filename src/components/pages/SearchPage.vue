@@ -1,9 +1,10 @@
 <script setup>
 import { computed, ref } from 'vue'
 // import TrackList from '../UI/organisms/TrackList.vue'
+import SingleTrack from '../UI/organisms/SingleTrack.vue'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import NavigationBar from '../UI/organisms/NavigationBar.vue'
-// import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue'
+import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
 import { getAllTracks } from '../../lib/getData.js'
@@ -12,14 +13,16 @@ import ContentSection from '../templates/ContentSection.vue'
 let regex
 
 const searchHandler = (input) => {
-  regex = new RegExp(`${input}`, 'i')
+  regex = new RegExp(`${input}`, 'ig')
   console.log(regex)
+  console.log(getAllTracks().match(regex))
 }
 
+console.log(regex)
 const filteredList = computed(() => {
-  return getAllTracks()
-    .filter((track) => track.name.match(regex))
-    .map((e) => e.trackId)
+  // console.log(getAllTracks().filter((track) => track.name.match(regex)))
+  return getAllTracks().filter((track) => track.name.match(regex))
+  // .map((e) => e.trackId)
 })
 </script>
 
@@ -37,7 +40,7 @@ const filteredList = computed(() => {
         <FilterSection class="h-fit" />
 
         <!-- #TrackSection -->
-        <ContentSection class="bg-slate-600 min-h-0">
+        <ContentSection class="min-h-0">
           <div
             class="rounded-2xl h-full no-scrollbar scroll-smooth overflow-y-scroll"
           >
@@ -54,10 +57,10 @@ const filteredList = computed(() => {
         </ContentSection>
       </div>
 
-      <div class="h-full">
+      <div class="h-full flex flex-col gap-y-3">
         <!-- #PlaylistSection -->
         <div class="h-2/5">
-          <!-- <PlaylistCarousel /> -->
+          <PlaylistCarousel />
         </div>
 
         <!-- #MusicPlayerCardSection -->
