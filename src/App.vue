@@ -9,6 +9,7 @@ import { secToMin } from '@/lib/util'
 import { useControllerStore } from '@/stores/controllerStore.js'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
+import { RouterView, RouterLink } from 'vue-router'
 
 // Use Store
 const playlistStore = usePlaylistStore()
@@ -98,13 +99,12 @@ onBeforeMount(() => {
     @ended="skipTrack()"
     @canplay="autoPlayPause(audioElement)"
   ></audio>
-  <!-- <HomePage
+  <RouterView
     @progressBarMouseMove="(e) => onProgressBarMouseMove(e)"
     @progressBarMouseUp="(e) => onProgressBarMouseUp(e)"
     @autoPlayPause="autoPlayPause(audioElement)"
     @chooseTrack="(ms) => togglePlay(audioElement, ms)"
     @togglePlayPause="togglePlayPause"
     :isProgressBarClicked="progressBar.isClicked"
-  /> -->
-  <SearchPage />
+  />
 </template>
