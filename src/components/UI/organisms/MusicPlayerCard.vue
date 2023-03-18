@@ -54,14 +54,29 @@ const onProgressBarMouseDown = (e) => {
   progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
   progressBar.updateTime(e)
 }
-const onShuffleHandler = (e) => {
-  if (e.code === 'KeyS' || e.button === 0) {
-    toggleShuffle()
+const onShuffleHandler = () => {
+  // if (e.code === 'KeyS' || e.button === 0) {
+  //   toggleShuffle()
+  // }
+  if (!isShuffled.value) {
+    isShuffled.value = true
+
+    console.log(isShuffled.value)
+  } else {
+    isShuffled.value = false
+    console.log(isShuffled.value)
   }
+  toggleShuffle()
 }
-const onLoopHandler = (e) => {
-  console.log('Create Loop Handler Here')
-  console.log(e)
+const onLoopHandler = () => {
+  if (!isRepeating.value) {
+    isRepeating.value = true
+    console.log(isRepeating.value)
+  } else {
+    isRepeating.value = false
+    console.log(isRepeating.value)
+  }
+  toggleRepeat()
 }
 const config = { attributes: true, childList: true, subtree: true }
 
@@ -165,7 +180,7 @@ onUpdated(() => {
         </button>
         <!-- #RepeatButton -->
         <div class="repeat-track">
-          <button @click="toggleRepeat()">
+          <button @click="onLoopHandler">
             <RepeatButton :isActive="isRepeating" />
           </button>
         </div>
