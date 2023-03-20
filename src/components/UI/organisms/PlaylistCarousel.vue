@@ -11,7 +11,6 @@ const controllerStore = useControllerStore()
 
 const { selectedPlaylist } = storeToRefs(playlistStore)
 
-const playlistElement = ref(null)
 const emit = defineEmits(['nextPageHandler', 'previousPageHandler'])
 
 const onChoosePlaylist = (e) => {

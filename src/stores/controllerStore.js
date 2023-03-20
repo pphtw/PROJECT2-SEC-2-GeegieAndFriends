@@ -36,7 +36,7 @@ export const useControllerStore = defineStore('controller', () => {
       return 0
     }
   })
-  const selectedPlaylistId = computed(() => playlist.selectedPlaylist)
+  const selectedPlaylist = computed(() => playlist.selectedPlaylist)
 
   // Actions
   const togglePlayPause = (audioElement) => {
@@ -50,7 +50,7 @@ export const useControllerStore = defineStore('controller', () => {
   }
   const togglePlay = (audioElement, ms = 0) => {
     setTimeout(() => {
-      audioElement.value.play()
+      audioElement.play()
     }, ms)
   }
   const autoPlayPause = (audioElement) => {
@@ -103,39 +103,33 @@ export const useControllerStore = defineStore('controller', () => {
       }
     }
   }
-  const skipTrack = (toNext = true, queue = q.queue) => {
+  const skipTrack = (toNext = true, queue = q.queue, toTrack = false) => {
     const onRepeat = isRepeating.value
-
-    // if (toNext && onRepeat) {
-    //   queue.push(queue.shift())
-    // } else if (!toNext && onRepeat) {
-    //   queue.unshift(queue.pop())
-    // } else if (toNext && !onRepeat) {
-    //   console.log('hi')
-    //   q.dumpQueue.push(queue.shift())
-    // } else {
-    //   if (q.dumpQueue.length !== 0) queue.unshift(q.dumpQueue.pop())
-    // }
     if (toNext) {
       if (onRepeat) {
         console.log('Skip: Repeat')
+        console.log(q.queue)
         queue.push(queue.shift())
       } else {
+        // Default (No Shuffle)
         console.log('Skip: NoRepeat')
         if (q.queue.length > 0) {
           q.dumpQueue.push(queue.shift())
+          console.log(q.queue)
           console.log(q.dumpQueue)
-          // console.log(q.queue.length)
         }
       }
     } else {
       if (onRepeat) {
         console.log('SkipBack: Repeat')
+        console.log(q.queue)
         queue.unshift(queue.pop())
       } else {
+        // Default (No Shuffle)
         console.log('SkipBack: NoRepeat')
         if (q.dumpQueue.length !== 0) {
           queue.unshift(q.dumpQueue.pop())
+          console.log(q.queue)
           console.log(q.dumpQueue)
         }
       }
@@ -144,34 +138,46 @@ export const useControllerStore = defineStore('controller', () => {
   const skipToTrack = (id, queue = q.queue) => {
     const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
     if (Boolean(indexToSkip)) {
-      if (indexToSkip < queue.length / 2) {
-        while (queue[0] !== id) {
-          skipTrack(true, queue)
-        }
-      } else {
-        while (queue[0] !== id) {
-          skipTrack(false, queue)
-        }
-      }
+      console.log('found')
+      console.log(indexToSkip)
+      // if (indexToSkip < queue.length / 2) {
+      //   console.log('Repeating Skip Back...')
+      //   while (queue[0] !== id) {
+      //     skipTrack(true, queue, true)
+      //   }
+      // } else {
+      //   console.log('Repeating Skip...')
+      //   while (queue[0] !== id) {
+      //     skipTrack(false, queue, true)
+      //   }
+      // }
     }
   }
-  const chooseTrack = (id, playlistId = Number(selectedPlaylistId)) => {
+  const chooseTrack = (id, selectPlaylist = selectedPlaylist) => {
     const trackId = Number(id)
-    if (playlistId === null || undefined) {
-      q.queue = [trackId]
-      q.tempQueue = [trackId]
+    if (playlist === null || undefined) {
+      q.queue = [...getTrackIdList(currentPlaylistId.value)]
+      q.tempQueue = q.queue
     } else {
-      if (currentPlaylistId.value !== playlistId) {
-        currentPlaylistId.value = playlistId
-        q.queue = [...getTrackIdList(currentPlaylistId)]
-        q.tempQueue = q.queue
-        if (isShuffled) {
-          toggleShuffle(true)
-        }
+      if (currentPlaylistId.value !== playlist.selectedPlaylistId) {
+        currentPlaylistId.value = playlist.selectedPlaylistId
+        q.queue = [...getTrackIdList(currentPlaylistId.value)]
+        console.log(q.queue)
+        console.log(currentPlaylistId.value)
+        console.log(playlist.selectedPlaylistId)
       }
       skipToTrack(trackId)
       isPlaying.value = true
     }
+    //   if (currentPlaylistId.value !== playlistId) {
+    //     currentPlaylistId.value = playlistId
+    //     q.queue = [...getTrackIdList(currentPlaylistId)]
+    //     q.tempQueue = q.queue
+    //     if (isShuffled) {
+    //       toggleShuffle(true)
+    //     }
+    //   }
+    // }
   }
   const setQueue = (queue) => {
     q.queue = [...queue]
@@ -191,6 +197,7 @@ export const useControllerStore = defineStore('controller', () => {
     isPlaying,
     currentTrack,
     togglePlayPause,
+    togglePlay,
     toggleShuffle,
     toggleRepeat,
     autoPlayPause,
