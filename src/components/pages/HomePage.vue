@@ -16,8 +16,6 @@ const controllerStore = useControllerStore()
 const { selectedPlaylistName, selectedPlaylist } = storeToRefs(playlistStore)
 const { chooseTrack, skipTrack, toggleShuffle } = controllerStore
 
-// console.log(typeof selectedPlaylist)
-
 // Definition
 const emit = defineEmits([
   'progressBarMouseMove',
@@ -83,7 +81,10 @@ const onMouseUp = (e) => {
         <template v-slot:header>
           <SectionHeader :input-text-header="selectedPlaylistName" />
         </template>
-        <TrackList @on-choose-track-click="(e) => onChooseTrackClick(e)" />
+        <TrackList
+          :tracklist="selectedPlaylist"
+          @on-choose-track-click="(e) => onChooseTrackClick(e)"
+        />
       </ContentSection>
     </div>
   </div>
