@@ -45,22 +45,10 @@ const searchHandler = (input) => {
 
         <!-- #TrackSection -->
         <ContentSection class="min-h-0">
-          <!-- <TrackList @on-choose-track-click="(e) => onChooseTrackClick(e)" /> -->
-          <div
-            class="rounded-2xl h-full no-scrollbar scroll-smooth overflow-y-scroll"
-          >
-            <div
-              class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl cursor-pointer"
-              v-for="(track, index) in filteredList"
-              :key="track.trackId"
-              :id="track.trackId"
-            >
-              <div class="w-fit">
-                <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
-              </div>
-              <SingleTrack :track="track" />
-            </div>
-          </div>
+          <TrackList
+            :tracklist="filteredList"
+            @on-choose-track-click="(e) => onChooseTrackClick(e)"
+          />
         </ContentSection>
       </div>
 

@@ -6,22 +6,18 @@ import { storeToRefs } from 'pinia'
 import { useSearchStore } from '@/stores/searchStore'
 
 // Use Store
-const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
-const searchStore = useSearchStore()
 
-const { selectedPlaylist } = storeToRefs(playlistStore)
 const { currentTrack } = storeToRefs(controllerStore)
-// const { filteredList } = storeToRefs(searchStore)
 
-// const props = defineProps({
-//   tracklist: {
-//     type: Object,
-//     require: true,
-//   },
-// })
+const props = defineProps({
+  tracklist: {
+    type: Object,
+    require: true,
+  },
+})
 
-// console.log(props.tracklist)
+console.log(props.tracklist)
 </script>
 
 <template>
@@ -29,7 +25,7 @@ const { currentTrack } = storeToRefs(controllerStore)
     <!-- #TrackList -->
     <div
       class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-      v-for="(track, index) in selectedPlaylist"
+      v-for="(track, index) in tracklist"
       :key="track.trackId"
       :id="track.trackId"
       :class="{
