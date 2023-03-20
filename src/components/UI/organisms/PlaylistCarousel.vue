@@ -15,7 +15,7 @@ const playlistElement = ref(null)
 const emit = defineEmits(['nextPageHandler', 'previousPageHandler'])
 
 const onChoosePlaylist = (e) => {
-  selectedPlaylist(Number(e.currentTarget.id))
+  selectedPlaylist.value = Number(e.currentTarget.id)
 }
 const mappedPlaylists = playlistStore.pinnedPlaylist.map((playlistId) =>
   getPlaylist(playlistId)
