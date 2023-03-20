@@ -13,8 +13,10 @@ import { storeToRefs } from 'pinia'
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
-const { selectedPlaylistName } = storeToRefs(playlistStore)
+const { selectedPlaylistName, selectedPlaylist } = storeToRefs(playlistStore)
 const { chooseTrack, skipTrack, toggleShuffle } = controllerStore
+
+// console.log(typeof selectedPlaylist)
 
 // Definition
 const emit = defineEmits([

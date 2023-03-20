@@ -10,6 +10,7 @@ import { getAllTracks } from '../../lib/getData.js'
 import ContentSection from '../templates/ContentSection.vue'
 import { storeToRefs } from 'pinia'
 import { useSearchStore } from '../../stores/searchStore.js'
+import TrackList from '../UI/organisms/TrackList.vue'
 
 const searchStore = useSearchStore()
 const { filteredList, regex } = storeToRefs(searchStore)
@@ -30,7 +31,7 @@ const searchHandler = (input) => {
 </script>
 
 <template>
-  <div class="w-screen h-screen flex flex-row bg-[#3f5586]">
+  <div class="container-gradient w-screen h-screen flex flex-row bg-[#3f5586]">
     <NavigationBar />
     <div
       class="w-full h-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid grid-cols-4"
@@ -44,6 +45,7 @@ const searchHandler = (input) => {
 
         <!-- #TrackSection -->
         <ContentSection class="min-h-0">
+          <!-- <TrackList @on-choose-track-click="(e) => onChooseTrackClick(e)" /> -->
           <div
             class="rounded-2xl h-full no-scrollbar scroll-smooth overflow-y-scroll"
           >
@@ -77,4 +79,20 @@ const searchHandler = (input) => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container-gradient {
+  background-image: linear-gradient(
+    160deg,
+    hsl(228deg 39% 29%) 0%,
+    hsl(233deg 32% 35%) 19%,
+    hsl(239deg 27% 40%) 34%,
+    hsl(245deg 25% 45%) 46%,
+    hsl(250deg 24% 50%) 57%,
+    hsl(256deg 28% 54%) 67%,
+    hsl(262deg 33% 59%) 76%,
+    hsl(267deg 39% 64%) 84%,
+    hsl(272deg 47% 68%) 92%,
+    hsl(278deg 57% 73%) 100%
+  );
+}
+</style>
