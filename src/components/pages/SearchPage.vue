@@ -8,26 +8,30 @@ import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
 import { getAllTracks } from '../../lib/getData.js'
 import ContentSection from '../templates/ContentSection.vue'
+import { storeToRefs } from 'pinia'
+import { useSearchStore } from '../../stores/searchStore.js'
+import TrackList from '../UI/organisms/TrackList.vue'
 
-let regex = ref('')
+const searchStore = useSearchStore()
+const { filteredList, regex } = storeToRefs(searchStore)
 
 const searchHandler = (input) => {
   regex.value = new RegExp(`${input}`, 'ig')
   console.log(regex.value)
-  console.log(getAllTracks().filter((track) => track.name.match(regex.value)))
+  console.log(
+    getAllTracks()
+      .filter(
+        (track) =>
+          track.name.match(regex.value) ||
+          track.keywords.toString().replace(',', ' ').match(regex.value)
+      )
+      .map((track) => track.trackId)
+  )
 }
-
-console.log(regex)
-
-const filteredList = computed(() => {
-  // console.log(getAllTracks().filter((track) => track.name.match(regex)))
-  return getAllTracks().filter((track) => track.name.match(regex.value))
-  // .map((e) => e.trackId)
-})
 </script>
 
 <template>
-  <div class="w-screen h-screen flex flex-row bg-[#3f5586]">
+  <div class="container-gradient w-screen h-screen flex flex-row bg-[#3f5586]">
     <NavigationBar />
     <div
       class="w-full h-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid grid-cols-4"
@@ -41,19 +45,10 @@ const filteredList = computed(() => {
 
         <!-- #TrackSection -->
         <ContentSection class="min-h-0">
-          <div
-            class="rounded-2xl h-full no-scrollbar scroll-smooth overflow-y-scroll"
-          >
-            <div
-              class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl cursor-pointer"
-              v-for="(track, index) in filteredList"
-            >
-              <div class="w-fit">
-                <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
-              </div>
-              <SingleTrack :track="track" />
-            </div>
-          </div>
+          <TrackList
+            :tracklist="filteredList"
+            @on-choose-track-click="(e) => onChooseTrackClick(e)"
+          />
         </ContentSection>
       </div>
 
@@ -72,4 +67,20 @@ const filteredList = computed(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container-gradient {
+  background-image: linear-gradient(
+    160deg,
+    hsl(228deg 39% 29%) 0%,
+    hsl(233deg 32% 35%) 19%,
+    hsl(239deg 27% 40%) 34%,
+    hsl(245deg 25% 45%) 46%,
+    hsl(250deg 24% 50%) 57%,
+    hsl(256deg 28% 54%) 67%,
+    hsl(262deg 33% 59%) 76%,
+    hsl(267deg 39% 64%) 84%,
+    hsl(272deg 47% 68%) 92%,
+    hsl(278deg 57% 73%) 100%
+  );
+}
+</style>
