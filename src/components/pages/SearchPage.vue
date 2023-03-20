@@ -8,22 +8,25 @@ import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
 import { getAllTracks } from '../../lib/getData.js'
 import ContentSection from '../templates/ContentSection.vue'
+import { storeToRefs } from 'pinia'
+import { useSearchStore } from '../../stores/searchStore.js'
 
-let regex = ref('')
+const searchStore = useSearchStore()
+const { filteredList, regex } = storeToRefs(searchStore)
 
 const searchHandler = (input) => {
   regex.value = new RegExp(`${input}`, 'ig')
   console.log(regex.value)
-  console.log(getAllTracks().filter((track) => track.name.match(regex.value)))
+  console.log(
+    getAllTracks()
+      .filter(
+        (track) =>
+          track.name.match(regex.value) ||
+          track.keywords.toString().replace(',', ' ').match(regex.value)
+      )
+      .map((track) => track.trackId)
+  )
 }
-
-console.log(regex)
-
-const filteredList = computed(() => {
-  // console.log(getAllTracks().filter((track) => track.name.match(regex)))
-  return getAllTracks().filter((track) => track.name.match(regex.value))
-  // .map((e) => e.trackId)
-})
 </script>
 
 <template>
@@ -47,6 +50,8 @@ const filteredList = computed(() => {
             <div
               class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl cursor-pointer"
               v-for="(track, index) in filteredList"
+              :key="track.trackId"
+              :id="track.trackId"
             >
               <div class="w-fit">
                 <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
