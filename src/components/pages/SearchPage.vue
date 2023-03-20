@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref } from 'vue'
-// import TrackList from '../UI/organisms/TrackList.vue'
 import SingleTrack from '../UI/organisms/SingleTrack.vue'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import NavigationBar from '../UI/organisms/NavigationBar.vue'
@@ -10,18 +9,19 @@ import SearchBar from '../UI/molecules/SearchBar.vue'
 import { getAllTracks } from '../../lib/getData.js'
 import ContentSection from '../templates/ContentSection.vue'
 
-let regex
+let regex = ref('')
 
 const searchHandler = (input) => {
-  regex = new RegExp(`${input}`, 'ig')
-  console.log(regex)
-  console.log(getAllTracks().match(regex))
+  regex.value = new RegExp(`${input}`, 'ig')
+  console.log(regex.value)
+  console.log(getAllTracks().filter((track) => track.name.match(regex.value)))
 }
 
 console.log(regex)
+
 const filteredList = computed(() => {
   // console.log(getAllTracks().filter((track) => track.name.match(regex)))
-  return getAllTracks().filter((track) => track.name.match(regex))
+  return getAllTracks().filter((track) => track.name.match(regex.value))
   // .map((e) => e.trackId)
 })
 </script>
