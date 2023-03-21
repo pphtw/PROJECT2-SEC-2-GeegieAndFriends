@@ -30,7 +30,7 @@ const props = defineProps({
         'is-playing': currentTrack.trackId === track.trackId,
       }"
       @mousedown="$event.preventDefault()"
-      @click="$emit('onChooseTrackClick', $event)"
+      @click="$emit('chooseTrack', $event)"
     >
       <!-- #Ranking -->
       <div class="w-fit">

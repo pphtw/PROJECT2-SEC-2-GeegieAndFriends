@@ -1,15 +1,13 @@
 <script setup>
-import { onBeforeMount, reactive, ref, provide } from 'vue'
+import {onBeforeMount, reactive, ref, provide, onMounted} from 'vue'
 
 // Components
-import HomePage from '@/components/pages/HomePage.vue'
-import SearchPage from '@/components/pages/SearchPage.vue'
-import { getTrackIdList } from '@/lib/getData'
 import { secToMin } from '@/lib/util'
 import { useControllerStore } from '@/stores/controllerStore.js'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { RouterView, RouterLink } from 'vue-router'
+import {loadData} from "@/lib/getData";
 
 // Use Store
 const playlistStore = usePlaylistStore()
@@ -90,6 +88,9 @@ const onProgressBarMouseUp = (e) => {
 }
 
 // Hooks
+onMounted(async () => {
+  await loadData()
+})
 onBeforeMount(() => {
   initController()
   // setQueue(getTrackIdList(1))

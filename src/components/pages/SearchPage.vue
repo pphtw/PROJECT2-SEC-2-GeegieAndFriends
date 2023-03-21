@@ -6,10 +6,10 @@ import NavigationBar from '../UI/organisms/NavigationBar.vue'
 import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
-import { getAllTracks } from '../../lib/getData.js'
+import {getAllTracks} from "@/lib/getData";
 import ContentSection from '../templates/ContentSection.vue'
 import { storeToRefs } from 'pinia'
-import { useSearchStore } from '../../stores/searchStore.js'
+import {useSearchStore} from "@/stores/searchStore";
 import TrackList from '../UI/organisms/TrackList.vue'
 
 const searchStore = useSearchStore()

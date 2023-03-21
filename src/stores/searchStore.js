@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { getAllTracks } from '../lib/getData.js'
+import {getAllTracks} from "@/lib/getData";
 
 export const useSearchStore = defineStore('search', () => {
   const filterType = [

@@ -32,7 +32,7 @@ const props = defineProps({
 
 // Handlers
 const onChooseTrackClick = (e) => {
-  chooseTrack(e.currentTarget.id)
+  controllerStore.chooseTrack(e.currentTarget.id)
   emit('chooseTrack', 300)
 }
 
