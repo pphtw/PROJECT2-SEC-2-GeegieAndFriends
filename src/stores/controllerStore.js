@@ -100,6 +100,13 @@ export const useControllerStore = defineStore('controller', () => {
   }
   const toggleRepeat = () => {
     switch (controllerState.value) {
+      case 0: {
+        console.log('case 3 (Loop): No Shuffle & No Repeat')
+        skipToTrack(currentTrack.value.trackId, q.defaultQueue, true)
+        q.queue = [...q.defaultQueue]
+        q.tempQueue = [...q.defaultQueue]
+        break
+      }
       case 1:
       case 3: {
         q.queue.push(...q.dumpQueue)
