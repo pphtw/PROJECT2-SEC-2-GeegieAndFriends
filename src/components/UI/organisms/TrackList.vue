@@ -34,11 +34,18 @@ const props = defineProps({
     >
       <!-- #Ranking -->
       <div class="w-fit">
-        <h1 class="text-center font-bold w-12">{{ index + 1 }}</h1>
+        <h1 class="text-center font-bold w-12">
+          {{ index + 1 }}
+        </h1>
       </div>
       <SingleTrack :track="track" />
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.is-playing,
+.is-playing:hover {
+  background-color: #eedff6;
+}
+</style>
