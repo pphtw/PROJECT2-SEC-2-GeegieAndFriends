@@ -16,8 +16,6 @@ const props = defineProps({
     require: true,
   },
 })
-
-console.log(props.tracklist)
 </script>
 
 <template>
