@@ -32,7 +32,7 @@ export const useControllerStore = defineStore('controller', () => {
       // console.log(1)
       return 1
     } else {
-      console.log('kuy')
+      // console.log(0)
       return 0
     }
   })
@@ -66,20 +66,24 @@ export const useControllerStore = defineStore('controller', () => {
     const state = controllerState.value
     console.log(state)
     switch (state) {
-      case 0: //no shuffle & no repeat -->  shuffle & no repeat
+      case 0: //no shuffle & no repeat
         console.log('case 0 NoShuffle & NoRepeat')
-        // skipToTrack(currentTrack.value.trackId, q.defaultQueue)
-        // q.queue = [...q.defaultQueue]
-        q.queue = shuffleArray(q.queue)
+        skipToTrack(currentTrack.value.trackId, q.defaultQueue, true)
+        q.queue = [...q.defaultQueue]
+        q.tempQueue = [...q.defaultQueue]
         // q.queue.push(...q.dumpQueue)
         break
       case 1: //no shuffle & repeat
         // skipToTrack(q.queue[0], q.tempQueue)
         // q.queue = [...q.tempQueue]
-
+        skipToTrack(currentTrack.value.trackId, q.defaultQueue, true)
+        q.queue = [...q.defaultQueue]
+        q.tempQueue = [...q.defaultQueue]
         console.log('case 1: NoShuffle & Repeat')
         break
-      case 2: //shuffle & no repeat --> no shuffle & no repeat
+      case 2: //shuffle & no repeat
+        q.queue = shuffleArray(q.queue)
+        q.tempQueue = [...q.queue]
         // q.queue.push(...q.dumpQueue)
         // q.queue = shuffleArray(q.queue)
 
@@ -88,6 +92,8 @@ export const useControllerStore = defineStore('controller', () => {
       case 3: //shuffle & repeat
         // q.tempQueue = q.queue
         // q.queue = shuffleArray(q.queue)
+        q.queue = shuffleArray(q.queue)
+        q.tempQueue = [...q.queue]
         console.log('case 3 (Shuffle): Shuffle & Repeat')
         break
     }
@@ -96,62 +102,77 @@ export const useControllerStore = defineStore('controller', () => {
     switch (controllerState.value) {
       case 1:
       case 3: {
-        // q.queue.push(...q.dumpQueue)
-        // q.dumpQueue = []
+        q.queue.push(...q.dumpQueue)
+        q.dumpQueue = []
         console.log('case 3 (Loop): Shuffle & Repeat')
         break
       }
     }
   }
-  const skipTrack = (toNext = true, queue = q.queue, toTrack = false) => {
+  const skipTrack = (toNext = true, repeating = false, queue = q.queue) => {
     const onRepeat = isRepeating.value
     if (toNext) {
-      if (onRepeat) {
+      if (onRepeat || repeating) {
         console.log('Skip: Repeat')
-        console.log(q.queue)
+        // console.log(q.queue)
         queue.push(queue.shift())
       } else {
         // Default (No Shuffle)
         console.log('Skip: NoRepeat')
         if (q.queue.length > 0) {
           q.dumpQueue.push(queue.shift())
+
+          // console.log(q.tempQueue)
           console.log(q.queue)
           console.log(q.dumpQueue)
         }
       }
     } else {
-      if (onRepeat) {
+      if (onRepeat || repeating) {
         console.log('SkipBack: Repeat')
-        console.log(q.queue)
         queue.unshift(queue.pop())
       } else {
         // Default (No Shuffle)
         console.log('SkipBack: NoRepeat')
         if (q.dumpQueue.length !== 0) {
           queue.unshift(q.dumpQueue.pop())
+
+          // console.log(q.tempQueue)
           console.log(q.queue)
           console.log(q.dumpQueue)
         }
       }
     }
   }
-  const skipToTrack = (id, queue = q.queue) => {
-    const indexToSkip = queue.findIndex((trackId) => trackId === Number(id))
-    if (Boolean(indexToSkip)) {
-      console.log('found')
-      console.log(indexToSkip)
-      // if (indexToSkip < queue.length / 2) {
-      //   console.log('Repeating Skip Back...')
-      //   while (queue[0] !== id) {
-      //     skipTrack(true, queue, true)
-      //   }
-      // } else {
-      //   console.log('Repeating Skip...')
-      //   while (queue[0] !== id) {
-      //     skipTrack(false, queue, true)
-      //   }
-      // }
+  const skipToTrack = (id, queue = q.queue, repeat = false) => {
+    const indexToSkip = q.tempQueue.findIndex(
+      (trackId) => trackId === Number(id)
+    )
+
+    if (isRepeating.value || repeat) {
+      console.log('Repeat')
+      if (indexToSkip < q.tempQueue.length / 2) {
+        while (queue[0] !== id) {
+          skipTrack(true, true, queue)
+        }
+      } else {
+        while (queue[0] !== id) {
+          skipTrack(false, true, queue)
+        }
+      }
+    } else {
+      console.log('NoRepeat')
+      if (!q.dumpQueue.includes(id)) {
+        while (queue[0] !== id) {
+          skipTrack(true, false, queue)
+        }
+      } else {
+        while (queue[0] !== id) {
+          skipTrack(false, false, queue)
+        }
+      }
     }
+    console.log(indexToSkip)
   }
   const chooseTrack = (id, selectPlaylist = selectedPlaylist) => {
     const trackId = Number(id)
@@ -162,6 +183,7 @@ export const useControllerStore = defineStore('controller', () => {
       if (currentPlaylistId.value !== playlist.selectedPlaylistId) {
         currentPlaylistId.value = playlist.selectedPlaylistId
         q.queue = [...getTrackIdList(currentPlaylistId.value)]
+        q.tempQueue = q.queue
         console.log(q.queue)
         console.log(currentPlaylistId.value)
         console.log(playlist.selectedPlaylistId)
@@ -182,6 +204,7 @@ export const useControllerStore = defineStore('controller', () => {
   const setQueue = (queue) => {
     q.queue = [...queue]
     q.defaultQueue = [...queue]
+    q.tempQueue = [...queue]
   }
   const initController = () => {
     setQueue(getTrackIdList(1))
