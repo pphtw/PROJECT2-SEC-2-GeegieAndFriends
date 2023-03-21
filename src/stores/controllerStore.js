@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
-import { getTrack, getTrackIdList } from '@/lib/getData'
+import {getTrack, getTrackIdList, loadData} from '@/lib/getData'
 import { shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
 
@@ -213,9 +213,9 @@ export const useControllerStore = defineStore('controller', () => {
     q.defaultQueue = [...queue]
     q.tempQueue = [...queue]
   }
-  const initController = () => {
+  const initController = async () => {
+    await loadData()
     setQueue(getTrackIdList(1))
-    console.log(controllerState.value)
     playlist.likedTracks = JSON.parse(localStorage.getItem('likedTracks')) ?? []
     isShuffled.value = false
     isRepeating.value = false

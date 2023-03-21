@@ -1,7 +1,7 @@
 import { fetchPlaylistsData, fetchTracksData } from '@/lib/fetchData'
 
-let trackData;
-let playlistData;
+let trackData =null;
+let playlistData =null;
 export const loadData = () => {
     return Promise.all([fetchTracksData(), fetchPlaylistsData()])
         .then(([tracks, playlists]) => {
@@ -10,6 +10,8 @@ export const loadData = () => {
         })
         .catch((error) => {
             console.error('Error fetching data:', error.message);
+            // Set playlistData to an empty array to prevent errors
+            playlistData = [];
         });
 };
 
