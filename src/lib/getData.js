@@ -10,8 +10,6 @@ export const loadData = () => {
         })
         .catch((error) => {
             console.error('Error fetching data:', error.message);
-            // Set playlistData to an empty array to prevent errors
-            playlistData = [];
         });
 };
 
