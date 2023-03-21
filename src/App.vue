@@ -91,11 +91,9 @@ const onProgressBarMouseUp = (e) => {
 onMounted(async () => {
   await loadData()
 })
-onBeforeMount(() => {
-  initController()
-  // setQueue(getTrackIdList(1))
-  // console.log(q.value.defautQueue)
-  // likedTracks.value = JSON.parse(localStorage.getItem('likedTracks')) ?? []
+
+onBeforeMount(async () => {
+  await initController()
 })
 </script>
 <template>
