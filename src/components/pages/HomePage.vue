@@ -91,10 +91,7 @@ const onMouseUp = (e) => {
 </template>
 
 <style scoped>
-.is-playing,
-.is-playing:hover {
-  background-color: #eedff6;
-}
+
 
 .container-gradient {
   background-image: linear-gradient(
