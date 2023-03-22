@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
-import {getTrack, getTrackIdList, loadData} from '@/lib/getData'
+import { getTrack, getTrackIdList, loadData } from '@/lib/getData'
 import { shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
 
@@ -181,32 +181,35 @@ export const useControllerStore = defineStore('controller', () => {
     }
     console.log(indexToSkip)
   }
-  const chooseTrack = (id, selectPlaylist = selectedPlaylist) => {
+  const chooseTrack = (id, playlistId) => {
     const trackId = Number(id)
-    if (playlist === null || undefined) {
-      q.queue = [...getTrackIdList(currentPlaylistId.value)]
-      q.tempQueue = q.queue
-    } else {
-      if (currentPlaylistId.value !== playlist.selectedPlaylistId) {
-        currentPlaylistId.value = playlist.selectedPlaylistId
-        q.queue = [...getTrackIdList(currentPlaylistId.value)]
-        q.tempQueue = q.queue
-        console.log(q.queue)
-        console.log(currentPlaylistId.value)
-        console.log(playlist.selectedPlaylistId)
+    const state = controllerState.value
+    switch (state) {
+      case 0: {
+        console.log('choose state 0')
+        q.dumpQueue = q.defaultQueue.slice(
+          0,
+          q.defaultQueue.findIndex((i) => i === trackId) - 1
+        )
+        q.queue = q.defaultQueue.slice(
+          q.defaultQueue.findIndex((i) => i === trackId)
+        )
+        break
       }
-      skipToTrack(trackId)
-      isPlaying.value = true
+      case 1:
+      case 3: {
+        console.log('choose state 3')
+        if (currentPlaylistId.value !== playlistId) {
+          currentPlaylistId.value = playlistId
+          q.queue = [...getTrackIdList(currentPlaylistId.value)]
+          q.tempQueue = q.queue
+        }
+        skipToTrack(trackId)
+        break
+      }
     }
-    //   if (currentPlaylistId.value !== playlistId) {
-    //     currentPlaylistId.value = playlistId
-    //     q.queue = [...getTrackIdList(currentPlaylistId)]
-    //     q.tempQueue = q.queue
-    //     if (isShuffled) {
-    //       toggleShuffle(true)
-    //     }
-    //   }
-    // }
+
+    isPlaying.value = true
   }
   const setQueue = (queue) => {
     q.queue = [...queue]
