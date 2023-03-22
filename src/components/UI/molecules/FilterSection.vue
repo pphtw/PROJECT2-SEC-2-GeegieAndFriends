@@ -1,15 +1,13 @@
 <script setup>
-import { ref } from 'vue'
 import FilterButton from '../atoms/FilterButton.vue'
-import { useSearchStore } from '../../../stores/searchStore.js'
-import { storeToRefs } from 'pinia'
+import { useSearchStore } from '@/stores/searchStore'
 
 const searchStore = useSearchStore()
 const { filterType } = searchStore
 </script>
 
 <template>
-  <div class="flex gap-2 py-6 radioFilter">
+  <div class="h-fit flex gap-2 py-6 radioFilter">
     <FilterButton
       v-for="(filter, index) in filterType"
       :key="index"
