@@ -32,7 +32,7 @@ const props = defineProps({
 
 // Handlers
 const onChooseTrackClick = (e) => {
-  controllerStore.chooseTrack(e.currentTarget.id)
+  chooseTrack(e.currentTarget.id)
   emit('chooseTrack', 300)
 }
 
@@ -83,7 +83,7 @@ const onMouseUp = (e) => {
         </template>
         <TrackList
           :tracklist="selectedPlaylist"
-          @on-choose-track-click="(e) => onChooseTrackClick(e)"
+          @choose-track="(e) => onChooseTrackClick(e)"
         />
       </ContentSection>
     </div>
@@ -91,8 +91,6 @@ const onMouseUp = (e) => {
 </template>
 
 <style scoped>
-
-
 .container-gradient {
   background-image: linear-gradient(
     0deg,
