@@ -1,6 +1,4 @@
 <script setup>
-import { computed, ref } from 'vue'
-import SingleTrack from '../UI/organisms/SingleTrack.vue'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import NavigationBar from '../UI/organisms/NavigationBar.vue'
 import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue'
@@ -12,9 +10,15 @@ import { storeToRefs } from 'pinia'
 import { useSearchStore } from '@/stores/searchStore'
 import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
+import { useControllerStore } from '@/stores/controllerStore'
 
 const searchStore = useSearchStore()
+const controllerStore = useControllerStore()
 const { filteredList, regex } = storeToRefs(searchStore)
+const { chooseTrack } = controllerStore
+
+// Definition
+const emit = defineEmits(['chooseTrack'])
 
 const props = defineProps({
   isProgressBarClicked: {
@@ -22,6 +26,12 @@ const props = defineProps({
     required: true,
   },
 })
+
+// Handlers
+const onChooseTrackClick = (e, playlistId) => {
+  chooseTrack(e.currentTarget.id, playlistId)
+  emit('chooseTrack', 300)
+}
 
 const searchHandler = (input) => {
   regex.value = new RegExp(`${input}`, 'ig')
@@ -53,7 +63,7 @@ const searchHandler = (input) => {
       <!-- #TrackSection -->
       <TrackList
         :trackList="filteredList"
-        @on-choose-track-click="(e) => onChooseTrackClick(e)"
+        @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
       />
     </ContentSection>
     <ContentSection>
