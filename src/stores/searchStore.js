@@ -15,12 +15,14 @@ export const useSearchStore = defineStore('search', () => {
   const selectedFilterIndex = ref(0)
   const regex = ref('')
 
+  const checkKeywords = (keyword) => keyword.match(regex.value)
+
   const filteredList = computed(() =>
-    getAllTracks().filter(
-      (track) =>
-        track.name.match(regex.value) ||
-        track.keywords.toString().replace(',', ' ').match(regex.value)
-    )
+    getAllTracks()
+      .filter((track) => track.name.match(regex.value))
+      .concat(
+        getAllTracks().filter((track) => track.keywords.some(checkKeywords))
+      )
   )
 
   const setSelectedFilterIndex = (index) => {
