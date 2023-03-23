@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import {getAllTracks} from "@/lib/getData";
+import { getAllTracks } from '@/lib/getData'
 
 export const useSearchStore = defineStore('search', () => {
   const filterType = [
@@ -23,10 +23,15 @@ export const useSearchStore = defineStore('search', () => {
     )
   )
 
+  const setSelectedFilterIndex = (index) => {
+    selectedFilterIndex.value = index
+  }
+
   return {
     filterType,
     selectedFilterIndex,
     filteredList,
     regex,
+    setSelectedFilterIndex,
   }
 })

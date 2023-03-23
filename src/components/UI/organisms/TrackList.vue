@@ -1,9 +1,7 @@
 <script setup>
 import SingleTrack from './SingleTrack.vue'
 import { useControllerStore } from '@/stores/controllerStore'
-import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
-import { useSearchStore } from '@/stores/searchStore'
 
 // Use Store
 const controllerStore = useControllerStore()
@@ -11,9 +9,14 @@ const controllerStore = useControllerStore()
 const { currentTrack } = storeToRefs(controllerStore)
 
 const props = defineProps({
-  tracklist: {
+  trackList: {
     type: Object,
-    require: true,
+    required: true,
+  },
+  playlistId: {
+    type: Number,
+    required: false,
+    default: 0,
   },
 })
 </script>
@@ -23,14 +26,14 @@ const props = defineProps({
     <!-- #TrackList -->
     <div
       class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
-      v-for="(track, index) in tracklist"
+      v-for="(track, index) in trackList"
       :key="track.trackId"
       :id="track.trackId"
       :class="{
         'is-playing': currentTrack.trackId === track.trackId,
       }"
       @mousedown="$event.preventDefault()"
-      @click="$emit('chooseTrack', $event)"
+      @click="$emit('chooseTrack', $event, playlistId)"
     >
       <!-- #Ranking -->
       <div class="w-fit">

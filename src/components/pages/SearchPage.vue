@@ -11,7 +11,11 @@ import ContentSection from '../templates/ContentSection.vue'
 import { storeToRefs } from 'pinia'
 import { useSearchStore } from '@/stores/searchStore'
 import TrackList from '../UI/organisms/TrackList.vue'
+<<<<<<< HEAD
 import { useControllerStore } from '@/stores/controllerStore'
+=======
+import PageTemplate from '@/components/templates/PageTemplate.vue'
+>>>>>>> 002243dbf59405e90d014fb394420d1baa696263
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
@@ -21,6 +25,13 @@ const { chooseTrack } = controllerStore
 
 // Definition
 const emit = defineEmits(['chooseTrack'])
+
+const props = defineProps({
+  isProgressBarClicked: {
+    type: Boolean,
+    required: true,
+  },
+})
 
 const searchHandler = (input) => {
   regex.value = new RegExp(`${input}`, 'ig')
@@ -44,17 +55,17 @@ const onChooseTrackClick = (e) => {
 </script>
 
 <template>
-  <div class="container-gradient w-screen h-screen flex flex-row bg-[#3f5586]">
-    <NavigationBar />
-    <div
-      class="w-full h-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid grid-cols-4"
-    >
-      <div class="flex flex-col col-span-3 min-h-full">
+  <PageTemplate
+    :is-progress-bar-clicked="isProgressBarClicked"
+    content-style="grid-cols-[3fr_minmax(18rem,1fr)] grid-rows-[2fr_5fr]"
+  >
+    <ContentSection class="flex flex-col row-span-2 min-h-full">
+      <div>
         <!-- #SearchBarSection -->
         <SearchBar class="h-full" @searchEvent="searchHandler" />
-
         <!-- #FilterSection -->
         <FilterSection class="h-fit" />
+<<<<<<< HEAD
 
         <!-- #TrackSection -->
         <ContentSection class="min-h-0">
@@ -63,25 +74,26 @@ const onChooseTrackClick = (e) => {
             @choose-track="(e) => onChooseTrackClick(e)"
           />
         </ContentSection>
+=======
+>>>>>>> 002243dbf59405e90d014fb394420d1baa696263
       </div>
-
-      <div class="h-full flex flex-col gap-y-3">
-        <!-- #PlaylistSection -->
-        <div class="h-2/5">
-          <PlaylistCarousel />
-        </div>
-
-        <!-- #MusicPlayerCardSection -->
-        <div class="h-3/5">
-          <MusicPlayerCard />
-        </div>
-      </div>
-    </div>
-  </div>
+      <!-- #TrackSection -->
+      <TrackList
+        :trackList="filteredList"
+        @on-choose-track-click="(e) => onChooseTrackClick(e)"
+      />
+    </ContentSection>
+    <ContentSection>
+      <PlaylistCarousel />
+    </ContentSection>
+    <ContentSection>
+      <MusicPlayerCard />
+    </ContentSection>
+  </PageTemplate>
 </template>
 
 <style scoped>
-.container-gradient {
+:deep(.container-gradient) {
   background-image: linear-gradient(
     160deg,
     hsl(228deg 39% 29%) 0%,
