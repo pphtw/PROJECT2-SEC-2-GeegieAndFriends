@@ -6,14 +6,21 @@ import NavigationBar from '../UI/organisms/NavigationBar.vue'
 import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
-import {getAllTracks} from "@/lib/getData";
+import { getAllTracks } from '@/lib/getData'
 import ContentSection from '../templates/ContentSection.vue'
 import { storeToRefs } from 'pinia'
-import {useSearchStore} from "@/stores/searchStore";
+import { useSearchStore } from '@/stores/searchStore'
 import TrackList from '../UI/organisms/TrackList.vue'
+import { useControllerStore } from '@/stores/controllerStore'
 
 const searchStore = useSearchStore()
+const controllerStore = useControllerStore()
+
 const { filteredList, regex } = storeToRefs(searchStore)
+const { chooseTrack } = controllerStore
+
+// Definition
+const emit = defineEmits(['chooseTrack'])
 
 const searchHandler = (input) => {
   regex.value = new RegExp(`${input}`, 'ig')
@@ -27,6 +34,12 @@ const searchHandler = (input) => {
       )
       .map((track) => track.trackId)
   )
+}
+
+// handler
+const onChooseTrackClick = (e) => {
+  chooseTrack(e.currentTarget.id)
+  emit('chooseTrack', 300)
 }
 </script>
 
@@ -47,7 +60,7 @@ const searchHandler = (input) => {
         <ContentSection class="min-h-0">
           <TrackList
             :tracklist="filteredList"
-            @on-choose-track-click="(e) => onChooseTrackClick(e)"
+            @choose-track="(e) => onChooseTrackClick(e)"
           />
         </ContentSection>
       </div>
