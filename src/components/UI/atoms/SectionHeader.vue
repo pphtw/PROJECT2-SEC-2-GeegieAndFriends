@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="text-2xl font-bold pb-3 text-white truncate w-fit">
+  <div class="text-2xl font-bold text-white truncate w-fit">
     <h1>{{ inputTextHeader }}</h1>
   </div>
 </template>

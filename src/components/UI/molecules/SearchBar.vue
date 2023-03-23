@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import SearchIcon from '../atoms/SearchPageButton.vue'
 
 const searchKeyword = ref('')
@@ -18,4 +18,9 @@ const searchKeyword = ref('')
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+input {
+  border: 0;
+  outline: none;
+}
+</style>

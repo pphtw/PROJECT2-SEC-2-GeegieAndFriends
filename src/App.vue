@@ -1,13 +1,13 @@
 <script setup>
-import {onBeforeMount, reactive, ref, provide, onMounted} from 'vue'
+import { onBeforeMount, reactive, ref, provide } from 'vue'
 
 // Components
 import { secToMin } from '@/lib/util'
 import { useControllerStore } from '@/stores/controllerStore.js'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
-import { RouterView, RouterLink } from 'vue-router'
-import {loadData} from "@/lib/getData";
+import { RouterView } from 'vue-router'
+import { loadData } from '@/lib/getData'
 
 // Use Store
 const playlistStore = usePlaylistStore()
@@ -21,7 +21,6 @@ const {
   autoPlayPause,
   togglePlayPause,
   togglePlay,
-  setQueue,
   initController,
 } = controllerStore
 
@@ -88,11 +87,8 @@ const onProgressBarMouseUp = (e) => {
 }
 
 // Hooks
-onMounted(async () => {
-  await loadData()
-})
-
 onBeforeMount(async () => {
+  await loadData()
   await initController()
 })
 </script>
