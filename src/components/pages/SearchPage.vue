@@ -34,8 +34,16 @@ const onChooseTrackClick = (e, playlistId) => {
 }
 
 const searchHandler = (input) => {
-  regex.value = new RegExp(`^${input}`, 'ig')
-  console.log(regex.value)
+  //replace special string with space
+  let pattern = input
+    .replace(/\W{1,}/gi, ' ')
+    .split(/\s/)
+    .filter((e) => e)
+  // console.log(pattern)
+
+  regex.value = new RegExp(`^(${pattern.join(' ')})`, 'ig')
+  // console.log(regex.value)
+
   // console.log(getAllTracks().filter((track) => track.name.match(regex.value)))
   // const checkKeywords = (keyword) => keyword.match(regex.value)
   // console.log(
