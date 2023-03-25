@@ -1,10 +1,8 @@
 <script setup>
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
-import NavigationBar from '../UI/organisms/NavigationBar.vue'
 import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
-import { getAllTracks } from '@/lib/getData'
 import ContentSection from '../templates/ContentSection.vue'
 import { storeToRefs } from 'pinia'
 import { useSearchStore } from '@/stores/searchStore'
@@ -14,7 +12,8 @@ import { useControllerStore } from '@/stores/controllerStore'
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
-const { filteredList, regex, selectedFilterIndex } = storeToRefs(searchStore)
+const { filteredTrackList, regex, selectedFilterIndex } =
+  storeToRefs(searchStore)
 const { chooseTrack } = controllerStore
 
 // Definition
@@ -69,7 +68,7 @@ const searchHandler = (input) => {
       <PlaylistCarousel v-else-if="selectedFilterIndex === 1" />
       <TrackList
         v-else-if="selectedFilterIndex === 4"
-        :trackList="filteredList"
+        :trackList="filteredTrackList"
         @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
       />
     </ContentSection>

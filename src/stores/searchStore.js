@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { getAllTracks } from '@/lib/getData'
+import { getAllTracks, getAllPlaylists } from '@/lib/getData'
 
 export const useSearchStore = defineStore('search', () => {
+  //Definition
   const filterType = [
     'All',
     'Playlists',
@@ -12,21 +13,29 @@ export const useSearchStore = defineStore('search', () => {
     'Albums',
   ]
 
+  //ref
   const selectedFilterIndex = ref(0)
   const regex = ref('')
 
-  const checkKeywords = (keyword) => keyword.match(regex.value)
+  //data
+  const allTracks = getAllTracks()
+  const allPlaylists = getAllPlaylists()
 
-  const filteredList = computed(
-    () =>
-      new Set(
-        getAllTracks()
-          .filter((track) => track.name.match(regex.value))
-          .concat(
-            getAllTracks().filter((track) => track.keywords.some(checkKeywords))
-          )
-      )
+  //Function
+  const checkKeywords = (keyword) => keyword.match(regex.value)
+  const searchName = (searchArr) => {
+    searchArr.filter((e) => e.name.match(regex.value))
+  }
+  const searchKeywords = (searchArr) => {
+    searchArr.filter((e) => e.keywords.some(checkKeywords))
+  }
+
+  //DOM
+  const filteredTrackList = computed(
+    () => new Set(searchName(allTracks).concat(searchKeywords(allTracks)))
   )
+
+  const filteredPlaylist = computed(() => searchName(allPlaylists))
 
   const setSelectedFilterIndex = (index) => {
     selectedFilterIndex.value = index
@@ -35,7 +44,8 @@ export const useSearchStore = defineStore('search', () => {
   return {
     filterType,
     selectedFilterIndex,
-    filteredList,
+    filteredTrackList,
+    filteredPlaylist,
     regex,
     setSelectedFilterIndex,
   }
