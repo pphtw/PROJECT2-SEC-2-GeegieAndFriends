@@ -8,8 +8,8 @@ import { useControllerStore } from '@/stores/controllerStore'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
-import { ref, watch } from 'vue'
-import { getPlaylistById, getPlaylistTrackList } from '@/lib/getData'
+import { ref, watch, onMounted } from 'vue'
+import { getItemById, getPlaylistTrackList } from '@/lib/getData'
 
 // Use Store
 const playlistStore = usePlaylistStore()
@@ -38,7 +38,7 @@ const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
 
 watch(selectedPlaylistId, async (id) => {
-  selectedPlaylistName.value = await getPlaylistById(id).name
+  selectedPlaylistName.value = (await getItemById('playlists', id)).name
   selectedPlaylistTracks.value = await getPlaylistTrackList(id)
 })
 
@@ -47,6 +47,16 @@ const onChooseTrackClick = (e, playlistId) => {
   chooseTrack(e.currentTarget.id, playlistId)
   emit('chooseTrack', 300)
 }
+
+onMounted(async () => {
+  selectedPlaylistName.value = (
+    await getItemById('playlists', selectedPlaylistId.value)
+  ).name
+
+  selectedPlaylistTracks.value = await getPlaylistTrackList(
+    selectedPlaylistId.value
+  )
+})
 </script>
 
 <template>
