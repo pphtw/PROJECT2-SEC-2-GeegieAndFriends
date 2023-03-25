@@ -17,25 +17,22 @@ export const useSearchStore = defineStore('search', () => {
   const selectedFilterIndex = ref(0)
   const regex = ref('')
 
-  //data
-  const allTracks = getAllTracks()
-  const allPlaylists = getAllPlaylists()
-
   //Function
   const checkKeywords = (keyword) => keyword.match(regex.value)
-  const searchName = (searchArr) => {
-    searchArr.filter((e) => e.name.match(regex.value))
-  }
-  const searchKeywords = (searchArr) => {
-    searchArr.filter((e) => e.keywords.some(checkKeywords))
-  }
 
   //DOM
-  const filteredTrackList = computed(
-    () => new Set(searchName(allTracks).concat(searchKeywords(allTracks)))
+  const filteredTracklist = computed(
+    () =>
+      new Set(
+        getAllTracks()
+          .filter((e) => e.name.match(regex.value))
+          .concat(getAllTracks().filter((e) => e.keywords.some(checkKeywords)))
+      )
   )
 
-  const filteredPlaylist = computed(() => searchName(allPlaylists))
+  const filteredPlaylist = computed(() =>
+    getAllPlaylists().filter((e) => e.name.match(regex.value))
+  )
 
   const setSelectedFilterIndex = (index) => {
     selectedFilterIndex.value = index
@@ -44,7 +41,7 @@ export const useSearchStore = defineStore('search', () => {
   return {
     filterType,
     selectedFilterIndex,
-    filteredTrackList,
+    filteredTracklist,
     filteredPlaylist,
     regex,
     setSelectedFilterIndex,
