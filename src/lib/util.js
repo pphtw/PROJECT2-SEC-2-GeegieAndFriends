@@ -1,5 +1,6 @@
-export const secToMin = (timeInSec) => {
-  return new Date(timeInSec * 1000).toISOString().substring(14, 19)
+export const secToMin = (timeInSec= 0) => {
+
+  return new Date(isNaN(timeInSec)?0:timeInSec * 1000).toISOString().substring(14, 19)
 }
 
 export const attrsBinder = (n, ...state) => {

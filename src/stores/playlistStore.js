@@ -3,7 +3,6 @@ import { ref } from 'vue'
 
 export const usePlaylistStore = defineStore('playlist', () => {
   // State
-  const selectedPlaylistId = ref(1)
   const likedTracks = ref([])
   const pinnedPlaylistIdList = ref([1, 3, 4, 5, 7, 8])
 
@@ -21,7 +20,6 @@ export const usePlaylistStore = defineStore('playlist', () => {
   }
 
   return {
-    selectedPlaylistId,
     likedTracks,
     pinnedPlaylistIdList,
     checkFavorites,
