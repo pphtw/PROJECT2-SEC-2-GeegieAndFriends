@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "lint": "stylelint \"**/*.css\"",
     "format": "prettier --write .",
+    "all": "vite & json-server --watch ./data/db.json --port 5000",
     "backend": "json-server --watch ./data/db.json --port 5000"
   },
   "engines": {
