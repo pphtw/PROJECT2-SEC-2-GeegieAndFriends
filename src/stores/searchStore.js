@@ -17,11 +17,14 @@ export const useSearchStore = defineStore('search', () => {
 
   const checkKeywords = (keyword) => keyword.match(regex.value)
 
-  const filteredList = computed(() =>
-    getAllTracks()
-      .filter((track) => track.name.match(regex.value))
-      .concat(
-        getAllTracks().filter((track) => track.keywords.some(checkKeywords))
+  const filteredList = computed(
+    () =>
+      new Set(
+        getAllTracks()
+          .filter((track) => track.name.match(regex.value))
+          .concat(
+            getAllTracks().filter((track) => track.keywords.some(checkKeywords))
+          )
       )
   )
 

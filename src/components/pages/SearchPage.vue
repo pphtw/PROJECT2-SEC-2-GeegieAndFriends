@@ -14,7 +14,7 @@ import { useControllerStore } from '@/stores/controllerStore'
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
-const { filteredList, regex } = storeToRefs(searchStore)
+const { filteredList, regex, selectedFilterIndex } = storeToRefs(searchStore)
 const { chooseTrack } = controllerStore
 
 // Definition
@@ -42,7 +42,7 @@ const searchHandler = (input) => {
   // console.log(pattern)
 
   regex.value = new RegExp(`^(${pattern.join(' ')})`, 'ig')
-  // console.log(regex.value)
+  console.log(regex.value)
 
   // console.log(getAllTracks().filter((track) => track.name.match(regex.value)))
   // const checkKeywords = (keyword) => keyword.match(regex.value)
@@ -64,8 +64,11 @@ const searchHandler = (input) => {
       <!-- #FilterSection -->
       <FilterSection class="h-fit" />
 
-      <!-- #TrackSection -->
+      <!-- #ContentSection -->
+      <div v-if="selectedFilterIndex === 0"></div>
+      <PlaylistCarousel v-else-if="selectedFilterIndex === 1" />
       <TrackList
+        v-else-if="selectedFilterIndex === 4"
         :trackList="filteredList"
         @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
       />
