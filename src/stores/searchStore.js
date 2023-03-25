@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import { getAllTracks, getAllPlaylists } from '@/lib/getData'
+import { ref, computed, watch } from 'vue'
+import { getAllTracks } from '@/lib/getData'
 
 export const useSearchStore = defineStore('search', () => {
   //Definition
@@ -16,10 +16,17 @@ export const useSearchStore = defineStore('search', () => {
   //ref
   const selectedFilterIndex = ref(0)
   const regex = ref('')
+  const filteredList = ref([])
 
   //Function
   const checkKeywords = (keyword) => keyword.match(regex.value)
 
+  watch(regex, async (regex) => {
+    const tracks = await getAllTracks()
+    filteredList.value = tracks
+      .filter((track) => track.name.match(regex.value))
+      .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
+  })
   //DOM
   const filteredTracklist = computed(
     () =>
