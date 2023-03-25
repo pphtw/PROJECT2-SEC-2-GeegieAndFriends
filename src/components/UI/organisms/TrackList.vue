@@ -7,7 +7,6 @@ import { storeToRefs } from 'pinia'
 const controllerStore = useControllerStore()
 
 const { currentTrack } = storeToRefs(controllerStore)
-
 const props = defineProps({
   trackList: {
     type: Array,

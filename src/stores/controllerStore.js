@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import { getItemById, getPlaylistTrackIdList } from '@/lib/getData'
+import {getAllItems, getItemById, getPlaylistTrackIdList} from '@/lib/getData'
 import { shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
-
 export const useControllerStore = defineStore('controller', () => {
   const playlist = usePlaylistStore()
 
@@ -25,7 +24,6 @@ export const useControllerStore = defineStore('controller', () => {
     () => q.queue[0],
     async (id) => {
       currentTrack.value = await getItemById('tracks', id)
-      console.log(id)
     }
   )
   // const currentTrack = computed(async () => {
@@ -33,16 +31,13 @@ export const useControllerStore = defineStore('controller', () => {
   // })
   const controllerState = computed(() => {
     if (isShuffled.value && isRepeating.value) {
-      // console.log(3)
+
       return 3
     } else if (isShuffled.value && !isRepeating.value) {
-      // console.log(2)
       return 2
     } else if (!isShuffled.value && isRepeating.value) {
-      // console.log(1)
       return 1
     } else {
-      // console.log(0)
       return 0
     }
   })
@@ -73,10 +68,8 @@ export const useControllerStore = defineStore('controller', () => {
   }
   const toggleShuffle = () => {
     const state = controllerState.value
-    console.log(state)
     switch (state) {
       case 0: //no shuffle & no repeat
-        console.log('case 0 NoShuffle & NoRepeat')
         skipToTrack(currentTrack.value.id, q.defaultQueue, true)
         q.queue = [...q.defaultQueue]
         q.tempQueue = [...q.defaultQueue]
@@ -88,7 +81,6 @@ export const useControllerStore = defineStore('controller', () => {
         skipToTrack(currentTrack.value.id, q.defaultQueue, true)
         q.queue = [...q.defaultQueue]
         q.tempQueue = [...q.defaultQueue]
-        console.log('case 1: NoShuffle & Repeat')
         break
       case 2: //shuffle & no repeat
         q.queue = shuffleArray(q.queue)
@@ -96,21 +88,18 @@ export const useControllerStore = defineStore('controller', () => {
         // q.queue.push(...q.dumpQueue)
         // q.queue = shuffleArray(q.queue)
 
-        console.log('case 2: Shuffle & NoRepeat')
         break
       case 3: //shuffle & repeat
         // q.tempQueue = q.queue
         // q.queue = shuffleArray(q.queue)
         q.queue = shuffleArray(q.queue)
         q.tempQueue = [...q.queue]
-        console.log('case 3 (Shuffle): Shuffle & Repeat')
         break
     }
   }
   const toggleRepeat = () => {
     switch (controllerState.value) {
       case 0: {
-        console.log('case 3 (Loop): No Shuffle & No Repeat')
         skipToTrack(currentTrack.value.id, q.defaultQueue, true)
         q.queue = [...q.defaultQueue]
         q.tempQueue = [...q.defaultQueue]
@@ -120,7 +109,6 @@ export const useControllerStore = defineStore('controller', () => {
       case 3: {
         q.queue.push(...q.dumpQueue)
         q.dumpQueue = []
-        console.log('case 3 (Loop): Shuffle & Repeat')
         break
       }
     }
@@ -128,7 +116,6 @@ export const useControllerStore = defineStore('controller', () => {
   const skipTrack = (toNext = true, repeating = false, queue = q.queue) => {
     const onRepeat = isRepeating.value
     if (toNext) {
-      console.log(currentTrack.value)
       if (onRepeat || repeating) {
         console.log('Skip: Repeat')
         // console.log(q.queue)

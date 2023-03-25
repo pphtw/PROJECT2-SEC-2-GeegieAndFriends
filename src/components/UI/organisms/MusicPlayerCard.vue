@@ -10,6 +10,8 @@ import Timer from '@/components/UI/atoms/Timer.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
+import ProgressBar from "@/components/UI/atoms/ProgressBar.vue";
+import ProgressBarWithTimer from "@/components/UI/molecules/ProgressBarWithTimer.vue";
 
 // Use Store
 const playlistStore = usePlaylistStore()
@@ -26,7 +28,7 @@ const progressBar = inject('progressBar')
 const emit = defineEmits(['autoPlayPause'])
 
 //DOM Element
-const progressBarElement = ref(null)
+
 const titleElement = ref(null)
 
 // States
@@ -48,32 +50,24 @@ const trackSkipHandler = (toNext = true) => {
   emit('autoPlayPause')
 }
 
-const onProgressBarMouseDown = (e) => {
-  e.preventDefault()
-  progressBar.isClicked = true
-  progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
-  progressBar.updateTime(e)
-}
+
 const onShuffleHandler = () => {
   // if (e.code === 'KeyS' || e.button === 0) {
   //   toggleShuffle()
   // }
   if (!isShuffled.value) {
     isShuffled.value = true
-    // console.log(isShuffled.value)
   } else {
     isShuffled.value = false
-    // console.log(isShuffled.value)
+
   }
   toggleShuffle()
 }
 const onLoopHandler = () => {
   if (!isRepeating.value) {
     isRepeating.value = true
-    console.log(isRepeating.value)
   } else {
     isRepeating.value = false
-    console.log(isRepeating.value)
   }
   toggleRepeat()
 }
@@ -103,25 +97,7 @@ onUpdated(() => {
       @click="checkOverflow"
     ></div>
     <!-- #ProgressBar -->
-    <div class="overflow-clip">
-      <div
-        class="progress-bar self-center active:cursor-default"
-        ref="progressBarElement"
-        @mousedown="onProgressBarMouseDown"
-      >
-        <div
-          class="progress-current"
-          :style="{ width: progressBar.barWidth }"
-        ></div>
-      </div>
-    </div>
-    <!-- #CurrentTime&Duration -->
-    <div>
-      <div class="flex justify-between w-full items-center">
-        <Timer :time="progressBar.currentTime" />
-        <Timer :time="progressBar.duration" />
-      </div>
-    </div>
+    <ProgressBarWithTimer/>
     <!-- #MusicTitle&Controller -->
     <div
       class="flex flex-col gap-1 justify-around items-center h-fit bg-white rounded-b-2xl"

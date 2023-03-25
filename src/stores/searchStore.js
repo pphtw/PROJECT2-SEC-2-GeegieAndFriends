@@ -39,9 +39,10 @@ export const useSearchStore = defineStore('search', () => {
       )
   )
 
-  const filteredPlaylist = computed(() =>
-    getAllPlaylists().filter((e) => e.name.match(regex.value))
-  )
+  const filteredPlaylist = ref([])
+  watch(regex,async (regex) => {
+    filteredPlaylist.value = (await getAllItems('playlists')).filter((e) => e.name.match(regex.value))
+  })
 
   const setSelectedFilterIndex = (index) => {
     selectedFilterIndex.value = index
@@ -51,6 +52,7 @@ export const useSearchStore = defineStore('search', () => {
     filterType,
     selectedFilterIndex,
     // filteredTracklist,
+    filteredList,
     filteredPlaylist,
     regex,
     setSelectedFilterIndex,
