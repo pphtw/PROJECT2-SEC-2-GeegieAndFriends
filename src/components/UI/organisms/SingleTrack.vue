@@ -35,11 +35,11 @@ const onLikeHandler = (e, trackId) => {
   <Timer :time="track.duration" :size="5" :weight="2" />
   <!-- #LikeButton -->
   <div class="px-3 hidden sm:block">
-    <button @click="onLikeHandler($event, track['trackId'])">
+    <button @click="onLikeHandler($event, track.id)">
       <LikeButton
         fill="#c493e1"
         stroke="#c493e1"
-        v-if="checkFavorites(track.trackId)"
+        v-if="checkFavorites(track.id)"
       />
       <LikeButton fill="none" stroke="black" v-else />
     </button>

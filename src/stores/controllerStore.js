@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { getItemById, getPlaylistTrackIdList } from '@/lib/getData'
 import { shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
@@ -8,6 +8,7 @@ export const useControllerStore = defineStore('controller', () => {
   const playlist = usePlaylistStore()
 
   // State
+  const currentTrack = ref({})
   const currentPlaylistId = ref(1)
   const q = reactive({
     queue: [1],
@@ -20,7 +21,16 @@ export const useControllerStore = defineStore('controller', () => {
   const isPlaying = ref(false)
 
   // Getters
-  const currentTrack = computed(() => getItemById('tracks', q.queue[0]))
+  watch(
+    () => q.queue[0],
+    async (id) => {
+      currentTrack.value = await getItemById('tracks', id)
+      console.log(id)
+    }
+  )
+  // const currentTrack = computed(async () => {
+  //   return await getItemById('tracks', q.queue[0])
+  // })
   const controllerState = computed(() => {
     if (isShuffled.value && isRepeating.value) {
       // console.log(3)
@@ -67,7 +77,7 @@ export const useControllerStore = defineStore('controller', () => {
     switch (state) {
       case 0: //no shuffle & no repeat
         console.log('case 0 NoShuffle & NoRepeat')
-        skipToTrack(currentTrack.value.trackId, q.defaultQueue, true)
+        skipToTrack(currentTrack.value.id, q.defaultQueue, true)
         q.queue = [...q.defaultQueue]
         q.tempQueue = [...q.defaultQueue]
         // q.queue.push(...q.dumpQueue)
@@ -75,7 +85,7 @@ export const useControllerStore = defineStore('controller', () => {
       case 1: //no shuffle & repeat
         // skipToTrack(q.queue[0], q.tempQueue)
         // q.queue = [...q.tempQueue]
-        skipToTrack(currentTrack.value.trackId, q.defaultQueue, true)
+        skipToTrack(currentTrack.value.id, q.defaultQueue, true)
         q.queue = [...q.defaultQueue]
         q.tempQueue = [...q.defaultQueue]
         console.log('case 1: NoShuffle & Repeat')
@@ -101,7 +111,7 @@ export const useControllerStore = defineStore('controller', () => {
     switch (controllerState.value) {
       case 0: {
         console.log('case 3 (Loop): No Shuffle & No Repeat')
-        skipToTrack(currentTrack.value.trackId, q.defaultQueue, true)
+        skipToTrack(currentTrack.value.id, q.defaultQueue, true)
         q.queue = [...q.defaultQueue]
         q.tempQueue = [...q.defaultQueue]
         break
@@ -118,6 +128,7 @@ export const useControllerStore = defineStore('controller', () => {
   const skipTrack = (toNext = true, repeating = false, queue = q.queue) => {
     const onRepeat = isRepeating.value
     if (toNext) {
+      console.log(currentTrack.value)
       if (onRepeat || repeating) {
         console.log('Skip: Repeat')
         // console.log(q.queue)
@@ -180,9 +191,15 @@ export const useControllerStore = defineStore('controller', () => {
     }
     console.log(indexToSkip)
   }
-  const chooseTrack = (id, playlistId) => {
+  const chooseTrack = async (id, playlistId) => {
     const trackId = Number(id)
     const state = controllerState.value
+    if (currentPlaylistId.value !== playlistId) {
+      currentPlaylistId.value = playlistId
+      q.queue = await getPlaylistTrackIdList(currentPlaylistId.value)
+      q.tempQueue = q.queue
+      console.log(q.queue)
+    }
     switch (state) {
       case 0: {
         console.log('choose state 0')
@@ -198,11 +215,6 @@ export const useControllerStore = defineStore('controller', () => {
       case 1:
       case 3: {
         console.log('choose state 3')
-        if (currentPlaylistId.value !== playlistId) {
-          currentPlaylistId.value = playlistId
-          q.queue = [...getPlaylistTrackIdList(currentPlaylistId.value)]
-          q.tempQueue = q.queue
-        }
         skipToTrack(trackId)
         break
       }
@@ -216,6 +228,7 @@ export const useControllerStore = defineStore('controller', () => {
     q.tempQueue = [...queue]
   }
   const initController = async () => {
+    currentTrack.value = await getItemById('tracks', q.queue[0])
     setQueue(await getPlaylistTrackIdList(1))
     playlist.likedTracks = JSON.parse(localStorage.getItem('likedTracks')) ?? []
     isShuffled.value = false
