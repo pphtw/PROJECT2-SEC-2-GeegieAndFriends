@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { getAllTracks } from '@/lib/getData'
 
 export const useSearchStore = defineStore('search', () => {
@@ -14,16 +14,16 @@ export const useSearchStore = defineStore('search', () => {
 
   const selectedFilterIndex = ref(0)
   const regex = ref('')
+  const filteredList = ref([])
 
   const checkKeywords = (keyword) => keyword.match(regex.value)
 
-  const filteredList = computed(() =>
-    getAllTracks()
+  watch(regex, async (regex) => {
+    const tracks = await getAllTracks()
+    filteredList.value = tracks
       .filter((track) => track.name.match(regex.value))
-      .concat(
-        getAllTracks().filter((track) => track.keywords.some(checkKeywords))
-      )
-  )
+      .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
+  })
 
   const setSelectedFilterIndex = (index) => {
     selectedFilterIndex.value = index

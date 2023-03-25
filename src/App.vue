@@ -7,7 +7,6 @@ import { useControllerStore } from '@/stores/controllerStore.js'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
-import { loadData } from '@/lib/getData'
 
 // Use Store
 const playlistStore = usePlaylistStore()
@@ -88,7 +87,6 @@ const onProgressBarMouseUp = (e) => {
 
 // Hooks
 onBeforeMount(async () => {
-  await loadData()
   await initController()
 })
 </script>
