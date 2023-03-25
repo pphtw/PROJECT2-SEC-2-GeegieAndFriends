@@ -9,6 +9,7 @@ import { useControllerStore } from '@/stores/controllerStore'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
+import { getPlaylist } from '@/lib/getData'
 
 // Use Store
 const playlistStore = usePlaylistStore()
@@ -32,6 +33,10 @@ const props = defineProps({
   },
 })
 
+const mappedPlaylists = playlistStore.pinnedPlaylist.map((playlistId) =>
+  getPlaylist(playlistId)
+)
+
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
   chooseTrack(e.currentTarget.id, playlistId)
@@ -50,7 +55,7 @@ const onChooseTrackClick = (e, playlistId) => {
           <SectionHeader input-text-header="Your Style" />
         </div>
       </template>
-      <PlaylistCarousel />
+      <PlaylistCarousel :shownPlaylist="mappedPlaylists" />
     </ContentSection>
     <ContentSection>
       <template v-slot:header>
