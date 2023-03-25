@@ -34,7 +34,7 @@ const props = defineProps({
 })
 
 const selectedPlaylistId = ref(1)
-const selectedPlaylistName = ref('Loading Playlist...')
+const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
 
 watch(selectedPlaylistId, async (id) => {
