@@ -1,7 +1,7 @@
 <script setup>
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
-import { getPlaylists } from '@/lib/getData'
+import { getFilteredItemList } from '@/lib/getData'
 import { onMounted, ref } from 'vue'
 
 // Use Store
@@ -25,7 +25,10 @@ const onChoosePlaylistHandler = (e) => {
 
 // Hooks
 onMounted(async () => {
-  pinnedPlaylists.value = await getPlaylists(pinnedPlaylistIdList.value)
+  pinnedPlaylists.value = await getFilteredItemList(
+    'playlists',
+    pinnedPlaylistIdList.value
+  )
 })
 </script>
 <template>
@@ -35,8 +38,8 @@ onMounted(async () => {
       :style="{
         backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
       }"
-      :key="playlist['playlistId']"
-      :id="playlist['playlistId']"
+      :key="playlist.id"
+      :id="playlist.id"
       @click="onChoosePlaylistHandler"
       class="flex justify-center cursor-pointer h-full hover:opacity-80 bg-cover rounded-xl my-auto"
       tabindex="-1"
