@@ -1,5 +1,4 @@
 <script setup>
-import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
@@ -9,13 +8,15 @@ import { useControllerStore } from '@/stores/controllerStore'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
+import { ref, watch } from 'vue'
+import { getPlaylistById, getPlaylistTrackList } from '@/lib/getData'
 
 // Use Store
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
-const { selectedPlaylistId, selectedPlaylistName, selectedPlaylist } =
-  storeToRefs(playlistStore)
+// const { selectedPlaylistName, selectedPlaylistTracks } =
+//   storeToRefs(playlistStore)
 const { chooseTrack } = controllerStore
 
 // Definition
@@ -30,6 +31,15 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+})
+
+const selectedPlaylistId = ref(1)
+const selectedPlaylistName = ref('Loading Playlist...')
+const selectedPlaylistTracks = ref([])
+
+watch(selectedPlaylistId, async (id) => {
+  selectedPlaylistName.value = await getPlaylistById(id).name
+  selectedPlaylistTracks.value = await getPlaylistTrackList(id)
 })
 
 // Handlers
@@ -50,7 +60,13 @@ const onChooseTrackClick = (e, playlistId) => {
           <SectionHeader input-text-header="Your Style" />
         </div>
       </template>
-      <PlaylistCarousel />
+      <PlaylistCarousel
+        @choose-playlist="
+          (id) => {
+            selectedPlaylistId = id
+          }
+        "
+      />
     </ContentSection>
     <ContentSection>
       <template v-slot:header>
@@ -65,7 +81,7 @@ const onChooseTrackClick = (e, playlistId) => {
         <SectionHeader :input-text-header="selectedPlaylistName" />
       </template>
       <TrackList
-        :trackList="selectedPlaylist"
+        :trackList="selectedPlaylistTracks"
         :playlist-id="selectedPlaylistId"
         @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
       />
