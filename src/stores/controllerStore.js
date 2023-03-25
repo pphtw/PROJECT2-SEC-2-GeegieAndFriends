@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
-import { getTrack, getTrackIdList, loadData } from '@/lib/getData'
+import { getTrackById, getPlaylistTrackIdList } from '@/lib/getData'
 import { shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
 
@@ -10,7 +10,7 @@ export const useControllerStore = defineStore('controller', () => {
   // State
   const currentPlaylistId = ref(1)
   const q = reactive({
-    queue: [],
+    queue: [1],
     defaultQueue: [],
     tempQueue: [],
     dumpQueue: [],
@@ -20,7 +20,7 @@ export const useControllerStore = defineStore('controller', () => {
   const isPlaying = ref(false)
 
   // Getters
-  const currentTrack = computed(() => getTrack(q.queue[0]))
+  const currentTrack = computed(() => getTrackById(q.queue[0]))
   const controllerState = computed(() => {
     if (isShuffled.value && isRepeating.value) {
       // console.log(3)
@@ -36,7 +36,6 @@ export const useControllerStore = defineStore('controller', () => {
       return 0
     }
   })
-  const selectedPlaylist = computed(() => playlist.selectedPlaylist)
 
   // Actions
   const togglePlayPause = (audioElement) => {
@@ -201,7 +200,7 @@ export const useControllerStore = defineStore('controller', () => {
         console.log('choose state 3')
         if (currentPlaylistId.value !== playlistId) {
           currentPlaylistId.value = playlistId
-          q.queue = [...getTrackIdList(currentPlaylistId.value)]
+          q.queue = [...getPlaylistTrackIdList(currentPlaylistId.value)]
           q.tempQueue = q.queue
         }
         skipToTrack(trackId)
@@ -217,8 +216,7 @@ export const useControllerStore = defineStore('controller', () => {
     q.tempQueue = [...queue]
   }
   const initController = async () => {
-    await loadData()
-    setQueue(getTrackIdList(1))
+    setQueue(await getPlaylistTrackIdList(1))
     playlist.likedTracks = JSON.parse(localStorage.getItem('likedTracks')) ?? []
     isShuffled.value = false
     isRepeating.value = false

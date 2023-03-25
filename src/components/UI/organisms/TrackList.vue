@@ -10,7 +10,7 @@ const { currentTrack } = storeToRefs(controllerStore)
 
 const props = defineProps({
   trackList: {
-    type: Object,
+    type: Array,
     required: true,
   },
   playlistId: {
@@ -27,10 +27,10 @@ const props = defineProps({
     <div
       class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
       v-for="(track, index) in trackList"
-      :key="track.trackId"
-      :id="track.trackId"
+      :key="track.id"
+      :id="track.id"
       :class="{
-        'is-playing': currentTrack.trackId === track.trackId,
+        'is-playing': currentTrack.id === track.id,
       }"
       @mousedown="$event.preventDefault()"
       @click="$emit('chooseTrack', $event, playlistId)"

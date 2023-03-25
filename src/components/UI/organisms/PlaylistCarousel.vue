@@ -1,39 +1,43 @@
 <script setup>
-import { ref } from 'vue'
-import { getPlaylist } from '@/lib/getData'
-import { useControllerStore } from '@/stores/controllerStore.js'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
+import { getPlaylists } from '@/lib/getData'
+import { onMounted, ref } from 'vue'
 
 // Use Store
 const playlistStore = usePlaylistStore()
-const controllerStore = useControllerStore()
 
-const { selectedPlaylist } = storeToRefs(playlistStore)
+const { pinnedPlaylistIdList } = storeToRefs(playlistStore)
 
-const emit = defineEmits(['nextPageHandler', 'previousPageHandler'])
+// Definitions
+const emit = defineEmits([
+  'nextPageHandler',
+  'previousPageHandler',
+  'choosePlaylist',
+])
 
-const props = defineProps({
-  shownPlaylist: {
-    type: Object,
-    required: true,
-  },
-})
+const pinnedPlaylists = ref([])
 
-const onChoosePlaylist = (e) => {
-  selectedPlaylist.value = Number(e.currentTarget.id)
+// Handlers
+const onChoosePlaylistHandler = (e) => {
+  emit('choosePlaylist', Number(e.currentTarget.id))
 }
+
+// Hooks
+onMounted(async () => {
+  pinnedPlaylists.value = await getPlaylists(pinnedPlaylistIdList.value)
+})
 </script>
 <template>
   <div class="h-full grid grid-cols-3 gap-x-6 gap-y-3">
     <div
-      v-for="playlist in shownPlaylist"
+      v-for="playlist in pinnedPlaylists"
       :style="{
         backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
       }"
       :key="playlist['playlistId']"
       :id="playlist['playlistId']"
-      @click="onChoosePlaylist"
+      @click="onChoosePlaylistHandler"
       class="flex justify-center cursor-pointer h-full hover:opacity-80 bg-cover rounded-xl my-auto"
       tabindex="-1"
     >
