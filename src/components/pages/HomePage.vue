@@ -15,8 +15,12 @@ import { getPlaylist } from '@/lib/getData'
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
-const { selectedPlaylistId, selectedPlaylistName, selectedPlaylist } =
-  storeToRefs(playlistStore)
+const {
+  selectedPlaylistId,
+  selectedPlaylistName,
+  selectedPlaylist,
+  mappedPlaylists,
+} = storeToRefs(playlistStore)
 const { chooseTrack } = controllerStore
 
 // Definition
@@ -32,10 +36,6 @@ const props = defineProps({
     required: true,
   },
 })
-
-const mappedPlaylists = playlistStore.pinnedPlaylist.map((playlistId) =>
-  getPlaylist(playlistId)
-)
 
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {

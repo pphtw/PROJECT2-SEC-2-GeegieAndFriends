@@ -31,7 +31,12 @@ export const usePlaylistStore = defineStore('playlist', () => {
     localStorage.setItem('likedTracks', JSON.stringify(likedTracks.value))
   }
 
+  const mappedPlaylists = computed(() =>
+    pinnedPlaylist.value.map((playlistId) => getPlaylist(playlistId))
+  )
+
   return {
+    mappedPlaylists,
     selectedPlaylistId,
     likedTracks,
     pinnedPlaylist,

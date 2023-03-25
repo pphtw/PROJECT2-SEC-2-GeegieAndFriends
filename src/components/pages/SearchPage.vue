@@ -12,8 +12,10 @@ import { useControllerStore } from '@/stores/controllerStore'
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
-const { filteredTrackList, regex, selectedFilterIndex } =
+// const playlistStore = usePlaylistStore()
+const { filteredPlaylist, filteredTracklist, regex, selectedFilterIndex } =
   storeToRefs(searchStore)
+// const { mappedPlaylists } = storeToRefs(playlistStore)
 const { chooseTrack } = controllerStore
 
 // Definition
@@ -42,12 +44,6 @@ const searchHandler = (input) => {
 
   regex.value = new RegExp(`^(${pattern.join(' ')})`, 'ig')
   console.log(regex.value)
-
-  // console.log(getAllTracks().filter((track) => track.name.match(regex.value)))
-  // const checkKeywords = (keyword) => keyword.match(regex.value)
-  // console.log(
-  //   getAllTracks().filter((track) => track.keywords.some(checkKeywords))
-  // )
 }
 </script>
 
@@ -65,10 +61,13 @@ const searchHandler = (input) => {
 
       <!-- #ContentSection -->
       <div v-if="selectedFilterIndex === 0"></div>
-      <PlaylistCarousel v-else-if="selectedFilterIndex === 1" />
+      <PlaylistCarousel
+        v-else-if="selectedFilterIndex === 1"
+        :shownPlaylist="filteredPlaylist"
+      />
       <TrackList
         v-else-if="selectedFilterIndex === 4"
-        :trackList="filteredTrackList"
+        :trackList="filteredTracklist"
         @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
       />
     </ContentSection>
