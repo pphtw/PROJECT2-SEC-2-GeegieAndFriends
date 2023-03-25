@@ -18,13 +18,8 @@ export const useSearchStore = defineStore('search', () => {
   const regex = ref('')
   const filteredList = ref([])
 
+  //Function
   const checkKeywords = (keyword) => keyword.match(regex.value)
-  // const searchName = (searchArr) => {
-  //   searchArr.filter((e) => e.name.match(regex.value))
-  // }
-  // const searchKeywords = (searchArr) => {
-  //   searchArr.filter((e) => e.keywords.some(checkKeywords))
-  // }
 
   watch(regex, async (regex) => {
     const tracks = await getAllTracks()
@@ -33,11 +28,18 @@ export const useSearchStore = defineStore('search', () => {
       .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
   })
   //DOM
-  // const filteredTrackList = computed(
-  //   () => new Set(searchName(allTracks).concat(searchKeywords(allTracks)))
-  // )
-  //
-  // const filteredPlaylist = computed(() => searchName(allPlaylists))
+  const filteredTrackList = computed(
+    () =>
+      new Set(
+        getAllTracks()
+          .filter((e) => e.name.match(regex.value))
+          .concat(getAllTracks().filter((e) => e.keywords.some(checkKeywords)))
+      )
+  )
+
+  const filteredPlaylist = computed(() =>
+    getAllPlaylists().filter((e) => e.name.match(regex.value))
+  )
 
   const setSelectedFilterIndex = (index) => {
     selectedFilterIndex.value = index
@@ -46,8 +48,8 @@ export const useSearchStore = defineStore('search', () => {
   return {
     filterType,
     selectedFilterIndex,
-    // filteredTrackList,
-    // filteredPlaylist,
+    // filteredTracklist,
+    filteredPlaylist,
     regex,
     setSelectedFilterIndex,
   }
