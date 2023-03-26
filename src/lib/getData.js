@@ -60,6 +60,7 @@ export const createPlaylist = (playlist) => {
   fetch(`${API_URL}/playlists`, {
     method: 'post',
     body: JSON.stringify(playlist),
+    headers: { 'Content-Type': 'application/json' },
   })
     .then(async (response) => {
       const data = await response.json()
@@ -78,7 +79,7 @@ export const deletePlaylist = async (playlistId) => {
   } else {
     fetch(`${API_URL}/playlists/${playlistId}`, {
       method: 'delete',
-      // body: JSON.stringify(playlist),
+      headers: { 'Content-Type': 'application/json' },
     })
       .then(async (response) => {
         const data = await response.json()
