@@ -39,7 +39,7 @@ const onMouseUp = (e) => {
 
 <template>
   <div
-    class="w-screen h-screen flex flex-row bg-[#162750]"
+    class="w-full h-screen flex flex-row bg-[#162750]"
     @keyup.right="skipTrack"
     @keyup.left="skipTrack(false)"
     @keyup.space="$emit('togglePlayPause')"
@@ -48,7 +48,6 @@ const onMouseUp = (e) => {
     @mouseup="onMouseUp"
     tabindex="-1"
   >
-    <NavigationBar />
     <div
       class="container-gradient w-full h-full px-[4vw] py-8 gap-y-8 gap-x-[4vw] grid"
       :class="contentStyle"
