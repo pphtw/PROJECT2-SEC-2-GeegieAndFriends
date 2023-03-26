@@ -72,33 +72,50 @@ onMounted(async () => {
     @loadedmetadata="onLoadMetadataHandler"
   ></audio>
   <div
-    class="flex flex-row w-screen"
+    class="flex flex-row w-screen h-screen"
     @mouseup="onProgressBarMouseUp"
     @mousemove="onProgressBarMouseMove"
   >
     <NavigationBar />
-    <RouterView
-      :audio-element="audioElement"
-      @autoPlayPause="autoPlayPause(audioElement)"
-      @chooseTrack="(ms) => togglePlay(audioElement, ms)"
-      @togglePlayPause="togglePlayPause"
-      v-slot="{ Component }"
-    >
-      <Transition name="slide" mode="out-in">
-        <component :is="Component" />
-      </Transition>
-    </RouterView>
+    <div class="h-full w-full flex flex-col">
+      <RouterView
+        :audio-element="audioElement"
+        @autoPlayPause="autoPlayPause(audioElement)"
+        @chooseTrack="(ms) => togglePlay(audioElement, ms)"
+        @togglePlayPause="togglePlayPause"
+        v-slot="{ Component, route }"
+      >
+        <Transition :name="route.meta.transition" mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </RouterView>
+    </div>
   </div>
 </template>
 <style scoped>
-.slide-leave-from {
-  opacity: 0;
+.slide-down-leave-to,
+.slide-up-enter-from {
+  opacity: 0.1;
   transform: translateY(100%);
 }
-.slide-leave-active {
-  transition: 0.8s ease-out;
+.slide-down-enter-active,
+.slide-up-enter-active {
+  transition: 0.5s ease-in-out;
 }
-.slide-leave-to {
+.slide-down-leave-from,
+.slide-up-enter-to,
+.slide-down-enter-to,
+.slide-up-leave-from {
+  opacity: 1;
+  transform: translateY(0%);
+}
+.slide-down-leave-active,
+.slide-up-leave-active {
+  transition: 0.5s ease-in-out;
+}
+.slide-down-enter-from,
+.slide-up-leave-to {
+  opacity: 0.1;
   transform: translateY(-100%);
 }
 </style>
