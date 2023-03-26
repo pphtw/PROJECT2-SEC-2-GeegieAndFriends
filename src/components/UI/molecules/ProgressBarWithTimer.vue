@@ -1,5 +1,5 @@
 <script setup>
-import { inject, reactive, ref } from 'vue'
+import {computed, inject, reactive, ref} from 'vue'
 import Timer from '@/components/UI/atoms/Timer.vue'
 import { storeToRefs } from 'pinia'
 import { useControllerStore } from '@/stores/controllerStore'
@@ -7,20 +7,16 @@ import { secToMin } from '@/lib/util'
 const audioElement = inject('audioElement', new Audio())
 
 const controllerStore = useControllerStore()
-
-const { progressBar } = storeToRefs(controllerStore)
-const { updateTime } = controllerStore
-
+const {time} = controllerStore
 const progressBarElement = ref(null)
 const progressBar = reactive({
   barWidth: '0%',
   isClicked: false,
   boundingRect: new DOMRect(),
   newTime: 0,
-  updateProgressBar: () => {
-    progressBar.barWidth =
-      (audioElement.currentTime / audioElement.duration) * 100 + '%'
-  },
+  progressBarWidth : computed(
+      () => (controllerStore.time.currentTime / controllerStore.time.duration) * 100 + "%" )
+  ,
   updateTime: (e) => {
     const x = progressBar.validateX(e.clientX)
     progressBar.newTime =
@@ -38,23 +34,25 @@ const progressBar = reactive({
   },
 })
 
-const onTimeUpdateHandler = () => {
-  progressBar.currentTime = secToMin(audioElement.currentTime)
-  console.log(audioElement.currentTime)
-  if (!progressBar.isClicked) {
-    progressBar.updateProgressBar()
-  }
-}
-
 const onProgressBarMouseDown = (e) => {
-  e.preventDefault()
-  progressBar.isClicked = true
-  progressBar.boundingRect = progressBarElement.value.getBoundingClientRect()
-  progressBar.updateTime(e)
-}
-const test = () => {
-  console.log('click on body')
-}
+  e.preventDefault();
+  progressBar.boundingRect = progressBarElement.value.getBoundingClientRect();
+  progressBar.updateTime(e);
+  controllerStore.time.isClicked = true;
+};
+const onProgressBarMouseMove = (e) => {
+  if (controllerStore.time.isClicked) {
+    progressBar.updateTime(e);
+  }
+};
+
+const onProgressBarMouseUp = (e) => {
+  if (controllerStore.time.isClicked) {
+    progressBar.updateTime(e);
+    audioElement.currentTime = progressBar.newTime;
+    controllerStore.time.isClicked = false;
+  }
+};
 </script>
 
 <template>
@@ -63,17 +61,19 @@ const test = () => {
       class="progress-bar self-center active:cursor-default"
       ref="progressBarElement"
       @mousedown="onProgressBarMouseDown"
+      @mousemove="onProgressBarMouseMove"
+      @mouseup="onProgressBarMouseUp"
     >
       <div
         class="progress-current"
-        :style="{ width: progressBar.barWidth }"
+        :style="{ width: progressBar.progressBarWidth  }"
       ></div>
     </div>
   </div>
   <div>
     <div class="flex justify-between w-full items-center">
-      <Timer :progressBar="progressBar.currentTime" />
-      <Timer :progressBar="progressBar.duration" />
+      <Timer :time="time.currentTime" />
+      <Timer :time="time.duration" />
     </div>
   </div>
 </template>

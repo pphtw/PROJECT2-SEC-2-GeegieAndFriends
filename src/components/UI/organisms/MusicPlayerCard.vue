@@ -6,11 +6,9 @@ import PreviousButton from '../atoms/PreviousButton.vue'
 import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import SkipButton from '../atoms/SkipButton.vue'
 import RepeatButton from '../atoms/RepeatButton.vue'
-import Timer from '@/components/UI/atoms/Timer.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
-import ProgressBar from '@/components/UI/atoms/ProgressBar.vue'
 import ProgressBarWithTimer from '@/components/UI/molecules/ProgressBarWithTimer.vue'
 
 // Use Store

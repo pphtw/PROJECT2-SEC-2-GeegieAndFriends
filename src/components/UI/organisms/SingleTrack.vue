@@ -32,7 +32,7 @@ const onLikeHandler = (e, trackId) => {
   <MusicCover :track="track" />
   <!-- #Title&Artist -->
   <TitleAndArtist :track="track" />
-  <Timer :progressBar="track.duration" :size="5" :weight="2" />
+  <Timer :time="track.duration" :size="5" :weight="2" />
   <!-- #LikeButton -->
   <div class="px-3 hidden sm:block">
     <button @click="onLikeHandler($event, track.id)">

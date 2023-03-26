@@ -237,6 +237,7 @@ export const useControllerStore = defineStore('controller', () => {
     isRepeating,
     isPlaying,
     currentTrack,
+    updateTime,
     togglePlayPause,
     togglePlay,
     toggleShuffle,
@@ -246,6 +247,5 @@ export const useControllerStore = defineStore('controller', () => {
     chooseTrack,
     setQueue,
     initController,
-    updateTime,
   }
 })
