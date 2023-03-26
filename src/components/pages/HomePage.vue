@@ -8,7 +8,7 @@ import { useControllerStore } from '@/stores/controllerStore'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
-import { ref, watch, onMounted } from 'vue'
+import {ref, watch, onMounted, provide} from 'vue'
 import { getItemById, getPlaylistTrackList } from '@/lib/getData'
 
 // Use Store
@@ -29,8 +29,12 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  audioElement: Object,
 })
+// HomePage.vue
+console.log(props.audioElement)
 
+provide('audioElement', props.audioElement);
 const selectedPlaylistId = ref(1)
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
@@ -80,7 +84,7 @@ onMounted(async () => {
       <template v-slot:header>
         <SectionHeader input-text-header="Now Playing" />
       </template>
-      <MusicPlayerCard @autoPlayPause="$emit('autoPlayPause')" />
+      <MusicPlayerCard @autoPlayPause="$emit('autoPlayPause')"/>
     </ContentSection>
 
     <!-- #TrendingSection -->

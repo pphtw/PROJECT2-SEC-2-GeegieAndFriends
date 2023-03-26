@@ -20,9 +20,8 @@ const { currentTrack, isShuffled, isRepeating, isPlaying } =
 const { toggleShuffle, toggleRepeat, skipTrack, togglePlayPause } =
   controllerStore
 
-const audioElement = inject('audioElement')
+const audioElement = inject('audioElement');
 const progressBar = inject('progressBar')
-
 const emit = defineEmits(['autoPlayPause'])
 
 //DOM Element
@@ -93,7 +92,8 @@ onUpdated(() => {
       @click="checkOverflow"
     ></div>
     <!-- #ProgressBar -->
-    <ProgressBarWithTimer />
+    <ProgressBarWithTimer
+    />
     <!-- #MusicTitle&Controller -->
     <div
       class="flex flex-col gap-1 justify-around items-center h-fit bg-white rounded-b-2xl"
@@ -139,10 +139,8 @@ onUpdated(() => {
           <PreviousButton />
         </button>
         <!-- #PlayPauseButton -->
-        <button
-          class="[clip-path:circle()]"
-          @click="togglePlayPause(audioElement)"
-        >
+        <button class="[clip-path:circle()]"
+                @click="togglePlayPause(audioElement)">
           <PlayPauseButton :isActive="isPlaying" />
         </button>
         <!-- #SkipButton -->

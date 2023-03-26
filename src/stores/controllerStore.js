@@ -22,8 +22,8 @@ export const useControllerStore = defineStore('controller', () => {
     currentTime: secToMin(),
     duration: secToMin(),
     isClicked: false,
+    progress: ""
   })
-
   // Getters
   watch(
     () => q.queue[0],
@@ -227,9 +227,10 @@ export const useControllerStore = defineStore('controller', () => {
   }
 
   const updateTime = (currentTime, duration) => {
-    progressBar.currentTime = secToMin(currentTime)
-    progressBar.duration = secToMin(duration)
-  }
+    progressBar.currentTime = secToMin(currentTime);
+    progressBar.duration = secToMin(duration);
+    progressBar.progress = (currentTime / duration) * 100;
+  };
   return {
     q,
     time: progressBar,

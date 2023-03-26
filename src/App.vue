@@ -67,12 +67,11 @@ onMounted(async () => {
     @canplay="autoPlayPause(audioElement)"
     @timeupdate="timeUpdateHandler"
     @loadedmetadata="onLoadMetadataHandler"
-    @progressBarMouseMove="(e) => onProgressBarMouseMove(e)"
-    @progressBarMouseUp="(e) => onProgressBarMouseUp(e)"
   ></audio>
   <div class="flex flex-row w-screen">
     <NavigationBar />
     <RouterView
+        :audio-element="audioElement"
       @autoPlayPause="autoPlayPause(audioElement)"
       @chooseTrack="(ms) => togglePlay(audioElement, ms)"
       @togglePlayPause="togglePlayPause"
