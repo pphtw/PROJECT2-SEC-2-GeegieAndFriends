@@ -23,11 +23,13 @@ export const useSearchStore = defineStore('search', () => {
 
   watch(regex, async (regex) => {
     const tracks = await getAllItems('tracks')
-    filteredList.value = tracks
-      .filter((track) => track.name.match(regex.value))
-      .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
+    filteredList.value = new Set(
+      tracks
+        .filter((track) => track.name.match(regex))
+        .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
+    )
   })
-  //DOM
+
   const filteredTrackList = computed(
     () =>
       new Set(
@@ -40,8 +42,10 @@ export const useSearchStore = defineStore('search', () => {
   )
 
   const filteredPlaylist = ref([])
-  watch(regex,async (regex) => {
-    filteredPlaylist.value = (await getAllItems('playlists')).filter((e) => e.name.match(regex.value))
+  watch(regex, async (regex) => {
+    filteredPlaylist.value = (await getAllItems('playlists')).filter((e) =>
+      e.name.match(regex)
+    )
   })
 
   const setSelectedFilterIndex = (index) => {
@@ -51,8 +55,8 @@ export const useSearchStore = defineStore('search', () => {
   return {
     filterType,
     selectedFilterIndex,
-    // filteredTracklist,
     filteredList,
+    // filteredTrackList,
     filteredPlaylist,
     regex,
     setSelectedFilterIndex,
