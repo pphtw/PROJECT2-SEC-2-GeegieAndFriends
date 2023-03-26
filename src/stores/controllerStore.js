@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import {getAllItems, getItemById, getPlaylistTrackIdList} from '@/lib/getData'
-import { shuffleArray } from '@/lib/util'
+import { getAllItems, getItemById, getPlaylistTrackIdList } from '@/lib/getData'
+import { secToMin, shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
 export const useControllerStore = defineStore('controller', () => {
   const playlist = usePlaylistStore()
@@ -18,6 +18,11 @@ export const useControllerStore = defineStore('controller', () => {
   const isShuffled = ref(false)
   const isRepeating = ref(false)
   const isPlaying = ref(false)
+  const progressBar = reactive({
+    currentTime: secToMin(),
+    duration: secToMin(),
+    isClicked: false,
+  })
 
   // Getters
   watch(
@@ -31,7 +36,6 @@ export const useControllerStore = defineStore('controller', () => {
   // })
   const controllerState = computed(() => {
     if (isShuffled.value && isRepeating.value) {
-
       return 3
     } else if (isShuffled.value && !isRepeating.value) {
       return 2
@@ -221,8 +225,14 @@ export const useControllerStore = defineStore('controller', () => {
     isShuffled.value = false
     isRepeating.value = false
   }
+
+  const updateTime = (currentTime, duration) => {
+    progressBar.currentTime = secToMin(currentTime)
+    progressBar.duration = secToMin(duration)
+  }
   return {
     q,
+    time: progressBar,
     isShuffled,
     isRepeating,
     isPlaying,
@@ -236,5 +246,6 @@ export const useControllerStore = defineStore('controller', () => {
     chooseTrack,
     setQueue,
     initController,
+    updateTime,
   }
 })

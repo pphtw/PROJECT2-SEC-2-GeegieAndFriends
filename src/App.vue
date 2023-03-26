@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeMount, reactive, ref, provide, Transition } from 'vue'
+import { reactive, ref, provide, Transition, onMounted } from 'vue'
 
 // Components
 import { secToMin } from '@/lib/util'
@@ -14,7 +14,7 @@ const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
 const { likedTracks } = storeToRefs(playlistStore)
-const { currentTrack, q } = storeToRefs(controllerStore)
+const { currentTrack, q, progressBar } = storeToRefs(controllerStore)
 
 const {
   skipTrack,
@@ -28,24 +28,33 @@ const {
 
 //DOM Elements
 const audioElement = ref(null)
-const time = reactive({
-  currentTime: secToMin(),
-  duration: secToMin(),
-})
 
-provide('time', time)
-// pass object
 provide('audioElement', audioElement)
-// provide('progressBar', progressBar)
 
 //event handler
 const timeUpdateHandler = () => {
-  time.currentTime = secToMin(audioElement.value.currentTime)
-  time.duration = secToMin(audioElement.value.duration)
+  updateTime(audioElement.value.currentTime, audioElement.value.duration)
+}
+
+const onLoadMetadataHandler = () => {
+  audioElement.volume = 0.1
+  updateTime(audioElement.value.currentTime, audioElement.value.duration)
+}
+
+const onProgressBarMouseMove = (e) => {
+  if (progressBar.isClicked) {
+    updateTime(e)
+  }
+}
+const onProgressBarMouseUp = (e) => {
+  if (progressBar.isClicked) {
+    updateTime(audioElement.value.currentTime, audioElement.value.duration)
+    progressBar.isClicked = false
+  }
 }
 
 // Hooks
-onBeforeMount(async () => {
+onMounted(async () => {
   await initController()
 })
 </script>
@@ -57,6 +66,9 @@ onBeforeMount(async () => {
     @ended="skipTrack()"
     @canplay="autoPlayPause(audioElement)"
     @timeupdate="timeUpdateHandler"
+    @loadedmetadata="onLoadMetadataHandler"
+    @progressBarMouseMove="(e) => onProgressBarMouseMove(e)"
+    @progressBarMouseUp="(e) => onProgressBarMouseUp(e)"
   ></audio>
   <div class="flex flex-row w-screen">
     <NavigationBar />
