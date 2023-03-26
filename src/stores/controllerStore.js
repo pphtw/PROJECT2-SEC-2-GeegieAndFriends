@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { getAllItems, getItemById, getPlaylistTrackIdList } from '@/lib/getData'
 import { secToMin, shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
+
 export const useControllerStore = defineStore('controller', () => {
   const playlist = usePlaylistStore()
 
@@ -19,10 +20,32 @@ export const useControllerStore = defineStore('controller', () => {
   const isRepeating = ref(false)
   const isPlaying = ref(false)
   const progressBar = reactive({
-    currentTime: secToMin(),
-    duration: secToMin(),
     isClicked: false,
-    progress: ""
+    currentTime: 0,
+    duration: 0,
+    width: computed(
+      () => (progressBar.currentTime / progressBar.duration) * 100 + '%'
+    ),
+    boundingRect: new DOMRect(),
+    updateTime: (currentTime) => {
+      progressBar.currentTime = currentTime
+    },
+    updateProgress: (e) => {
+      const x = progressBar.validateX(e.clientX)
+      progressBar.updateTime(
+        (x / progressBar.boundingRect.width) * progressBar.duration
+      )
+      progressBar.progress = x / progressBar.boundingRect.width
+    },
+    validateX: (x) => {
+      if (x < progressBar.boundingRect.left) {
+        return 0
+      } else if (x > progressBar.boundingRect.right) {
+        return progressBar.boundingRect.width
+      } else {
+        return x - progressBar.boundingRect.left
+      }
+    },
   })
   // Getters
   watch(
@@ -226,19 +249,13 @@ export const useControllerStore = defineStore('controller', () => {
     isRepeating.value = false
   }
 
-  const updateTime = (currentTime, duration) => {
-    progressBar.currentTime = secToMin(currentTime);
-    progressBar.duration = secToMin(duration);
-    progressBar.progress = (currentTime / duration) * 100;
-  };
   return {
     q,
-    time: progressBar,
+    progressBar,
     isShuffled,
     isRepeating,
     isPlaying,
     currentTrack,
-    updateTime,
     togglePlayPause,
     togglePlay,
     toggleShuffle,

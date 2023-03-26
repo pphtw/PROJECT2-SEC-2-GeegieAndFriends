@@ -1,18 +1,18 @@
 <script setup>
+import { ref, watch, onMounted } from 'vue'
+import { useControllerStore } from '@/stores/controllerStore'
+import { usePlaylistStore } from '@/stores/playlistStore'
+
+import { getItemById, getPlaylistTrackList } from '@/lib/getData'
+
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
 import TrackList from '../UI/organisms/TrackList.vue'
-import { useControllerStore } from '@/stores/controllerStore'
-import { usePlaylistStore } from '@/stores/playlistStore'
-import { storeToRefs } from 'pinia'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
-import {ref, watch, onMounted, provide} from 'vue'
-import { getItemById, getPlaylistTrackList } from '@/lib/getData'
 
 // Use Store
-const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
 const { chooseTrack } = controllerStore
@@ -24,17 +24,8 @@ const emit = defineEmits([
   'chooseTrack',
   'autoPlayPause',
 ])
-const props = defineProps({
-  isProgressBarClicked: {
-    type: Boolean,
-    required: true,
-  },
-  audioElement: Object,
-})
-// HomePage.vue
-console.log(props.audioElement)
 
-provide('audioElement', props.audioElement);
+// HomePage.vue
 const selectedPlaylistId = ref(1)
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
@@ -63,7 +54,6 @@ onMounted(async () => {
 
 <template>
   <PageTemplate
-    :is-progress-bar-clicked="isProgressBarClicked"
     content-style="grid-cols-[minmax(18rem,1fr)_3fr] grid-rows-[2fr_5fr]"
   >
     <ContentSection class="col-span-2 min-h-full">
@@ -84,7 +74,7 @@ onMounted(async () => {
       <template v-slot:header>
         <SectionHeader input-text-header="Now Playing" />
       </template>
-      <MusicPlayerCard @autoPlayPause="$emit('autoPlayPause')"/>
+      <MusicPlayerCard @autoPlayPause="$emit('autoPlayPause')" />
     </ContentSection>
 
     <!-- #TrendingSection -->

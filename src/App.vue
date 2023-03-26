@@ -7,20 +7,19 @@ import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
 import NavigationBar from './components/UI/organisms/NavigationBar.vue'
-import ProgressBarWithTimer from "@/components/UI/molecules/ProgressBarWithTimer.vue";
+import { secToMin } from '@/lib/util'
 
 // Use Store
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
 const { likedTracks } = storeToRefs(playlistStore)
-const { currentTrack, q, time } = storeToRefs(controllerStore)
+const { currentTrack, q, progressBar } = storeToRefs(controllerStore)
 const {
   skipTrack,
   autoPlayPause,
   togglePlayPause,
   togglePlay,
-  updateTime,
   initController,
 } = controllerStore
 
@@ -33,26 +32,30 @@ provide('audioElement', audioElement)
 
 //event handler
 const timeUpdateHandler = () => {
-  updateTime(audioElement.value.currentTime, audioElement.value.duration)
+  if (!progressBar.value.isClicked) {
+    progressBar.value.updateTime(audioElement.value.currentTime)
+  }
 }
 
 const onLoadMetadataHandler = () => {
   audioElement.volume = 0.1
-  updateTime(audioElement.value.currentTime, audioElement.value.duration)
+  progressBar.value.duration = audioElement.value.duration
+  progressBar.value.updateTime(audioElement.value.currentTime)
 }
 
 const onProgressBarMouseMove = (e) => {
-  if (time.isClicked) {
-    updateTime(e)
-  }
-}
-const onProgressBarMouseUp = (e) => {
-  if (time.isClicked) {
-    updateTime(audioElement.value.currentTime, audioElement.value.duration)
-    time.isClicked = false
+  if (progressBar.value.isClicked) {
+    progressBar.value.updateProgress(e)
   }
 }
 
+const onProgressBarMouseUp = (e) => {
+  if (progressBar.value.isClicked) {
+    progressBar.value.updateProgress(e)
+    audioElement.value.currentTime = progressBar.value.currentTime
+    progressBar.value.isClicked = false
+  }
+}
 // Hooks
 onMounted(async () => {
   await initController()
@@ -68,10 +71,14 @@ onMounted(async () => {
     @timeupdate="timeUpdateHandler"
     @loadedmetadata="onLoadMetadataHandler"
   ></audio>
-  <div class="flex flex-row w-screen">
+  <div
+    class="flex flex-row w-screen"
+    @mouseup="onProgressBarMouseUp"
+    @mousemove="onProgressBarMouseMove"
+  >
     <NavigationBar />
     <RouterView
-        :audio-element="audioElement"
+      :audio-element="audioElement"
       @autoPlayPause="autoPlayPause(audioElement)"
       @chooseTrack="(ms) => togglePlay(audioElement, ms)"
       @togglePlayPause="togglePlayPause"

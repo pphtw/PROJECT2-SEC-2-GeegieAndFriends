@@ -1,6 +1,4 @@
 <script setup>
-import NavigationBar from '@/components/UI/organisms/NavigationBar.vue'
-
 import { useControllerStore } from '@/stores/controllerStore'
 
 // Use Store
@@ -9,33 +7,13 @@ const controllerStore = useControllerStore()
 const { chooseTrack, skipTrack, toggleShuffle } = controllerStore
 
 // Definition
-const emit = defineEmits([
-  'progressBarMouseMove',
-  'progressBarMouseUp',
-  'chooseTrack',
-  'autoPlayPause',
-])
+const emit = defineEmits(['chooseTrack', 'autoPlayPause'])
 const props = defineProps({
-  isProgressBarClicked: {
-    type: Boolean,
-    required: true,
-  },
   contentStyle: {
     type: String,
     required: false,
   },
-
 })
-
-// Handlers
-const onMouseMove = (e) => {
-  if (props.isProgressBarClicked) {
-    emit('progressBarMouseMove', e)
-  }
-}
-const onMouseUp = (e) => {
-  emit('progressBarMouseUp', e)
-}
 </script>
 
 <template>
@@ -45,8 +23,6 @@ const onMouseUp = (e) => {
     @keyup.left="skipTrack(false)"
     @keyup.space="$emit('togglePlayPause')"
     @keyup="toggleShuffle"
-    @mousemove="onMouseMove"
-    @mouseup="onMouseUp"
     tabindex="-1"
   >
     <div

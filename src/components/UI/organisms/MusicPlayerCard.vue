@@ -1,18 +1,16 @@
 <script setup>
 import { ref, inject, onUpdated } from 'vue'
+import { useControllerStore } from '@/stores/controllerStore'
+import { storeToRefs } from 'pinia'
 
 import ShuffleButton from '../atoms/ShuffleButton.vue'
 import PreviousButton from '../atoms/PreviousButton.vue'
 import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import SkipButton from '../atoms/SkipButton.vue'
 import RepeatButton from '../atoms/RepeatButton.vue'
-import { useControllerStore } from '@/stores/controllerStore'
-import { usePlaylistStore } from '@/stores/playlistStore'
-import { storeToRefs } from 'pinia'
 import ProgressBarWithTimer from '@/components/UI/molecules/ProgressBarWithTimer.vue'
 
 // Use Store
-const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
 const { currentTrack, isShuffled, isRepeating, isPlaying } =
@@ -20,19 +18,16 @@ const { currentTrack, isShuffled, isRepeating, isPlaying } =
 const { toggleShuffle, toggleRepeat, skipTrack, togglePlayPause } =
   controllerStore
 
-const audioElement = inject('audioElement');
-const progressBar = inject('progressBar')
+const audioElement = inject('audioElement')
 const emit = defineEmits(['autoPlayPause'])
 
-//DOM Element
-
+//DOM Elements
 const titleElement = ref(null)
 
 // States
 const isOverflow = ref(false)
 
 //Event Handler
-
 const checkOverflow = () => {
   const element = titleElement.value
   isOverflow.value = false
@@ -92,8 +87,7 @@ onUpdated(() => {
       @click="checkOverflow"
     ></div>
     <!-- #ProgressBar -->
-    <ProgressBarWithTimer
-    />
+    <ProgressBarWithTimer />
     <!-- #MusicTitle&Controller -->
     <div
       class="flex flex-col gap-1 justify-around items-center h-fit bg-white rounded-b-2xl"
@@ -139,8 +133,10 @@ onUpdated(() => {
           <PreviousButton />
         </button>
         <!-- #PlayPauseButton -->
-        <button class="[clip-path:circle()]"
-                @click="togglePlayPause(audioElement)">
+        <button
+          class="[clip-path:circle()]"
+          @click="togglePlayPause(audioElement)"
+        >
           <PlayPauseButton :isActive="isPlaying" />
         </button>
         <!-- #SkipButton -->
