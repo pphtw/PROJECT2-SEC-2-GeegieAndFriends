@@ -2,25 +2,25 @@
 import { reactive, ref, provide, Transition, onMounted } from 'vue'
 
 // Components
-import { secToMin } from '@/lib/util'
 import { useControllerStore } from '@/stores/controllerStore.js'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
 import NavigationBar from './components/UI/organisms/NavigationBar.vue'
+import ProgressBarWithTimer from "@/components/UI/molecules/ProgressBarWithTimer.vue";
 
 // Use Store
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
 const { likedTracks } = storeToRefs(playlistStore)
-const { currentTrack, q, progressBar } = storeToRefs(controllerStore)
-
+const { currentTrack, q, time } = storeToRefs(controllerStore)
 const {
   skipTrack,
   autoPlayPause,
   togglePlayPause,
   togglePlay,
+  updateTime,
   initController,
 } = controllerStore
 
@@ -42,14 +42,14 @@ const onLoadMetadataHandler = () => {
 }
 
 const onProgressBarMouseMove = (e) => {
-  if (progressBar.isClicked) {
+  if (time.isClicked) {
     updateTime(e)
   }
 }
 const onProgressBarMouseUp = (e) => {
-  if (progressBar.isClicked) {
+  if (time.isClicked) {
     updateTime(audioElement.value.currentTime, audioElement.value.duration)
-    progressBar.isClicked = false
+    time.isClicked = false
   }
 }
 

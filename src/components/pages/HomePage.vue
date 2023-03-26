@@ -15,8 +15,6 @@ import { getItemById, getPlaylistTrackList } from '@/lib/getData'
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
 
-// const { selectedPlaylistName, selectedPlaylistTracks } =
-//   storeToRefs(playlistStore)
 const { chooseTrack } = controllerStore
 
 // Definition
