@@ -7,6 +7,7 @@ import { useControllerStore } from '@/stores/controllerStore.js'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
+import { updatePlaylist } from './lib/getData'
 
 // Use Store
 const playlistStore = usePlaylistStore()
@@ -25,12 +26,11 @@ const {
 
 //progress bar
 
-
 //DOM Elements
 const audioElement = ref(null)
 const time = reactive({
   currentTime: secToMin(),
-  duration: secToMin()
+  duration: secToMin(),
 })
 
 provide('time', time)
