@@ -73,7 +73,7 @@ const searchHandler = (input) => {
 <style scoped>
 :deep(.container-gradient) {
   background-image: linear-gradient(
-    160deg,
+    180deg,
     hsl(228deg 39% 29%) 0%,
     hsl(233deg 32% 35%) 19%,
     hsl(239deg 27% 40%) 34%,

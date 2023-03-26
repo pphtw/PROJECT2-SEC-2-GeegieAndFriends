@@ -77,7 +77,7 @@ onMounted(async () => {
       <MusicPlayerCard @autoPlayPause="$emit('autoPlayPause')" />
     </ContentSection>
 
-    <!-- #TrendingSection -->
+    <!-- #MusicListSection -->
     <ContentSection class="min-h-full">
       <template v-slot:header>
         <SectionHeader :input-text-header="selectedPlaylistName" />
