@@ -55,3 +55,76 @@ export const getPlaylistTrackIdList = async (playlistId) => {
 export const getPlaylistTrackList = async (id) => {
   return await getFilteredItemList('tracks', await getPlaylistTrackIdList(id))
 }
+
+export const createPlaylist = (playlist) => {
+  fetch(`${API_URL}/playlists`, {
+    method: 'post',
+    body: JSON.stringify(playlist),
+  })
+    .then(async (response) => {
+      const data = await response.json()
+      if (response.ok) {
+        console.log(data)
+      } else return Promise.reject(response.statusText)
+    })
+    .catch((error) => {
+      console.error(`ERROR FETCHING ${error.message}`)
+    })
+}
+
+export const deletePlaylist = async (playlistId) => {
+  if ((await getItemById('playlists', playlistId)).owner === 1) {
+    console.error(`CANNOT REMOVE THIS PLAYLIST`)
+  } else {
+    fetch(`${API_URL}/playlists/${playlistId}`, {
+      method: 'delete',
+      // body: JSON.stringify(playlist),
+    })
+      .then(async (response) => {
+        const data = await response.json()
+        if (response.ok) {
+          console.log(data)
+        } else return Promise.reject(response.statusText)
+      })
+      .catch((error) => {
+        console.error(`ERROR FETCHING ${error.message}`)
+      })
+  }
+}
+
+export const updatePlaylist = async (playlistId, newPlaylist) => {
+  const playlist = await getItemById('playlists', playlistId)
+
+  if (playlist.owner === 1) {
+    console.error(`CANNOT UPDATE THIS PLAYLIST`)
+  } else {
+    console.log(playlist)
+    //update
+    playlist.name =
+      newPlaylist.name === undefined ? playlist.name : newPlaylist.name
+    playlist.background =
+      newPlaylist.background === undefined
+        ? playlist.background
+        : newPlaylist.background
+    playlist.tracks =
+      newPlaylist.tracks === undefined ? playlist.tracks : newPlaylist.tracks
+
+    console.log(playlist)
+
+    fetch(`${API_URL}/playlists/${playlistId}`, {
+      method: 'PUT',
+      body: JSON.stringify(playlist),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(async (response) => {
+        const data = await response.json()
+        if (response.ok) {
+          console.log(data)
+          console.log(playlist)
+        } else return Promise.reject(response.statusText)
+      })
+      .catch((error) => {
+        console.error(`ERROR FETCHING ${error.message}`)
+      })
+  }
+}
