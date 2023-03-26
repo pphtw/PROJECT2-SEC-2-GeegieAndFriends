@@ -21,13 +21,6 @@ const { chooseTrack } = controllerStore
 // Definition
 const emit = defineEmits(['chooseTrack'])
 
-const props = defineProps({
-  isProgressBarClicked: {
-    type: Boolean,
-    required: true,
-  },
-})
-
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
   chooseTrack(e.currentTarget.id, playlistId)
@@ -47,7 +40,6 @@ const searchHandler = (input) => {
 
 <template>
   <PageTemplate
-    :is-progress-bar-clicked="isProgressBarClicked"
     content-style="grid-cols-[3fr_minmax(18rem,1fr)] grid-rows-[2fr_5fr]"
   >
     <ContentSection class="flex flex-col row-span-2 min-h-full">
