@@ -5,18 +5,16 @@ import { storeToRefs } from 'pinia'
 import { useControllerStore } from '@/stores/controllerStore'
 import { secToMin } from '@/lib/util'
 const audioElement = inject('audioElement', new Audio())
-
+const emit = defineEmits(['progressBarMouseMove', 'progressBarMouseUp'])
 const controllerStore = useControllerStore()
 const {time} = controllerStore
+
 const progressBarElement = ref(null)
 const progressBar = reactive({
   barWidth: '0%',
   isClicked: false,
   boundingRect: new DOMRect(),
   newTime: 0,
-  progressBarWidth : computed(
-      () => (controllerStore.time.currentTime / controllerStore.time.duration) * 100 + "%" )
-  ,
   updateTime: (e) => {
     const x = progressBar.validateX(e.clientX)
     progressBar.newTime =
@@ -33,7 +31,9 @@ const progressBar = reactive({
     }
   },
 })
-
+const progressBarWidth = computed(() => {
+  return controllerStore.time.progress + "%";
+});
 const onProgressBarMouseDown = (e) => {
   e.preventDefault();
   progressBar.boundingRect = progressBarElement.value.getBoundingClientRect();
@@ -43,6 +43,7 @@ const onProgressBarMouseDown = (e) => {
 const onProgressBarMouseMove = (e) => {
   if (controllerStore.time.isClicked) {
     progressBar.updateTime(e);
+    emit('progressBarMouseMove', e);
   }
 };
 
@@ -51,6 +52,7 @@ const onProgressBarMouseUp = (e) => {
     progressBar.updateTime(e);
     audioElement.currentTime = progressBar.newTime;
     controllerStore.time.isClicked = false;
+    emit('progressBarMouseUp', e);
   }
 };
 </script>
@@ -61,12 +63,12 @@ const onProgressBarMouseUp = (e) => {
       class="progress-bar self-center active:cursor-default"
       ref="progressBarElement"
       @mousedown="onProgressBarMouseDown"
-      @mousemove="onProgressBarMouseMove"
       @mouseup="onProgressBarMouseUp"
+      @mousemove="onProgressBarMouseMove"
     >
       <div
         class="progress-current"
-        :style="{ width: progressBar.progressBarWidth  }"
+        :style="{ width: progressBarWidth  }"
       ></div>
     </div>
   </div>
