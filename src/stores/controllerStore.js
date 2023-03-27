@@ -78,6 +78,7 @@ export const useControllerStore = defineStore('controller', () => {
       audioElement.pause()
       isPlaying.value = false
     }
+
   }
   const togglePlay = (audioElement, ms = 0) => {
     setTimeout(() => {
@@ -150,7 +151,7 @@ export const useControllerStore = defineStore('controller', () => {
       } else {
         // Default (No Shuffle)
         console.log('Skip: NoRepeat')
-        if (q.queue.length > 0) {
+        if (q.queue.length > 1) {
           q.dumpQueue.push(queue.shift())
 
           // console.log(q.tempQueue)
@@ -174,6 +175,7 @@ export const useControllerStore = defineStore('controller', () => {
         }
       }
     }
+    savePlaybackState();
   }
   const skipToTrack = (id, queue = q.queue, repeat = false) => {
     const indexToSkip = q.tempQueue.findIndex(
@@ -204,38 +206,51 @@ export const useControllerStore = defineStore('controller', () => {
       }
     }
     console.log(indexToSkip)
+    savePlaybackState();
   }
   const chooseTrack = async (id, playlistId) => {
-    const trackId = Number(id)
-    const state = controllerState.value
+    const trackId = Number(id);
+    const state = controllerState.value;
+
     if (currentPlaylistId.value !== playlistId) {
-      currentPlaylistId.value = playlistId
-      q.queue = await getPlaylistTrackIdList(currentPlaylistId.value)
-      q.tempQueue = q.queue
-      console.log(q.queue)
-    }
-    switch (state) {
-      case 0: {
-        console.log('choose state 0')
-        q.dumpQueue = q.defaultQueue.slice(
-          0,
-          q.defaultQueue.findIndex((i) => i === trackId) - 1
-        )
-        q.queue = q.defaultQueue.slice(
-          q.defaultQueue.findIndex((i) => i === trackId)
-        )
-        break
-      }
-      case 1:
-      case 3: {
-        console.log('choose state 3')
-        skipToTrack(trackId)
-        break
-      }
+      currentPlaylistId.value = playlistId;
+      q.queue = await getPlaylistTrackIdList(currentPlaylistId.value);
+      q.tempQueue = [...q.queue];
+      q.defaultQueue = [...q.queue];
+      q.dumpQueue = [];
     }
 
-    isPlaying.value = true
-  }
+    if (state === 0) {
+      q.dumpQueue = q.defaultQueue.slice(
+          0,
+          q.defaultQueue.findIndex((i) => i === trackId) - 1
+      );
+      q.queue = q.defaultQueue.slice(
+          q.defaultQueue.findIndex((i) => i === trackId)
+      );
+    } else if (state === 1 || state === 3) {
+      skipTrack(true, true, q.queue);
+    }
+
+    isPlaying.value = true;
+    savePlaybackState();
+  };
+  const savePlaybackState = () => {
+    const playbackState = {
+      queue: q.queue,
+      dumpQueue: q.dumpQueue,
+    };
+    localStorage.setItem('playbackState', JSON.stringify(playbackState));
+  };
+
+  const loadPlaybackState = () => {
+    const storedState = localStorage.getItem('playbackState');
+    if (storedState) {
+      const playbackState = JSON.parse(storedState);
+      q.queue = playbackState.queue;
+      q.dumpQueue = playbackState.dumpQueue;
+    }
+  };
   const setQueue = (queue) => {
     q.queue = [...queue]
     q.defaultQueue = [...queue]
@@ -244,9 +259,11 @@ export const useControllerStore = defineStore('controller', () => {
   const initController = async () => {
     currentTrack.value = await getItemById('tracks', q.queue[0])
     setQueue(await getPlaylistTrackIdList(1))
+    loadPlaybackState()
     playlist.likedTracks = JSON.parse(localStorage.getItem('likedTracks')) ?? []
     isShuffled.value = false
     isRepeating.value = false
+
   }
 
   return {
