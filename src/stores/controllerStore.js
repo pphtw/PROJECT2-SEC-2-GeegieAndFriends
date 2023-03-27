@@ -191,7 +191,6 @@ export const useControllerStore = defineStore('controller', () => {
     const indexToSkip = q.tempQueue.findIndex(
       (trackId) => trackId === Number(id)
     )
-
     if (isRepeating.value || repeat) {
       console.log('Repeat')
       if (indexToSkip < q.tempQueue.length / 2) {
@@ -207,7 +206,7 @@ export const useControllerStore = defineStore('controller', () => {
       console.log('NoRepeat')
       if (!q.dumpQueue.includes(id)) {
         while (queue[0] !== id) {
-          skipToTrack(true, false, queue)
+          skipTrack(true, false, queue)
         }
       } else {
         while (queue[0] !== id) {
@@ -215,7 +214,6 @@ export const useControllerStore = defineStore('controller', () => {
         }
       }
     }
-    console.log(indexToSkip)
     savePlaybackState()
   }
   const chooseTrack = async (id, playlistId) => {
@@ -248,13 +246,9 @@ export const useControllerStore = defineStore('controller', () => {
         break
       }
       case 2: {
-        q.dumpQueue = q.tempQueue.slice(
-          0,
-          q.tempQueue.findIndex((i) => i === trackId)
-        )
-        q.queue = q.tempQueue.slice(q.tempQueue.findIndex((i) => i === trackId))
-        console.log(q.queue)
-        console.log(q.dumpQueue)
+        skipToTrack(trackId, q.tempQueue)
+        q.queue = [...q.tempQueue]
+        break
       }
     }
     isPlaying.value = true
