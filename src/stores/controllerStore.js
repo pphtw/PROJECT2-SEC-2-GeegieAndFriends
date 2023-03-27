@@ -111,9 +111,11 @@ export const useControllerStore = defineStore('controller', () => {
         // console.log('case 0 S')
         break
       case 1: //no shuffle & repeat
-        skipToTrack(trackId, q.queue)
+        q.tempQueue = [...q.defaultQueue]
+        skipToTrack(trackId, q.tempQueue)
+        q.queue = [...q.tempQueue]
         console.log(q.queue)
-        // console.log('case 1 S')
+        console.log('case 1 S')
         break
       case 2: //shuffle & no repeat
         q.queue = shuffleArray(q.queue)
