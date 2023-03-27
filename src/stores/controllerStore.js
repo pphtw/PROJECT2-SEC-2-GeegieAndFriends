@@ -96,47 +96,56 @@ export const useControllerStore = defineStore('controller', () => {
   }
   const toggleShuffle = () => {
     const state = controllerState.value
+    const trackId = currentTrack.value.id
     switch (state) {
       case 0: //no shuffle & no repeat
-        skipToTrack(currentTrack.value.id, q.defaultQueue, true)
-        q.queue = [...q.defaultQueue]
-        q.tempQueue = [...q.defaultQueue]
-        // q.queue.push(...q.dumpQueue)
+        q.dumpQueue = q.defaultQueue.slice(
+          0,
+          q.defaultQueue.findIndex((i) => i === trackId)
+        )
+        q.queue = q.defaultQueue.slice(
+          q.defaultQueue.findIndex((i) => i === trackId)
+        )
+        console.log(q.queue)
+        console.log(q.dumpQueue)
+        // console.log('case 0 S')
         break
       case 1: //no shuffle & repeat
-        // skipToTrack(q.queue[0], q.tempQueue)
-        // q.queue = [...q.tempQueue]
-        skipToTrack(currentTrack.value.id, q.defaultQueue, true)
-        q.queue = [...q.defaultQueue]
-        q.tempQueue = [...q.defaultQueue]
+        skipToTrack(trackId, q.queue)
+        console.log(q.queue)
+        // console.log('case 1 S')
         break
       case 2: //shuffle & no repeat
         q.queue = shuffleArray(q.queue)
         q.tempQueue = [...q.queue]
-        // q.queue.push(...q.dumpQueue)
-        // q.queue = shuffleArray(q.queue)
-
+        // console.log('case 2 S')
         break
       case 3: //shuffle & repeat
-        // q.tempQueue = q.queue
-        // q.queue = shuffleArray(q.queue)
         q.queue = shuffleArray(q.queue)
         q.tempQueue = [...q.queue]
+        // console.log('case 3 S')
         break
     }
   }
   const toggleRepeat = () => {
+    const trackId = currentTrack.value.id
     switch (controllerState.value) {
       case 0: {
-        skipToTrack(currentTrack.value.id, q.defaultQueue, true)
-        q.queue = [...q.defaultQueue]
-        q.tempQueue = [...q.defaultQueue]
+        q.dumpQueue = q.defaultQueue.slice(
+          0,
+          q.defaultQueue.findIndex((i) => i === trackId)
+        )
+        q.queue = q.defaultQueue.slice(
+          q.defaultQueue.findIndex((i) => i === trackId)
+        )
+        // console.log('case 0 L')
         break
       }
       case 1:
       case 3: {
         q.queue.push(...q.dumpQueue)
         q.dumpQueue = []
+        // console.log('case 3 L')
         break
       }
     }
@@ -146,15 +155,14 @@ export const useControllerStore = defineStore('controller', () => {
     if (toNext) {
       if (onRepeat || repeating) {
         console.log('Skip: Repeat')
-        // console.log(q.queue)
         queue.push(queue.shift())
+        console.log(q.queue)
       } else {
         // Default (No Shuffle)
         console.log('Skip: NoRepeat')
         if (q.queue.length > 1) {
           q.dumpQueue.push(queue.shift())
 
-          // console.log(q.tempQueue)
           console.log(q.queue)
           console.log(q.dumpQueue)
         }
@@ -163,13 +171,13 @@ export const useControllerStore = defineStore('controller', () => {
       if (onRepeat || repeating) {
         console.log('SkipBack: Repeat')
         queue.unshift(queue.pop())
+        console.log(q.queue)
       } else {
         // Default (No Shuffle)
         console.log('SkipBack: NoRepeat')
         if (q.dumpQueue.length !== 0) {
           queue.unshift(q.dumpQueue.pop())
 
-          // console.log(q.tempQueue)
           console.log(q.queue)
           console.log(q.dumpQueue)
         }
@@ -197,7 +205,7 @@ export const useControllerStore = defineStore('controller', () => {
       console.log('NoRepeat')
       if (!q.dumpQueue.includes(id)) {
         while (queue[0] !== id) {
-          skipTrack(true, false, queue)
+          skipToTrack(true, false, queue)
         }
       } else {
         while (queue[0] !== id) {
@@ -234,8 +242,17 @@ export const useControllerStore = defineStore('controller', () => {
       }
       case 1:
       case 3: {
-        skipTrack(true, true, q.queue)
+        skipToTrack(trackId, q.queue)
         break
+      }
+      case 2: {
+        q.dumpQueue = q.tempQueue.slice(
+          0,
+          q.tempQueue.findIndex((i) => i === trackId)
+        )
+        q.queue = q.tempQueue.slice(q.tempQueue.findIndex((i) => i === trackId))
+        console.log(q.queue)
+        console.log(q.dumpQueue)
       }
     }
     isPlaying.value = true
