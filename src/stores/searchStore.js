@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
-import { getAllItems } from '@/lib/getData'
-
+import TrackService from "@/lib/trackService";
+const trackService = new TrackService()
 export const useSearchStore = defineStore('search', () => {
   //Definition
   const filterType = [
@@ -22,7 +22,7 @@ export const useSearchStore = defineStore('search', () => {
   const checkKeywords = (keyword) => keyword.match(regex.value)
 
   watch(regex, async (regex) => {
-    const tracks = await getAllItems('tracks')
+    const tracks = await trackService.getAllItems('tracks')
     filteredList.value = new Set(
       tracks
         .filter((track) => track.name.match(regex))
@@ -33,17 +33,17 @@ export const useSearchStore = defineStore('search', () => {
   const filteredTrackList = computed(
     () =>
       new Set(
-        getAllItems('tracks')
+        trackService.getAllItems('tracks')
           .filter((e) => e.name.match(regex.value))
           .concat(
-            getAllItems('tracks').filter((e) => e.keywords.some(checkKeywords))
+            trackService.getAllItems('tracks').filter((e) => e.keywords.some(checkKeywords))
           )
       )
   )
 
   const filteredPlaylist = ref([])
   watch(regex, async (regex) => {
-    filteredPlaylist.value = (await getAllItems('playlists')).filter((e) =>
+    filteredPlaylist.value = (await trackService.getAllItems('playlists')).filter((e) =>
       e.name.match(regex)
     )
   })
