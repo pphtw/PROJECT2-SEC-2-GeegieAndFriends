@@ -120,8 +120,6 @@ export const updatePlaylist = async (playlistId, newPlaylist) => {
       .then(async (response) => {
         const data = await response.json()
         if (response.ok) {
-          console.log(data)
-          console.log(playlist)
         } else return Promise.reject(response.statusText)
       })
       .catch((error) => {
