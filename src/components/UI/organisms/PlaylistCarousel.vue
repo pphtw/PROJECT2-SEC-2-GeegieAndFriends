@@ -15,6 +15,12 @@ const emit = defineEmits([
   'previousPageHandler',
   'choosePlaylist',
 ])
+const props = defineProps({
+  playlistStyle: {
+    type: String,
+    required: false,
+  },
+})
 
 const pinnedPlaylists = ref([])
 
@@ -32,7 +38,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="h-full grid grid-cols-3 gap-x-6 gap-y-3">
+  <div class="h-full grid grid-cols-3 gap-x-6 gap-y-3" :class="playlistStyle">
     <div
       v-for="playlist in pinnedPlaylists"
       :style="{
