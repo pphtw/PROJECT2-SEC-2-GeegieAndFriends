@@ -226,6 +226,10 @@ export const useControllerStore = defineStore('controller', () => {
       q.tempQueue = [...q.queue]
       q.defaultQueue = [...q.queue]
       q.dumpQueue = []
+      if (isShuffled.value){
+        q.queue = shuffleArray(q.queue)
+        q.tempQueue = [...q.queue]
+      }
     }
     switch (state) {
       case 0: {

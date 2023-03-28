@@ -26,14 +26,15 @@ const emit = defineEmits([
 ])
 
 // HomePage.vue
-const selectedPlaylistId = ref(localStorage.getItem('selectedPlaylistId') ?? 1)
+const selectedPlaylistId = ref(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1)
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
+
 
 watch(selectedPlaylistId, async (id) => {
   selectedPlaylistName.value = (await getItemById('playlists', id)).name
   selectedPlaylistTracks.value = await getPlaylistTrackList(id)
-  localStorage.setItem('selectedPlaylistId',selectedPlaylistId.value)
+  localStorage.setItem('selectedPlaylistId', JSON.stringify(selectedPlaylistId.value))
 })
 
 // Handlers
