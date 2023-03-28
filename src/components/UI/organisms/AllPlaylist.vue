@@ -2,21 +2,16 @@
 import { getFilteredItemList, getAllItems } from '@/lib/getData'
 import { onMounted, ref } from 'vue'
 
-const playlists = ref([])
 const emit = defineEmits(['choosePlaylist'])
+
 const onClickPlayList = (event) => {
   emit('choosePlaylist', event.currentTarget.id)
 }
-onMounted(async () => {
-  playlists.value = await getAllItems('playlists')
-  playlists.value.unshift({
-    id: 0,
-    name: 'Liked Song',
-    tracks: JSON.parse(localStorage.getItem('likedTracks')) ?? [],
-    background:
-      'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
-  })
-  console.log(playlists.value)
+const props = defineProps({
+  playlists: {
+    type: Object,
+    required: true,
+  },
 })
 </script>
 

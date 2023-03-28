@@ -24,7 +24,7 @@ const props = defineProps({
   <TransitionGroup
     tag="div"
     name="list"
-    class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll"
+    class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll overflow-x-hidden"
   >
     <!-- #TrackList -->
     <div

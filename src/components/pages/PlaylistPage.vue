@@ -3,13 +3,29 @@ import PageTemplate from '../templates/PageTemplate.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import AllPlaylist from '../UI/organisms/AllPlaylist.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { getAllItems } from '@/lib/getData'
+
 
 const isClickedPlaylist = ref(false)
+const playlists = ref([])
+
 const onClickPlaylist = (value) => {
   isClickedPlaylist.value = !isClickedPlaylist.value
   console.log(value)
 }
+
+onMounted(async () => {
+  playlists.value = await getAllItems('playlists')
+  playlists.value.unshift({
+    id: 0,
+    name: 'Liked Song',
+    tracks: JSON.parse(localStorage.getItem('likedTracks')) ?? [],
+    background:
+      'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
+  })
+  console.log(playlists.value)
+})
 </script>
 
 <template>
@@ -19,7 +35,7 @@ const onClickPlaylist = (value) => {
         <div class="flex flex-row justify-between">
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
-      <AllPlaylist @choose-playlist="onClickPlaylist" />
+      <AllPlaylist :playlists="playlists" @choose-playlist="onClickPlaylist" />
     </ContentSection>
   </PageTemplate>
 </template>
