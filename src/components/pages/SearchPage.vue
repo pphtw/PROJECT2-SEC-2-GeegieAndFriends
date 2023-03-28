@@ -13,7 +13,7 @@ import { useControllerStore } from '@/stores/controllerStore'
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
 // const playlistStore = usePlaylistStore()
-const { filteredPlaylist, filteredList, regex, selectedFilterIndex } =
+const { filteredPlaylist, filteredTrackList, regex, selectedFilterIndex } =
   storeToRefs(searchStore)
 // const { mappedPlaylists } = storeToRefs(playlistStore)
 const { chooseTrack } = controllerStore
@@ -57,7 +57,7 @@ const searchHandler = (input) => {
       />
       <TrackList
         v-else-if="selectedFilterIndex === 4"
-        :trackList="filteredList"
+        :trackList="filteredTrackList"
         @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
       />
     </ContentSection>
