@@ -2,17 +2,11 @@
 import { getFilteredItemList, getAllItems } from '@/lib/getData'
 import { onMounted, ref } from 'vue'
 
-const playlists = ref([])
-onMounted(async () => {
-  playlists.value = await getAllItems('playlists')
-  playlists.value.unshift({
-    id: 0,
-    name: 'Liked Song',
-    tracks: JSON.parse(localStorage.getItem('likedTracks')) ?? [],
-    background:
-      'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
-  })
-  console.log(playlists.value)
+const props = defineProps({
+  playlists: {
+    type: Object,
+    required: true,
+  },
 })
 </script>
 
@@ -20,7 +14,7 @@ onMounted(async () => {
   <div class="min-h-0 overflow-y-scroll">
     <div class="h-fit grid grid-cols-6 gap-x-6 gap-y-3">
       <div
-        class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto "
+        class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto"
         v-for="playlist in playlists"
         :key="playlist.id"
         :id="playlist.id"
