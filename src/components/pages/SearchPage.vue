@@ -9,6 +9,7 @@ import { useSearchStore } from '@/stores/searchStore'
 import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import { useControllerStore } from '@/stores/controllerStore'
+import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
@@ -42,7 +43,7 @@ const searchHandler = (input) => {
   <PageTemplate
     content-style="grid-cols-[3fr_minmax(18rem,1fr)] grid-rows-[2fr_5fr]"
   >
-    <ContentSection class="flex flex-col row-span-2 min-h-full">
+    <div class="flex flex-col row-span-2 min-h-full">
       <!-- #SearchBarSection -->
       <SearchBar class="h-full" @searchEvent="searchHandler" />
 
@@ -50,17 +51,40 @@ const searchHandler = (input) => {
       <FilterSection class="h-fit" />
 
       <!-- #ContentSection -->
-      <div v-if="selectedFilterIndex === 0"></div>
-      <PlaylistCarousel
-        v-else-if="selectedFilterIndex === 1"
-        :shownPlaylist="filteredPlaylist"
-      />
-      <TrackList
-        v-else-if="selectedFilterIndex === 4"
-        :trackList="filteredTrackList"
-        @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
-      />
-    </ContentSection>
+      <div v-if="selectedFilterIndex === 0" class="h-full grid grid-cols-2">
+        <ContentSection>
+          <template v-slot:header>
+            <div class="flex flex-row justify-between">
+              <SectionHeader input-text-header="Songs" />
+            </div>
+          </template>
+          <TrackList
+            :trackList="filteredTrackList"
+            @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
+          />
+        </ContentSection>
+        <ContentSection>
+          <template v-slot:header>
+            <div class="flex flex-row justify-between">
+              <SectionHeader input-text-header="Playlists" />
+            </div>
+          </template>
+          <PlaylistCarousel :shownPlaylist="filteredPlaylist" />
+        </ContentSection>
+      </div>
+
+      <ContentSection v-else-if="selectedFilterIndex === 1">
+        <PlaylistCarousel :shownPlaylist="filteredPlaylist" />
+      </ContentSection>
+
+      <ContentSection v-else-if="selectedFilterIndex === 4">
+        <TrackList
+          :trackList="filteredTrackList"
+          @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
+        />
+      </ContentSection>
+    </div>
+
     <ContentSection>
       <PlaylistCarousel />
     </ContentSection>
