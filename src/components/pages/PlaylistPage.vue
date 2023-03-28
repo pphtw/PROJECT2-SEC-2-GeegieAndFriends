@@ -3,15 +3,16 @@ import PageTemplate from '../templates/PageTemplate.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import AllPlaylist from '../UI/organisms/AllPlaylist.vue'
+import PlaylistOverlay from '../UI/organisms/PlaylistOverlay.vue'
 import { ref, onMounted } from 'vue'
 import { getAllItems } from '@/lib/getData'
-
 
 const isClickedPlaylist = ref(false)
 const playlists = ref([])
 
 const onClickPlaylist = (value) => {
   isClickedPlaylist.value = !isClickedPlaylist.value
+  console.log(isClickedPlaylist.value)
   console.log(value)
 }
 
@@ -37,6 +38,10 @@ onMounted(async () => {
       ></template>
       <AllPlaylist :playlists="playlists" @choose-playlist="onClickPlaylist" />
     </ContentSection>
+    <PlaylistOverlay
+      :is-clicked="isClickedPlaylist"
+      @close-overlay="isClickedPlaylist = false"
+    />
   </PageTemplate>
 </template>
 
