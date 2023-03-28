@@ -79,7 +79,6 @@ onMounted(async () => {
     <NavigationBar />
     <div class="h-full w-full flex flex-col">
       <RouterView
-        :audio-element="audioElement"
         @autoPlayPause="autoPlayPause(audioElement)"
         @chooseTrack="(ms) => togglePlay(audioElement, ms)"
         @togglePlayPause="togglePlayPause"

@@ -20,7 +20,6 @@ const { toggleShuffle, toggleRepeat, skipTrack, togglePlayPause } =
 
 const audioElement = inject('audioElement')
 const emit = defineEmits(['autoPlayPause'])
-
 //DOM Elements
 const titleElement = ref(null)
 
