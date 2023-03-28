@@ -1,10 +1,10 @@
 import TrackService from "@/lib/trackService";
+
 const trackService = new TrackService()
 const API_URL = 'http://localhost:5000'
 class PlaylistService {
-    async getPlaylistTrackIdList(playlistId) {
-        const playlist = await trackService.getItemById('playlists', playlistId);
-        return playlist.tracks;
+    async getPlaylistTrackIdList(playlistId)  {
+        return (await trackService.getItemById('playlists', playlistId)).tracks
     }
     async getPlaylistTrackList(id){
         const playlistId = await this.getPlaylistTrackIdList(id);
@@ -26,7 +26,7 @@ class PlaylistService {
             console.error(`ERROR CREATING PLAYLIST: ${error.message}`);
         }
     }
-    async deletePlaylist(playlistId){
+    async deletePlaylist(playlistId) {
         const playlist = await trackService.getItemById('playlists',playlistId);
         if (playlist.owner === 1){
             console.error(`CANNOT REMOVE THIS PLAYLIST`)

@@ -7,7 +7,7 @@ import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
 import NavigationBar from './components/UI/organisms/NavigationBar.vue'
-import { secToMin } from '@/lib/util'
+
 
 // Use Store
 const playlistStore = usePlaylistStore()

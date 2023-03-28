@@ -218,7 +218,13 @@ export const useControllerStore = defineStore('controller', () => {
   const chooseTrack = async (id, playlistId) => {
     const trackId = Number(id)
     const state = controllerState.value
-
+    // if (Boolean(playlistId)){
+    //   q.queue = [playlistId]
+    //   q.currentPlaylistId = null
+    //   q.dumpQueue = []
+    //   q.defaultQueue = []
+    //   q.tempQueue = []
+    // } else
     if (q.currentPlaylistId !== playlistId) {
       q.currentPlaylistId = playlistId
       q.queue = await playlistService.getPlaylistTrackIdList(q.currentPlaylistId)
@@ -261,7 +267,7 @@ export const useControllerStore = defineStore('controller', () => {
     const playbackState = {
       queue: q.queue,
       dumpQueue: q.dumpQueue,
-      
+      currentPlaylistId: q.currentPlaylistId
     }
     localStorage.setItem('playbackState', JSON.stringify(playbackState))
   }
@@ -272,6 +278,7 @@ export const useControllerStore = defineStore('controller', () => {
       const playbackState = JSON.parse(storedState)
       q.queue = playbackState.queue
       q.dumpQueue = playbackState.dumpQueue
+      q.currentPlaylistId = playbackState.currentPlaylistId
     }
   }
   const setQueue = (queue) => {
@@ -304,5 +311,6 @@ export const useControllerStore = defineStore('controller', () => {
     chooseTrack,
     setQueue,
     initController,
+    loadPlaybackState
   }
 })
