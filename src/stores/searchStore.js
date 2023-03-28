@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { ref, computed, watch } from 'vue'
-import TrackService from "@/lib/trackService";
-const trackService = new TrackService()
+import { ref, watch, onMounted } from 'vue'
+import { getAllItems } from '@/lib/getData'
+
 export const useSearchStore = defineStore('search', () => {
   //Definition
   const filterType = [
@@ -16,34 +16,28 @@ export const useSearchStore = defineStore('search', () => {
   //ref
   const selectedFilterIndex = ref(0)
   const regex = ref('')
-  const filteredList = ref([])
+  const filteredTrackList = ref([])
+  const filteredPlaylists = ref([])
 
   //Function
   const checkKeywords = (keyword) => keyword.match(regex.value)
 
+  onMounted(async () => {
+    filteredTrackList.value = await getAllItems('tracks')
+    filteredPlaylists.value = await getAllItems('playlists')
+  })
+
   watch(regex, async (regex) => {
-    const tracks = await trackService.getAllItems('tracks')
-    filteredList.value = new Set(
+    const tracks = await getAllItems('tracks')
+    filteredTrackList.value = new Set(
       tracks
         .filter((track) => track.name.match(regex))
         .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
     )
   })
 
-  const filteredTrackList = computed(
-    () =>
-      new Set(
-        trackService.getAllItems('tracks')
-          .filter((e) => e.name.match(regex.value))
-          .concat(
-            trackService.getAllItems('tracks').filter((e) => e.keywords.some(checkKeywords))
-          )
-      )
-  )
-
-  const filteredPlaylist = ref([])
   watch(regex, async (regex) => {
-    filteredPlaylist.value = (await trackService.getAllItems('playlists')).filter((e) =>
+    filteredPlaylists.value = (await getAllItems('playlists')).filter((e) =>
       e.name.match(regex)
     )
   })
@@ -55,9 +49,8 @@ export const useSearchStore = defineStore('search', () => {
   return {
     filterType,
     selectedFilterIndex,
-    filteredList,
-    // filteredTrackList,
-    filteredPlaylist,
+    filteredTrackList,
+    filteredPlaylists,
     regex,
     setSelectedFilterIndex,
   }

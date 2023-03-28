@@ -1,5 +1,5 @@
 <script setup>
-import {ref, watch, onMounted} from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
@@ -8,10 +8,10 @@ import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
 import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
-import TrackService from "@/lib/trackService";
-import PlaylistService from "@/lib/playlistService";
-const trackService = new TrackService();
-const playlistService = new PlaylistService();
+import TrackService from '@/lib/trackService'
+import PlaylistService from '@/lib/playlistService'
+const trackService = new TrackService()
+const playlistService = new PlaylistService()
 // Use Store
 const controllerStore = useControllerStore()
 
@@ -26,15 +26,21 @@ const emit = defineEmits([
 ])
 
 // HomePage.vue
-const selectedPlaylistId = ref(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1)
+const selectedPlaylistId = ref(
+  Number(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1)
+)
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
 
-
 watch(selectedPlaylistId, async (id) => {
-  selectedPlaylistName.value = (await trackService.getItemById('playlists', id)).name
+  selectedPlaylistName.value = (
+    await trackService.getItemById('playlists', id)
+  ).name
   selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(id)
-  localStorage.setItem('selectedPlaylistId', JSON.stringify(selectedPlaylistId.value))
+  localStorage.setItem(
+    'selectedPlaylistId',
+    JSON.stringify(selectedPlaylistId.value)
+  )
 })
 
 // Handlers
@@ -51,7 +57,6 @@ onMounted(async () => {
   selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
     selectedPlaylistId.value
   )
-
 })
 </script>
 
@@ -81,7 +86,7 @@ onMounted(async () => {
     </ContentSection>
 
     <!-- #MusicListSection -->
-    <ContentSection class="min-h-full">
+    <ContentSection class="min-h-0">
       <template v-slot:header>
         <SectionHeader :input-text-header="selectedPlaylistName" />
       </template>
