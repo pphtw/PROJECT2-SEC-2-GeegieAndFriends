@@ -21,7 +21,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll">
+  <TransitionGroup
+    tag="div"
+    name="list"
+    class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll"
+  >
     <!-- #TrackList -->
     <div
       class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
@@ -42,12 +46,23 @@ const props = defineProps({
       </div>
       <SingleTrack :track="track" />
     </div>
-  </div>
+  </TransitionGroup>
 </template>
 
 <style scoped>
 .is-playing,
 .is-playing:hover {
   background-color: #eedff6;
+}
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.8s ease-in-out;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30%);
 }
 </style>
