@@ -127,23 +127,3 @@ export const updatePlaylist = async (playlistId, newPlaylist) => {
       })
   }
 }
-
-export const searchItems = (item, input) => {
-  return fetch(`${API_URL}/${item}?q=${input}`, {
-    method: 'get',
-    headers: {
-      searchableAttributes: ['name', 'keywords'],
-    },
-  })
-    .then(async (response) => {
-      const data = await response.json()
-      if (response.ok) {
-        return data
-      } else return Promise.reject(response.statusText)
-    })
-    .catch((error) => {
-      console.error(
-        `ERROR FETCHING ALL ${item.toUpperCase()}: ${error.message}`
-      )
-    })
-}
