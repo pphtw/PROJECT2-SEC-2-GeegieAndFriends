@@ -1,6 +1,5 @@
 <template>
   <svg
-    class="hover:scale-125 transition ease-in-out"
     width="24"
     height="24"
     viewBox="0 0 24 24"
