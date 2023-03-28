@@ -14,9 +14,15 @@ import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
 // const playlistStore = usePlaylistStore()
-const { filteredPlaylist, filteredTrackList, regex, selectedFilterIndex } =
-  storeToRefs(searchStore)
-// const { mappedPlaylists } = storeToRefs(playlistStore)
+const {
+  filteredPlaylist,
+  filteredTrackList,
+  regex,
+  selectedFilterIndex,
+  notFoundPlaylists,
+  notFoundTrackList,
+} = storeToRefs(searchStore)
+
 const { chooseTrack } = controllerStore
 
 // Definition
