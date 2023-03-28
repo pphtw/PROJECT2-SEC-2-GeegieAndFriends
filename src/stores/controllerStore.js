@@ -258,6 +258,7 @@ export const useControllerStore = defineStore('controller', () => {
     const playbackState = {
       queue: q.queue,
       dumpQueue: q.dumpQueue,
+      
     }
     localStorage.setItem('playbackState', JSON.stringify(playbackState))
   }

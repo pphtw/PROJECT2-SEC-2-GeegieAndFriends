@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import {ref, watch, onMounted, onBeforeUnmount, onBeforeUpdate, onUpdated} from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { usePlaylistStore } from '@/stores/playlistStore'
 
@@ -26,13 +26,14 @@ const emit = defineEmits([
 ])
 
 // HomePage.vue
-const selectedPlaylistId = ref(1)
+const selectedPlaylistId = ref(localStorage.getItem('selectedPlaylistId') ?? 1)
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
 
 watch(selectedPlaylistId, async (id) => {
   selectedPlaylistName.value = (await getItemById('playlists', id)).name
   selectedPlaylistTracks.value = await getPlaylistTrackList(id)
+  localStorage.setItem('selectedPlaylistId',selectedPlaylistId.value)
 })
 
 // Handlers
@@ -49,6 +50,7 @@ onMounted(async () => {
   selectedPlaylistTracks.value = await getPlaylistTrackList(
     selectedPlaylistId.value
   )
+
 })
 </script>
 
