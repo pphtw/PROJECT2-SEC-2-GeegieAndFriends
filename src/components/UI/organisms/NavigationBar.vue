@@ -8,7 +8,9 @@ import { ref } from 'vue'
 import LoginOverlay from '@/components/UI/organisms/LoginOverlay.vue'
 
 const openLoginOverlay = ref(false)
-
+const closeLoginOverlay = () => {
+  openLoginOverlay.value = false;
+};
 const onLoginClicked = () => {
   openLoginOverlay.value = !openLoginOverlay.value
 }
@@ -47,6 +49,7 @@ const onLoginClicked = () => {
     </a>
     <LoginOverlay
       :open="openLoginOverlay"
+      @registration-success="closeLoginOverlay"
       @closeOverlay="openLoginOverlay = false"
     />
   </div>
