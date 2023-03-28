@@ -1,6 +1,5 @@
 <template>
   <svg
-    :class="transition"
     width="24"
     height="24"
     viewBox="0 0 24 24"
@@ -18,7 +17,7 @@
 </template>
 
 <script setup>
-defineProps(['stroke', 'transition'])
+defineProps(['stroke'])
 </script>
 
 <style scoped></style>
