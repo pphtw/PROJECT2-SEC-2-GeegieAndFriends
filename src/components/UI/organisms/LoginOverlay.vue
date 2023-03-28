@@ -1,9 +1,8 @@
 <script setup>
-import {reactive} from "vue";
-import UserService from "@/lib/userService";
-
 import { ref } from 'vue'
+import {useUserStore} from "@/stores/userStore";
 
+const userStore = useUserStore();
 const props = defineProps({
   open: {
     type: Boolean,
@@ -13,30 +12,10 @@ const props = defineProps({
 })
 
 const show = ref('login')
-const emit = defineEmits(['registration-success','closeOverlay']);
-const state = reactive({
-  user: {
-    firstName: '',
-    listName: '',
-    email: '',
-    password: '',
-  },
-  message: '',
-});
+const emit = defineEmits(['closeOverlay']);
+
 const register = async () => {
-  const userService = new UserService();
-  try {
-    const registeredUser = await userService.registerUser(state.user);
-    if (registeredUser) {
-      console.log('User registered:', registeredUser);
-      state.message = 'Registration successful!';
-      setTimeout(() => {
-        emit('registration-success');
-      }, 5000);
-    }
-  } catch (e) {
-    console.error(`Error registering user: ${e.message}`);
-  }
+  await userStore.register(userStore.user);
 };
 </script>
 
@@ -195,7 +174,7 @@ const register = async () => {
                       ></i>
                     </div>
                     <input
-                        v-model="state.user.firstName"
+                        v-model="userStore.user.firstName"
                       type="text"
                       class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="John"
@@ -215,7 +194,7 @@ const register = async () => {
                       ></i>
                     </div>
                     <input
-                        v-model="state.user.listName"
+                        v-model="userStore.user.listName"
                       type="text"
                       class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="Smith"
@@ -235,7 +214,7 @@ const register = async () => {
                       ></i>
                     </div>
                     <input
-                        v-model="state.user.email"
+                        v-model="userStore.user.email"
                       type="email"
                       class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="johnsmith@example.com"
@@ -255,7 +234,7 @@ const register = async () => {
                       <i class="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                     </div>
                     <input
-                        v-model="state.user.password"
+                        v-model="userStore.user.password"
                       type="password"
                       class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="************"
@@ -270,6 +249,9 @@ const register = async () => {
                   >
                     REGISTER NOW
                   </button>
+                  <div v-if="userStore.message" class="text-center mt-4 text-green-500">
+                    {{ userStore.message }}
+                  </div>
                   <button @click="show = 'login'" class="hover:font-medium">
                     Already a member?
                   </button>
