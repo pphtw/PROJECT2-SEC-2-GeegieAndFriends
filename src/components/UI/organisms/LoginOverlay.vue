@@ -349,7 +349,7 @@ const props = defineProps({
 <style scoped>
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
 .v-enter-from,

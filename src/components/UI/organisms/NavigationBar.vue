@@ -20,6 +20,7 @@ const onLoginClicked = () => {
   >
     <!-- #HomePageButton -->
     <RouterLink
+      @mousedown.prevent
       to="/"
       class="row-start-2 h-[3rem] w-[4.5rem] items-center justify-center flex hover:scale-150 transition ease-in-out"
     >
@@ -27,6 +28,7 @@ const onLoginClicked = () => {
     </RouterLink>
     <!-- #SearchPageButton -->
     <RouterLink
+      @mousedown.prevent
       to="/search"
       class="row-start-3 h-[3rem] w-[4.5rem] items-center justify-center flex hover:scale-150 transition ease-in-out"
     >
@@ -34,6 +36,7 @@ const onLoginClicked = () => {
     </RouterLink>
     <!-- #PlaylistPageButton -->
     <RouterLink
+      @mousedown.prevent
       to="/playlist"
       class="row-start-4 h-[3rem] w-[4.5rem] items-center justify-center flex hover:scale-150 transition ease-in-out"
     >
@@ -41,7 +44,8 @@ const onLoginClicked = () => {
     </RouterLink>
     <a
       @click="onLoginClicked"
-      class="self-end row-start-5 h-[3rem] w-[4.5rem] mb-8 items-center justify-center flex hover:scale-150 transition ease-in-out"
+      @mousedown.prevent
+      class="self-end cursor-pointer row-start-5 h-[3rem] w-[4.5rem] mb-8 items-center justify-center flex hover:scale-150 transition ease-in-out"
     >
       <LoginLogoutButton />
     </a>
