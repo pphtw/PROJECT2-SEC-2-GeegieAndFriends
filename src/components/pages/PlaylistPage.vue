@@ -3,6 +3,13 @@ import PageTemplate from '../templates/PageTemplate.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import AllPlaylist from '../UI/organisms/AllPlaylist.vue'
+import { ref } from 'vue'
+
+const isClickedPlaylist = ref(false)
+const onClickPlaylist = (value) => {
+  isClickedPlaylist.value = !isClickedPlaylist.value
+  console.log(value)
+}
 </script>
 
 <template>
@@ -12,7 +19,7 @@ import AllPlaylist from '../UI/organisms/AllPlaylist.vue'
         <div class="flex flex-row justify-between">
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
-      <AllPlaylist />
+      <AllPlaylist @choose-playlist="onClickPlaylist" />
     </ContentSection>
   </PageTemplate>
 </template>
