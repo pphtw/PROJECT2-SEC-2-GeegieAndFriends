@@ -1,4 +1,7 @@
 <script setup>
+import {reactive} from "vue";
+import UserService from "@/lib/userService";
+
 const props = defineProps({
   open: {
     type: Boolean,
@@ -6,6 +9,31 @@ const props = defineProps({
     default: false,
   },
 })
+const emit = defineEmits(['registration-success','closeOverlay']);
+const state = reactive({
+  user: {
+    firstName: '',
+    listName: '',
+    email: '',
+    password: '',
+  },
+  message: '',
+});
+const register = async () => {
+  const userService = new UserService();
+  try {
+    const registeredUser = await userService.registerUser(state.user);
+    if (registeredUser) {
+      console.log('User registered:', registeredUser);
+      state.message = 'Registration successful!';
+      setTimeout(() => {
+        emit('registration-success');
+      }, 5000);
+    }
+  } catch (e) {
+    console.error(`Error registering user: ${e.message}`);
+  }
+};
 </script>
 
 <template>
@@ -251,11 +279,10 @@ const props = defineProps({
               <p>Enter your information to register</p>
             </div>
             <div>
+              <form @submit="register">
               <div class="flex -mx-3">
                 <div class="w-1/2 px-3 mb-5">
-                  <label for="" class="text-xs font-semibold px-1"
-                    >First name</label
-                  >
+                  <label for="firstname" class="text-xs font-semibold px-1">First name</label>
                   <div class="flex">
                     <div
                       class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
@@ -265,6 +292,9 @@ const props = defineProps({
                       ></i>
                     </div>
                     <input
+                        id="firstname"
+                        v-model="state.user.firstName"
+                        required
                       type="text"
                       class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="John"
@@ -272,9 +302,7 @@ const props = defineProps({
                   </div>
                 </div>
                 <div class="w-1/2 px-3 mb-5">
-                  <label for="" class="text-xs font-semibold px-1"
-                    >Last name</label
-                  >
+                  <label for="lastname" class="text-xs font-semibold px-1">Last name</label>
                   <div class="flex">
                     <div
                       class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
@@ -284,6 +312,9 @@ const props = defineProps({
                       ></i>
                     </div>
                     <input
+                        id="lastname"
+                        v-model="state.user.listName"
+                        required
                       type="text"
                       class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="Smith"
@@ -293,7 +324,7 @@ const props = defineProps({
               </div>
               <div class="flex -mx-3">
                 <div class="w-full px-3 mb-5">
-                  <label for="" class="text-xs font-semibold px-1">Email</label>
+                  <label for="email" class="text-xs font-semibold px-1">Email</label>
                   <div class="flex">
                     <div
                       class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
@@ -303,6 +334,8 @@ const props = defineProps({
                       ></i>
                     </div>
                     <input
+                        id="email"
+                        v-model="state.user.email"
                       type="email"
                       class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="johnsmith@example.com"
@@ -312,9 +345,7 @@ const props = defineProps({
               </div>
               <div class="flex -mx-3">
                 <div class="w-full px-3 mb-12">
-                  <label for="" class="text-xs font-semibold px-1"
-                    >Password</label
-                  >
+                  <label for="password" class="text-xs font-semibold px-1">Password</label>
                   <div class="flex">
                     <div
                       class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
@@ -322,6 +353,9 @@ const props = defineProps({
                       <i class="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                     </div>
                     <input
+                        id="password"
+                        v-model="state.user.password"
+                        required
                       type="password"
                       class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                       placeholder="************"
@@ -332,11 +366,16 @@ const props = defineProps({
               <div class="flex -mx-3">
                 <div class="w-full px-3 mb-5">
                   <button
+                      type="submit"
                     class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
                   >
                     REGISTER NOW
                   </button>
                 </div>
+              </div>
+              </form>
+              <div v-if="state.message" class="text-center mt-4 text-green-500">
+                {{ state.message }}
               </div>
             </div>
           </div>
