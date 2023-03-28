@@ -2,6 +2,8 @@
 import {reactive} from "vue";
 import UserService from "@/lib/userService";
 
+import { ref } from 'vue'
+
 const props = defineProps({
   open: {
     type: Boolean,
@@ -9,6 +11,8 @@ const props = defineProps({
     default: false,
   },
 })
+
+const show = ref('login')
 const emit = defineEmits(['registration-success','closeOverlay']);
 const state = reactive({
   user: {
@@ -48,7 +52,233 @@ const register = async () => {
         style="max-width: 1000px"
       >
         <div class="md:flex w-full">
-          <div class="hidden md:block w-1/2 bg-indigo-500 py-10 px-10">
+          <div
+            v-if="show === 'login'"
+            class="order-1 relative w-full md:w-1/2 py-10 px-5 md:px-10"
+          >
+            <div
+              class="absolute top-0 right-0 h-16 w-16 flex justify-center items-center"
+            >
+              <button
+                @click="$emit('closeOverlay')"
+                class="hover:scale-125 transition ease-in-out"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="36"
+                  height="36"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="#000000"
+                    d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59L7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12L5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="text-center mb-10">
+              <h1 class="font-bold text-3xl text-gray-900">LOGIN</h1>
+              <p>Enter your email and password to login</p>
+            </div>
+            <div>
+              <div class="flex -mx-3">
+                <div class="w-full px-3 mb-5">
+                  <label for="" class="text-xs font-semibold px-1">Email</label>
+                  <div class="flex">
+                    <div
+                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+                    >
+                      <i
+                        class="mdi mdi-email-outline text-gray-400 text-lg"
+                      ></i>
+                    </div>
+                    <input
+                      type="email"
+                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                      placeholder="johnsmith@example.com"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col -mx-3">
+                <div class="w-full px-3 mb-12">
+                  <label for="" class="text-xs font-semibold px-1"
+                    >Password</label
+                  >
+                  <div class="flex">
+                    <div
+                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+                    >
+                      <i class="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                    </div>
+                    <input
+                      type="password"
+                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                      placeholder="************"
+                    />
+                  </div>
+                  <div class="flex justify-between">
+                    <label class="block my-4"
+                      ><input
+                        type="checkbox"
+                        class="leading-loose text-pink-600"
+                      />
+                      <span class="text-xs font-semibold px-1">
+                        Remember Me
+                      </span></label
+                    >
+                    <label class="block font-bold my-4"
+                      ><a
+                        href="#"
+                        class="cursor-pointer tracking-tighter border-b-2 hover:border-gray-400"
+                        ><span>Forgot Password?</span></a
+                      ></label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="flex -mx-3">
+                <div class="w-full px-3 flex flex-col gap-4">
+                  <button
+                    class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                  >
+                    LOGIN
+                  </button>
+                  <button @click="show = 'register'" class="hover:font-medium">
+                    Not a member yet?
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            v-else
+            class="order-3 relative w-full md:w-1/2 py-10 px-5 md:px-10"
+          >
+            <div
+              class="absolute top-0 right-0 h-16 w-16 flex justify-center items-center"
+            >
+              <button
+                @click="$emit('closeOverlay')"
+                class="hover:scale-125 transition ease-in-out"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="36"
+                  height="36"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="#000000"
+                    d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59L7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12L5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="text-center mb-10">
+              <h1 class="font-bold text-3xl text-gray-900">REGISTER</h1>
+              <p>Enter your information to register</p>
+            </div>
+            <div>
+              <form @submit="register">
+              <div class="flex -mx-3">
+                <div class="w-1/2 px-3 mb-5">
+                  <label for="" class="text-xs font-semibold px-1"
+                    >First name</label
+                  >
+                  <div class="flex">
+                    <div
+                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+                    >
+                      <i
+                        class="mdi mdi-account-outline text-gray-400 text-lg"
+                      ></i>
+                    </div>
+                    <input
+                        v-model="state.user.firstName"
+                      type="text"
+                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                      placeholder="John"
+                    />
+                  </div>
+                </div>
+                <div class="w-1/2 px-3 mb-5">
+                  <label for="" class="text-xs font-semibold px-1"
+                    >Last name</label
+                  >
+                  <div class="flex">
+                    <div
+                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+                    >
+                      <i
+                        class="mdi mdi-account-outline text-gray-400 text-lg"
+                      ></i>
+                    </div>
+                    <input
+                        v-model="state.user.listName"
+                      type="text"
+                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                      placeholder="Smith"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="flex -mx-3">
+                <div class="w-full px-3 mb-5">
+                  <label for="" class="text-xs font-semibold px-1">Email</label>
+                  <div class="flex">
+                    <div
+                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+                    >
+                      <i
+                        class="mdi mdi-email-outline text-gray-400 text-lg"
+                      ></i>
+                    </div>
+                    <input
+                        v-model="state.user.email"
+                      type="email"
+                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                      placeholder="johnsmith@example.com"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="flex -mx-3">
+                <div class="w-full px-3 mb-12">
+                  <label for="" class="text-xs font-semibold px-1"
+                    >Password</label
+                  >
+                  <div class="flex">
+                    <div
+                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
+                    >
+                      <i class="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                    </div>
+                    <input
+                        v-model="state.user.password"
+                      type="password"
+                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                      placeholder="************"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="flex -mx-3">
+                <div class="w-full px-3 flex flex-col gap-4">
+                  <button
+                    class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                  >
+                    REGISTER NOW
+                  </button>
+                  <button @click="show = 'login'" class="hover:font-medium">
+                    Already a member?
+                  </button>
+                </div>
+              </div>
+              </form>
+            </div>
+          </div>
+          <div class="order-2 hidden md:block w-1/2 bg-indigo-500 py-10 px-10">
             <svg
               id="a87032b8-5b37-4b7e-a4d9-4dbfbe394641"
               data-name="Layer 1"
@@ -253,132 +483,6 @@ const register = async () => {
               />
             </svg>
           </div>
-          <div class="relative w-full md:w-1/2 py-10 px-5 md:px-10">
-            <div
-              class="absolute top-0 right-0 h-16 w-16 flex justify-center items-center"
-            >
-              <button
-                @click="$emit('closeOverlay')"
-                class="hover:scale-125 transition ease-in-out"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="36"
-                  height="36"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill="#000000"
-                    d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59L7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12L5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div class="text-center mb-10">
-              <h1 class="font-bold text-3xl text-gray-900">REGISTER</h1>
-              <p>Enter your information to register</p>
-            </div>
-            <div>
-              <form @submit="register">
-              <div class="flex -mx-3">
-                <div class="w-1/2 px-3 mb-5">
-                  <label for="firstname" class="text-xs font-semibold px-1">First name</label>
-                  <div class="flex">
-                    <div
-                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
-                    >
-                      <i
-                        class="mdi mdi-account-outline text-gray-400 text-lg"
-                      ></i>
-                    </div>
-                    <input
-                        id="firstname"
-                        v-model="state.user.firstName"
-                        required
-                      type="text"
-                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                      placeholder="John"
-                    />
-                  </div>
-                </div>
-                <div class="w-1/2 px-3 mb-5">
-                  <label for="lastname" class="text-xs font-semibold px-1">Last name</label>
-                  <div class="flex">
-                    <div
-                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
-                    >
-                      <i
-                        class="mdi mdi-account-outline text-gray-400 text-lg"
-                      ></i>
-                    </div>
-                    <input
-                        id="lastname"
-                        v-model="state.user.listName"
-                        required
-                      type="text"
-                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                      placeholder="Smith"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="flex -mx-3">
-                <div class="w-full px-3 mb-5">
-                  <label for="email" class="text-xs font-semibold px-1">Email</label>
-                  <div class="flex">
-                    <div
-                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
-                    >
-                      <i
-                        class="mdi mdi-email-outline text-gray-400 text-lg"
-                      ></i>
-                    </div>
-                    <input
-                        id="email"
-                        v-model="state.user.email"
-                      type="email"
-                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                      placeholder="johnsmith@example.com"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="flex -mx-3">
-                <div class="w-full px-3 mb-12">
-                  <label for="password" class="text-xs font-semibold px-1">Password</label>
-                  <div class="flex">
-                    <div
-                      class="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"
-                    >
-                      <i class="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                    </div>
-                    <input
-                        id="password"
-                        v-model="state.user.password"
-                        required
-                      type="password"
-                      class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                      placeholder="************"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="flex -mx-3">
-                <div class="w-full px-3 mb-5">
-                  <button
-                      type="submit"
-                    class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
-                  >
-                    REGISTER NOW
-                  </button>
-                </div>
-              </div>
-              </form>
-              <div v-if="state.message" class="text-center mt-4 text-green-500">
-                {{ state.message }}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -388,7 +492,7 @@ const register = async () => {
 <style scoped>
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
 .v-enter-from,
