@@ -120,12 +120,30 @@ export const updatePlaylist = async (playlistId, newPlaylist) => {
       .then(async (response) => {
         const data = await response.json()
         if (response.ok) {
-          console.log(data)
-          console.log(playlist)
         } else return Promise.reject(response.statusText)
       })
       .catch((error) => {
         console.error(`ERROR FETCHING ${error.message}`)
       })
   }
+}
+
+export const searchItems = (item, input) => {
+  return fetch(`${API_URL}/${item}?q=${input}`, {
+    method: 'get',
+    headers: {
+      searchableAttributes: ['name', 'keywords'],
+    },
+  })
+    .then(async (response) => {
+      const data = await response.json()
+      if (response.ok) {
+        return data
+      } else return Promise.reject(response.statusText)
+    })
+    .catch((error) => {
+      console.error(
+        `ERROR FETCHING ALL ${item.toUpperCase()}: ${error.message}`
+      )
+    })
 }
