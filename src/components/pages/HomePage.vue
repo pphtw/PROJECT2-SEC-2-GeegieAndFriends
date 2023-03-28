@@ -1,9 +1,6 @@
 <script setup>
-import {ref, watch, onMounted, onBeforeUnmount, onBeforeUpdate, onUpdated} from 'vue'
+import {ref, watch, onMounted} from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
-import { usePlaylistStore } from '@/stores/playlistStore'
-
-import { getItemById, getPlaylistTrackList } from '@/lib/getData'
 
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
@@ -11,7 +8,10 @@ import ContentSection from '@/components/templates/ContentSection.vue'
 import PlaylistCarousel from '@/components/UI/organisms/PlaylistCarousel.vue'
 import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
-
+import TrackService from "@/lib/trackService";
+import PlaylistService from "@/lib/playlistService";
+const trackService = new TrackService();
+const playlistService = new PlaylistService();
 // Use Store
 const controllerStore = useControllerStore()
 
@@ -26,14 +26,14 @@ const emit = defineEmits([
 ])
 
 // HomePage.vue
-const selectedPlaylistId = ref(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1)
+const selectedPlaylistId = ref(Number(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1));
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
 
 
 watch(selectedPlaylistId, async (id) => {
-  selectedPlaylistName.value = (await getItemById('playlists', id)).name
-  selectedPlaylistTracks.value = await getPlaylistTrackList(id)
+  selectedPlaylistName.value = (await trackService.getItemById('playlists', id)).name
+  selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(id)
   localStorage.setItem('selectedPlaylistId', JSON.stringify(selectedPlaylistId.value))
 })
 
@@ -45,10 +45,10 @@ const onChooseTrackClick = (e, playlistId) => {
 
 onMounted(async () => {
   selectedPlaylistName.value = (
-    await getItemById('playlists', selectedPlaylistId.value)
+    await trackService.getItemById('playlists', selectedPlaylistId.value)
   ).name
 
-  selectedPlaylistTracks.value = await getPlaylistTrackList(
+  selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
     selectedPlaylistId.value
   )
 

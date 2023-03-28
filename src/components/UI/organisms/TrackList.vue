@@ -9,7 +9,7 @@ const controllerStore = useControllerStore()
 const { currentTrack } = storeToRefs(controllerStore)
 const props = defineProps({
   trackList: {
-    type: [Array, Object],
+    type: Object,
     required: true,
   },
   playlistId: {
