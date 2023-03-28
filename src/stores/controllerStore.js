@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import { getAllItems, getItemById, getPlaylistTrackIdList } from '@/lib/getData'
-import { secToMin, shuffleArray } from '@/lib/util'
+import {  shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
-
+import TrackService from "@/lib/trackService";
+import PlaylistService from "@/lib/playlistService";
+const trackService = new TrackService()
+const playlistService = new PlaylistService()
 export const useControllerStore = defineStore('controller', () => {
   const playlist = usePlaylistStore()
 
@@ -52,12 +54,9 @@ export const useControllerStore = defineStore('controller', () => {
   watch(
     () => q.queue[0],
     async (id) => {
-      currentTrack.value = await getItemById('tracks', id)
+      currentTrack.value = await trackService.getItemById('tracks', id)
     }
   )
-  // const currentTrack = computed(async () => {
-  //   return await getItemById('tracks', q.queue[0])
-  // })
   const controllerState = computed(() => {
     if (isShuffled.value && isRepeating.value) {
       return 3
@@ -222,7 +221,7 @@ export const useControllerStore = defineStore('controller', () => {
 
     if (q.currentPlaylistId !== playlistId) {
       q.currentPlaylistId = playlistId
-      q.queue = await getPlaylistTrackIdList(q.currentPlaylistId)
+      q.queue = await playlistService.getPlaylistTrackIdList(q.currentPlaylistId)
       q.tempQueue = [...q.queue]
       q.defaultQueue = [...q.queue]
       q.dumpQueue = []
@@ -281,8 +280,8 @@ export const useControllerStore = defineStore('controller', () => {
     q.tempQueue = [...queue]
   }
   const initController = async () => {
-    currentTrack.value = await getItemById('tracks', q.queue[0])
-    setQueue(await getPlaylistTrackIdList(1))
+    currentTrack.value = await trackService.getItemById('tracks', q.queue[0])
+    setQueue(await playlistService.getPlaylistTrackIdList(1))
     loadPlaybackState()
     playlist.likedTracks = JSON.parse(localStorage.getItem('likedTracks')) ?? []
     isShuffled.value = false

@@ -2,9 +2,7 @@
 import HomePageButton from '../atoms/HomePageButton.vue'
 import SearchPageButton from '../atoms/SearchPageButton.vue'
 import PlaylistPageButton from '../atoms/PlaylistPageButton.vue'
-import CreditPageButton from '../atoms/CreditPageButton.vue'
-import SettingPageButton from '../atoms/SettingPageButton.vue'
-import { RouterLink} from 'vue-router'
+import { RouterLink } from 'vue-router'
 </script>
 
 <template>
@@ -21,11 +19,8 @@ import { RouterLink} from 'vue-router'
     /></RouterLink>
 
     <!-- #PlaylistPageButton -->
-    <PlaylistPageButton />
-    <!-- #SettingPageButton -->
-    <SettingPageButton />
+    <RouterLink to="/playlist"><PlaylistPageButton /></RouterLink>
   </div>
-
 </template>
 
 <style scoped></style>
