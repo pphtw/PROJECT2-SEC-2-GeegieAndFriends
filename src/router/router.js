@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomePage from '../components/pages/HomePage.vue'
 import SearchPage from '../components/pages/SearchPage.vue'
+import PlaylistPage from '../components/pages/PlaylistPage.vue'
 
 // create router here
 const routes = [
@@ -15,6 +16,12 @@ const routes = [
     name: 'searchPage',
     component: SearchPage,
     meta: { transition: 'slide-up', id: 2 },
+  },
+  {
+    path: '/playlist',
+    name: 'PlaylistPage',
+    component: PlaylistPage,
+    meta: { transition: 'slide-up', id: 3 },
   },
 ]
 const router = createRouter({
