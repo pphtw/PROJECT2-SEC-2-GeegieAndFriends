@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { getAllItems } from '@/lib/getData'
 
 export const useSearchStore = defineStore('search', () => {

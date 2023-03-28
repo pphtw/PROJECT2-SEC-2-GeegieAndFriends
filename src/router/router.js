@@ -1,20 +1,25 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomePage from '../components/pages/HomePage.vue'
-import SearchPage from '../components/pages/SearchPage.vue'
+import PlaylistPage from '../components/pages/PlaylistPage.vue'
 
 // create router here
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomePage,
+    component: ()=> import('../components/pages/HomePage.vue'),
     meta: { transition: 'slide-up', id: 1 },
   },
   {
     path: '/search',
     name: 'searchPage',
-    component: SearchPage,
+    component: () => import('../components/pages/SearchPage.vue'),
     meta: { transition: 'slide-up', id: 2 },
+  },
+  {
+    path: '/playlist',
+    name: 'PlaylistPage',
+    component: PlaylistPage,
+    meta: { transition: 'slide-up', id: 3 },
   },
 ]
 const router = createRouter({

@@ -1,9 +1,9 @@
 <script setup>
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
-import { getFilteredItemList } from '@/lib/getData'
 import { onMounted, ref } from 'vue'
-
+import TrackService from "@/lib/trackService";
+const trackService = new TrackService();
 // Use Store
 const playlistStore = usePlaylistStore()
 
@@ -25,7 +25,7 @@ const onChoosePlaylistHandler = (e) => {
 
 // Hooks
 onMounted(async () => {
-  pinnedPlaylists.value = await getFilteredItemList(
+  pinnedPlaylists.value = await trackService.getFilteredItemList(
     'playlists',
     pinnedPlaylistIdList.value
   )
