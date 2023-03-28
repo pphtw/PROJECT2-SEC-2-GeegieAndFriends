@@ -26,7 +26,7 @@ const emit = defineEmits([
 ])
 
 // HomePage.vue
-const selectedPlaylistId = ref(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1)
+const selectedPlaylistId = ref(Number(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1));
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
 
