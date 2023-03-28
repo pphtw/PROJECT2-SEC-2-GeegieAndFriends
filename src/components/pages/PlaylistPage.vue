@@ -6,7 +6,15 @@ import AllPlaylist from '../UI/organisms/AllPlaylist.vue'
 import { ref, onMounted } from 'vue'
 import { getAllItems } from '@/lib/getData'
 
+
+const isClickedPlaylist = ref(false)
 const playlists = ref([])
+
+const onClickPlaylist = (value) => {
+  isClickedPlaylist.value = !isClickedPlaylist.value
+  console.log(value)
+}
+
 onMounted(async () => {
   playlists.value = await getAllItems('playlists')
   playlists.value.unshift({
@@ -27,7 +35,7 @@ onMounted(async () => {
         <div class="flex flex-row justify-between">
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
-      <AllPlaylist :playlists="playlists" />
+      <AllPlaylist :playlists="playlists" @choose-playlist="onClickPlaylist" />
     </ContentSection>
   </PageTemplate>
 </template>

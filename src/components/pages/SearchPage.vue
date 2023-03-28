@@ -61,7 +61,7 @@ const searchHandler = (input) => {
       <div class="min-h-0 grow">
         <div
           v-if="selectedFilterIndex === 0"
-          class="grid grid-cols-2 gap-2 h-full"
+          class="grid grid-cols-2 gap-3 h-full"
         >
           <ContentSection class="min-h-0">
             <template v-slot:header>
@@ -82,7 +82,7 @@ const searchHandler = (input) => {
                 <SectionHeader input-text-header="Playlists" />
               </div>
             </template>
-            <AllPlaylist :playlists="filteredPlaylists" />
+            <AllPlaylist :playlists="filteredPlaylists" :cols="3" />
           </ContentSection>
         </div>
 
