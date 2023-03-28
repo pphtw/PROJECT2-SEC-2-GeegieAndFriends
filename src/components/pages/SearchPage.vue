@@ -10,13 +10,20 @@ import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
+import AllPlaylist from '../UI/organisms/AllPlaylist.vue'
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
 // const playlistStore = usePlaylistStore()
-const { filteredPlaylist, filteredTrackList, regex, selectedFilterIndex } =
-  storeToRefs(searchStore)
-// const { mappedPlaylists } = storeToRefs(playlistStore)
+const {
+  filteredPlaylists,
+  filteredTrackList,
+  regex,
+  selectedFilterIndex,
+  // notFoundPlaylists,
+  // notFoundTrackList,
+} = storeToRefs(searchStore)
+
 const { chooseTrack } = controllerStore
 
 // Definition
@@ -52,7 +59,10 @@ const searchHandler = (input) => {
 
       <!-- #ContentSection -->
       <div class="min-h-0 grow">
-        <div v-if="selectedFilterIndex === 0" class="grid grid-cols-2 h-full">
+        <div
+          v-if="selectedFilterIndex === 0"
+          class="grid grid-cols-2 gap-2 h-full"
+        >
           <ContentSection class="min-h-0">
             <template v-slot:header>
               <div class="flex flex-row justify-between">
@@ -72,12 +82,12 @@ const searchHandler = (input) => {
                 <SectionHeader input-text-header="Playlists" />
               </div>
             </template>
-            <PlaylistCarousel :shownPlaylist="filteredPlaylist" />
+            <AllPlaylist :playlists="filteredPlaylists" />
           </ContentSection>
         </div>
 
         <ContentSection v-else-if="selectedFilterIndex === 1">
-          <PlaylistCarousel :shownPlaylist="filteredPlaylist" />
+          <AllPlaylist :playlists="filteredPlaylists" />
         </ContentSection>
 
         <ContentSection v-else-if="selectedFilterIndex === 4">
