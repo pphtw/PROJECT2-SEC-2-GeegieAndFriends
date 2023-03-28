@@ -52,9 +52,9 @@ const onLoginClicked = () => {
       <LoginLogoutButton />
     </a>
     <LoginOverlay
-      :open="openLoginOverlay"
-      @registration-success="closeLoginOverlay"
-      @closeOverlay="openLoginOverlay = false"
+        :open="openLoginOverlay"
+        @registration-success="closeLoginOverlay"
+        @closeOverlay="openLoginOverlay = false"
     />
   </div>
 </template>
