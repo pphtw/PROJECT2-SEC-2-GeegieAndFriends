@@ -1,8 +1,8 @@
-const API_URL = 'http://localhost:5000'
+
 class TrackService {
     async getAllItems(item){
         try {
-            const response = await fetch(`${API_URL}/${item}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/${item}`);
 
             if (response.ok) {
                 return await response.json();
@@ -18,7 +18,7 @@ class TrackService {
     async getFilteredItemList(item,idList) {
         const filter = idList.map((id) => 'id=' + id).join('&');
         try {
-            const response = await fetch(`${API_URL}/${item}?${filter}`)
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/${item}?${filter}`)
             if (response.ok){
                 return await response.json()
             }else {
@@ -32,7 +32,7 @@ class TrackService {
     }
     async getItemById(item, id) {
         try {
-            const response = await fetch(`${API_URL}/${item}/${id}`)
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/${item}/${id}`)
             if (response.ok){
                 return await response.json()
             }else {
