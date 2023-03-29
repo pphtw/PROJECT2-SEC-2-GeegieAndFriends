@@ -3,8 +3,6 @@ import SingleTrack from './SingleTrack.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { storeToRefs } from 'pinia'
 import { useOverlayStore } from '@/stores/overlayStore'
-import ContextMenu from '@/components/UI/organisms/ContextMenu.vue'
-
 // Use Store
 const controllerStore = useControllerStore()
 const overlayStore = useOverlayStore()
@@ -28,7 +26,7 @@ const props = defineProps({
   <TransitionGroup
     tag="div"
     name="list"
-    class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll overflow-x-hidden"
+    class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll overflow-x-hidden relative"
     @contextmenu.prevent
   >
     <!-- #TrackList -->
@@ -66,9 +64,18 @@ const props = defineProps({
   transition: all 0.8s ease-in-out;
 }
 
-.list-enter-from,
-.list-leave-to {
+.list-enter-from {
   opacity: 0;
   transform: translateX(30%);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+
+.list-leave-active,
+.list-leave-to {
+  opacity: 0;
+  width: 100%;
 }
 </style>
