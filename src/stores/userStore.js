@@ -32,6 +32,7 @@ export const useUserStore = defineStore('user', () => {
 
   const message = ref('')
   const isRegistered = ref(false)
+  const isLoggedIn = ref(false)
 
   const register = async (user) => {
     const userService = new UserService()
@@ -57,7 +58,25 @@ export const useUserStore = defineStore('user', () => {
       isRegistered.value = false
     }
   }
-  return { user, message, register, isRegistered, checkPattern }
+  const login = async (userLogin) => {
+    const userService = new UserService()
+    try {
+      const loggedInUser = await userService.loginUser(
+        userLogin.email,
+        userLogin.password
+      )
+      if (loggedInUser) {
+        console.log('User logged in: ', loggedInUser)
+        isLoggedIn.value = true
+        message.value = 'Login successful'
+      }
+    } catch (error) {
+      console.error(`Error logging in user: ${error.message}`)
+      isLoggedIn.value = false
+      message.value = 'Invalid email or password'
+    }
+  }
+  return { user, message, register, isRegistered, login, userLogin }
 })
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot))

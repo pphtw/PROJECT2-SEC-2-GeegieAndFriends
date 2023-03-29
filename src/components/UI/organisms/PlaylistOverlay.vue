@@ -47,8 +47,7 @@ const onChooseTrackClick = (e, playlistId) => {
         @click.self="hidePlaylistOverlay"
       >
         <div
-          class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-full h-full overflow-hidden"
-          style="max-width: 1000px"
+          class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-[60%] min-w-fit h-full overflow-hidden"
         >
           <div class="md:flex w-full row-span-1 p-10">
             <ContentSection class="min-h-full">
