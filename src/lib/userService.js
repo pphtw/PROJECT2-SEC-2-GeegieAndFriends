@@ -15,6 +15,7 @@ class UserService {
             }
         } catch (error) {
             console.error(`ERROR REGISTERING USER: ${error.message}`);
+
         }
     }
 }
