@@ -29,7 +29,7 @@ class UserService {
             }
             throw new Error('User not found');
         } catch (error) {
-            console.error(`ERROR GETTING USER BY EMAIL: ${error.message}`);
+            // console.error(`ERROR GETTING USER BY EMAIL: ${error.message}`);
             throw error;
         }
     }
@@ -42,7 +42,7 @@ class UserService {
                 throw new Error('Incorrect password');
             }
         } catch (error) {
-            console.error(`ERROR LOGGING IN USER: ${error.message}`);
+            // console.error(`ERROR LOGGING IN USER: ${error.message}`);
             throw error;
         }
     }
