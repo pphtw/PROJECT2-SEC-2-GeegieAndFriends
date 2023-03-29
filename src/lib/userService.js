@@ -18,6 +18,34 @@ class UserService {
 
         }
     }
+    async getUserByEmail(email) {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/users?email=${email}`);
+            if (response.ok) {
+                const users = await response.json();
+                if (users.length > 0) {
+                    return users[0];
+                }
+            }
+            throw new Error('User not found');
+        } catch (error) {
+            console.error(`ERROR GETTING USER BY EMAIL: ${error.message}`);
+            throw error;
+        }
+    }
+    async loginUser(email, password) {
+        try {
+            const user = await this.getUserByEmail(email);
+            if (user.password === password) {
+                return user;
+            } else {
+                throw new Error('Incorrect password');
+            }
+        } catch (error) {
+            console.error(`ERROR LOGGING IN USER: ${error.message}`);
+            throw error;
+        }
+    }
 }
 
 export default UserService;
