@@ -46,7 +46,7 @@ const onLikeHandler = (e, trackId) => {
   </div>
   <!-- #MenuButton -->
   <div class="px-3">
-    <MenuButton />
+    <MenuButton fill="#231F20" />
   </div>
 </template>
 
