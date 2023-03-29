@@ -8,12 +8,12 @@ import TrackList from './TrackList.vue'
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
 import { watch, ref } from 'vue'
-import PlaylistService from '../../../lib/playlistService.js'
-import TrackService from '../../../lib/trackService.js'
-import { getPlaylistTrackList } from '../../../lib/getData'
+import TrackService from "@/lib/trackService";
+import PlaylistService from "@/lib/playlistService";
 
-const { getItemById } = new TrackService()
-// const { getPlaylistTrackList } = new PlaylistService()
+
+const trackService = new TrackService()
+const playlistService = new PlaylistService()
 const overlayStore = useOverlayStore()
 const playlist = ref({})
 const tracks = ref({})
@@ -21,8 +21,8 @@ const { openPlaylistOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
 const { hidePlaylistOverlay } = overlayStore
 
 watch(overlayPlaylistId, async (id) => {
-  playlist.value = await getItemById('playlists', id)
-  tracks.value = await getPlaylistTrackList(id)
+  playlist.value = await trackService.getItemById('playlists', id)
+  tracks.value = await playlistService.getPlaylistTrackList(id)
 })
 </script>
 
@@ -42,12 +42,12 @@ watch(overlayPlaylistId, async (id) => {
             <ContentSection class="min-h-full">
               <template v-slot:header>
                 <div class="flex flex-row justify-between">
-                  <PreviousPageButton @click="$emit('closeOverlay')" /></div
+                  <PreviousPageButton @click="hidePlaylistOverlay" /></div
               ></template>
 
               <div class="w-full h-full grid grid-cols-[1fr_2fr] gap-x-5">
                 <div
-                  class="bg-gray-300 aspect-square w-full"
+                  class="bg-gray-300 aspect-square bg-center w-full"
                   :style="{
                     backgroundImage:
                       'url(' + encodeURI(playlist.background) + ')',
