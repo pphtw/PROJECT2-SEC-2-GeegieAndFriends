@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', () => {
       const registeredUser = await userService.registerUser(user)
       if (registeredUser) {
         console.log('User registered:', registeredUser)
-        this.message = 'Registration successful!'
+        message.value = 'Registration successful!'
         return true
       }
     } catch (e) {
