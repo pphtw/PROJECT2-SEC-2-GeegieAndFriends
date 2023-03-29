@@ -15,10 +15,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  // cols: {
-  //   type: Number,
-  //   default: 6,
-  // },
+  cols: {
+    type: Number,
+    default: 6,
+  },
 })
 </script>
 
