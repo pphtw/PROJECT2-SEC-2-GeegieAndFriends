@@ -10,7 +10,10 @@ export const useUserStore = defineStore('user', () => {
     email: '',
     password: '',
   }
-
+  const userLogin = {
+    email: '',
+    password: ''
+  }
   const userPattern = {
     firstName: /[a-zA-z]+/,
     lastName: /[a-zA-z]+/,
@@ -75,8 +78,8 @@ export const useUserStore = defineStore('user', () => {
       isLoggedIn.value = false
       message.value = 'Invalid email or password'
     }
-  }
-  return { user, message, register, isRegistered, login, userLogin }
+  };
+  return { user, message, register, isRegistered,login,userLogin,isLoggedIn,checkPattern }
 })
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot))
