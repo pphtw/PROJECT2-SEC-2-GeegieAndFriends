@@ -20,7 +20,6 @@ const props = defineProps({
 </script>
 
 <template>
-  <div></div>
   <div class="min-h-0 overflow-y-scroll">
     <div :class="`h-fit grid grid-cols-${cols} gap-x-6 gap-y-3`">
       <div
