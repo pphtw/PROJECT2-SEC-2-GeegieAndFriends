@@ -8,20 +8,23 @@ const overlayStore = useOverlayStore()
 const { showPlaylistOverlay } = overlayStore
 
 const props = defineProps({
+  cols: {
+    type: Number,
+    required: false,
+    default: 1,
+  },
   playlists: {
     type: Object,
     required: true,
   },
-  cols: {
-    type: Number,
-    default: 6,
-  },
 })
+
+console.log(props.cols)
 </script>
 
 <template>
   <div class="min-h-0 overflow-y-scroll">
-    <div class="h-fit grid gap-x-6 gap-y-3" :class="`grid-cols-${cols}`">
+    <div class="h-fit gap-x-6 gap-y-3 grid grid-cols-6">
       <div
         class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto"
         v-for="playlist in playlists"

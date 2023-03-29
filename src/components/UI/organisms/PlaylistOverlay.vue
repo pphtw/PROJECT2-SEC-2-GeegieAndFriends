@@ -33,8 +33,6 @@ watch(overlayPlaylistId, async (id) => {
 })
 
 const onChooseTrackClick = (e, playlistId) => {
-  // console.log(e.currentTarget.id)
-  // console.log(playlistId)
   chooseTrack(e.currentTarget.id, playlistId)
   emit('chooseTrack', 300)
 }
@@ -69,10 +67,10 @@ const onChooseTrackClick = (e, playlistId) => {
                 ></div>
                 <div class="flex h-full items-center">
                   <div class="grow text-left text-white pt-20">
-                    <h1 class="text-6xl pb-5">
+                    <h1 class="text-6xl font-bold pb-5">
                       {{ playlist.name }} {{ '#' + playlist.id }}
                     </h1>
-                    <p class="text-2xl">
+                    <p class="text-2xl font-semibold">
                       {{ '(' + playlist.owner + ')' }} |
                       {{ '(' + tracks.length + ')' }} Song
                     </p>
