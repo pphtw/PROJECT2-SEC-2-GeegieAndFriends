@@ -47,3 +47,4 @@ export const useOverlayStore = defineStore('overlay', () => {
     overlayPlaylistId,
   }
 })
+

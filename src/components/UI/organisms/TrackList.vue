@@ -11,7 +11,7 @@ const { currentTrack } = storeToRefs(controllerStore)
 const { showContextMenu } = overlayStore
 const props = defineProps({
   trackList: {
-    type: Array,
+    type: [Array,Object],
     required: false,
   },
   playlistId: {
