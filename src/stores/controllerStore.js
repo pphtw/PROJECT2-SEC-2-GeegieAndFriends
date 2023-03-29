@@ -105,15 +105,11 @@ export const useControllerStore = defineStore('controller', () => {
         q.queue = q.defaultQueue.slice(
           q.defaultQueue.findIndex((i) => i === trackId)
         )
-        console.log(q.queue)
-        console.log(q.dumpQueue)
-        // console.log('case 0 S')
         break
       case 1: //no shuffle & repeat
         q.tempQueue = [...q.defaultQueue]
         skipToTrack(trackId, q.tempQueue)
         q.queue = [...q.tempQueue]
-        console.log(q.queue)
         console.log('case 1 S')
         break
       case 2: //shuffle & no repeat
@@ -157,30 +153,22 @@ export const useControllerStore = defineStore('controller', () => {
       if (onRepeat || repeating) {
         console.log('Skip: Repeat')
         queue.push(queue.shift())
-        console.log(q.queue)
       } else {
         // Default (No Shuffle)
         console.log('Skip: NoRepeat')
         if (q.queue.length > 1) {
           q.dumpQueue.push(queue.shift())
-
-          console.log(q.queue)
-          console.log(q.dumpQueue)
         }
       }
     } else {
       if (onRepeat || repeating) {
         console.log('SkipBack: Repeat')
         queue.unshift(queue.pop())
-        console.log(q.queue)
       } else {
         // Default (No Shuffle)
         console.log('SkipBack: NoRepeat')
         if (q.dumpQueue.length !== 0) {
           queue.unshift(q.dumpQueue.pop())
-
-          console.log(q.queue)
-          console.log(q.dumpQueue)
         }
       }
     }
@@ -219,14 +207,16 @@ export const useControllerStore = defineStore('controller', () => {
     const trackId = Number(id)
     const state = controllerState.value
     if (!Boolean(playlistId)) {
-      console.log('54321')
+      console.log(q.queue)
       q.queue = [trackId]
-      q.currentPlaylistId = null
+      console.log(q.queue)
+      q.currentPlaylistId = 0
       q.dumpQueue = []
       q.defaultQueue = []
       q.tempQueue = []
+      isShuffled.value = false
+      isRepeating.value = false
     } else if (q.currentPlaylistId !== playlistId) {
-      console.log('12345')
       q.currentPlaylistId = playlistId
       q.queue = await playlistService.getPlaylistTrackIdList(
         q.currentPlaylistId
@@ -241,6 +231,9 @@ export const useControllerStore = defineStore('controller', () => {
     }
     switch (state) {
       case 0: {
+        if (!Boolean(playlistId)) {
+          break
+        }
         q.dumpQueue = q.defaultQueue.slice(
           0,
           q.defaultQueue.findIndex((i) => i === trackId)
@@ -248,8 +241,6 @@ export const useControllerStore = defineStore('controller', () => {
         q.queue = q.defaultQueue.slice(
           q.defaultQueue.findIndex((i) => i === trackId)
         )
-        console.log(q.queue)
-        console.log(q.dumpQueue)
         break
       }
       case 1:
