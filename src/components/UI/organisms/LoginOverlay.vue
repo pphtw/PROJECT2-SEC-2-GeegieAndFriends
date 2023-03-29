@@ -132,13 +132,13 @@ const logging = async () => {
                       LOGIN
                     </button>
                     <div
-                      v-if="userStore.message"
+                      v-if="userStore.state.login.message"
                       class="text-center mt-4"
                       :class="
                         userStore.isLoggedIn ? 'text-green-500' : 'text-red-500'
                       "
                     >
-                      {{ userStore.message }}
+                      {{ userStore.state.login.message }}
                     </div>
                     <button
                       @click="show = 'register'"
@@ -298,7 +298,7 @@ const logging = async () => {
                       REGISTER NOW
                     </button>
                     <div
-                      v-if="userStore.message"
+                      v-if="userStore.state.register.message"
                       class="text-center mt-4"
                       :class="
                         userStore.isRegistered
@@ -306,7 +306,7 @@ const logging = async () => {
                           : 'text-red-500'
                       "
                     >
-                      {{ userStore.message }}
+                      {{ userStore.state.register.message }}
                     </div>
                     <button @click="show = 'login'" class="hover:font-medium">
                       Already a member?
