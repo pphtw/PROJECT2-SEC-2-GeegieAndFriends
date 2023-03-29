@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import {  shuffleArray } from '@/lib/util'
+import { shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
-import TrackService from "@/lib/trackService";
-import PlaylistService from "@/lib/playlistService";
+import TrackService from '@/lib/trackService'
+import PlaylistService from '@/lib/playlistService'
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
 export const useControllerStore = defineStore('controller', () => {
@@ -218,20 +218,23 @@ export const useControllerStore = defineStore('controller', () => {
   const chooseTrack = async (id, playlistId) => {
     const trackId = Number(id)
     const state = controllerState.value
-    // if (Boolean(playlistId)){
-    //   q.queue = [playlistId]
-    //   q.currentPlaylistId = null
-    //   q.dumpQueue = []
-    //   q.defaultQueue = []
-    //   q.tempQueue = []
-    // } else
-    if (q.currentPlaylistId !== playlistId) {
+    if (!Boolean(playlistId)) {
+      console.log('54321')
+      q.queue = [trackId]
+      q.currentPlaylistId = null
+      q.dumpQueue = []
+      q.defaultQueue = []
+      q.tempQueue = []
+    } else if (q.currentPlaylistId !== playlistId) {
+      console.log('12345')
       q.currentPlaylistId = playlistId
-      q.queue = await playlistService.getPlaylistTrackIdList(q.currentPlaylistId)
+      q.queue = await playlistService.getPlaylistTrackIdList(
+        q.currentPlaylistId
+      )
       q.tempQueue = [...q.queue]
       q.defaultQueue = [...q.queue]
       q.dumpQueue = []
-      if (isShuffled.value){
+      if (isShuffled.value) {
         q.queue = shuffleArray(q.queue)
         q.tempQueue = [...q.queue]
       }
@@ -267,7 +270,7 @@ export const useControllerStore = defineStore('controller', () => {
     const playbackState = {
       queue: q.queue,
       dumpQueue: q.dumpQueue,
-      currentPlaylistId: q.currentPlaylistId
+      currentPlaylistId: q.currentPlaylistId,
     }
     localStorage.setItem('playbackState', JSON.stringify(playbackState))
   }
@@ -311,6 +314,6 @@ export const useControllerStore = defineStore('controller', () => {
     chooseTrack,
     setQueue,
     initController,
-    loadPlaybackState
+    loadPlaybackState,
   }
 })
