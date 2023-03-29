@@ -10,7 +10,7 @@ import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
-import AllPlaylist from '../UI/organisms/PlaylistGrid.vue'
+import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
@@ -82,12 +82,12 @@ const searchHandler = (input) => {
                 <SectionHeader input-text-header="Playlists" />
               </div>
             </template>
-            <AllPlaylist :playlists="filteredPlaylists" :cols="3" />
+            <PlaylistGrid :playlists="filteredPlaylists" :cols="3" />
           </ContentSection>
         </div>
 
         <ContentSection v-else-if="selectedFilterIndex === 1">
-          <AllPlaylist :playlists="filteredPlaylists" />
+          <PlaylistGrid :playlists="filteredPlaylists" />
         </ContentSection>
 
         <ContentSection v-else-if="selectedFilterIndex === 4">
