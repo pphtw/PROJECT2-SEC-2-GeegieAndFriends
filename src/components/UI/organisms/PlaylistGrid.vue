@@ -22,7 +22,7 @@ const props = defineProps({
 
 <template>
   <div class="min-h-0 overflow-y-scroll">
-    <div :class="`h-fit grid grid-cols-${cols} gap-x-6 gap-y-3`">
+    <div class="h-fit grid gap-x-6 gap-y-3" :class="`grid-cols-${cols}`">
       <div
         class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto"
         v-for="playlist in playlists"
