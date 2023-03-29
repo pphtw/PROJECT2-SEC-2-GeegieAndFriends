@@ -12,7 +12,6 @@ const { toggleLoginOverlay } = overlayStore
 
 const show = ref('login')
 const register = async () => {
-  // console.log(Object.values(userStore.user))
   await userStore.register(userStore.user)
 }
 const logging = async () => {
@@ -132,17 +131,15 @@ const logging = async () => {
                     >
                       LOGIN
                     </button>
-                      <div
-                              v-if="userStore.message"
-                              class="text-center mt-4"
-                              :class="
-                        userStore.isLoggedIn
-                          ? 'text-green-500'
-                          : 'text-red-500'
+                    <div
+                      v-if="userStore.state.login.message"
+                      class="text-center mt-4"
+                      :class="
+                        userStore.isLoggedIn ? 'text-green-500' : 'text-red-500'
                       "
-                      >
-                          {{ userStore.message }}
-                      </div>
+                    >
+                      {{ userStore.state.login.message }}
+                    </div>
                     <button
                       @click="show = 'register'"
                       class="hover:font-medium"
@@ -201,7 +198,7 @@ const logging = async () => {
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="John"
                         :class="
-                          userStore.checkPattern(userStore.user, 'firstName')
+                          userStore.checkPattern(userStore.user, 'lastName')
                             ? ''
                             : 'border-red-500'
                         "
@@ -301,7 +298,7 @@ const logging = async () => {
                       REGISTER NOW
                     </button>
                     <div
-                      v-if="userStore.message"
+                      v-if="userStore.state.register.message"
                       class="text-center mt-4"
                       :class="
                         userStore.isRegistered
@@ -309,7 +306,7 @@ const logging = async () => {
                           : 'text-red-500'
                       "
                     >
-                      {{ userStore.message }}
+                      {{ userStore.state.register.message }}
                     </div>
                     <button @click="show = 'login'" class="hover:font-medium">
                       Already a member?
