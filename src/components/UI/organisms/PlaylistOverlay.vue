@@ -4,13 +4,28 @@ import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import LikeButton from '../atoms/LikeButton.vue'
 import MenuButton from '../atoms/MenuButton.vue'
+import TrackList from './TrackList.vue'
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
+import { watch, ref } from 'vue'
+import PlaylistService from '../../../lib/playlistService.js'
+import TrackService from '../../../lib/trackService.js'
+// import { getItemById, getPlaylistTrackList } from '../../../lib/getData'
 
+const { getItemById } = new TrackService()
+const { getPlaylistTrackList } = new PlaylistService()
 const overlayStore = useOverlayStore()
-
-const { openPlaylistOverlay } = storeToRefs(overlayStore)
+const playlist = ref({})
+const tracks = ref({})
+const { openPlaylistOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
 const { hidePlaylistOverlay } = overlayStore
+
+watch(overlayPlaylistId, async (id) => {
+  playlist.value = await getItemById('playlists', id)
+  tracks.value = await getPlaylistTrackList(id)
+  console.log(playlist.value)
+  console.log(tracks.value)
+})
 </script>
 
 <template>
@@ -33,11 +48,22 @@ const { hidePlaylistOverlay } = overlayStore
               ></template>
 
               <div class="w-full h-full grid grid-cols-[1fr_2fr] gap-x-5">
-                <div class="bg-white aspect-square w-full"></div>
+                <div
+                  class="bg-gray-300 aspect-square w-full"
+                  :style="{
+                    backgroundImage:
+                      'url(' + encodeURI(playlist.background) + ')',
+                  }"
+                ></div>
                 <div class="flex h-full items-center">
                   <div class="grow text-left text-white pt-20">
-                    <h1 class="text-6xl pb-5">Playlist Name #1</h1>
-                    <p class="text-2xl">(Owner) | (n) Song</p>
+                    <h1 class="text-6xl pb-5">
+                      {{ playlist.name }} {{ '#' + playlist.id }}
+                    </h1>
+                    <p class="text-2xl">
+                      {{ '(' + playlist.owner + ')' }} |
+                      {{ '(' + tracks.length + ')' }} Song
+                    </p>
                   </div>
                 </div>
               </div>
@@ -49,12 +75,17 @@ const { hidePlaylistOverlay } = overlayStore
                 <div
                   class="flex flex-row justify-start w-full gap-x-5 items-center"
                 >
-                  <PlayPauseButton class="w-20 h-20" /><LikeButton
+                  <PlayPauseButton class="w-20 h-20" />
+                  <LikeButton
+                    fill="#c493e1"
+                    stroke="#c493e1"
                     class="w-10 h-10"
-                  /><MenuButton class="w-10 h-10" /></div
+                  />
+                  <MenuButton fill="#FFFFFF" class="w-10 h-10" /></div
               ></template>
-
-              <div class="w-full h-full grid grid-cols-[1fr_2fr] gap-x-5"></div>
+              <div class="min-h-full">
+                <TrackList :track-list="tracks" />
+              </div>
             </ContentSection>
           </div>
         </div>
