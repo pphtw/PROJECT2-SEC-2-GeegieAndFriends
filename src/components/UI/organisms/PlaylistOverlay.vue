@@ -10,10 +10,10 @@ import { storeToRefs } from 'pinia'
 import { watch, ref } from 'vue'
 import PlaylistService from '../../../lib/playlistService.js'
 import TrackService from '../../../lib/trackService.js'
-// import { getItemById, getPlaylistTrackList } from '../../../lib/getData'
+import { getPlaylistTrackList } from '../../../lib/getData'
 
 const { getItemById } = new TrackService()
-const { getPlaylistTrackList } = new PlaylistService()
+// const { getPlaylistTrackList } = new PlaylistService()
 const overlayStore = useOverlayStore()
 const playlist = ref({})
 const tracks = ref({})
@@ -23,8 +23,6 @@ const { hidePlaylistOverlay } = overlayStore
 watch(overlayPlaylistId, async (id) => {
   playlist.value = await getItemById('playlists', id)
   tracks.value = await getPlaylistTrackList(id)
-  console.log(playlist.value)
-  console.log(tracks.value)
 })
 </script>
 
@@ -69,8 +67,9 @@ watch(overlayPlaylistId, async (id) => {
               </div>
             </ContentSection>
           </div>
-          <div class="md:flex w-full row-span-1 p-10">
-            <ContentSection class="min-h-full">
+          <div class="md:flex w-full min-h-full row-span-1 p-10 pt-0">
+            
+            <ContentSection class="h-full">
               <template v-slot:header>
                 <div
                   class="flex flex-row justify-start w-full gap-x-5 items-center"
@@ -83,7 +82,7 @@ watch(overlayPlaylistId, async (id) => {
                   />
                   <MenuButton fill="#FFFFFF" class="w-10 h-10" /></div
               ></template>
-              <div class="min-h-full">
+              <div class="min-h-0">
                 <TrackList :track-list="tracks" />
               </div>
             </ContentSection>
