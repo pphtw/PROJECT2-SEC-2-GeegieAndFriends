@@ -3,13 +3,11 @@ import PageTemplate from '../templates/PageTemplate.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import { ref, onMounted, reactive } from 'vue'
-import { getAllItems } from '@/lib/getData'
+
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
 const trackService = new TrackService()
-
-
 const playlistService = new PlaylistService()
 const playlists = ref([])
 const likedPlayList = reactive({
@@ -21,7 +19,7 @@ const likedPlayList = reactive({
 })
 
 onMounted(async () => {
-  playlists.value = await getAllItems('playlists')
+  playlists.value = await trackService.getAllItems('playlists')
 
   if (
     !playlists.value.includes(
