@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, provide, Transition, onMounted } from 'vue'
+import { ref, provide, Transition, onMounted } from 'vue'
 
 // Components
 import { useControllerStore } from '@/stores/controllerStore.js'

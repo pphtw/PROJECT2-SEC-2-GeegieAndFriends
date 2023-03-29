@@ -17,7 +17,6 @@ onMounted(async () => {
     background:
       'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
   })
-  console.log(playlists.value)
 })
 </script>
 

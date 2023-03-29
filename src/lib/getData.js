@@ -65,7 +65,6 @@ export const createPlaylist = (playlist) => {
     .then(async (response) => {
       const data = await response.json()
       if (response.ok) {
-        console.log(data)
       } else return Promise.reject(response.statusText)
     })
     .catch((error) => {
@@ -99,7 +98,6 @@ export const updatePlaylist = async (playlistId, newPlaylist) => {
   if (playlist.owner === 1) {
     console.error(`CANNOT UPDATE THIS PLAYLIST`)
   } else {
-    console.log(playlist)
     //update
     playlist.name =
       newPlaylist.name === undefined ? playlist.name : newPlaylist.name
@@ -109,8 +107,6 @@ export const updatePlaylist = async (playlistId, newPlaylist) => {
         : newPlaylist.background
     playlist.tracks =
       newPlaylist.tracks === undefined ? playlist.tracks : newPlaylist.tracks
-
-    console.log(playlist)
 
     fetch(`${API_URL}/playlists/${playlistId}`, {
       method: 'PUT',
