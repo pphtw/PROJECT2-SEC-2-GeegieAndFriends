@@ -68,6 +68,7 @@ watch(overlayPlaylistId, async (id) => {
             </ContentSection>
           </div>
           <div class="md:flex w-full min-h-full row-span-1 p-10 pt-0">
+            
             <ContentSection class="h-full">
               <template v-slot:header>
                 <div
