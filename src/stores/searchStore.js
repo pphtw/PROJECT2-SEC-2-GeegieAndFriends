@@ -1,6 +1,6 @@
-import {defineStore, storeToRefs} from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { ref, watch, onMounted } from 'vue'
-import TrackService from "@/lib/trackService";
+import TrackService from '@/lib/trackService'
 const trackService = new TrackService()
 export const useSearchStore = defineStore('search', () => {
   //Definition
@@ -41,9 +41,9 @@ export const useSearchStore = defineStore('search', () => {
   })
 
   watch(regex, async (regex) => {
-    filteredPlaylists.value = (await trackService.getAllItems('playlists')).filter((e) =>
-      e.name.match(regex)
-    )
+    filteredPlaylists.value = (
+      await trackService.getAllItems('playlists')
+    ).filter((e) => e.name.match(regex))
     showMessageNotFound.value =
       notFoundTrackList.value.length === 0 ? true : false
   })
