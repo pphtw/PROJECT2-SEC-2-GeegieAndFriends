@@ -38,7 +38,7 @@ const register = async () => {
                 class="absolute top-0 right-0 h-16 w-16 flex justify-center items-center"
               >
                 <button
-                  @click="$emit('closeOverlay')"
+                  @click="toggleLoginOverlay"
                   class="hover:scale-125 transition ease-in-out"
                 >
                   <svg
@@ -144,7 +144,7 @@ const register = async () => {
                 class="absolute top-0 right-0 h-16 w-16 flex justify-center items-center"
               >
                 <button
-                  @click="$emit('closeOverlay')"
+                  @click="toggleLoginOverlay"
                   class="hover:scale-125 transition ease-in-out"
                 >
                   <svg
