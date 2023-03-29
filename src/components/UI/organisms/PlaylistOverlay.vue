@@ -7,23 +7,36 @@ import MenuButton from '../atoms/MenuButton.vue'
 import TrackList from './TrackList.vue'
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import { watch, ref } from 'vue'
+import { watch, ref, inject } from 'vue'
 import PlaylistService from '../../../lib/playlistService.js'
 import TrackService from '../../../lib/trackService.js'
-import { getPlaylistTrackList } from '../../../lib/getData'
+import { getPlaylistTrackList, getItemById } from '../../../lib/getData'
+import { useControllerStore } from '@/stores/controllerStore'
+// Use Store
+const controllerStore = useControllerStore()
+const { chooseTrack, togglePlayPause } = controllerStore
+const { isPlaying } = storeToRefs(controllerStore)
 
-const { getItemById } = new TrackService()
-// const { getPlaylistTrackList } = new PlaylistService()
 const overlayStore = useOverlayStore()
-const playlist = ref({})
-const tracks = ref({})
 const { openPlaylistOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
 const { hidePlaylistOverlay } = overlayStore
+
+const audioElement = inject('audioElement')
+const playlist = ref({})
+const tracks = ref({})
+const emit = defineEmits(['chooseTrack'])
 
 watch(overlayPlaylistId, async (id) => {
   playlist.value = await getItemById('playlists', id)
   tracks.value = await getPlaylistTrackList(id)
 })
+
+const onChooseTrackClick = (e, playlistId) => {
+  // console.log(e.currentTarget.id)
+  // console.log(playlistId)
+  chooseTrack(e.currentTarget.id, playlistId)
+  emit('chooseTrack', 300)
+}
 </script>
 
 <template>
@@ -68,13 +81,18 @@ watch(overlayPlaylistId, async (id) => {
             </ContentSection>
           </div>
           <div class="md:flex w-full min-h-full row-span-1 p-10 pt-0">
-            
             <ContentSection class="h-full">
               <template v-slot:header>
                 <div
                   class="flex flex-row justify-start w-full gap-x-5 items-center"
                 >
-                  <PlayPauseButton class="w-20 h-20" />
+                  <button
+                    class="[clip-path:circle()]"
+                    @click="togglePlayPause(audioElement)"
+                  >
+                    <PlayPauseButton :is-active="isPlaying" class="w-20 h-20" />
+                  </button>
+
                   <LikeButton
                     fill="#c493e1"
                     stroke="#c493e1"
@@ -83,7 +101,11 @@ watch(overlayPlaylistId, async (id) => {
                   <MenuButton fill="#FFFFFF" class="w-10 h-10" /></div
               ></template>
               <div class="min-h-0">
-                <TrackList :track-list="tracks" />
+                <TrackList
+                  :track-list="tracks"
+                  :playlist-id="overlayPlaylistId"
+                  @chooseTrack="onChooseTrackClick"
+                />
               </div>
             </ContentSection>
           </div>
