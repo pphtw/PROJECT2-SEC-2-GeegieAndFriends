@@ -1,22 +1,25 @@
 <script setup>
 import ContentSection from '../../templates/ContentSection.vue'
-import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import LikeButton from '../atoms/LikeButton.vue'
 import MenuButton from '../atoms/MenuButton.vue'
-const props = defineProps({
-  isClicked: { type: Boolean, required: true },
-})
+import { useOverlayStore } from '@/stores/overlayStore'
+import { storeToRefs } from 'pinia'
+
+const overlayStore = useOverlayStore()
+
+const { openPlaylistOverlay } = storeToRefs(overlayStore)
+const { hidePlaylistOverlay } = overlayStore
 </script>
 
 <template>
   <Teleport to="body">
     <Transition>
       <div
-        v-if="isClicked"
+        v-if="openPlaylistOverlay"
         class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[999]"
-        @click.self="$emit('closeOverlay')"
+        @click.self="hidePlaylistOverlay"
       >
         <div
           class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-full h-full overflow-hidden"
@@ -64,9 +67,12 @@ const props = defineProps({
 .background-overlay {
   background: linear-gradient(180deg, #162750 0%, #171717 100%);
 }
-.v-enter-active,
+.v-enter-active {
+  transition: opacity 0.3s ease-in;
+}
+
 .v-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease-out;
 }
 
 .v-enter-from,

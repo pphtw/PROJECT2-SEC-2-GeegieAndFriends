@@ -1,11 +1,14 @@
 <script setup>
-import { getFilteredItemList, getAllItems } from '@/lib/getData'
-import { onMounted, ref } from 'vue'
+import { useOverlayStore } from '@/stores/overlayStore'
+import { storeToRefs } from 'pinia'
+import PlaylistOverlay from '@/components/UI/organisms/PlaylistOverlay.vue'
 
-const emit = defineEmits(['choosePlaylist'])
+const overlayStore = useOverlayStore()
 
-const onClickPlayList = (event) => {
-  emit('choosePlaylist', event.currentTarget.id)
+const { showPlaylistOverlay } = overlayStore
+
+const onClickPlayList = (e) => {
+  showPlaylistOverlay(e)
 }
 const props = defineProps({
   playlists: {
@@ -41,6 +44,7 @@ const props = defineProps({
       </div>
     </div>
   </div>
+  <PlaylistOverlay />
 </template>
 
 <style scoped></style>
