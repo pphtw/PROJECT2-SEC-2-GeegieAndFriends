@@ -1,8 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import UserService from '@/lib/userService'
-import { ref } from 'vue'
-import { useControllerStore } from '@/stores/controllerStore'
-
+import { reactive, ref } from 'vue'
+import { hashPassword } from '@/lib/util'
 export const useUserStore = defineStore('user', () => {
   const user = {
     firstName: '',
@@ -18,7 +17,7 @@ export const useUserStore = defineStore('user', () => {
     firstName: /[a-zA-z]+/,
     lastName: /[a-zA-z]+/,
     email: /.+@([a-zA-Z0-9\-]+)\.com/,
-    password: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
+    password: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{7,})/,
   }
 
   const checkPattern = (user, type) => {
@@ -32,8 +31,14 @@ export const useUserStore = defineStore('user', () => {
       ? userPattern.password.test(user.password)
       : false
   }
-
-  const message = ref('')
+  const state = reactive({
+    register: {
+      message: '',
+    },
+    login: {
+      message: '',
+    },
+  })
   const isRegistered = ref(false)
   const isLoggedIn = ref(false)
 
@@ -41,18 +46,21 @@ export const useUserStore = defineStore('user', () => {
     const userService = new UserService()
     try {
       if (
-        (!checkPattern(user, 'firstName') ||
-          !checkPattern(user, 'lastName') ||
-          !checkPattern(user, 'email'),
-        !checkPattern(user, 'password'))
+        !checkPattern(user, 'firstName') ||
+        !checkPattern(user, 'lastName') ||
+        !checkPattern(user, 'email') ||
+        !checkPattern(user, 'password')
       ) {
-        message.value = 'Please check your information!'
+        state.register.message = 'Please check your information!'
         isRegistered.value = false
       } else {
-        const registeredUser = await userService.registerUser(user)
+        const hashedPassword = await hashPassword(user.password)
+        const registeredUser = await userService.registerUser({
+          ...user,
+          password: hashedPassword,
+        })
         if (registeredUser) {
-          console.log('User registered:', registeredUser)
-          message.value = 'Registration successful!'
+          state.register.message = 'Registration successful!'
           isRegistered.value = true
         }
       }
@@ -64,22 +72,30 @@ export const useUserStore = defineStore('user', () => {
   const login = async (userLogin) => {
     const userService = new UserService()
     try {
+      const hashedPassword = await hashPassword(userLogin.password)
       const loggedInUser = await userService.loginUser(
         userLogin.email,
-        userLogin.password
+        hashedPassword
       )
       if (loggedInUser) {
-        console.log('User logged in: ', loggedInUser)
         isLoggedIn.value = true
-        message.value = 'Login successful'
+        state.login.message = 'Login successful'
       }
     } catch (error) {
-      console.error(`Error logging in user: ${error.message}`)
       isLoggedIn.value = false
-      message.value = 'Invalid email or password'
+      state.login.message = 'Invalid email or password'
     }
-  };
-  return { user, message, register, isRegistered,login,userLogin,isLoggedIn,checkPattern }
+  }
+  return {
+    user,
+    state,
+    isRegistered,
+    isLoggedIn,
+    userLogin,
+    register,
+    login,
+    checkPattern,
+  }
 })
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useUserStore, import.meta.hot))
