@@ -1,7 +1,7 @@
 import TrackService from "@/lib/trackService";
 
 const trackService = new TrackService()
-const API_URL = 'http://localhost:5000'
+
 class PlaylistService {
     async getPlaylistTrackIdList(playlistId)  {
         return (await trackService.getItemById('playlists', playlistId)).tracks
@@ -12,7 +12,7 @@ class PlaylistService {
     }
     async createPlaylist(playlist){
         try {
-            const response = await fetch(`${API_URL}/playlists`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/playlists`, {
                 method: 'post',
                 body: JSON.stringify(playlist),
                 headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ class PlaylistService {
             console.error(`CANNOT REMOVE THIS PLAYLIST`)
         }else {
             try {
-                const response = await fetch(`${API_URL}/playlists/${playlistId}`, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/playlists/${playlistId}`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                 });
@@ -55,7 +55,7 @@ class PlaylistService {
             playlist.background = newPlaylist.background
             playlist.tracks = newPlaylist.tracks
             try {
-                const response = await fetch(`${API_URL}/playlists/${playlistId}`,{
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/playlists/${playlistId}`,{
                     method: 'PUT',
                     body: JSON.stringify(playlist),
                     headers: {'Content-Type': 'application/json'}

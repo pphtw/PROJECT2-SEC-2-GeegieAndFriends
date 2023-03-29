@@ -1,10 +1,8 @@
-const API_URL = 'http://localhost:5000';
-
 class UserService {
 
     async registerUser(user) {
         try {
-            const response = await fetch(`${API_URL}/users`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
                 method: 'POST',
                 body: JSON.stringify(user),
                 headers: { 'Content-Type': 'application/json' },
@@ -17,6 +15,7 @@ class UserService {
             }
         } catch (error) {
             console.error(`ERROR REGISTERING USER: ${error.message}`);
+
         }
     }
 }

@@ -61,6 +61,7 @@ const onProgressBarMouseUp = (e) => {
 }
 // Hooks
 onMounted(async () => {
+    audioElement.value.volume = 0.3
   await initController()
 })
 </script>
