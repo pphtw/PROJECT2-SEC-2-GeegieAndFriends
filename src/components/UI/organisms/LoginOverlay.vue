@@ -9,9 +9,9 @@ const overlayStore = useOverlayStore()
 
 const { openLoginOverlay } = storeToRefs(overlayStore)
 const { toggleLoginOverlay } = overlayStore
+const {message} = storeToRefs(userStore)
 
 const show = ref('login')
-
 const register = async () => {
   await userStore.register(userStore.user)
 }
