@@ -29,7 +29,8 @@
 const props = defineProps({
   isActive: {
     type: Boolean,
-    required: true,
+    required: false,
+    default: false,
   },
 })
 </script>
