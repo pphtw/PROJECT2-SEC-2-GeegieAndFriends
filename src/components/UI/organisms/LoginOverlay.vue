@@ -76,7 +76,7 @@ const logging = async () => {
                         ></i>
                       </div>
                       <input
-                              v-model="userStore.userLogin.email"
+                        v-model="userStore.userLogin.email"
                         type="text"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="johnsmith@example.com"
@@ -98,7 +98,7 @@ const logging = async () => {
                         ></i>
                       </div>
                       <input
-                              v-model="userStore.userLogin.password"
+                        v-model="userStore.userLogin.password"
                         type="password"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="************"
@@ -127,7 +127,7 @@ const logging = async () => {
                 <div class="flex -mx-3">
                   <div class="w-full px-3 flex flex-col gap-4">
                     <button
-                            @click="logging"
+                      @click="logging"
                       class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
                     >
                       LOGIN
@@ -255,7 +255,7 @@ const logging = async () => {
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="johnsmith@example.com"
                         :class="
-                          userStore.checkPattern(userStore.user, 'lastName')
+                          userStore.checkPattern(userStore.user, 'email')
                             ? ''
                             : 'border-red-500'
                         "
