@@ -1,5 +1,6 @@
-import { defineStore } from 'pinia'
+import {acceptHMRUpdate, defineStore} from 'pinia'
 import { ref } from 'vue'
+import {useControllerStore} from "@/stores/controllerStore";
 
 export const usePlaylistStore = defineStore('playlist', () => {
   // State
@@ -26,3 +27,6 @@ export const usePlaylistStore = defineStore('playlist', () => {
     addToFavorites,
   }
 })
+if (import.meta.hot){
+  import.meta.hot.accept(acceptHMRUpdate(usePlaylistStore,import.meta.hot))
+}

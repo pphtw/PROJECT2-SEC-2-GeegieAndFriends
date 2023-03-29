@@ -1,5 +1,6 @@
-import { defineStore } from 'pinia'
+import {acceptHMRUpdate, defineStore} from 'pinia'
 import { reactive, ref } from 'vue'
+import {useControllerStore} from "@/stores/controllerStore";
 
 export const useOverlayStore = defineStore('overlay', () => {
   const openContextMenu = ref(false)
@@ -47,3 +48,6 @@ export const useOverlayStore = defineStore('overlay', () => {
     overlayPlaylistId,
   }
 })
+if (import.meta.hot){
+  import.meta.hot.accept(acceptHMRUpdate(useOverlayStore,import.meta.hot))
+}

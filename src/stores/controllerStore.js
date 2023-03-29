@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore,acceptHMRUpdate } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
 import { shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
@@ -308,3 +308,6 @@ export const useControllerStore = defineStore('controller', () => {
     loadPlaybackState,
   }
 })
+if (import.meta.hot){
+  import.meta.hot.accept(acceptHMRUpdate(useControllerStore,import.meta.hot))
+}
