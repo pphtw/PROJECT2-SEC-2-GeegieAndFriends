@@ -7,7 +7,6 @@ const overlayStore = useOverlayStore()
 
 const { showPlaylistOverlay } = overlayStore
 
-
 const props = defineProps({
   playlists: {
     type: Object,

@@ -7,10 +7,10 @@ import MenuButton from '../atoms/MenuButton.vue'
 import TrackList from './TrackList.vue'
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import { watch, ref,inject } from 'vue'
-import TrackService from "@/lib/trackService";
-import PlaylistService from "@/lib/playlistService";
-
+import { watch, ref, inject } from 'vue'
+import TrackService from '@/lib/trackService'
+import PlaylistService from '@/lib/playlistService'
+import { useControllerStore } from '@/stores/controllerStore'
 
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
@@ -22,6 +22,10 @@ const audioElement = inject('audioElement')
 const playlist = ref({})
 const tracks = ref({})
 const emit = defineEmits(['chooseTrack'])
+
+const controllerStore = useControllerStore()
+const { isPlaying } = storeToRefs(controllerStore)
+const { chooseTrack, togglePlayPause } = controllerStore
 
 watch(overlayPlaylistId, async (id) => {
   playlist.value = await trackService.getItemById('playlists', id)
