@@ -27,7 +27,7 @@ export const useOverlayStore = defineStore('overlay', () => {
   }
   const showPlaylistOverlay = (e) => {
     openPlaylistOverlay.value = true
-    overlayPlaylistId.value = e.currentTarget.id
+    overlayPlaylistId.value = Number(e.currentTarget.id)
   }
 
   const hidePlaylistOverlay = () => {
@@ -44,5 +44,6 @@ export const useOverlayStore = defineStore('overlay', () => {
     hideContextMenu,
     showPlaylistOverlay,
     hidePlaylistOverlay,
+    overlayPlaylistId,
   }
 })
