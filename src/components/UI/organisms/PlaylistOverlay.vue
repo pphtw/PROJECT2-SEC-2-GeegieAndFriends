@@ -61,7 +61,7 @@ const onChooseTrackClick = (e, playlistId) => {
 
               <div class="w-full h-full grid grid-cols-[1fr_2fr] gap-x-5">
                 <div
-                  class="bg-gray-300 aspect-square bg-center w-full"
+                  class="bg-gray-300 aspect-square bg-center bg-no-repeat bg-cover w-full"
                   :style="{
                     backgroundImage:
                       'url(' + encodeURI(playlist.background) + ')',
