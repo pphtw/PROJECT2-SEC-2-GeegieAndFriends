@@ -132,6 +132,17 @@ const logging = async () => {
                     >
                       LOGIN
                     </button>
+                      <div
+                              v-if="userStore.message"
+                              class="text-center mt-4"
+                              :class="
+                        userStore.isLoggedIn
+                          ? 'text-green-500'
+                          : 'text-red-500'
+                      "
+                      >
+                          {{ userStore.message }}
+                      </div>
                     <button
                       @click="show = 'register'"
                       class="hover:font-medium"
