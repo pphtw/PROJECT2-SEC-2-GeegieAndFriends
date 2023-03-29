@@ -1,19 +1,22 @@
 <script setup>
-import ContentSection from '../../templates/ContentSection.vue'
+import { useOverlayStore } from '@/stores/overlayStore'
+import { storeToRefs } from 'pinia'
+import { watch, ref, inject } from 'vue'
+import { useControllerStore } from '@/stores/controllerStore'
+
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import LikeButton from '../atoms/LikeButton.vue'
 import MenuButton from '../atoms/MenuButton.vue'
+
+import ContentSection from '../../templates/ContentSection.vue'
 import TrackList from './TrackList.vue'
-import { useOverlayStore } from '@/stores/overlayStore'
-import { storeToRefs } from 'pinia'
-import { watch, ref, inject } from 'vue'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
-import { useControllerStore } from '@/stores/controllerStore'
 
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
+
 const overlayStore = useOverlayStore()
 const { openPlaylistOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
 const { hidePlaylistOverlay } = overlayStore
@@ -47,7 +50,7 @@ const onChooseTrackClick = (e, playlistId) => {
         @click.self="hidePlaylistOverlay"
       >
         <div
-          class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-[60%] min-w-fit h-full overflow-hidden"
+          class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-[60%] min-w-fit h-full overflow-y-scroll no-scrollbar-full"
         >
           <div class="md:flex w-full row-span-1 p-10">
             <ContentSection class="min-h-full">
@@ -78,7 +81,7 @@ const onChooseTrackClick = (e, playlistId) => {
               </div>
             </ContentSection>
           </div>
-          <div class="md:flex w-full min-h-full row-span-1 p-10 pt-0">
+          <div class="md:flex w-full h-full row-span-1 p-10 pt-0">
             <ContentSection class="h-full">
               <template v-slot:header>
                 <div
@@ -98,7 +101,7 @@ const onChooseTrackClick = (e, playlistId) => {
                   />
                   <MenuButton fill="#FFFFFF" class="w-10 h-10" /></div
               ></template>
-              <div class="min-h-0">
+              <div class="h-full">
                 <TrackList
                   :track-list="tracks"
                   :playlist-id="overlayPlaylistId"
