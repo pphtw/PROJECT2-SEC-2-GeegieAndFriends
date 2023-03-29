@@ -9,7 +9,10 @@ export const useUserStore = defineStore('user', () => {
     email: '',
     password: '',
   }
-
+  const userLogin = {
+    email: '',
+    password: ''
+  }
   const userPattern = {
     firstName: /[a-zA-z]+/,
     lastName: /[a-zA-z]+/,
@@ -88,6 +91,7 @@ export const useUserStore = defineStore('user', () => {
     state,
     isRegistered,
     isLoggedIn,
+    userLogin,
     register,
     login,
     checkPattern,
