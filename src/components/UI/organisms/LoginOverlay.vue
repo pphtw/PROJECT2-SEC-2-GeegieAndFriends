@@ -183,6 +183,11 @@ const register = async () => {
                         type="text"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="John"
+                        :class="
+                          userStore.checkPattern(userStore.user, 'firstName')
+                            ? ''
+                            : 'border-red-500'
+                        "
                         required
                       />
                     </div>
@@ -204,6 +209,11 @@ const register = async () => {
                         type="text"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="Smith"
+                        :class="
+                          userStore.checkPattern(userStore.user, 'lastName')
+                            ? ''
+                            : 'border-red-500'
+                        "
                         required
                       />
                     </div>
@@ -227,6 +237,11 @@ const register = async () => {
                         type="email"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="johnsmith@example.com"
+                        :class="
+                          userStore.checkPattern(userStore.user, 'lastName')
+                            ? ''
+                            : 'border-red-500'
+                        "
                         required
                       />
                     </div>
@@ -250,6 +265,11 @@ const register = async () => {
                         type="password"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="************"
+                        :class="
+                          userStore.checkPattern(userStore.user, 'password')
+                            ? ''
+                            : 'border-red-500'
+                        "
                         required
                       />
                     </div>
