@@ -2,10 +2,10 @@
 import PageTemplate from '../templates/PageTemplate.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
-import AllPlaylist from '../UI/organisms/PlaylistGrid.vue'
 import PlaylistOverlay from '../UI/organisms/PlaylistOverlay.vue'
 import { ref, onMounted } from 'vue'
 import { getAllItems } from '@/lib/getData'
+import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
 
 const isClickedPlaylist = ref(false)
 const playlists = ref([])
@@ -36,7 +36,7 @@ onMounted(async () => {
         <div class="flex flex-row justify-between">
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
-      <AllPlaylist :playlists="playlists" @choose-playlist="onClickPlaylist" />
+      <PlaylistGrid :playlists="playlists" @choose-playlist="onClickPlaylist" />
     </ContentSection>
     <PlaylistOverlay
       :is-clicked="isClickedPlaylist"
