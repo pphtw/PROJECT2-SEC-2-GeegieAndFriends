@@ -1,7 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import UserService from '@/lib/userService'
 import { reactive, ref } from 'vue'
-import {hashPassword} from "@/lib/util";
+import { hashPassword } from '@/lib/util'
 export const useUserStore = defineStore('user', () => {
   const user = {
     firstName: '',
