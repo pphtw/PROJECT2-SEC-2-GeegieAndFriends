@@ -11,13 +11,17 @@ const { currentTrack } = storeToRefs(controllerStore)
 const { showContextMenu } = overlayStore
 const props = defineProps({
   trackList: {
-    type: [Array,Object],
+    type: [Array, Object],
     required: false,
   },
   playlistId: {
     type: Number,
     required: false,
     default: 0,
+  },
+  selectedTrack: {
+    type: Array,
+    required: false,
   },
 })
 </script>
@@ -54,6 +58,10 @@ const props = defineProps({
 </template>
 
 <style scoped>
+.is-choosing,
+.is-choosing:hover {
+  background-color: red;
+}
 .is-playing,
 .is-playing:hover {
   background-color: #eedff6;

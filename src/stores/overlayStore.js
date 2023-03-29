@@ -1,6 +1,6 @@
-import {acceptHMRUpdate, defineStore} from 'pinia'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
-import {useControllerStore} from "@/stores/controllerStore";
+import { useControllerStore } from '@/stores/controllerStore'
 
 export const useOverlayStore = defineStore('overlay', () => {
   const openContextMenu = ref(false)
@@ -11,6 +11,7 @@ export const useOverlayStore = defineStore('overlay', () => {
   const openLoginOverlay = ref(false)
   const openPlaylistOverlay = ref(false)
   const overlayPlaylistId = ref(null)
+  const openCreateOverlay = ref(false)
 
   const showContextMenu = (e) => {
     e.stopPropagation()
@@ -35,6 +36,13 @@ export const useOverlayStore = defineStore('overlay', () => {
     openPlaylistOverlay.value = false
   }
 
+  const showCreateOverlay = () => {
+    openCreateOverlay.value = true
+  }
+  const hideCreateOverlay = () => {
+    openCreateOverlay.value = false
+  }
+
   return {
     openContextMenu,
     showContextMenu,
@@ -46,8 +54,11 @@ export const useOverlayStore = defineStore('overlay', () => {
     showPlaylistOverlay,
     hidePlaylistOverlay,
     overlayPlaylistId,
+    showCreateOverlay,
+    hideCreateOverlay,
+    openCreateOverlay,
   }
 })
-if (import.meta.hot){
-  import.meta.hot.accept(acceptHMRUpdate(useOverlayStore,import.meta.hot))
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useOverlayStore, import.meta.hot))
 }

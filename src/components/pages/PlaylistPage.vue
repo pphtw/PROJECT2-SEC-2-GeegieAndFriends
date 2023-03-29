@@ -20,7 +20,6 @@ const likedPlayList = reactive({
 
 onMounted(async () => {
   playlists.value = await trackService.getAllItems('playlists')
-
   if (
     !playlists.value.includes(
       playlists.value.find((e) => e.name === 'Liked Song')
