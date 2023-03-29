@@ -1,13 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import UserService from '@/lib/userService'
 import { reactive, ref } from 'vue'
-const hashPassword = async (password) => {
-  const encoder = new TextEncoder()
-  const data = encoder.encode(password)
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
-  const hashArray = Array.from(new Uint8Array(hashBuffer))
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
-}
+import {hashPassword} from "@/lib/util";
 export const useUserStore = defineStore('user', () => {
   const user = {
     firstName: '',
@@ -93,7 +87,6 @@ export const useUserStore = defineStore('user', () => {
     user,
     state,
     isRegistered,
-    userLogin,
     isLoggedIn,
     register,
     login,
