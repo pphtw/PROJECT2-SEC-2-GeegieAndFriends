@@ -4,16 +4,12 @@ import SearchPageButton from '../atoms/SearchPageButton.vue'
 import PlaylistPageButton from '../atoms/PlaylistPageButton.vue'
 import { RouterLink } from 'vue-router'
 import LoginLogoutButton from '@/components/UI/atoms/LoginLogoutButton.vue'
-import { ref } from 'vue'
 import LoginOverlay from '@/components/UI/organisms/LoginOverlay.vue'
+import { useOverlayStore } from '@/stores/overlayStore'
 
-const openLoginOverlay = ref(false)
-const closeLoginOverlay = () => {
-  openLoginOverlay.value = false;
-};
-const onLoginClicked = () => {
-  openLoginOverlay.value = !openLoginOverlay.value
-}
+const overlayStore = useOverlayStore()
+
+const { toggleLoginOverlay } = overlayStore
 </script>
 
 <template>
@@ -45,18 +41,12 @@ const onLoginClicked = () => {
       <PlaylistPageButton />
     </RouterLink>
     <a
-      @click="onLoginClicked"
+      @click="toggleLoginOverlay"
       @mousedown.prevent
       class="self-end cursor-pointer row-start-5 h-[3rem] w-[4.5rem] mb-8 items-center justify-center flex hover:scale-150 transition ease-in-out"
     >
       <LoginLogoutButton />
     </a>
-    <LoginOverlay
-        :open="openLoginOverlay"
-        @registration-success="closeLoginOverlay"
-        @closeOverlay="openLoginOverlay = false"
-    />
+    <LoginOverlay />
   </div>
 </template>
-
-<style scoped></style>

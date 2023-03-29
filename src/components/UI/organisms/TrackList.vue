@@ -2,11 +2,15 @@
 import SingleTrack from './SingleTrack.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { storeToRefs } from 'pinia'
+import { useOverlayStore } from '@/stores/overlayStore'
+import ContextMenu from '@/components/UI/organisms/ContextMenu.vue'
 
 // Use Store
 const controllerStore = useControllerStore()
+const overlayStore = useOverlayStore()
 
 const { currentTrack } = storeToRefs(controllerStore)
+const { showContextMenu } = overlayStore
 const props = defineProps({
   trackList: {
     type: Object,
@@ -25,6 +29,7 @@ const props = defineProps({
     tag="div"
     name="list"
     class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll overflow-x-hidden"
+    @contextmenu.prevent
   >
     <!-- #TrackList -->
     <div
@@ -37,6 +42,7 @@ const props = defineProps({
       }"
       @mousedown="$event.preventDefault()"
       @click="$emit('chooseTrack', $event, playlistId)"
+      @contextmenu.prevent="showContextMenu"
     >
       <!-- #Ranking -->
       <div class="w-fit">

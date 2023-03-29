@@ -10,7 +10,7 @@ import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
-import AllPlaylist from '../UI/organisms/AllPlaylist.vue'
+import AllPlaylist from '../UI/organisms/PlaylistGrid.vue'
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
