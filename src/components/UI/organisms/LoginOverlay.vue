@@ -165,7 +165,7 @@ const register = async () => {
                 <p>Enter your information to register</p>
               </div>
               <div>
-                <form @submit.prevent="register">
+<!--                <form @submit.prevent="register">-->
                   <div class="flex -mx-3">
                     <div class="w-1/2 px-3 mb-5">
                       <label for="" class="text-xs font-semibold px-1"
@@ -254,7 +254,7 @@ const register = async () => {
                   </div>
                   <div class="flex -mx-3">
                     <div class="w-full px-3 flex flex-col gap-4">
-                      <button type="submit"
+                      <button @click="sub"
                         class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
                       >
                         REGISTER NOW
@@ -270,7 +270,7 @@ const register = async () => {
                       </button>
                     </div>
                   </div>
-                </form>
+<!--                </form>-->
               </div>
             </div>
             <div
