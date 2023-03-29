@@ -2,7 +2,7 @@
 import PageTemplate from '../templates/PageTemplate.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
-import AllPlaylist from '../UI/organisms/AllPlaylist.vue'
+import AllPlaylist from '../UI/organisms/PlaylistGrid.vue'
 import PlaylistOverlay from '../UI/organisms/PlaylistOverlay.vue'
 import { ref, onMounted } from 'vue'
 import { getAllItems } from '@/lib/getData'

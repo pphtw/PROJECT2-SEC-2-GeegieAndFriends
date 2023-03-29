@@ -7,11 +7,13 @@ import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
 import NavigationBar from './components/UI/organisms/NavigationBar.vue'
-
+import ContextMenu from '@/components/UI/organisms/ContextMenu.vue'
+import { useOverlayStore } from '@/stores/overlayStore'
 
 // Use Store
 const playlistStore = usePlaylistStore()
 const controllerStore = useControllerStore()
+const overlayStore = useOverlayStore()
 
 const { likedTracks } = storeToRefs(playlistStore)
 const { currentTrack, q, progressBar } = storeToRefs(controllerStore)
@@ -22,6 +24,7 @@ const {
   togglePlay,
   initController,
 } = controllerStore
+const { hideContextMenu } = overlayStore
 
 //progress bar
 
@@ -75,6 +78,7 @@ onMounted(async () => {
     class="flex flex-row w-screen h-screen"
     @mouseup="onProgressBarMouseUp"
     @mousemove="onProgressBarMouseMove"
+    @click="hideContextMenu"
   >
     <NavigationBar />
     <div class="h-full w-full flex flex-col">
@@ -90,6 +94,7 @@ onMounted(async () => {
       </RouterView>
     </div>
   </div>
+  <ContextMenu />
 </template>
 <style scoped>
 .slide-down-leave-to,

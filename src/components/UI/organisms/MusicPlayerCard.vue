@@ -9,14 +9,17 @@ import PlayPauseButton from '../atoms/PlayPauseButton.vue'
 import SkipButton from '../atoms/SkipButton.vue'
 import RepeatButton from '../atoms/RepeatButton.vue'
 import ProgressBarWithTimer from '@/components/UI/molecules/ProgressBarWithTimer.vue'
+import { useOverlayStore } from '@/stores/overlayStore'
 
 // Use Store
 const controllerStore = useControllerStore()
+const overlayStore = useOverlayStore()
 
 const { currentTrack, isShuffled, isRepeating, isPlaying } =
   storeToRefs(controllerStore)
 const { toggleShuffle, toggleRepeat, skipTrack, togglePlayPause } =
   controllerStore
+const { showContextMenu } = overlayStore
 
 const audioElement = inject('audioElement')
 const emit = defineEmits(['autoPlayPause'])
@@ -76,7 +79,10 @@ onUpdated(() => {
 </script>
 
 <template>
-  <div class="flex flex-col rounded-2xl bg-white h-full">
+  <div
+    class="flex flex-col rounded-2xl bg-white h-full"
+    @contextmenu.prevent="showContextMenu"
+  >
     <!-- #MusicCover -->
     <div
       class="h-full bg-cover bg-center rounded-t-2xl aspect-auto"
