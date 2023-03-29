@@ -41,8 +41,10 @@ const searchHandler = (input) => {
     .replace(/\W{1,}/gi, ' ')
     .split(/\s/)
     .filter((e) => e)
+  console.log(pattern)
 
-  regex.value = new RegExp(`^(${pattern.join(' ')})`, 'ig')
+  regex.value = new RegExp(`^${pattern.join(' ')}`, 'ig')
+  console.log(regex.value)
 }
 </script>
 
