@@ -7,9 +7,7 @@ const overlayStore = useOverlayStore()
 
 const { showPlaylistOverlay } = overlayStore
 
-const onClickPlayList = (e) => {
-  showPlaylistOverlay(e)
-}
+
 const props = defineProps({
   playlists: {
     type: Object,
@@ -34,7 +32,7 @@ const props = defineProps({
           backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
         }"
         tabindex="-1"
-        @click="onClickPlayList"
+        @click="showPlaylistOverlay"
       >
         <p
           class="text-white truncate text-lg font-semibold self-center text-center"
