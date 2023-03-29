@@ -21,14 +21,14 @@ const overlayStore = useOverlayStore()
 const { openPlaylistOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
 const { hidePlaylistOverlay } = overlayStore
 
+const controllerStore = useControllerStore()
+const { isPlaying } = storeToRefs(controllerStore)
+const { chooseTrack, togglePlayPause } = controllerStore
+
 const audioElement = inject('audioElement')
 const playlist = ref({})
 const tracks = ref({})
 const emit = defineEmits(['chooseTrack'])
-
-const controllerStore = useControllerStore()
-const { isPlaying } = storeToRefs(controllerStore)
-const { chooseTrack, togglePlayPause } = controllerStore
 
 watch(overlayPlaylistId, async (id) => {
   playlist.value = await trackService.getItemById('playlists', id)

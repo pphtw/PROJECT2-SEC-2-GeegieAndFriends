@@ -46,7 +46,7 @@ const searchHandler = (input) => {
   >
     <div class="flex flex-col row-span-2 h-full">
       <!-- #SearchBarSection -->
-      <SearchBar class="h-full" @searchEvent="searchHandler" />
+      <SearchBar class="h-40" @searchEvent="searchHandler" />
 
       <!-- #FilterSection -->
       <FilterSection class="h-fit" />
