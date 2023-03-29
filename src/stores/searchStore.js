@@ -18,8 +18,8 @@ export const useSearchStore = defineStore('search', () => {
   const regex = ref('')
   const filteredTrackList = ref([])
   const filteredPlaylists = ref([])
-  const notFoundPlaylists = ref(false)
-  const notFoundTrackList = ref(false)
+  // const notFoundPlaylists = ref(false)
+  // const notFoundTrackList = ref(false)
 
   //Function
   const checkKeywords = (keyword) => keyword.match(regex.value)
