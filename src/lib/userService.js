@@ -1,10 +1,8 @@
-const API_URL = `${import.meta.env.VITE_API_URL}`;
-
 class UserService {
 
     async registerUser(user) {
         try {
-            const response = await fetch(`${API_URL}/users`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
                 method: 'POST',
                 body: JSON.stringify(user),
                 headers: { 'Content-Type': 'application/json' },

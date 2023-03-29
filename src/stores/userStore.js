@@ -1,6 +1,7 @@
-import { defineStore } from 'pinia'
+import {acceptHMRUpdate, defineStore} from 'pinia'
 import UserService from '@/lib/userService'
 import { ref } from 'vue'
+import {useControllerStore} from "@/stores/controllerStore";
 
 export const useUserStore = defineStore('user', () => {
   const user = {
@@ -33,3 +34,6 @@ export const useUserStore = defineStore('user', () => {
   }
   return { user, message, register, isRegistered }
 })
+if (import.meta.hot){
+  import.meta.hot.accept(acceptHMRUpdate(useUserStore,import.meta.hot))
+}

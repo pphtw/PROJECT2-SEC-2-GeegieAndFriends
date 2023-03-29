@@ -1,6 +1,7 @@
-import { defineStore, storeToRefs } from 'pinia'
+import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia'
 import { ref, watch, onMounted } from 'vue'
 import TrackService from '@/lib/trackService'
+import {useControllerStore} from "@/stores/controllerStore";
 const trackService = new TrackService()
 export const useSearchStore = defineStore('search', () => {
   //Definition
@@ -59,7 +60,8 @@ export const useSearchStore = defineStore('search', () => {
     filteredPlaylists,
     regex,
     setSelectedFilterIndex,
-    // notFoundTrackList,
-    // notFoundPlaylists,
   }
 })
+if (import.meta.hot){
+  import.meta.hot.accept(acceptHMRUpdate(useSearchStore,import.meta.hot))
+}

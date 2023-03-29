@@ -3,13 +3,14 @@ import PageTemplate from '../templates/PageTemplate.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import { ref, onMounted } from 'vue'
-import { getAllItems } from '@/lib/getData'
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
+import TrackService from "@/lib/trackService";
+const trackService = new TrackService()
 
 const playlists = ref([])
 
 onMounted(async () => {
-  playlists.value = await getAllItems('playlists')
+  playlists.value = await trackService.getAllItems('playlists')
   playlists.value.unshift({
     id: 0,
     name: 'Liked Song',
