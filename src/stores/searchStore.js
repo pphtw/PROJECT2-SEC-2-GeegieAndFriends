@@ -3,6 +3,7 @@ import { ref, watch, onMounted } from 'vue'
 import TrackService from '@/lib/trackService'
 import {useControllerStore} from "@/stores/controllerStore";
 const trackService = new TrackService()
+
 export const useSearchStore = defineStore('search', () => {
   //Definition
   const filterType = [
