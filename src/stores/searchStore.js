@@ -36,16 +36,16 @@ export const useSearchStore = defineStore('search', () => {
         .filter((track) => track.name.match(regex))
         .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
     )
-    notFoundTrackList.value =
-      filteredTrackList.value.length === 0 ? true : false
+    // notFoundTrackList.value =
+    //   filteredTrackList.value.length === 0 ? true : false
   })
 
   watch(regex, async (regex) => {
     filteredPlaylists.value = (
       await trackService.getAllItems('playlists')
     ).filter((e) => e.name.match(regex))
-    showMessageNotFound.value =
-      notFoundTrackList.value.length === 0 ? true : false
+    // showMessageNotFound.value =
+    //   notFoundTrackList.value.length === 0 ? true : false
   })
 
   const setSelectedFilterIndex = (index) => {
@@ -59,7 +59,7 @@ export const useSearchStore = defineStore('search', () => {
     filteredPlaylists,
     regex,
     setSelectedFilterIndex,
-    notFoundTrackList,
-    notFoundPlaylists,
+    // notFoundTrackList,
+    // notFoundPlaylists,
   }
 })
