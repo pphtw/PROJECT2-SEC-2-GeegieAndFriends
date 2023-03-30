@@ -1,11 +1,12 @@
 import { defineStore,acceptHMRUpdate } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import { shuffleArray } from '@/lib/util'
+import {loadPlaybackState, savePlaybackState, shuffleArray} from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
+
 export const useControllerStore = defineStore('controller', () => {
   const playlist = usePlaylistStore()
 
@@ -58,16 +59,11 @@ export const useControllerStore = defineStore('controller', () => {
     }
   )
   const controllerState = computed(() => {
-    if (isShuffled.value && isRepeating.value) {
-      return 3
-    } else if (isShuffled.value && !isRepeating.value) {
-      return 2
-    } else if (!isShuffled.value && isRepeating.value) {
-      return 1
-    } else {
-      return 0
-    }
-  })
+    if (isShuffled.value && isRepeating.value) return 3;
+    if (isShuffled.value && !isRepeating.value) return 2;
+    if (!isShuffled.value && isRepeating.value) return 1;
+    return 0;
+  });
 
   // Actions
   const togglePlayPause = (audioElement) => {
@@ -172,7 +168,7 @@ export const useControllerStore = defineStore('controller', () => {
         }
       }
     }
-    savePlaybackState()
+    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId);
   }
   const skipToTrack = (id, queue = q.queue, repeat = false) => {
     const indexToSkip = q.tempQueue.findIndex(
@@ -201,7 +197,7 @@ export const useControllerStore = defineStore('controller', () => {
         }
       }
     }
-    savePlaybackState()
+    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId);
   }
   const chooseTrack = async (id, playlistId) => {
     const trackId = Number(id)
@@ -255,25 +251,7 @@ export const useControllerStore = defineStore('controller', () => {
       }
     }
     isPlaying.value = true
-    savePlaybackState()
-  }
-  const savePlaybackState = () => {
-    const playbackState = {
-      queue: q.queue,
-      dumpQueue: q.dumpQueue,
-      currentPlaylistId: q.currentPlaylistId,
-    }
-    localStorage.setItem('playbackState', JSON.stringify(playbackState))
-  }
-
-  const loadPlaybackState = () => {
-    const storedState = localStorage.getItem('playbackState')
-    if (storedState) {
-      const playbackState = JSON.parse(storedState)
-      q.queue = playbackState.queue
-      q.dumpQueue = playbackState.dumpQueue
-      q.currentPlaylistId = playbackState.currentPlaylistId
-    }
+    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId);
   }
   const setQueue = (queue) => {
     q.queue = [...queue]

@@ -84,6 +84,7 @@ export const useUserStore = defineStore('user', () => {
         hashedPassword
       )
       if (loggedInUser) {
+        console.log(loggedInUser)
         isLoggedIn.value = true
         state.login.message = 'Login successful'
       }
