@@ -1,13 +1,16 @@
 <script setup>
-import { useOverlayStore } from '@/stores/overlayStore'
+import { ref, reactive, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { watch, ref, inject, onMounted } from 'vue'
+
+import { useOverlayStore } from '@/stores/overlayStore'
 import { useControllerStore } from '@/stores/controllerStore'
+import { useUserStore } from '@/stores/userStore'
 
 import TrackList from './TrackList.vue'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
 import ContentSection from '../../templates/ContentSection.vue'
+import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 
 const overlayStore = useOverlayStore()
 const { openCreateOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
@@ -17,15 +20,43 @@ const controllerStore = useControllerStore()
 // const { isPlaying } = storeToRefs(controllerStore)
 // const { chooseTrack, togglePlayPause } = controllerStore
 
+const userStore = useUserStore()
+const { currentUser } = storeToRefs(userStore)
+
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
 
-const createPlaylist = ref({})
-const tracks = ref({})
-const selectedTracks = ref([])
-const selectedTrackList = ref([])
-const trackId = ref(null)
+const emit = defineEmits(['createPlaylist'])
 
+const createPlaylist = reactive({
+  name: '',
+  background: '',
+  tracks: [],
+  owner: '',
+})
+const tracks = ref({})
+const selectedTrackList = ref([])
+
+const resetCreatePlaylist = async () => {
+  createPlaylist.name = ''
+  createPlaylist.background = ''
+  createPlaylist.tracks = []
+  createPlaylist.owner = ''
+
+  tracks.value = await playlistService.getPlaylistTrackList(1)
+  selectedTrackList.value = []
+}
+const createPlaylistHandler = async () => {
+  const selectedTrackListId = selectedTrackList.value.map((track) => track.id)
+  createPlaylist.tracks = selectedTrackListId
+  createPlaylist.owner = currentUser.value.id
+  if (currentUser.value.id !== 0) {
+    await playlistService.createPlaylist(createPlaylist)
+  }
+  resetCreatePlaylist()
+  hideCreateOverlay()
+  emit('createPlaylist')
+}
 const unChooseTrackHandler = (e) => {
   const trackId = Number(e.currentTarget.id)
   tracks.value.push(
@@ -46,7 +77,6 @@ const onChooseTrackHandler = (e) => {
         1
       )[0]
     )
-    console.log(selectedTrackList.value)
   } else {
     selectedTrackList.value.splice(
       selectedTrackList.value.indexOf(filterTrack[0].id),
@@ -57,13 +87,6 @@ const onChooseTrackHandler = (e) => {
 
 onMounted(async () => {
   tracks.value = await playlistService.getPlaylistTrackList(1)
-  createPlaylist.value = {
-    id: '',
-    name: '',
-    background: '',
-    tracks: [],
-    owner: '',
-  }
 })
 </script>
 
@@ -79,6 +102,15 @@ onMounted(async () => {
           class="flex flex-col background-overlay shadow-xl w-[60%] h-full overflow-y-scroll no-scrollbar-full"
           style="max-width: 1000px"
         >
+          <div class="flex justify-between px-10 pt-5">
+            <PreviousPageButton @click="hideCreateOverlay" />
+            <button
+              class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl"
+              @click="createPlaylistHandler"
+            >
+              Create
+            </button>
+          </div>
           <div class="w-full h-fit row-span-1 px-10 py-5">
             <ContentSection class="h-fit">
               <label
@@ -91,9 +123,24 @@ onMounted(async () => {
                   id="playlist_name"
                   class="grow p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500"
                   placeholder="J-Pop"
+                  v-model="createPlaylist.name"
                   required
               /></label>
-              <div class="w-full h-fit basis-36 bg-white rounded-xl">
+              <label
+                for="background"
+                class="flex gap-2 items-center mb-2 font-medium text-white text-xl w-full"
+                >Background URL :
+
+                <input
+                  type="text"
+                  id="background"
+                  class="grow p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="URL background"
+                  v-model="createPlaylist.background"
+                  required
+              /></label>
+              <h1 class="font-medium text-white text-xl">Selected Track :</h1>
+              <div class="w-full h-fit basis-36 bg-transparent/30 rounded-xl">
                 <TrackList
                   class="p-5 no-scrollbar-full"
                   :track-list="selectedTrackList"

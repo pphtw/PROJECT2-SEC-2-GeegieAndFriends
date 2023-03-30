@@ -51,7 +51,7 @@ class UserService {
   async getUserPlaylists(userId) {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/playlists/?${userId}`
+        `${import.meta.env.VITE_API_URL}/playlists?owner=${userId}`
       )
 
       if (response.ok) {
