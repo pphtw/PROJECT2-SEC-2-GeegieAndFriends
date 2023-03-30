@@ -1,8 +1,10 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import UserService from '@/lib/userService'
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { hashPassword } from '@/lib/util'
+
 export const useUserStore = defineStore('user', () => {
+  const currentUser = ref(null)
   const user = {
     firstName: '',
     lastName: '',
@@ -11,7 +13,7 @@ export const useUserStore = defineStore('user', () => {
   }
   const userLogin = {
     email: '',
-    password: ''
+    password: '',
   }
   const userPattern = {
     firstName: /[a-zA-z]+/,
@@ -78,6 +80,7 @@ export const useUserStore = defineStore('user', () => {
         hashedPassword
       )
       if (loggedInUser) {
+        currentUser.value = loggedInUser
         isLoggedIn.value = true
         state.login.message = 'Login successful'
       }
@@ -95,6 +98,7 @@ export const useUserStore = defineStore('user', () => {
     register,
     login,
     checkPattern,
+    currentUser,
   }
 })
 if (import.meta.hot) {
