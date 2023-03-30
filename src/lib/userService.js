@@ -26,8 +26,10 @@ class UserService {
         if (users.length > 0) {
           return users[0]
         }
+      } else {
+        return undefined
       }
-      return Promise.reject(response.statusText)
+      // return Promise.reject(response.statusText)
     } catch (error) {
       // console.error(`ERROR GETTING USER BY EMAIL: ${error.message}`);
       throw error
