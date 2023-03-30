@@ -305,7 +305,6 @@ export const useControllerStore = defineStore('controller', () => {
     chooseTrack,
     setQueue,
     initController,
-    loadPlaybackState,
   }
 })
 if (import.meta.hot){
