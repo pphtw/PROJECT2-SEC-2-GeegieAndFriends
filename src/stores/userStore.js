@@ -1,9 +1,9 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { reactive } from 'vue'
 export const useUserStore = defineStore('user', () => {
-  const setUser = reactive({})
+  const currentUser = reactive({})
   return{
-    setUser
+    currentUser
   }
 })
 if (import.meta.hot) {
