@@ -1,5 +1,5 @@
 <script setup>
-import { ref, inject, onUpdated } from 'vue'
+import {ref, inject, onUpdated, onMounted} from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { storeToRefs } from 'pinia'
 
@@ -73,8 +73,8 @@ const callback = (mutationList) => {
   })
 }
 const observer = new MutationObserver(callback)
-onUpdated(() => {
-  observer.observe(titleElement.value, config)
+onMounted(() => {
+    observer.observe(titleElement.value, config)
 })
 </script>
 
