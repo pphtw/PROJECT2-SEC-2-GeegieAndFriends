@@ -46,11 +46,12 @@ const searchHandler = (input) => {
   >
     <div class="flex flex-col row-span-2 h-full">
       <!-- #SearchBarSection -->
-      <SearchBar class="h-40" @searchEvent="searchHandler" />
+      <ContentSection>
+        <SearchBar @searchEvent="searchHandler" class="w-full" />
 
-      <!-- #FilterSection -->
-      <FilterSection class="h-fit" />
-
+        <!-- #FilterSection -->
+        <FilterSection class="h-fit" />
+      </ContentSection>
       <!-- #ContentSection -->
       <div class="min-h-0 grow">
         <div
