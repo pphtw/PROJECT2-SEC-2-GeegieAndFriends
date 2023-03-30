@@ -19,7 +19,7 @@ class UserService {
   async getUserByEmail(email) {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users?email=${email}`
+          `${import.meta.env.VITE_API_URL}/users?email=${email.toLowerCase()}`
       )
       if (response.ok) {
         const users = await response.json()
@@ -37,7 +37,7 @@ class UserService {
   }
   async loginUser(email, password) {
     try {
-      const user = await this.getUserByEmail(email)
+      const user = await this.getUserByEmail(email.toLowerCase());
       if (user.password === password) {
         return user
       } else {
