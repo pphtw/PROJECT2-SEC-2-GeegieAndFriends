@@ -7,6 +7,8 @@ import CreateOverlay from './CreateOverlay.vue'
 const overlayStore = useOverlayStore()
 const { showPlaylistOverlay, showCreateOverlay } = overlayStore
 
+defineEmits(['createPlaylist'])
+
 const props = defineProps({
   cols: {
     type: Number,
@@ -43,7 +45,7 @@ const props = defineProps({
         </svg>
       </div>
       <div
-        class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto"
+        class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-transparent/80 bg-cover rounded-xl my-auto"
         v-for="playlist in playlists"
         :key="playlist.id"
         :id="playlist.id"
@@ -60,7 +62,7 @@ const props = defineProps({
     </div>
   </div>
   <PlaylistOverlay />
-  <CreateOverlay />
+  <CreateOverlay @createPlaylist="$emit('createPlaylist')" />
 </template>
 
 <style scoped></style>
