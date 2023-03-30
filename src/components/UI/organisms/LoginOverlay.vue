@@ -16,6 +16,7 @@ const checkFirstName = ref(true)
 const checkLastName = ref(true)
 const checkEmail = ref(true)
 const checkPassword = ref(true)
+const checkMessage = ref(false)
 
 const register = async () => {
   watchEffect(async () => {
@@ -23,8 +24,10 @@ const register = async () => {
     checkLastName.value = checkPattern(userStore.user, 'lastName')
     checkEmail.value = checkPattern(userStore.user, 'email')
     checkPassword.value = checkPattern(userStore.user, 'password')
+    checkMessage.value = false
   })
   await userStore.register(userStore.user)
+  checkMessage.value = true
 }
 const logging = async () => {
   await userStore.login(userStore.userLogin)
@@ -310,7 +313,9 @@ const logging = async () => {
                       REGISTER NOW
                     </button>
                     <div
-                      v-if="userStore.state.register.message"
+                      v-if="
+                        checkMessage ? userStore.state.register.message : false
+                      "
                       class="text-center mt-4"
                       :class="
                         userStore.isRegistered
