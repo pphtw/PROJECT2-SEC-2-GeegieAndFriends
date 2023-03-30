@@ -54,7 +54,6 @@ export const useUserStore = defineStore('user', () => {
         state.register.message = 'Please check your information!'
         isRegistered.value = false
       } else {
-        console.log(await userService.getUserByEmail(user.email))
         if ((await userService.getUserByEmail(user.email)) !== undefined) {
           state.register.message = 'You already have a account!'
           isRegistered.value = false
