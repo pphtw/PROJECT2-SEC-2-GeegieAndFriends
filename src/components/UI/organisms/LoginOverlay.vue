@@ -1,37 +1,129 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
-import { useUserStore } from '@/stores/userStore'
+import {reactive, ref, watchEffect} from 'vue'
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
+import UserService from "@/lib/userService";
+import {hashPassword} from "@/lib/util";
+import {useUserStore} from "@/stores/userStore";
 
-const userStore = useUserStore()
 const overlayStore = useOverlayStore()
-
+const userStore = useUserStore()
+const {setUser} = storeToRefs(userStore)
 const { openLoginOverlay } = storeToRefs(overlayStore)
 const { toggleLoginOverlay } = overlayStore
-const { checkPattern } = userStore
-
 const show = ref('login')
 const checkFirstName = ref(true)
 const checkLastName = ref(true)
 const checkEmail = ref(true)
 const checkPassword = ref(true)
 const checkMessage = ref(false)
-
+const loading = ref(false);
+const userPattern = {
+    firstName: /[a-zA-z]+/,
+    lastName: /[a-zA-z]+/,
+    email: /.+@([a-zA-Z0-9\-]+)\.com/,
+    password: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{7,})/,
+}
+const checkPattern = (user, type) => {
+    return type === 'firstName'
+        ? userPattern.firstName.test(user.firstName)
+        : type === 'lastName'
+            ? userPattern.lastName.test(user.lastName)
+            : type === 'email'
+                ? userPattern.email.test(user.email)
+                : type === 'password'
+                    ? userPattern.password.test(user.password)
+                    : false
+}
+const state = reactive({
+    register: {
+        message: '',
+    },
+    login: {
+        message: '',
+    },
+})
+const user = reactive( {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+})
+watchEffect(() => {
+    checkFirstName.value = checkPattern(user, 'firstName');
+    checkLastName.value = checkPattern(user, 'lastName');
+    checkEmail.value = checkPattern(user, 'email');
+    checkPassword.value = checkPattern(user, 'password');
+    checkMessage.value = false;
+});
 const register = async () => {
-  watchEffect(async () => {
-    checkFirstName.value = checkPattern(userStore.user, 'firstName')
-    checkLastName.value = checkPattern(userStore.user, 'lastName')
-    checkEmail.value = checkPattern(userStore.user, 'email')
-    checkPassword.value = checkPattern(userStore.user, 'password')
-    checkMessage.value = false
-  })
-  await userStore.register(userStore.user)
+    if (isRegistered.value)return;
+    const userService = new UserService()
+    try{
+        if (
+            !checkPattern(user, 'firstName') ||
+            !checkPattern(user, 'lastName') ||
+            !checkPattern(user, 'email') ||
+            !checkPattern(user, 'password')
+        ){
+            state.register.message = 'Please check your information!'
+            isRegistered.value = false
+        }else {
+            if ((await userService.getUserByEmail(user.email)) !== undefined) {
+                state.register.message = 'You already have a account!'
+                isRegistered.value = false
+            }else {
+                const hashedPassword = await hashPassword(user.password)
+                const registeredUser = await userService.registerUser({
+                    ...user,
+                    password: hashedPassword,
+                })
+                if (registeredUser) {
+                    state.register.message = 'Registration successful!'
+                    isRegistered.value = true
+                }
+            }
+        }
+    }catch (e){
+        console.error(`Error registering user: ${e.message}`)
+        isRegistered.value = false
+    }
+
   checkMessage.value = true
 }
+// login
+const userLogin =  reactive({
+    email: '',
+    password: '',
+})
+const isLoggedIn = ref(false)
+const isRegistered = ref(false)
 const logging = async () => {
-  await userStore.login(userStore.userLogin)
+    loading.value = true;
+    if (isLoggedIn.value)return;
+    const userService = new UserService()
+    try {
+        const hashedPassword = await hashPassword(userLogin.password)
+        const loggedInUser = await userService.loginUser(
+            userLogin.email,
+            hashedPassword
+        )
+        if (loggedInUser) {
+            setUser.value = loggedInUser
+            isLoggedIn.value = true
+            state.login.message = 'Login successful'
+            console.log(setUser.value)
+        }
+    } catch (error) {
+        isLoggedIn.value = false
+        state.login.message = 'Invalid email or password'
+        userLogin.email = "";
+        userLogin.password = "";
+    }finally {
+        loading.value = false
+    }
 }
+
 </script>
 
 <template>
@@ -90,7 +182,7 @@ const logging = async () => {
                         ></i>
                       </div>
                       <input
-                        v-model="userStore.userLogin.email"
+                        v-model="userLogin.email"
                         type="text"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="johnsmith@example.com"
@@ -112,7 +204,7 @@ const logging = async () => {
                         ></i>
                       </div>
                       <input
-                        v-model="userStore.userLogin.password"
+                        v-model="userLogin.password"
                         type="password"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="************"
@@ -147,13 +239,13 @@ const logging = async () => {
                       LOGIN
                     </button>
                     <div
-                      v-if="userStore.state.login.message"
+                      v-if="state.login.message"
                       class="text-center mt-4"
                       :class="
-                        userStore.isLoggedIn ? 'text-green-500' : 'text-red-500'
+                        isLoggedIn ? 'text-green-500' : 'text-red-500'
                       "
                     >
-                      {{ userStore.state.login.message }}
+                      {{ state.login.message }}
                     </div>
                     <button
                       @click="show = 'register'"
@@ -208,7 +300,7 @@ const logging = async () => {
                         ></i>
                       </div>
                       <input
-                        v-model="userStore.user.firstName"
+                        v-model="user.firstName"
                         type="text"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="John"
@@ -234,7 +326,7 @@ const logging = async () => {
                         ></i>
                       </div>
                       <input
-                        v-model="userStore.user.lastName"
+                        v-model="user.lastName"
                         type="text"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="Smith"
@@ -262,7 +354,7 @@ const logging = async () => {
                         ></i>
                       </div>
                       <input
-                        v-model="userStore.user.email"
+                        v-model="user.email"
                         type="email"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="johnsmith@example.com"
@@ -290,7 +382,7 @@ const logging = async () => {
                         ></i>
                       </div>
                       <input
-                        v-model="userStore.user.password"
+                        v-model="user.password"
                         type="password"
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="************"
@@ -308,22 +400,23 @@ const logging = async () => {
                   <div class="w-full px-3 flex flex-col gap-4">
                     <button
                       @click="register"
+                      :disabled="loading"
                       class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
                     >
                       REGISTER NOW
                     </button>
                     <div
                       v-if="
-                        checkMessage ? userStore.state.register.message : false
+                        checkMessage ? state.register.message : false
                       "
                       class="text-center mt-4"
                       :class="
-                        userStore.isRegistered
+                        isRegistered
                           ? 'text-green-500'
                           : 'text-red-500'
                       "
                     >
-                      {{ userStore.state.register.message }}
+                      {{ state.register.message }}
                     </div>
                     <button @click="show = 'login'" class="hover:font-medium">
                       Already a member?
