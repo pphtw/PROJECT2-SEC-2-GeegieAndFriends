@@ -41,7 +41,6 @@ const timeUpdateHandler = () => {
 }
 
 const onLoadMetadataHandler = () => {
-  audioElement.volume = 0.1
   progressBar.value.duration = audioElement.value.duration
   progressBar.value.updateTime(audioElement.value.currentTime)
 }
@@ -59,11 +58,13 @@ const onProgressBarMouseUp = (e) => {
     progressBar.value.isClicked = false
   }
 }
+
 // Hooks
 onMounted(async () => {
     audioElement.value.volume = 0.3
   await initController()
 })
+
 </script>
 <template>
   <audio
