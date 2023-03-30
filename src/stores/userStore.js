@@ -56,14 +56,19 @@ export const useUserStore = defineStore('user', () => {
         state.register.message = 'Please check your information!'
         isRegistered.value = false
       } else {
-        const hashedPassword = await hashPassword(user.password)
-        const registeredUser = await userService.registerUser({
-          ...user,
-          password: hashedPassword,
-        })
-        if (registeredUser) {
-          state.register.message = 'Registration successful!'
-          isRegistered.value = true
+        if ((await userService.getUserByEmail(user.email)) !== undefined) {
+          state.register.message = 'You already have a account!'
+          isRegistered.value = false
+        } else {
+          const hashedPassword = await hashPassword(user.password)
+          const registeredUser = await userService.registerUser({
+            ...user,
+            password: hashedPassword,
+          })
+          if (registeredUser) {
+            state.register.message = 'Registration successful!'
+            isRegistered.value = true
+          }
         }
       }
     } catch (e) {

@@ -10,7 +10,7 @@ class UserService {
       if (response.ok) {
         return await response.json()
       } else {
-        throw new Error(response.statusText)
+        return Promise.reject(response.statusText)
       }
     } catch (error) {
       console.error(`ERROR REGISTERING USER: ${error.message}`)
@@ -26,8 +26,10 @@ class UserService {
         if (users.length > 0) {
           return users[0]
         }
+      } else {
+        return undefined
       }
-      throw new Error('User not found')
+      // return Promise.reject(response.statusText)
     } catch (error) {
       // console.error(`ERROR GETTING USER BY EMAIL: ${error.message}`);
       throw error
@@ -39,7 +41,7 @@ class UserService {
       if (user.password === password) {
         return user
       } else {
-        throw new Error('Incorrect password')
+        return Promise.reject(user.statusText)
       }
     } catch (error) {
       // console.error(`ERROR LOGGING IN USER: ${error.message}`);
