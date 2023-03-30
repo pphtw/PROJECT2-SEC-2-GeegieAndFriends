@@ -8,7 +8,7 @@ import {useUserStore} from "@/stores/userStore";
 
 const overlayStore = useOverlayStore()
 const userStore = useUserStore()
-const {setUser} = storeToRefs(userStore)
+const {currentUser} = storeToRefs(userStore)
 const { openLoginOverlay } = storeToRefs(overlayStore)
 const { toggleLoginOverlay } = overlayStore
 const show = ref('login')
@@ -19,8 +19,8 @@ const checkPassword = ref(true)
 const checkMessage = ref(false)
 const loading = ref(false);
 const userPattern = {
-    firstName: /[a-zA-z]+/,
-    lastName: /[a-zA-z]+/,
+    firstName: /^[A-Za-z]+$/,
+    lastName: /^[A-Za-z]+$/,
     email: /.+@([a-zA-Z0-9\-]+)\.com/,
     password: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{7,})/,
 }
@@ -100,7 +100,6 @@ const isLoggedIn = ref(false)
 const isRegistered = ref(false)
 const logging = async () => {
     loading.value = true;
-    if (isLoggedIn.value)return;
     const userService = new UserService()
     try {
         const hashedPassword = await hashPassword(userLogin.password)
@@ -109,10 +108,10 @@ const logging = async () => {
             hashedPassword
         )
         if (loggedInUser) {
-            setUser.value = loggedInUser
+            currentUser.value = loggedInUser
             isLoggedIn.value = true
             state.login.message = 'Login successful'
-            console.log(setUser.value)
+            console.log(currentUser.value)
         }
     } catch (error) {
         isLoggedIn.value = false
