@@ -98,8 +98,10 @@ const userLogin =  reactive({
 })
 const isLoggedIn = ref(false)
 const isRegistered = ref(false)
+const loggedInOnce = ref(false)
 const logging = async () => {
     loading.value = true;
+    if (loggedInOnce.value)return;
     const userService = new UserService()
     try {
         const hashedPassword = await hashPassword(userLogin.password)
@@ -112,6 +114,7 @@ const logging = async () => {
             isLoggedIn.value = true
             state.login.message = 'Login successful'
             console.log(currentUser.value)
+            loggedInOnce.value = true
         }
     } catch (error) {
         isLoggedIn.value = false

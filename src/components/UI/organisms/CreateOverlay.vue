@@ -1,10 +1,10 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
+import {onMounted, reactive, ref} from 'vue'
+import {storeToRefs} from 'pinia'
 
-import { useOverlayStore } from '@/stores/overlayStore'
-import { useControllerStore } from '@/stores/controllerStore'
-import { useUserStore } from '@/stores/userStore'
+import {useOverlayStore} from '@/stores/overlayStore'
+import {useControllerStore} from '@/stores/controllerStore'
+import {useUserStore} from '@/stores/userStore'
 
 import TrackList from './TrackList.vue'
 import TrackService from '@/lib/trackService'
@@ -47,8 +47,7 @@ const resetCreatePlaylist = async () => {
   selectedTrackList.value = []
 }
 const createPlaylistHandler = async () => {
-  const selectedTrackListId = selectedTrackList.value.map((track) => track.id)
-  createPlaylist.tracks = selectedTrackListId
+    createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
   createPlaylist.owner = currentUser.value.id
   if (currentUser.value.id !== 0) {
     await playlistService.createPlaylist(createPlaylist)
@@ -106,7 +105,7 @@ onMounted(async () => {
             <PreviousPageButton @click="hideCreateOverlay" />
             <button
               class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl"
-              @click="createPlaylistHandler"
+              @click.once="createPlaylistHandler"
             >
               Create
             </button>
