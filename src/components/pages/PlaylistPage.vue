@@ -1,12 +1,20 @@
 <script setup>
+import { ref, onMounted, reactive } from 'vue'
+
 import PageTemplate from '../templates/PageTemplate.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
-import { ref, onMounted, reactive } from 'vue'
 
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
+
+import { useUserStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
+
+const userStore = useUserStore()
+const { currentUser } = storeToRefs(userStore)
+
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
 const playlists = ref([])
@@ -20,13 +28,14 @@ const likedPlayList = reactive({
 
 onMounted(async () => {
   playlists.value = await trackService.getAllItems('playlists')
-  if (
-    !playlists.value.includes(
-      playlists.value.find((e) => e.name === 'Liked Song')
-    )
-  ) {
-    await playlistService.createPlaylist(likedPlayList)
-  }
+  // if (
+  //   !playlists.value.includes(
+  //     playlists.value.find((e) => e.name === 'Liked Song')
+  //   )
+  // ) {
+  //   await playlistService.createPlaylist(likedPlayList)
+  // }
+  console.log(currentUser.value)
 })
 </script>
 
