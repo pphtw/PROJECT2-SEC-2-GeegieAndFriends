@@ -57,11 +57,11 @@ class UserService {
       if (response.ok) {
         return await response.json()
       } else {
-        throw new Error(response.statusText)
+        return Promise.reject(response.statusText)
       }
     } catch (error) {
       console.error(
-        `ERROR FETCHING ALL ${item.toUpperCase()}: ${error.message}`
+        `ERROR FETCHING ALL ${error.toUpperCase()}: ${error.message}`
       )
     }
   }
