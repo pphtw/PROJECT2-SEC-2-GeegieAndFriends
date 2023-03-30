@@ -23,38 +23,37 @@ const playlistService = new PlaylistService()
 const createPlaylist = ref({})
 const tracks = ref({})
 const selectedTracks = ref([])
-const selectedTrackList = ref({})
+const selectedTrackList = ref([])
 const trackId = ref(null)
 
-const checkSelectedTrack = (id) => {
-  return selectedTracks.value.includes(id)
-}
 const unChooseTrackHandler = (e) => {
   const trackId = Number(e.currentTarget.id)
-  selectedTracks.value.splice(selectedTracks.value.indexOf(trackId), 1)
+  tracks.value.push(
+    selectedTrackList.value.splice(
+      selectedTrackList.value.findIndex((track) => track.id === trackId),
+      1
+    )[0]
+  )
 }
 const onChooseTrackHandler = (e) => {
-  trackId.value = Number(e.currentTarget.id)
-  if (!checkSelectedTrack(trackId.value)) {
-    selectedTracks.value.push(trackId.value)
-    tracks.value.splice(
-      tracks.value.findIndex((track) => track.id === trackId.value),
+  const trackId = Number(e.currentTarget.id)
+  const filterTrack = tracks.value.filter((track) => track.id === trackId)
+
+  if (!selectedTrackList.value.includes(filterTrack[0])) {
+    selectedTrackList.value.push(
+      tracks.value.splice(
+        tracks.value.findIndex((track) => track.id === trackId),
+        1
+      )[0]
+    )
+    console.log(selectedTrackList.value)
+  } else {
+    selectedTrackList.value.splice(
+      selectedTrackList.value.indexOf(filterTrack[0].id),
       1
     )
-  } else {
-    selectedTracks.value.splice(selectedTracks.value.indexOf(trackId.value), 1)
   }
 }
-
-watch(selectedTracks.value, async (id) => {
-  if (selectedTracks.value.length >= 0) {
-    selectedTrackList.value = await trackService.getFilteredItemList(
-      'tracks',
-      id
-    )
-    console.log(id)
-  }
-})
 
 onMounted(async () => {
   tracks.value = await playlistService.getPlaylistTrackList(1)
@@ -77,11 +76,11 @@ onMounted(async () => {
         @click.self="hideCreateOverlay"
       >
         <div
-          class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-[60%] h-full overflow-y-scroll"
+          class="flex flex-col background-overlay shadow-xl w-[60%] h-full overflow-y-scroll no-scrollbar-full"
           style="max-width: 1000px"
         >
-          <div class="w-full min-h-full row-span-1 px-10 py-5">
-            <ContentSection class="min-h-full">
+          <div class="w-full h-fit row-span-1 px-10 py-5">
+            <ContentSection class="h-fit">
               <label
                 for="playlist_name"
                 class="flex gap-2 items-center mb-2 font-medium text-white text-xl w-full"
@@ -94,18 +93,19 @@ onMounted(async () => {
                   placeholder="J-Pop"
                   required
               /></label>
-              <div class="w-full h-full bg-white rounded-xl overflow-y-scroll">
+              <div class="w-full h-fit basis-36 bg-white rounded-xl">
                 <TrackList
-                  class="grid grid-cols-3 gap-3 p-5 no-scrollbar-full"
+                  class="p-5 no-scrollbar-full"
                   :track-list="selectedTrackList"
                   @chooseTrack="unChooseTrackHandler"
                 />
               </div>
             </ContentSection>
           </div>
-          <div class="w-full min-h-full row-span-1 px-10 py-5">
-            <ContentSection class="h-full"
+          <div class="w-full h-fit row-span-1 px-10 py-5">
+            <ContentSection class="h-fit"
               ><TrackList
+                class="no-scrollbar-full"
                 @chooseTrack="onChooseTrackHandler"
                 :track-list="tracks"
             /></ContentSection>

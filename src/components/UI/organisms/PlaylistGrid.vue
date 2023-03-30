@@ -25,19 +25,13 @@ const props = defineProps({
   <div class="min-h-0 overflow-y-scroll">
     <div class="h-fit gap-x-6 gap-y-3 grid grid-cols-6">
       <div
-        class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto truncate bg-green-50"
-        :style="{
-          backgroundImage:
-            'url(' +
-            encodeURI('https://wallpaper.dog/large/20408036.jpg') +
-            ')',
-        }"
+        class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-full my-auto truncate bg-transparent/30"
         @click="showCreateOverlay"
       >
         <p
-          class="text-white truncate text-lg font-semibold self-center text-center"
+          class="text-white truncate text-9xl font-semibold self-center text-center"
         >
-          Create Playlist
+          +
         </p>
       </div>
       <div
