@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
@@ -9,9 +9,21 @@ const overlayStore = useOverlayStore()
 
 const { openLoginOverlay } = storeToRefs(overlayStore)
 const { toggleLoginOverlay } = overlayStore
+const { checkPattern } = userStore
 
 const show = ref('login')
+const checkFirstName = ref(true)
+const checkLastName = ref(true)
+const checkEmail = ref(true)
+const checkPassword = ref(true)
+
 const register = async () => {
+  watchEffect(async () => {
+    checkFirstName.value = checkPattern(userStore.user, 'firstName')
+    checkLastName.value = checkPattern(userStore.user, 'lastName')
+    checkEmail.value = checkPattern(userStore.user, 'email')
+    checkPassword.value = checkPattern(userStore.user, 'password')
+  })
   await userStore.register(userStore.user)
 }
 const logging = async () => {
@@ -198,9 +210,9 @@ const logging = async () => {
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="John"
                         :class="
-                          userStore.checkPattern(userStore.user, 'lastName')
+                          checkFirstName
                             ? ''
-                            : 'border-red-500'
+                            : 'border-red-500 focus:border-red-500'
                         "
                         required
                       />
@@ -224,9 +236,9 @@ const logging = async () => {
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="Smith"
                         :class="
-                          userStore.checkPattern(userStore.user, 'lastName')
+                          checkLastName
                             ? ''
-                            : 'border-red-500'
+                            : 'border-red-500 focus:border-red-500'
                         "
                         required
                       />
@@ -252,9 +264,9 @@ const logging = async () => {
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="johnsmith@example.com"
                         :class="
-                          userStore.checkPattern(userStore.user, 'email')
+                          checkEmail
                             ? ''
-                            : 'border-red-500'
+                            : 'border-red-500 focus:border-red-500'
                         "
                         required
                       />
@@ -280,9 +292,9 @@ const logging = async () => {
                         class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                         placeholder="************"
                         :class="
-                          userStore.checkPattern(userStore.user, 'password')
+                          checkPassword
                             ? ''
-                            : 'border-red-500'
+                            : 'border-red-500 focus:border-red-500'
                         "
                         required
                       />
