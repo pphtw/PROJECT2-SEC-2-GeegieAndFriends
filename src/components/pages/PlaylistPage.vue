@@ -74,17 +74,6 @@ watchEffect(async () => {
   }
 })
 onMounted(async () => {
-  // if (
-  //   currentUser.value.likedTracks.length >= 1 &&
-  //   !playlists.value.includes(
-  //     playlists.value.find((e) => e.name === 'Liked Song')
-  //   )
-  // ) {
-  //   console.log(true)
-  //   likedPlayList.tracks = currentUser.value.likedTracks
-  //   likedPlayList.owner = currentUser.value.id
-  //   await playlistService.createPlaylist(likedPlayList)
-  // }
 })
 </script>
 
