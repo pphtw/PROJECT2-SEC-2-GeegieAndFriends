@@ -24,7 +24,7 @@ const {
   togglePlay,
   initController,
 } = controllerStore
-const { hideContextMenu } = overlayStore
+const { contextMenu } = storeToRefs(overlayStore)
 
 //progress bar
 
@@ -61,10 +61,9 @@ const onProgressBarMouseUp = (e) => {
 
 // Hooks
 onMounted(async () => {
-    audioElement.value.volume = 0.3
+  audioElement.value.volume = 0.3
   await initController()
 })
-
 </script>
 <template>
   <audio
@@ -80,7 +79,7 @@ onMounted(async () => {
     class="flex flex-row w-screen h-screen"
     @mouseup="onProgressBarMouseUp"
     @mousemove="onProgressBarMouseMove"
-    @click="hideContextMenu"
+    @click="contextMenu.hide"
   >
     <NavigationBar />
     <div class="h-full w-full flex flex-col">
