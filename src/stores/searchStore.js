@@ -32,14 +32,8 @@ export const useSearchStore = defineStore('search', () => {
   const checkKeywords = (keyword) => keyword.match(regex.value)
 
   onMounted(async () => {
-    if (Object.keys(currentUser.value).length !== 0) {
-      filteredPlaylists.value = await userService.getUserPlaylists(
-        currentUser.value.id
-      )
-    } else {
-      filteredPlaylists.value = await userService.getUserPlaylists(1)
-    }
     filteredTrackList.value = await trackService.getAllItems('tracks')
+    filteredPlaylists.value = await trackService.getAllItems('playlists')
   })
   // filteredTrackList.value = await trackService.getAllItems('tracks')
   // filteredPlaylists.value = await trackService.getAllItems('playlists')
