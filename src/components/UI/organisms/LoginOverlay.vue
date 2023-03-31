@@ -200,7 +200,7 @@ const logging = async () => {
                       </div>
                     </div>
                     <div class="flex flex-col -mx-3">
-                      <div class="w-full px-3 mb-10">
+                      <div class="w-full px-3 mb-4">
                         <label for="" class="text-xs font-semibold px-1"
                           >Password</label
                         >
@@ -219,7 +219,7 @@ const logging = async () => {
                             placeholder="************"
                           />
                         </div>
-                        <div class="flex justify-between">
+                        <div class="flex justify-between mb-8">
                           <label class="block my-4"
                             ><input
                               type="checkbox"
@@ -239,8 +239,10 @@ const logging = async () => {
                         </div>
                       </div>
                     </div>
-                    <div class="flex -mx-3 mt-auto">
-                      <div class="w-full px-3 flex flex-col gap-4">
+                    <div class="flex -mx-3">
+                      <div
+                        class="w-full h-36 px-3 flex flex-col gap-4 place-content-end"
+                      >
                         <div
                           v-if="state.login.message"
                           class="text-center"
@@ -256,7 +258,6 @@ const logging = async () => {
                         >
                           LOGIN
                         </button>
-
                         <button
                           @click="show = 'register'"
                           class="hover:font-medium"
@@ -381,7 +382,7 @@ const logging = async () => {
                       </div>
                     </div>
                     <div class="flex -mx-3">
-                      <div class="w-full px-3 mb-8">
+                      <div class="w-full px-3 mb-4">
                         <label for="" class="text-xs font-semibold px-1"
                           >Password</label
                         >
@@ -409,7 +410,9 @@ const logging = async () => {
                       </div>
                     </div>
                     <div class="flex -mx-3">
-                      <div class="w-full px-3 flex flex-col gap-4">
+                      <div
+                        class="w-full h-36 px-3 flex flex-col gap-4 place-content-end"
+                      >
                         <div
                           v-if="checkMessage ? state.register.message : false"
                           class="text-center"
