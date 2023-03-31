@@ -49,7 +49,7 @@ const resetCreatePlaylist = async () => {
 const createPlaylistHandler = async () => {
     createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
   createPlaylist.owner = currentUser.value.id
-  if (currentUser.value.id !== 0) {
+  if (currentUser.value.id !== 0 ) {
     await playlistService.createPlaylist(createPlaylist)
   }
   resetCreatePlaylist()
