@@ -7,8 +7,10 @@ import { hashPassword } from '@/lib/util'
 import { useUserStore } from '@/stores/userStore'
 import { registerManagement } from '@/lib/registerManagement.js'
 
-const { checkPattern } = registerManagement()
+//destructuring
+const { checkPattern, clearRegisterBox } = registerManagement()
 
+//use Store
 const overlayStore = useOverlayStore()
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
@@ -16,6 +18,7 @@ const { setUser } = userStore
 const { openLoginOverlay } = storeToRefs(overlayStore)
 const { toggleLoginOverlay } = overlayStore
 
+//definitions
 const show = ref('login')
 const checkFirstName = ref(true)
 const checkLastName = ref(true)
@@ -41,8 +44,13 @@ const user = reactive({
   likedTracks: [],
 })
 
+//Register
 const register = async () => {
-  if (isRegistered.value) return
+  // if (isRegistered.value) return
+  checkFirstName.value = true
+  checkLastName.value = true
+  checkEmail.value = true
+  checkPassword.value = true
   const userService = new UserService()
   try {
     if (
@@ -73,6 +81,11 @@ const register = async () => {
         if (registeredUser) {
           state.register.message = 'Registration successful!'
           isRegistered.value = true
+          clearRegisterBox(user)
+          checkFirstName.value = true
+          checkLastName.value = true
+          checkEmail.value = true
+          checkPassword.value = true
         }
       }
     }
@@ -80,7 +93,6 @@ const register = async () => {
     console.error(`Error registering user: ${e.message}`)
     isRegistered.value = false
   }
-
   checkMessage.value = true
 }
 
