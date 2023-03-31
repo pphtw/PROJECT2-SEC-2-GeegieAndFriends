@@ -22,6 +22,7 @@ export const useOverlayStore = defineStore('overlay', () => {
   const openPlaylistOverlay = ref(false)
   const overlayPlaylistId = ref(null)
   const openCreateOverlay = ref(false)
+  const openUpdateOverlay = ref(false)
 
   const toggleLoginOverlay = () => {
     openLoginOverlay.value = !openLoginOverlay.value
@@ -42,9 +43,12 @@ export const useOverlayStore = defineStore('overlay', () => {
     openCreateOverlay.value = false
   }
 
-  const toggleCreateOverlay = () => {
-    openCreateOverlay.value = true
-    openPlaylistOverlay.value = false
+  const showUpdateOverlay = () => {
+    openUpdateOverlay.value = true
+  }
+
+  const hideUpdateOverlay = () => {
+    openUpdateOverlay.value = false
   }
 
   return {
@@ -59,7 +63,9 @@ export const useOverlayStore = defineStore('overlay', () => {
     showCreateOverlay,
     hideCreateOverlay,
     openCreateOverlay,
-    toggleCreateOverlay,
+    openUpdateOverlay,
+    showUpdateOverlay,
+    hideUpdateOverlay,
   }
 })
 if (import.meta.hot) {
