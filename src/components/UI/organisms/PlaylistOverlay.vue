@@ -3,6 +3,7 @@ import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
 import { watch, ref, inject } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
+import { useUserStore } from '@/stores/userStore'
 
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 import PlayPauseButton from '../atoms/PlayPauseButton.vue'
@@ -24,6 +25,9 @@ const { hidePlaylistOverlay } = overlayStore
 const controllerStore = useControllerStore()
 const { isPlaying } = storeToRefs(controllerStore)
 const { chooseTrack, togglePlayPause } = controllerStore
+
+const userStore = useUserStore()
+const { currentUser } = storeToRefs(userStore)
 
 const audioElement = inject('audioElement')
 const playlist = ref({})
@@ -73,7 +77,7 @@ const onChooseTrackClick = (e, playlistId) => {
                       {{ playlist.name }} {{ '#' + playlist.id }}
                     </h1>
                     <p class="text-2xl font-semibold">
-                      {{ '(' + playlist.owner + ')' }} |
+                      {{ '(' + currentUser.firstName + ')' }} |
                       {{ '(' + tracks.length + ')' }} Song
                     </p>
                   </div>
