@@ -7,8 +7,8 @@ import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { RouterView } from 'vue-router'
 import NavigationBar from './components/UI/organisms/NavigationBar.vue'
-import ContextMenu from '@/components/UI/organisms/ContextMenu.vue'
 import { useOverlayStore } from '@/stores/overlayStore'
+import ContextMenu from '@/components/UI/organisms/ContextMenu.vue'
 
 // Use Store
 const playlistStore = usePlaylistStore()

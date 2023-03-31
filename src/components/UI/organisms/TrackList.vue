@@ -85,7 +85,7 @@ const onDrop = (event, targetIndex) => {
       @dragover="onDragOver"
       @drop="onDrop($event, index)"
       @click="$emit('chooseTrack', $event, playlistId)"
-      @contextmenu.prevent="contextMenu.show"
+      @contextmenu.prevent="contextMenu.show($event, 'track')"
     >
       <!-- #Ranking -->
       <div class="w-fit">
@@ -105,7 +105,7 @@ const onDrop = (event, targetIndex) => {
 }
 .is-playing,
 .is-playing:hover {
-  background: rgba(196, 147, 225, 90%);
+  background: rgba(220, 188, 238, 80%);
 }
 .list-move,
 .list-enter-active,
