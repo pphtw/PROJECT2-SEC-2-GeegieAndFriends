@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import {reactive, ref, watchEffect} from 'vue'
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
 import UserService from '@/lib/userService'
@@ -46,59 +46,57 @@ const user = reactive({
 
 //Register
 const register = async () => {
-  // if (isRegistered.value) return
-  checkFirstName.value = true
-  checkLastName.value = true
-  checkEmail.value = true
-  checkPassword.value = true
-  const userService = new UserService()
-  try {
-    if (!checkPattern(user, 'firstName')) {
-      state.register.message = 'Please check your firstname!'
-      isRegistered.value = false
-    } else if (!checkPattern(user, 'lastName')) {
-      state.register.message = 'Please check your lastname!'
-      isRegistered.value = false
-    } else if (!checkPattern(user, 'email')) {
-      state.register.message = 'Please check your email!'
-      isRegistered.value = false
-    } else if (!checkPattern(user, 'password')) {
-      state.register.message = 'Please check your password!'
-      isRegistered.value = false
-      watchEffect(() => {
-        checkFirstName.value = checkPattern(user, 'firstName')
-        checkLastName.value = checkPattern(user, 'lastName')
-        checkEmail.value = checkPattern(user, 'email')
-        checkPassword.value = checkPattern(user, 'password')
-        checkMessage.value = false
-      })
-    } else {
-      if ((await userService.getUserByEmail(user.email)) !== undefined) {
-        state.register.message = 'You already have an account!'
-        isRegistered.value = false
-      } else {
-        const hashedPassword = await hashPassword(user.password)
-        const registeredUser = await userService.registerUser({
-          ...user,
-          password: hashedPassword,
-        })
-        if (registeredUser) {
-          state.register.message = 'Registration successful!'
-          isRegistered.value = true
-          clearRegisterBox(user)
-          checkFirstName.value = true
-          checkLastName.value = true
-          checkEmail.value = true
-          checkPassword.value = true
-        }
-      }
+    const userService = new UserService();
+    let message;
+    let success = false;
+
+    switch (true) {
+        case !checkPattern(user, 'firstName'):
+            message = 'Please check your firstname!';
+            break;
+        case !checkPattern(user, 'lastName'):
+            message = 'Please check your lastname!';
+            break;
+        case !checkPattern(user, 'email'):
+            message = 'Please check your email!';
+            break;
+        case !checkPattern(user, 'password'):
+            message = 'Please check your password!';
+            break;
+        default:
+            const existingUser = await userService.getUserByEmail(user.email);
+            if (existingUser) {
+                message = 'You already have an account!';
+                clearRegisterBox(user);
+            } else {
+                const hashedPassword = await hashPassword(user.password);
+                const registeredUser = await userService.registerUser({
+                    ...user,
+                    password: hashedPassword,
+                });
+
+                if (registeredUser) {
+                    message = 'Registration successful!';
+                    clearRegisterBox(registeredUser);
+                    success = true;
+                }
+            }
     }
-  } catch (e) {
-    console.error(`Error registering user: ${e.message}`)
-    isRegistered.value = false
-  }
-  checkMessage.value = true
-}
+
+    state.register.message = message;
+    isRegistered.value = success;
+
+    watchEffect(() => {
+        checkFirstName.value = checkPattern(user, 'firstName');
+        checkLastName.value = checkPattern(user, 'lastName');
+        checkEmail.value = checkPattern(user, 'email');
+        checkPassword.value = checkPattern(user, 'password');
+        checkMessage.value = false;
+    });
+
+
+    checkMessage.value = true;
+};
 
 // login
 const userLogin = reactive({
