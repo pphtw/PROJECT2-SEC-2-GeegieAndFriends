@@ -4,6 +4,7 @@ import TrackService from '@/lib/trackService'
 import { useControllerStore } from '@/stores/controllerStore'
 import UserService from '@/lib/userService'
 import { useUserStore } from '@/stores/userStore'
+
 const userService = new UserService()
 const trackService = new TrackService()
 
@@ -25,8 +26,6 @@ export const useSearchStore = defineStore('search', () => {
   const regex = ref('')
   const filteredTrackList = ref([])
   const filteredPlaylists = ref([])
-  // const notFoundPlaylists = ref(false)
-  // const notFoundTrackList = ref(false)
 
   //Function
   const checkKeywords = (keyword) => keyword.match(regex.value)
@@ -41,8 +40,6 @@ export const useSearchStore = defineStore('search', () => {
     }
     filteredTrackList.value = await trackService.getAllItems('tracks')
   })
-  // filteredTrackList.value = await trackService.getAllItems('tracks')
-  // filteredPlaylists.value = await trackService.getAllItems('playlists')
   watch(regex, async (regex) => {
     const tracks = await trackService.getAllItems('tracks')
     filteredTrackList.value = new Set(
@@ -50,16 +47,12 @@ export const useSearchStore = defineStore('search', () => {
         .filter((track) => track.name.match(regex))
         .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
     )
-    // notFoundTrackList.value =
-    //   filteredTrackList.value.length === 0 ? true : false
   })
 
   watch(regex, async (regex) => {
     filteredPlaylists.value = (
       await trackService.getAllItems('playlists')
     ).filter((e) => e.name.match(regex))
-    // showMessageNotFound.value =
-    //   notFoundTrackList.value.length === 0 ? true : false
   })
 
   const setSelectedFilterIndex = (index) => {
