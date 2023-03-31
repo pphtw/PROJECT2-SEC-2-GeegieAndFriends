@@ -46,7 +46,11 @@ const user = reactive({
 
 //Register
 const register = async () => {
-  if (isRegistered.value) return
+  // if (isRegistered.value) return
+  checkFirstName.value = true
+  checkLastName.value = true
+  checkEmail.value = true
+  checkPassword.value = true
   const userService = new UserService()
   try {
     if (
