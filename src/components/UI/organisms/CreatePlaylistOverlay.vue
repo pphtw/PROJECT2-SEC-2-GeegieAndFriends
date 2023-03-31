@@ -43,7 +43,7 @@ const createPlaylist = reactive({
   tracks: [],
   owner: '',
 })
-const tracks = ref({})
+const tracks = ref([])
 const selectedTrackList = ref([])
 
 //Handler
@@ -117,6 +117,18 @@ const onChooseTrackHandler = (e) => {
     )
   }
 }
+const moveTrackHandler = (
+  event,
+  movingIndex,
+  targetIndex,
+  isDropAfterTarget
+) => {
+  selectedTrackList.value.splice(
+    isDropAfterTarget ? targetIndex + 1 : targetIndex,
+    0,
+    selectedTrackList.value.splice(movingIndex, 1)[0]
+  )
+}
 
 onMounted(async () => {
   tracks.value = await playlistService.getPlaylistTrackList(1)
@@ -183,10 +195,11 @@ onMounted(async () => {
               <h1 class="font-medium text-white text-xl">Selected Track :</h1>
               <div class="w-full h-fit basis-36 bg-transparent/30 rounded-xl">
                 <TrackList
-                  draggable
                   class="p-5 no-scrollbar-full"
+                  :draggable="true"
                   :track-list="selectedTrackList"
                   @chooseTrack="unChooseTrackHandler"
+                  @moveTrack="moveTrackHandler"
                 />
               </div>
             </ContentSection>
