@@ -61,7 +61,6 @@ onMounted(async () => {
         <div class="flex flex-row justify-between">
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
-
       <PlaylistGrid
         @createPlaylist="refreshPlaylist"
         @deletePlaylist="refreshPlaylist"

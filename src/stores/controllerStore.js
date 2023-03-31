@@ -1,6 +1,6 @@
-import { defineStore,acceptHMRUpdate } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia'
 import { computed, reactive, ref, watch } from 'vue'
-import {loadPlaybackState, savePlaybackState, shuffleArray} from '@/lib/util'
+import { loadPlaybackState, savePlaybackState, shuffleArray } from '@/lib/util'
 import { usePlaylistStore } from '@/stores/playlistStore'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
@@ -59,11 +59,11 @@ export const useControllerStore = defineStore('controller', () => {
     }
   )
   const controllerState = computed(() => {
-    if (isShuffled.value && isRepeating.value) return 3;
-    if (isShuffled.value && !isRepeating.value) return 2;
-    if (!isShuffled.value && isRepeating.value) return 1;
-    return 0;
-  });
+    if (isShuffled.value && isRepeating.value) return 3
+    if (isShuffled.value && !isRepeating.value) return 2
+    if (!isShuffled.value && isRepeating.value) return 1
+    return 0
+  })
 
   // Actions
   const togglePlayPause = (audioElement) => {
@@ -106,7 +106,7 @@ export const useControllerStore = defineStore('controller', () => {
         q.tempQueue = [...q.defaultQueue]
         skipToTrack(trackId, q.tempQueue)
         q.queue = [...q.tempQueue]
-        console.log('case 1 S')
+        // console.log('case 1 S')
         break
       case 2: //shuffle & no repeat
         q.queue = shuffleArray(q.queue)
@@ -147,35 +147,35 @@ export const useControllerStore = defineStore('controller', () => {
     const onRepeat = isRepeating.value
     if (toNext) {
       if (onRepeat || repeating) {
-        console.log('Skip: Repeat')
+        // console.log('Skip: Repeat')
         queue.push(queue.shift())
       } else {
         // Default (No Shuffle)
-        console.log('Skip: NoRepeat')
+        // console.log('Skip: NoRepeat')
         if (q.queue.length > 1) {
           q.dumpQueue.push(queue.shift())
         }
       }
     } else {
       if (onRepeat || repeating) {
-        console.log('SkipBack: Repeat')
+        // console.log('SkipBack: Repeat')
         queue.unshift(queue.pop())
       } else {
         // Default (No Shuffle)
-        console.log('SkipBack: NoRepeat')
+        // console.log('SkipBack: NoRepeat')
         if (q.dumpQueue.length !== 0) {
           queue.unshift(q.dumpQueue.pop())
         }
       }
     }
-    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId);
+    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId)
   }
   const skipToTrack = (id, queue = q.queue, repeat = false) => {
     const indexToSkip = q.tempQueue.findIndex(
       (trackId) => trackId === Number(id)
     )
     if (isRepeating.value || repeat) {
-      console.log('Repeat')
+      // console.log('Repeat')
       if (indexToSkip < q.tempQueue.length / 2) {
         while (queue[0] !== id) {
           skipTrack(true, true, queue)
@@ -186,7 +186,7 @@ export const useControllerStore = defineStore('controller', () => {
         }
       }
     } else {
-      console.log('NoRepeat')
+      // console.log('NoRepeat')
       if (!q.dumpQueue.includes(id)) {
         while (queue[0] !== id) {
           skipTrack(true, false, queue)
@@ -197,15 +197,15 @@ export const useControllerStore = defineStore('controller', () => {
         }
       }
     }
-    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId);
+    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId)
   }
   const chooseTrack = async (id, playlistId) => {
     const trackId = Number(id)
     const state = controllerState.value
     if (!Boolean(playlistId)) {
-      console.log(q.queue)
+      // console.log(q.queue)
       q.queue = [trackId]
-      console.log(q.queue)
+      // console.log(q.queue)
       q.currentPlaylistId = 0
       q.dumpQueue = []
       q.defaultQueue = []
@@ -251,7 +251,7 @@ export const useControllerStore = defineStore('controller', () => {
       }
     }
     isPlaying.value = true
-    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId);
+    savePlaybackState(q.queue, q.dumpQueue, q.currentPlaylistId)
   }
   const setQueue = (queue) => {
     q.queue = [...queue]
@@ -285,6 +285,6 @@ export const useControllerStore = defineStore('controller', () => {
     initController,
   }
 })
-if (import.meta.hot){
-  import.meta.hot.accept(acceptHMRUpdate(useControllerStore,import.meta.hot))
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useControllerStore, import.meta.hot))
 }

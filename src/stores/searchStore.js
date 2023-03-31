@@ -1,9 +1,14 @@
-import {acceptHMRUpdate, defineStore, storeToRefs} from 'pinia'
+import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
 import { ref, watch, onMounted } from 'vue'
 import TrackService from '@/lib/trackService'
-import {useControllerStore} from "@/stores/controllerStore";
+import { useControllerStore } from '@/stores/controllerStore'
+import UserService from '@/lib/userService'
+import { useUserStore } from '@/stores/userStore'
+const userService = new UserService()
 const trackService = new TrackService()
 
+const userStore = useUserStore()
+const { currentUser } = storeToRefs(userStore)
 export const useSearchStore = defineStore('search', () => {
   //Definition
   const filterType = [
@@ -27,10 +32,17 @@ export const useSearchStore = defineStore('search', () => {
   const checkKeywords = (keyword) => keyword.match(regex.value)
 
   onMounted(async () => {
+    if (Object.keys(currentUser.value).length !== 0) {
+      filteredPlaylists.value = await userService.getUserPlaylists(
+        currentUser.value.id
+      )
+    } else {
+      filteredPlaylists.value = await userService.getUserPlaylists(1)
+    }
     filteredTrackList.value = await trackService.getAllItems('tracks')
-    filteredPlaylists.value = await trackService.getAllItems('playlists')
   })
-
+  // filteredTrackList.value = await trackService.getAllItems('tracks')
+  // filteredPlaylists.value = await trackService.getAllItems('playlists')
   watch(regex, async (regex) => {
     const tracks = await trackService.getAllItems('tracks')
     filteredTrackList.value = new Set(
@@ -63,6 +75,6 @@ export const useSearchStore = defineStore('search', () => {
     setSelectedFilterIndex,
   }
 })
-if (import.meta.hot){
-  import.meta.hot.accept(acceptHMRUpdate(useSearchStore,import.meta.hot))
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useSearchStore, import.meta.hot))
 }
