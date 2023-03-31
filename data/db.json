@@ -188,20 +188,6 @@
       "background": "",
       "tracks": [],
       "id": 25
-    },
-    {
-      "name": "Hot hit",
-      "background": "",
-      "tracks": [1, 48, 47, 45, 43],
-      "owner": 12,
-      "id": 26
-    },
-    {
-      "name": "phtw",
-      "background": "",
-      "tracks": [1, 2, 3, 4],
-      "owner": 13,
-      "id": 27
     }
   ],
   "tracks": [
