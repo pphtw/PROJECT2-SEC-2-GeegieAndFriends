@@ -58,7 +58,7 @@ const onClickCloseDeleteBtn = () => {
   isOpen.value = false
 }
 const onDeletePlaylist = async () => {
-  if (playlist.value.owner != 1) {
+  if (playlist.value.owner !== 1) {
     await playlistService.deletePlaylist(overlayPlaylistId.value)
   }
   isOpen.value = false
@@ -144,8 +144,9 @@ const onDeletePlaylist = async () => {
                     stroke="#c493e1"
                     class="w-10 h-10"
                   />
-                  <MenuButton fill="#FFFFFF" class="w-10 h-10" /></div
-              ></template>
+                  <MenuButton fill="#FFFFFF" class="w-10 h-10" />
+                </div>
+              </template>
               <div class="h-full">
                 <TrackList
                   :track-list="tracks"
@@ -188,6 +189,7 @@ const onDeletePlaylist = async () => {
 .background-overlay {
   background: linear-gradient(180deg, #162750 0%, #171717 100%);
 }
+
 .v-enter-active {
   transition: opacity 0.3s ease-in;
 }
