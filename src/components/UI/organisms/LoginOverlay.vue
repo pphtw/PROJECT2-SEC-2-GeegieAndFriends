@@ -65,6 +65,13 @@ const register = async () => {
     } else if (!checkPattern(user, 'password')) {
       state.register.message = 'Please check your password!'
       isRegistered.value = false
+      watchEffect(() => {
+        checkFirstName.value = checkPattern(user, 'firstName')
+        checkLastName.value = checkPattern(user, 'lastName')
+        checkEmail.value = checkPattern(user, 'email')
+        checkPassword.value = checkPattern(user, 'password')
+        checkMessage.value = false
+      })
     } else {
       if ((await userService.getUserByEmail(user.email)) !== undefined) {
         state.register.message = 'You already have an account!'
