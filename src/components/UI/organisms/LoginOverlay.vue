@@ -15,6 +15,7 @@ const { currentUser } = storeToRefs(userStore)
 const { setUser } = userStore
 const { openLoginOverlay } = storeToRefs(overlayStore)
 const { toggleLoginOverlay } = overlayStore
+
 const show = ref('login')
 const checkFirstName = ref(true)
 const checkLastName = ref(true)
@@ -31,19 +32,14 @@ const state = reactive({
     message: '',
   },
 })
+
 const user = reactive({
   firstName: '',
   lastName: '',
   email: '',
   password: '',
 })
-watchEffect(() => {
-  checkFirstName.value = checkPattern(user, 'firstName')
-  checkLastName.value = checkPattern(user, 'lastName')
-  checkEmail.value = checkPattern(user, 'email')
-  checkPassword.value = checkPattern(user, 'password')
-  checkMessage.value = false
-})
+
 const register = async () => {
   if (isRegistered.value) return
   const userService = new UserService()
@@ -56,6 +52,13 @@ const register = async () => {
     ) {
       state.register.message = 'Please check your information!'
       isRegistered.value = false
+      watchEffect(() => {
+        checkFirstName.value = checkPattern(user, 'firstName')
+        checkLastName.value = checkPattern(user, 'lastName')
+        checkEmail.value = checkPattern(user, 'email')
+        checkPassword.value = checkPattern(user, 'password')
+        checkMessage.value = false
+      })
     } else {
       if ((await userService.getUserByEmail(user.email)) !== undefined) {
         state.register.message = 'You already have a account!'
@@ -79,6 +82,7 @@ const register = async () => {
 
   checkMessage.value = true
 }
+
 // login
 const userLogin = reactive({
   email: '',
