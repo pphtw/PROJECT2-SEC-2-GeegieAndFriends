@@ -11,9 +11,13 @@ import UserService from '../../lib/userService'
 import PlaylistService from '@/lib/playlistService'
 
 import { useUserStore } from '@/stores/userStore'
+import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 
 const userStore = useUserStore()
+const playlistStore = usePlaylistStore()
+
+const { likedTracks } = storeToRefs(playlistStore)
 const { currentUser } = storeToRefs(userStore)
 
 const trackService = new TrackService()
@@ -24,9 +28,10 @@ const playlists = ref([])
 const likedPlayList = reactive({
   id: 0,
   name: 'Liked Song',
-  tracks: JSON.parse(localStorage.getItem('likedTracks')) ?? [],
+  tracks: [],
   background:
     'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
+  owner: 1,
 })
 
 const refreshPlaylist = async () => {
@@ -39,16 +44,45 @@ const refreshPlaylist = async () => {
 watchEffect(async () => {
   if (Object.keys(currentUser.value).length !== 0) {
     playlists.value = await userService.getUserPlaylists(currentUser.value.id)
+    if (
+      currentUser.value.likedTracks.length >= 1 &&
+      !playlists.value.includes(
+        playlists.value.find((e) => e.name === 'Liked Song')
+      )
+    ) {
+      likedPlayList.tracks = currentUser.value.likedTracks
+      likedPlayList.owner = currentUser.value.id
+      await playlistService.createPlaylist(likedPlayList)
+      playlists.value = await userService.getUserPlaylists(currentUser.value.id)
+    } else if (
+      currentUser.value.likedTracks.length >= 1 &&
+      playlists.value.includes(
+        playlists.value.find((track) => track.name === 'Liked Song')
+      )
+    ) {
+      likedPlayList.tracks = likedTracks.value
+      likedPlayList.owner = currentUser.value.id
+      console.log(likedPlayList.owner)
+      const likeTrackId = playlists.value.find(
+        (track) => track.name === 'Liked Song'
+      ).id
+
+      await playlistService.updatePlaylist(likeTrackId, likedPlayList)
+    }
   } else {
     playlists.value = await userService.getUserPlaylists(1)
   }
 })
 onMounted(async () => {
   // if (
+  //   currentUser.value.likedTracks.length >= 1 &&
   //   !playlists.value.includes(
   //     playlists.value.find((e) => e.name === 'Liked Song')
   //   )
   // ) {
+  //   console.log(true)
+  //   likedPlayList.tracks = currentUser.value.likedTracks
+  //   likedPlayList.owner = currentUser.value.id
   //   await playlistService.createPlaylist(likedPlayList)
   // }
 })
