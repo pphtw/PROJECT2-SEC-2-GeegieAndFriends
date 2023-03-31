@@ -57,8 +57,6 @@ class PlaylistService {
     if (playlist.owner === 1) {
       console.error(`CANNOT REMOVE THIS PLAYLIST`)
     } else {
-      console.log(newPlaylist)
-      console.log(playlist)
       playlist.name = newPlaylist.name
       playlist.background = newPlaylist.background
       playlist.tracks = newPlaylist.tracks
