@@ -7,7 +7,7 @@ import CreateOverlay from './CreateOverlay.vue'
 const overlayStore = useOverlayStore()
 const { showPlaylistOverlay, showCreateOverlay } = overlayStore
 
-defineEmits(['createPlaylist'])
+defineEmits(['createPlaylist', 'deletePlaylist'])
 
 const props = defineProps({
   cols: {
@@ -61,7 +61,7 @@ const props = defineProps({
       </div>
     </div>
   </div>
-  <PlaylistOverlay />
+  <PlaylistOverlay @deletePlaylist="$emit('deletePlaylist')" />
   <CreateOverlay @createPlaylist="$emit('createPlaylist')" />
 </template>
 
