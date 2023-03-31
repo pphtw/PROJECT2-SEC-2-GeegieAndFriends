@@ -33,7 +33,7 @@ const onCreatePlaylist = async () => {
   playlists.value = await userService.getUserPlaylists(currentUser.value.id)
 }
 watchEffect(async () => {
-  if ((Object.keys(currentUser.value).length) !== 0) {
+  if (Object.keys(currentUser.value).length !== 0) {
     playlists.value = await userService.getUserPlaylists(currentUser.value.id)
   } else {
     playlists.value = await userService.getUserPlaylists(1)

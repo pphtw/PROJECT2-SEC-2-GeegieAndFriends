@@ -1,14 +1,15 @@
 <script setup>
-import {reactive, ref, watchEffect} from 'vue'
+import { reactive, ref, watchEffect } from 'vue'
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import UserService from "@/lib/userService";
-import {hashPassword} from "@/lib/util";
-import {useUserStore} from "@/stores/userStore";
+import UserService from '@/lib/userService'
+import { hashPassword } from '@/lib/util'
+import { useUserStore } from '@/stores/userStore'
 
 const overlayStore = useOverlayStore()
 const userStore = useUserStore()
-const {currentUser} = storeToRefs(userStore)
+const { currentUser } = storeToRefs(userStore)
+const { setUser } = userStore
 const { openLoginOverlay } = storeToRefs(overlayStore)
 const { toggleLoginOverlay } = overlayStore
 const show = ref('login')
@@ -17,115 +18,114 @@ const checkLastName = ref(true)
 const checkEmail = ref(true)
 const checkPassword = ref(true)
 const checkMessage = ref(false)
-const loading = ref(false);
+const loading = ref(false)
 const userPattern = {
-    firstName: /^[A-Za-z]+$/,
-    lastName: /^[A-Za-z]+$/,
-    email: /.+@([a-zA-Z0-9\-]+)\.com/,
-    password: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{7,})/,
+  firstName: /^[A-Za-z]+$/,
+  lastName: /^[A-Za-z]+$/,
+  email: /.+@([a-zA-Z0-9\-]+)\.com/,
+  password: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{7,})/,
 }
 const checkPattern = (user, type) => {
-    return type === 'firstName'
-        ? userPattern.firstName.test(user.firstName)
-        : type === 'lastName'
-            ? userPattern.lastName.test(user.lastName)
-            : type === 'email'
-                ? userPattern.email.test(user.email)
-                : type === 'password'
-                    ? userPattern.password.test(user.password)
-                    : false
+  return type === 'firstName'
+    ? userPattern.firstName.test(user.firstName)
+    : type === 'lastName'
+    ? userPattern.lastName.test(user.lastName)
+    : type === 'email'
+    ? userPattern.email.test(user.email)
+    : type === 'password'
+    ? userPattern.password.test(user.password)
+    : false
 }
 const state = reactive({
-    register: {
-        message: '',
-    },
-    login: {
-        message: '',
-    },
+  register: {
+    message: '',
+  },
+  login: {
+    message: '',
+  },
 })
-const user = reactive( {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+const user = reactive({
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
 })
 watchEffect(() => {
-    checkFirstName.value = checkPattern(user, 'firstName');
-    checkLastName.value = checkPattern(user, 'lastName');
-    checkEmail.value = checkPattern(user, 'email');
-    checkPassword.value = checkPattern(user, 'password');
-    checkMessage.value = false;
-});
+  checkFirstName.value = checkPattern(user, 'firstName')
+  checkLastName.value = checkPattern(user, 'lastName')
+  checkEmail.value = checkPattern(user, 'email')
+  checkPassword.value = checkPattern(user, 'password')
+  checkMessage.value = false
+})
 const register = async () => {
-    if (isRegistered.value)return;
-    const userService = new UserService()
-    try{
-        if (
-            !checkPattern(user, 'firstName') ||
-            !checkPattern(user, 'lastName') ||
-            !checkPattern(user, 'email') ||
-            !checkPattern(user, 'password')
-        ){
-            state.register.message = 'Please check your information!'
-            isRegistered.value = false
-        }else {
-            if ((await userService.getUserByEmail(user.email)) !== undefined) {
-                state.register.message = 'You already have a account!'
-                isRegistered.value = false
-            }else {
-                const hashedPassword = await hashPassword(user.password)
-                const registeredUser = await userService.registerUser({
-                    ...user,
-                    password: hashedPassword,
-                })
-                if (registeredUser) {
-                    state.register.message = 'Registration successful!'
-                    isRegistered.value = true
-                }
-            }
-        }
-    }catch (e){
-        console.error(`Error registering user: ${e.message}`)
+  if (isRegistered.value) return
+  const userService = new UserService()
+  try {
+    if (
+      !checkPattern(user, 'firstName') ||
+      !checkPattern(user, 'lastName') ||
+      !checkPattern(user, 'email') ||
+      !checkPattern(user, 'password')
+    ) {
+      state.register.message = 'Please check your information!'
+      isRegistered.value = false
+    } else {
+      if ((await userService.getUserByEmail(user.email)) !== undefined) {
+        state.register.message = 'You already have a account!'
         isRegistered.value = false
+      } else {
+        const hashedPassword = await hashPassword(user.password)
+        const registeredUser = await userService.registerUser({
+          ...user,
+          password: hashedPassword,
+        })
+        if (registeredUser) {
+          state.register.message = 'Registration successful!'
+          isRegistered.value = true
+        }
+      }
     }
+  } catch (e) {
+    console.error(`Error registering user: ${e.message}`)
+    isRegistered.value = false
+  }
 
   checkMessage.value = true
 }
 // login
-const userLogin =  reactive({
-    email: '',
-    password: '',
+const userLogin = reactive({
+  email: '',
+  password: '',
 })
 const isLoggedIn = ref(false)
 const isRegistered = ref(false)
 const loggedInOnce = ref(false)
 const logging = async () => {
-    loading.value = true;
-    if (loggedInOnce.value)return;
-    const userService = new UserService()
-    try {
-        const hashedPassword = await hashPassword(userLogin.password)
-        const loggedInUser = await userService.loginUser(
-            userLogin.email,
-            hashedPassword
-        )
-        if (loggedInUser) {
-            currentUser.value = loggedInUser
-            isLoggedIn.value = true
-            state.login.message = 'Login successful'
-            console.log(currentUser.value)
-            loggedInOnce.value = true
-        }
-    } catch (error) {
-        isLoggedIn.value = false
-        state.login.message = 'Invalid email or password'
-        userLogin.email = "";
-        userLogin.password = "";
-    }finally {
-        loading.value = false
+  loading.value = true
+  if (loggedInOnce.value) return
+  const userService = new UserService()
+  try {
+    const hashedPassword = await hashPassword(userLogin.password)
+    const loggedInUser = await userService.loginUser(
+      userLogin.email,
+      hashedPassword
+    )
+    if (loggedInUser) {
+      setUser(loggedInUser)
+      isLoggedIn.value = true
+      state.login.message = 'Login successful'
+      console.log(currentUser.value)
+      loggedInOnce.value = true
     }
+  } catch (error) {
+    isLoggedIn.value = false
+    state.login.message = 'Invalid email or password'
+    userLogin.email = ''
+    userLogin.password = ''
+  } finally {
+    loading.value = false
+  }
 }
-
 </script>
 
 <template>
@@ -243,9 +243,7 @@ const logging = async () => {
                     <div
                       v-if="state.login.message"
                       class="text-center mt-4"
-                      :class="
-                        isLoggedIn ? 'text-green-500' : 'text-red-500'
-                      "
+                      :class="isLoggedIn ? 'text-green-500' : 'text-red-500'"
                     >
                       {{ state.login.message }}
                     </div>
@@ -408,15 +406,9 @@ const logging = async () => {
                       REGISTER NOW
                     </button>
                     <div
-                      v-if="
-                        checkMessage ? state.register.message : false
-                      "
+                      v-if="checkMessage ? state.register.message : false"
                       class="text-center mt-4"
-                      :class="
-                        isRegistered
-                          ? 'text-green-500'
-                          : 'text-red-500'
-                      "
+                      :class="isRegistered ? 'text-green-500' : 'text-red-500'"
                     >
                       {{ state.register.message }}
                     </div>
