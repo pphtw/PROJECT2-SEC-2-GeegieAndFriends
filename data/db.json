@@ -467,6 +467,25 @@
       "background": "",
       "tracks": [],
       "id": 24
+    },
+    {
+      "name": "",
+      "background": "",
+      "tracks": [],
+      "id": 25
+    },
+    {
+      "name": "Hot hit",
+      "background": "",
+      "tracks": [
+        1,
+        48,
+        47,
+        45,
+        43
+      ],
+      "owner": 12,
+      "id": 26
     }
   ],
   "tracks": [

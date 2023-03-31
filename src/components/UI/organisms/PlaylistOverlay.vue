@@ -14,6 +14,7 @@ import ContentSection from '../../templates/ContentSection.vue'
 import TrackList from './TrackList.vue'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
+import ModalTemplate from '../../templates/ModalTemplate.vue'
 
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
@@ -34,14 +35,28 @@ const playlist = ref({})
 const tracks = ref({})
 const emit = defineEmits(['chooseTrack'])
 
+const currentUserName = ref(null)
+const isOpen = ref(false)
 watch(overlayPlaylistId, async (id) => {
   playlist.value = await trackService.getItemById('playlists', id)
   tracks.value = await playlistService.getPlaylistTrackList(id)
+  console.log(currentUser.value)
+  if (Object.keys(currentUser.value).length === 0) {
+    currentUserName.value = 'Root'
+  } else {
+    currentUserName.value = currentUser.value.firstName
+  }
 })
 
 const onChooseTrackClick = (e, playlistId) => {
   chooseTrack(e.currentTarget.id, playlistId)
   emit('chooseTrack', 300)
+}
+const onClickOpenDeleteBtn = () => {
+  isOpen.value = true
+}
+const onClickCloseDeleteBtn = () => {
+  isOpen.value = false
 }
 </script>
 
@@ -60,8 +75,26 @@ const onChooseTrackClick = (e, playlistId) => {
             <ContentSection class="min-h-full">
               <template v-slot:header>
                 <div class="flex flex-row justify-between">
-                  <PreviousPageButton @click="hidePlaylistOverlay" /></div
-              ></template>
+                  <PreviousPageButton @click="hidePlaylistOverlay" />
+                  <button
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold rounded-full w-10"
+                    @click="onClickOpenDeleteBtn"
+                  >
+                    <svg
+                      class="scale-75"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="100%"
+                      height="100%"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1l1.4 1.4ZM7 21q-.825 0-1.413-.588T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.588 1.413T17 21H7Z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </template>
 
               <div class="w-full h-full grid grid-cols-[1fr_2fr] gap-x-5">
                 <div
@@ -77,7 +110,7 @@ const onChooseTrackClick = (e, playlistId) => {
                       {{ playlist.name }} {{ '#' + playlist.id }}
                     </h1>
                     <p class="text-2xl font-semibold">
-                      {{ '(' + currentUser.firstName + ')' }} |
+                      {{ '(' + currentUserName + ')' }} |
                       {{ '(' + tracks.length + ')' }} Song
                     </p>
                   </div>
@@ -118,6 +151,28 @@ const onChooseTrackClick = (e, playlistId) => {
       </div>
     </Transition>
   </Teleport>
+  <ModalTemplate :show-modal="isOpen" @hide-modal="onClickCloseDeleteBtn">
+    <div class="bg-white h-full rounded-2xl flex flex-col justify-around">
+      <div class="h-fit">
+        <h1 class="text-2xl font-bold text-center">
+          Are you sure you want to delete this playlist ?
+        </h1>
+      </div>
+      <div class="flex justify-center space-x-24">
+        <button
+          class="w-24 h-14 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded-2xl"
+          @click="onClickCloseDeleteBtn"
+        >
+          No
+        </button>
+        <button
+          class="w-24 h-14 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded-2xl"
+        >
+          Yes
+        </button>
+      </div>
+    </div>
+  </ModalTemplate>
 </template>
 
 <style scoped>
