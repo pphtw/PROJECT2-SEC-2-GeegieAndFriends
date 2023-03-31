@@ -65,6 +65,7 @@ onMounted(async () => {
         @createPlaylist="refreshPlaylist"
         @deletePlaylist="refreshPlaylist"
         :playlists="playlists"
+        cols="grid-cols-6"
       />
     </ContentSection>
   </PageTemplate>
