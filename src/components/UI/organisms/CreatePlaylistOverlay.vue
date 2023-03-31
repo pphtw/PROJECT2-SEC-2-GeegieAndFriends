@@ -10,7 +10,6 @@ import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
 import ContentSection from '../../templates/ContentSection.vue'
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
-import { track } from '@vue/reactivity'
 
 const overlayStore = useOverlayStore()
 const { openCreateOverlay } = storeToRefs(overlayStore)
