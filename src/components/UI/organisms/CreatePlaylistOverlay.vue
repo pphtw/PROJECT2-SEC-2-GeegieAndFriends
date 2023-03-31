@@ -146,6 +146,7 @@ onMounted(async () => {
               <h1 class="font-medium text-white text-xl">Selected Track :</h1>
               <div class="w-full h-fit basis-36 bg-transparent/30 rounded-xl">
                 <TrackList
+                  draggable
                   class="p-5 no-scrollbar-full"
                   :track-list="selectedTrackList"
                   @chooseTrack="unChooseTrackHandler"
