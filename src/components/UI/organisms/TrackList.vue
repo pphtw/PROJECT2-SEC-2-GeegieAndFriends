@@ -3,6 +3,7 @@ import SingleTrack from './SingleTrack.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { storeToRefs } from 'pinia'
 import { useOverlayStore } from '@/stores/overlayStore'
+import { ref, shallowRef, toRaw, unref } from 'vue'
 
 // Use Store
 const controllerStore = useControllerStore()
@@ -10,6 +11,7 @@ const overlayStore = useOverlayStore()
 
 const { currentTrack } = storeToRefs(controllerStore)
 const { contextMenu } = overlayStore
+
 const props = defineProps({
   trackList: {
     type: [Array, Object],
@@ -30,6 +32,35 @@ const props = defineProps({
     default: false,
   },
 })
+const emits = defineEmits(['moveTrack', 'chooseTrack'])
+
+const trackElements = ref(null)
+const onDragStart = (e, i) => {
+  e.dataTransfer.setData('tracks/index', i)
+  e.dataTransfer.effectAllowed = 'move'
+}
+
+const onDragOver = (e) => {
+  e.preventDefault()
+  e.dataTransfer.dropEffect = 'move'
+}
+
+const onDrop = (event, targetIndex) => {
+  // console.log('-----------------------------')
+  const domRect = trackElements.value[targetIndex].getBoundingClientRect()
+  const movingIndex = Number(event.dataTransfer.getData('tracks/index'))
+  const isDroppingBelowTarget = event.clientY > domRect.top + domRect.height / 2
+  // console.log(trackElements.value[0])
+  // console.log(trackElements.value)
+  // console.log(trackElements)
+  // console.log(targetIndex)
+  // console.log(movingIndex)
+  // console.log(isDroppingBelowTarget)
+  // console.log('ClientY' + event.clientY)
+  // console.log('DomTop' + domRect.top)
+  // console.log('DomHeight' + domRect.height)
+  emits('moveTrack', event, movingIndex, targetIndex, isDroppingBelowTarget)
+}
 </script>
 
 <template>
@@ -41,14 +72,18 @@ const props = defineProps({
   >
     <!-- #TrackList -->
     <div
-      class="no-select selection:cursor-default flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+      class="no-select selection:cursor-default flex items-center h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
       v-for="(track, index) in trackList"
       :key="track.id"
       :id="track.id"
       :class="{
         'is-playing': currentTrack.id === track.id,
       }"
+      ref="trackElements"
       :draggable="draggable"
+      @dragstart="onDragStart($event, index)"
+      @dragover="onDragOver"
+      @drop="onDrop($event, index)"
       @click="$emit('chooseTrack', $event, playlistId)"
       @contextmenu.prevent="contextMenu.show"
     >

@@ -36,7 +36,7 @@ const { currentUser } = storeToRefs(userStore)
 const audioElement = inject('audioElement')
 const playlist = ref({})
 const tracks = ref({})
-const emit = defineEmits(['chooseTrack', 'deletePlaylist'])
+const emit = defineEmits(['chooseTrack', 'deletePlaylist', 'updatePlaylist'])
 
 const playlistUserName = ref(null)
 const isOpen = ref(false)
@@ -76,6 +76,10 @@ const onDeletePlaylist = async () => {
   hidePlaylistOverlay()
   emit('deletePlaylist')
 }
+
+// const onUpdatePlaylist = () => {
+//   playlist.value.id
+// }
 </script>
 
 <template>
@@ -160,7 +164,7 @@ const onDeletePlaylist = async () => {
                   <MenuButton
                     fill="#FFFFFF"
                     class="w-10 h-10"
-                    @click="toggleCreateOverlay"
+                    @click="$emit('updatePlaylist', playlist)"
                   />
                 </div>
               </template>
