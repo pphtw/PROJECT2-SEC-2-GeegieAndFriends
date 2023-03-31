@@ -41,6 +41,7 @@ const user = reactive({
   lastName: '',
   email: '',
   password: '',
+  likedTracks: [],
 })
 
 //Register
