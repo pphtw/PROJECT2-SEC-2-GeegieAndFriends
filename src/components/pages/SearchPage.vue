@@ -1,6 +1,6 @@
 <script setup>
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
-import PlaylistCarousel from '../UI/organisms/PinnedPlaylistGrid.vue'
+import PinnedPlaylistGrid from '../UI/organisms/PinnedPlaylistGrid.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
 import ContentSection from '../templates/ContentSection.vue'
@@ -82,7 +82,7 @@ const searchHandler = (input) => {
         </div>
 
         <ContentSection v-else-if="selectedFilterIndex === 1">
-          <PlaylistGrid :playlists="filteredPlaylists" cols="grid-cols-3" />
+          <PlaylistGrid :playlists="filteredPlaylists" cols="grid-cols-5" />
         </ContentSection>
 
         <ContentSection v-else-if="selectedFilterIndex === 4">
@@ -95,7 +95,7 @@ const searchHandler = (input) => {
     </div>
 
     <ContentSection>
-      <PlaylistCarousel />
+      <PinnedPlaylistGrid />
     </ContentSection>
     <ContentSection>
       <MusicPlayerCard />
