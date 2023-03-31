@@ -1,6 +1,6 @@
 <script setup>
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
-import PlaylistCarousel from '../UI/organisms/PlaylistCarousel.vue'
+import PinnedPlaylistGrid from '../UI/organisms/PinnedPlaylistGrid.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
 import ContentSection from '../templates/ContentSection.vue'
@@ -95,7 +95,7 @@ const searchHandler = (input) => {
     </div>
 
     <ContentSection>
-      <PlaylistCarousel />
+      <PinnedPlaylistGrid />
     </ContentSection>
     <ContentSection>
       <MusicPlayerCard />
