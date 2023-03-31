@@ -31,8 +31,8 @@ const onLikeHandler = (e, trackId) => {
   <!-- #MusicCover -->
   <MusicCover :track="track" />
   <!-- #Title&Artist -->
-  <TitleAndArtist :track="track" />
-  <Timer :time="track.duration" :size="5" :weight="2" />
+  <TitleAndArtist :track="track" class="text-white" />
+  <Timer :time="track.duration" :size="5" :weight="2" class="text-white" />
   <!-- #LikeButton -->
   <div class="px-3 hidden sm:block">
     <button @click="onLikeHandler($event, track.id)">
@@ -41,12 +41,12 @@ const onLikeHandler = (e, trackId) => {
         stroke="#c493e1"
         v-if="checkFavorites(track.id)"
       />
-      <LikeButton fill="none" stroke="black" v-else />
+      <LikeButton fill="none" stroke="white" v-else />
     </button>
   </div>
   <!-- #MenuButton -->
   <div class="px-3">
-    <MenuButton fill="#231F20" />
+    <MenuButton fill="white" />
   </div>
 </template>
 
