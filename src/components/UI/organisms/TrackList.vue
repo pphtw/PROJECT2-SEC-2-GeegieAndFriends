@@ -3,7 +3,7 @@ import SingleTrack from './SingleTrack.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { storeToRefs } from 'pinia'
 import { useOverlayStore } from '@/stores/overlayStore'
-import { ref, shallowRef, toRaw, unref } from 'vue'
+import { ref } from 'vue'
 
 // Use Store
 const controllerStore = useControllerStore()
