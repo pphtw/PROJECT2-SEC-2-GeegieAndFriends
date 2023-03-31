@@ -30,7 +30,11 @@ const likedPlayList = reactive({
 })
 
 const onCreatePlaylist = async () => {
-  playlists.value = await userService.getUserPlaylists(currentUser.value.id)
+  if (Object.keys(currentUser.value).length !== 0) {
+    playlists.value = await userService.getUserPlaylists(currentUser.value.id)
+  } else {
+    playlists.value = await userService.getUserPlaylists(1)
+  }
 }
 watchEffect(async () => {
   if (Object.keys(currentUser.value).length !== 0) {
@@ -57,6 +61,7 @@ onMounted(async () => {
         <div class="flex flex-row justify-between">
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
+
       <PlaylistGrid @createPlaylist="onCreatePlaylist" :playlists="playlists" />
     </ContentSection>
   </PageTemplate>

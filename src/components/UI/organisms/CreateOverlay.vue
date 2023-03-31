@@ -1,10 +1,10 @@
 <script setup>
-import {onMounted, reactive, ref} from 'vue'
-import {storeToRefs} from 'pinia'
+import { onMounted, reactive, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 
-import {useOverlayStore} from '@/stores/overlayStore'
-import {useControllerStore} from '@/stores/controllerStore'
-import {useUserStore} from '@/stores/userStore'
+import { useOverlayStore } from '@/stores/overlayStore'
+import { useControllerStore } from '@/stores/controllerStore'
+import { useUserStore } from '@/stores/userStore'
 
 import TrackList from './TrackList.vue'
 import TrackService from '@/lib/trackService'
@@ -16,10 +16,8 @@ const overlayStore = useOverlayStore()
 const { openCreateOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
 const { hideCreateOverlay } = overlayStore
 
-const controllerStore = useControllerStore()
-// const { isPlaying } = storeToRefs(controllerStore)
-// const { chooseTrack, togglePlayPause } = controllerStore
 
+//defineStores & Services
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
 
@@ -28,6 +26,7 @@ const playlistService = new PlaylistService()
 
 const emit = defineEmits(['createPlaylist'])
 
+//State
 const createPlaylist = reactive({
   name: '',
   background: '',
@@ -37,6 +36,7 @@ const createPlaylist = reactive({
 const tracks = ref({})
 const selectedTrackList = ref([])
 
+//Handler
 const resetCreatePlaylist = async () => {
   createPlaylist.name = ''
   createPlaylist.background = ''
@@ -47,9 +47,9 @@ const resetCreatePlaylist = async () => {
   selectedTrackList.value = []
 }
 const createPlaylistHandler = async () => {
-    createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
+  createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
   createPlaylist.owner = currentUser.value.id
-  if (currentUser.value.id !== 0 ) {
+  if (Object.keys(currentUser.value).length !== 0) {
     await playlistService.createPlaylist(createPlaylist)
   }
   resetCreatePlaylist()
