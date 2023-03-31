@@ -40,7 +40,6 @@ const isOpen = ref(false)
 watch(overlayPlaylistId, async (id) => {
   playlist.value = await trackService.getItemById('playlists', id)
   tracks.value = await playlistService.getPlaylistTrackList(id)
-  console.log(currentUser.value)
   if (Object.keys(currentUser.value).length === 0) {
     currentUserName.value = 'Root'
   } else {

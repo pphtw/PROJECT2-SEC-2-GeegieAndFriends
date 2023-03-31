@@ -24,7 +24,7 @@ const emit = defineEmits(['chooseTrack'])
 
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
-  console.log(playlistId)
+  // console.log(playlistId)
   chooseTrack(e.currentTarget.id, playlistId)
   emit('chooseTrack', 300)
 }
@@ -44,16 +44,16 @@ const searchHandler = (input) => {
   <PageTemplate
     content-style="grid-cols-[3fr_minmax(18rem,1fr)] grid-rows-[2fr_5fr]"
   >
-    <div class="flex flex-col row-span-2 h-full">
+    <div class="flex flex-col j row-span-2 h-full">
       <!-- #SearchBarSection -->
-      <ContentSection>
+      <div class="flex flex-col h-fit">
         <SearchBar @searchEvent="searchHandler" class="w-full" />
 
         <!-- #FilterSection -->
         <FilterSection class="h-fit" />
-      </ContentSection>
+      </div>
       <!-- #ContentSection -->
-      <div class="min-h-0 grow">
+      <div class="min-h-0">
         <div
           v-if="selectedFilterIndex === 0"
           class="grid grid-cols-2 gap-2 h-full"
@@ -71,13 +71,13 @@ const searchHandler = (input) => {
               "
             />
           </ContentSection>
-          <ContentSection class="min-h-0">
+          <ContentSection class="min-h-0 w-full">
             <template v-slot:header>
-              <div class="flex flex-row justify-between">
+              <div class="flex flex-row">
                 <SectionHeader input-text-header="Playlists" />
               </div>
             </template>
-            <PlaylistGrid :playlists="filteredPlaylists" :cols="3" />
+            <PlaylistGrid :playlists="filteredPlaylists" />
           </ContentSection>
         </div>
 
