@@ -114,7 +114,6 @@ const logging = async () => {
       setUser(loggedInUser)
       isLoggedIn.value = true
       state.login.message = 'Login successful'
-      console.log(currentUser.value)
       loggedInOnce.value = true
     }
   } catch (error) {
