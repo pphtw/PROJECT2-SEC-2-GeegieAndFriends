@@ -82,7 +82,7 @@ const searchHandler = (input) => {
         </div>
 
         <ContentSection v-else-if="selectedFilterIndex === 1">
-          <PlaylistGrid :playlists="filteredPlaylists" cols="grid-cols-3" />
+          <PlaylistGrid :playlists="filteredPlaylists" cols="grid-cols-5" />
         </ContentSection>
 
         <ContentSection v-else-if="selectedFilterIndex === 4">

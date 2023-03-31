@@ -14,10 +14,12 @@ import ContentSection from '../../templates/ContentSection.vue'
 import TrackList from './TrackList.vue'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
+import UserService from '@/lib/userService'
 import ModalTemplate from '../../templates/ModalTemplate.vue'
 
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
+const userService = new UserService()
 
 const overlayStore = useOverlayStore()
 const { openPlaylistOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
@@ -35,15 +37,18 @@ const playlist = ref({})
 const tracks = ref({})
 const emit = defineEmits(['chooseTrack', 'deletePlaylist'])
 
-const currentUserName = ref(null)
+const playlistUserName = ref(null)
 const isOpen = ref(false)
 watch(overlayPlaylistId, async (id) => {
   playlist.value = await trackService.getItemById('playlists', id)
   tracks.value = await playlistService.getPlaylistTrackList(id)
   if (Object.keys(currentUser.value).length === 0) {
-    currentUserName.value = 'Root'
+    playlistUserName.value = 'Root'
+    console.log(playlistUserName.value)
   } else {
-    currentUserName.value = currentUser.value.firstName
+    playlistUserName.value = (
+      await userService.getUserById(playlist.value.owner)
+    ).firstName
   }
 })
 
@@ -53,12 +58,17 @@ const onChooseTrackClick = (e, playlistId) => {
 }
 const onClickOpenDeleteBtn = () => {
   isOpen.value = true
+  console.log(playlist.value.owner)
+  console.log(currentUser.value.id)
 }
 const onClickCloseDeleteBtn = () => {
   isOpen.value = false
 }
 const onDeletePlaylist = async () => {
-  if (playlist.value.owner !== 1) {
+  if (
+    playlist.value.owner !== 1 &&
+    playlist.value.owner === currentUser.value.id
+  ) {
     await playlistService.deletePlaylist(overlayPlaylistId.value)
   }
   isOpen.value = false
@@ -84,7 +94,9 @@ const onDeletePlaylist = async () => {
                 <div class="flex flex-row justify-between">
                   <PreviousPageButton @click="hidePlaylistOverlay" />
                   <button
-                    v-if="playlist.owner !== 1"
+                    v-if="
+                      playlist.owner !== 1 && currentUser.id === playlist.owner
+                    "
                     class="bg-red-500 hover:bg-red-700 text-white font-bold rounded-full w-10"
                     @click="onClickOpenDeleteBtn"
                   >
@@ -118,7 +130,7 @@ const onDeletePlaylist = async () => {
                       {{ playlist.name }} {{ '#' + playlist.id }}
                     </h1>
                     <p class="text-2xl font-semibold">
-                      {{ '(' + currentUserName + ')' }} |
+                      {{ '(' + playlistUserName + ')' }} |
                       {{ '(' + tracks.length + ')' }} Song
                     </p>
                   </div>
