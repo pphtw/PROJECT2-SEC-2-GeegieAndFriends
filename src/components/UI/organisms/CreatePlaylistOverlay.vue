@@ -10,13 +10,18 @@ import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
 import ContentSection from '../../templates/ContentSection.vue'
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
+import { track } from '@vue/reactivity'
 
 const overlayStore = useOverlayStore()
 const { openCreateOverlay } = storeToRefs(overlayStore)
 const { hideCreateOverlay } = overlayStore
 
 const props = defineProps({
-  updatePlaylist: {
+  playlist: {
+    type: Object,
+    required: false,
+  },
+  isUpdate: {
     type: Boolean,
     required: false,
   },
@@ -51,6 +56,14 @@ const resetCreatePlaylist = async () => {
   tracks.value = await playlistService.getPlaylistTrackList(1)
   selectedTrackList.value = []
 }
+//handler
+const changeModeHandler = () => {
+  if (props.isUpdate) {
+    updatePlaylistHandler()
+  } else {
+    createPlaylistHandler()
+  }
+}
 const createPlaylistHandler = async () => {
   createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
   createPlaylist.owner = currentUser.value.id
@@ -61,6 +74,22 @@ const createPlaylistHandler = async () => {
   hideCreateOverlay()
   emit('createPlaylist')
 }
+
+const updatePlaylistHandler = async () => {
+  // createPlaylist.name = playlist.name
+  // createPlaylist.background = playlist.background
+  // createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
+  // if (Object.keys(currentUser.value).length !== 0) {
+  //   await playlistService.updatePlaylist(createPlaylist)
+  // }
+  selectedTrackList.value = await playlistService.getPlaylistTrackList(
+    props.playlist.id
+  )
+  // console.log(
+  //   tracks.value.filter((track) =>)
+  // )
+}
+
 const unChooseTrackHandler = (e) => {
   const trackId = Number(e.currentTarget.id)
   tracks.value.push(
@@ -91,6 +120,14 @@ const onChooseTrackHandler = (e) => {
 
 onMounted(async () => {
   tracks.value = await playlistService.getPlaylistTrackList(1)
+  if (props.isUpdate) {
+    selectedTrackList.value = await playlistService.getPlaylistTrackList(
+      props.playlist.id
+    )
+    // tracks.value = selectedTrackList.value.forEach((selectedTrack) =>
+    //   tracks.value.filter((track) => track !== selectedTrack)
+    // )
+  }
 })
 </script>
 
@@ -98,7 +135,7 @@ onMounted(async () => {
   <Teleport to="body">
     <Transition>
       <div
-        v-if="openCreateOverlay"
+        v-if="openCreateOverlay || isUpdate"
         class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[999]"
         @click.self="hideCreateOverlay"
       >
@@ -110,9 +147,9 @@ onMounted(async () => {
             <PreviousPageButton @click="hideCreateOverlay" />
             <button
               class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl"
-              @click.once="createPlaylistHandler"
+              @click.once="changeModeHandler"
             >
-              Create
+              {{ isUpdate ? 'Update' : 'Create' }}
             </button>
           </div>
           <div class="w-full h-fit row-span-1 px-10 py-5">
