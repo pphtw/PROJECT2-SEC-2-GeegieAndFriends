@@ -16,6 +16,12 @@ const overlayStore = useOverlayStore()
 const { openCreateOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
 const { hideCreateOverlay } = overlayStore
 
+const props = defineProps({
+  updatePlaylist: {
+    type: Boolean,
+    required: false,
+  },
+})
 
 //defineStores & Services
 const userStore = useUserStore()
