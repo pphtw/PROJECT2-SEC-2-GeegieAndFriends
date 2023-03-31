@@ -1,11 +1,16 @@
 <script setup>
 import { useOverlayStore } from '@/stores/overlayStore'
+import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import PlaylistOverlay from '@/components/UI/organisms/PlaylistOverlay.vue'
 import CreateOverlay from './CreateOverlay.vue'
+import { onMounted, ref } from 'vue'
 
 const overlayStore = useOverlayStore()
 const { showPlaylistOverlay, showCreateOverlay } = overlayStore
+
+const userStore = useUserStore()
+const { currentUser } = storeToRefs(userStore)
 
 defineEmits(['createPlaylist', 'deletePlaylist'])
 
@@ -13,7 +18,7 @@ const props = defineProps({
   cols: {
     type: Number,
     required: false,
-    default: 1,
+    default: 3,
   },
   playlists: {
     type: Object,
@@ -24,8 +29,9 @@ const props = defineProps({
 
 <template>
   <div class="min-h-0 overflow-y-scroll">
-    <div class="h-fit gap-x-6 gap-y-3 grid grid-cols-6">
+    <div :class="`h-fit gap-x-6 gap-y-3 grid grid-cols-${cols}`">
       <div
+        v-if="Object.keys(currentUser).length !== 0"
         class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto truncate bg-transparent/30"
         @click="showCreateOverlay"
       >
@@ -45,7 +51,7 @@ const props = defineProps({
         </svg>
       </div>
       <div
-        class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-transparent/80 bg-cover rounded-xl my-auto"
+        class="flex justify-center cursor-pointer truncate h-full aspect-square hover:opacity-80 bg-transparent/80 bg-cover rounded-xl my-auto"
         v-for="playlist in playlists"
         :key="playlist.id"
         :id="playlist.id"

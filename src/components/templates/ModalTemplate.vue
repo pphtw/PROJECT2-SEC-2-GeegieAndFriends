@@ -6,7 +6,6 @@ const props = defineProps({
   },
 })
 defineEmits(['hideModal'])
-console.log(props.showModal)
 </script>
 
 <template>
