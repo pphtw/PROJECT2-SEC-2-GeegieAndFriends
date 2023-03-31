@@ -94,11 +94,23 @@ const moveTrackHandler = (
   targetIndex,
   isDropAfterTarget
 ) => {
+  const insertIndex =
+    isDropAfterTarget && movingIndex > targetIndex
+      ? targetIndex + 1
+      : !isDropAfterTarget && !(movingIndex > targetIndex)
+      ? targetIndex - 1
+      : targetIndex
   selectedTrackList.value.splice(
-    isDropAfterTarget ? targetIndex + 1 : targetIndex,
+    insertIndex,
     0,
     selectedTrackList.value.splice(movingIndex, 1)[0]
   )
+  forceRerender()
+}
+
+const componentKey = ref(0)
+const forceRerender = () => {
+  componentKey.value += 1
 }
 
 onMounted(async () => {
@@ -158,6 +170,7 @@ onMounted(async () => {
               <h1 class="font-medium text-white text-xl">Selected Track :</h1>
               <div class="w-full h-fit basis-36 bg-transparent/30 rounded-xl">
                 <TrackList
+                  :key="componentKey"
                   class="p-5 no-scrollbar-full"
                   :draggable="true"
                   :track-list="selectedTrackList"
@@ -168,12 +181,13 @@ onMounted(async () => {
             </ContentSection>
           </div>
           <div class="w-full h-fit row-span-1 px-10 py-5">
-            <ContentSection class="h-fit"
-              ><TrackList
+            <ContentSection class="h-fit">
+              <TrackList
                 class="no-scrollbar-full"
                 @chooseTrack="onChooseTrackHandler"
                 :track-list="tracks"
-            /></ContentSection>
+              />
+            </ContentSection>
           </div>
         </div>
       </div>
@@ -185,6 +199,7 @@ onMounted(async () => {
 .background-overlay {
   background: linear-gradient(180deg, #162750 0%, #171717 100%);
 }
+
 .v-enter-active {
   transition: opacity 0.3s ease-in;
 }
