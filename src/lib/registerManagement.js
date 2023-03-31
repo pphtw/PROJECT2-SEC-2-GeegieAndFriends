@@ -18,7 +18,12 @@ const registerManagement = () => {
       : false
   }
 
-  const register = () => {}
-  return { checkPattern }
+  const clearRegisterBox = (user) => {
+    user.firstName = ''
+    user.lastName = ''
+    user.email = ''
+    user.password = ''
+  }
+  return { checkPattern, clearRegisterBox }
 }
 export { registerManagement }
