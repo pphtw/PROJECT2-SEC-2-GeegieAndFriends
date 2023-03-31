@@ -28,6 +28,7 @@ const { hidePlaylistOverlay } = overlayStore
 const controllerStore = useControllerStore()
 const { isPlaying } = storeToRefs(controllerStore)
 const { chooseTrack, togglePlayPause } = controllerStore
+const { toggleCreateOverlay } = overlayStore
 
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
@@ -156,7 +157,11 @@ const onDeletePlaylist = async () => {
                     stroke="#c493e1"
                     class="w-10 h-10"
                   />
-                  <MenuButton fill="#FFFFFF" class="w-10 h-10" />
+                  <MenuButton
+                    fill="#FFFFFF"
+                    class="w-10 h-10"
+                    @click="toggleCreateOverlay"
+                  />
                 </div>
               </template>
               <div class="h-full">

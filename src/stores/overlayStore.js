@@ -1,9 +1,19 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
-import { useControllerStore } from '@/stores/controllerStore'
 
 export const useOverlayStore = defineStore('overlay', () => {
-  const openContextMenu = ref(false)
+  const contextMenu = reactive({
+    isOpen: false,
+    show(e) {
+      e.stopPropagation()
+      this.isOpen = true
+      position.x = e.clientX
+      position.y = e.clientY
+    },
+    hide() {
+      this.isOpen = false
+    },
+  })
   const position = reactive({
     x: 0,
     y: 0,
@@ -12,17 +22,6 @@ export const useOverlayStore = defineStore('overlay', () => {
   const openPlaylistOverlay = ref(false)
   const overlayPlaylistId = ref(null)
   const openCreateOverlay = ref(false)
-
-  const showContextMenu = (e) => {
-    e.stopPropagation()
-    openContextMenu.value = true
-    position.x = e.clientX
-    position.y = e.clientY
-  }
-
-  const hideContextMenu = (e) => {
-    openContextMenu.value = false
-  }
 
   const toggleLoginOverlay = () => {
     openLoginOverlay.value = !openLoginOverlay.value
@@ -43,20 +42,24 @@ export const useOverlayStore = defineStore('overlay', () => {
     openCreateOverlay.value = false
   }
 
+  const toggleCreateOverlay = () => {
+    openCreateOverlay.value = true
+    openPlaylistOverlay.value = false
+  }
+
   return {
-    openContextMenu,
-    showContextMenu,
+    contextMenu,
     openPlaylistOverlay,
     position,
     openLoginOverlay,
     toggleLoginOverlay,
-    hideContextMenu,
     showPlaylistOverlay,
     hidePlaylistOverlay,
     overlayPlaylistId,
     showCreateOverlay,
     hideCreateOverlay,
     openCreateOverlay,
+    toggleCreateOverlay,
   }
 })
 if (import.meta.hot) {

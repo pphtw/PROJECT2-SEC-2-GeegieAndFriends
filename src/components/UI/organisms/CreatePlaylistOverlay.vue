@@ -3,7 +3,6 @@ import { onMounted, reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useOverlayStore } from '@/stores/overlayStore'
-import { useControllerStore } from '@/stores/controllerStore'
 import { useUserStore } from '@/stores/userStore'
 
 import TrackList from './TrackList.vue'
@@ -13,7 +12,7 @@ import ContentSection from '../../templates/ContentSection.vue'
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 
 const overlayStore = useOverlayStore()
-const { openCreateOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
+const { openCreateOverlay } = storeToRefs(overlayStore)
 const { hideCreateOverlay } = overlayStore
 
 const props = defineProps({
@@ -147,6 +146,7 @@ onMounted(async () => {
               <h1 class="font-medium text-white text-xl">Selected Track :</h1>
               <div class="w-full h-fit basis-36 bg-transparent/30 rounded-xl">
                 <TrackList
+                  draggable
                   class="p-5 no-scrollbar-full"
                   :track-list="selectedTrackList"
                   @chooseTrack="unChooseTrackHandler"
