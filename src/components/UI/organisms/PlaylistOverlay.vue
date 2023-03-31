@@ -33,7 +33,7 @@ const { currentUser } = storeToRefs(userStore)
 const audioElement = inject('audioElement')
 const playlist = ref({})
 const tracks = ref({})
-const emit = defineEmits(['chooseTrack'])
+const emit = defineEmits(['chooseTrack', 'deletePlaylist'])
 
 const currentUserName = ref(null)
 const isOpen = ref(false)
@@ -58,6 +58,14 @@ const onClickOpenDeleteBtn = () => {
 const onClickCloseDeleteBtn = () => {
   isOpen.value = false
 }
+const onDeletePlaylist = async () => {
+  if (playlist.value.owner != 1) {
+    await playlistService.deletePlaylist(overlayPlaylistId.value)
+  }
+  isOpen.value = false
+  hidePlaylistOverlay()
+  emit('deletePlaylist')
+}
 </script>
 
 <template>
@@ -77,6 +85,7 @@ const onClickCloseDeleteBtn = () => {
                 <div class="flex flex-row justify-between">
                   <PreviousPageButton @click="hidePlaylistOverlay" />
                   <button
+                    v-if="playlist.owner !== 1"
                     class="bg-red-500 hover:bg-red-700 text-white font-bold rounded-full w-10"
                     @click="onClickOpenDeleteBtn"
                   >
@@ -167,6 +176,7 @@ const onClickCloseDeleteBtn = () => {
         </button>
         <button
           class="w-24 h-14 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded-2xl"
+          @click="onDeletePlaylist"
         >
           Yes
         </button>

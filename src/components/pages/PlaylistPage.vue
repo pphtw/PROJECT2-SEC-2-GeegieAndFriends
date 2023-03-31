@@ -29,7 +29,7 @@ const likedPlayList = reactive({
     'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
 })
 
-const onCreatePlaylist = async () => {
+const refreshPlaylist = async () => {
   if (Object.keys(currentUser.value).length !== 0) {
     playlists.value = await userService.getUserPlaylists(currentUser.value.id)
   } else {
@@ -62,7 +62,11 @@ onMounted(async () => {
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
 
-      <PlaylistGrid @createPlaylist="onCreatePlaylist" :playlists="playlists" />
+      <PlaylistGrid
+        @createPlaylist="refreshPlaylist"
+        @deletePlaylist="refreshPlaylist"
+        :playlists="playlists"
+      />
     </ContentSection>
   </PageTemplate>
 </template>
