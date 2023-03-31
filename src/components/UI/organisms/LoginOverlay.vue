@@ -36,6 +36,7 @@ const user = reactive({
   lastName: '',
   email: '',
   password: '',
+  likedTracks: [],
 })
 watchEffect(() => {
   checkFirstName.value = checkPattern(user, 'firstName')
