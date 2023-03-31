@@ -24,6 +24,11 @@ const props = defineProps({
     type: Array,
     required: false,
   },
+  draggable: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 </script>
 
@@ -36,14 +41,14 @@ const props = defineProps({
   >
     <!-- #TrackList -->
     <div
-      class="flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+      class="no-select selection:cursor-default flex items-center mb-1 h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
       v-for="(track, index) in trackList"
       :key="track.id"
       :id="track.id"
       :class="{
         'is-playing': currentTrack.id === track.id,
       }"
-      @mousedown="$event.preventDefault()"
+      :draggable="draggable"
       @click="$emit('chooseTrack', $event, playlistId)"
       @contextmenu.prevent="contextMenu.show"
     >
@@ -86,5 +91,8 @@ const props = defineProps({
 .list-leave-to {
   opacity: 0;
   width: 100%;
+}
+.no-select {
+  user-select: none;
 }
 </style>

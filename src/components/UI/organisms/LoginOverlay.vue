@@ -149,6 +149,7 @@ const logging = async () => {
             <TransitionGroup name="list">
               <div
                 v-if="show === 'login'"
+                key="1"
                 class="order-1 relative w-full h-full md:w-1/2 py-10 px-5 md:px-10 bg-white rounded-l-3xl"
               >
                 <div
@@ -271,6 +272,7 @@ const logging = async () => {
               </div>
               <div
                 v-else
+                key="3"
                 class="order-3 relative w-full h-full md:w-1/2 py-10 px-5 md:px-10 bg-white rounded-r-3xl"
               >
                 <div
@@ -441,7 +443,7 @@ const logging = async () => {
                   </div>
                 </div>
               </div>
-              <div class="order-2 hidden md:block w-1/2 p-10 h-full">
+              <div class="order-2 hidden md:block w-1/2 p-10 h-full" key="2">
                 <svg
                   id="a87032b8-5b37-4b7e-a4d9-4dbfbe394641"
                   data-name="Layer 1"
