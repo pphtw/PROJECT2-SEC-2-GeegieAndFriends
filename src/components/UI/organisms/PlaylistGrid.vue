@@ -5,10 +5,10 @@ import { storeToRefs } from 'pinia'
 import PlaylistOverlay from '@/components/UI/organisms/PlaylistOverlay.vue'
 import CreateOverlay from './CreatePlaylistOverlay.vue'
 import { ref } from 'vue'
+import ContextMenu from '@/components/UI/organisms/ContextMenu.vue'
 
 const overlayStore = useOverlayStore()
-const { showPlaylistOverlay, showCreateOverlay, showUpdateOverlay } =
-  overlayStore
+const { showPlaylistOverlay, showCreateOverlay, contextMenu } = overlayStore
 
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
@@ -26,6 +26,7 @@ const props = defineProps({
   },
 })
 
+const context = ref('')
 const playlist = ref({})
 const isUpdate = ref(false)
 const onUpdatePlaylist = (selectedPlaylist) => {
@@ -68,6 +69,7 @@ const onUpdatePlaylist = (selectedPlaylist) => {
         }"
         tabindex="-1"
         @click="showPlaylistOverlay"
+        @contextmenu.prevent="contextMenu.show($event, 'playlist')"
       >
         <p class="text-white text-lg font-semibold self-center text-center">
           {{ playlist.name }}

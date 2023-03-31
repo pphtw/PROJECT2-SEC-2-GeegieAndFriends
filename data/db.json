@@ -348,6 +348,19 @@
       "tracks": [],
       "owner": 3,
       "id": 15
+    },
+    {
+      "id": 16,
+      "name": "Liked Song",
+      "tracks": [
+        23,
+        16,
+        4,
+        19,
+        1
+      ],
+      "background": "https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg",
+      "owner": 4
     }
   ],
   "tracks": [
@@ -1000,7 +1013,13 @@
       "lastName": "Anothaisintavee",
       "email": "new49903@gmail.com",
       "password": "710d6394974b81400bba73088e3ab00e0539921875a8d6facbbcc7c4eb79c87b",
-      "likedTracks": [],
+      "likedTracks": [
+        23,
+        16,
+        4,
+        19,
+        1
+      ],
       "id": 4
     }
   ]
