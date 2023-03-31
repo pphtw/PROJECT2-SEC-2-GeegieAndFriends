@@ -42,6 +42,11 @@ export const useOverlayStore = defineStore('overlay', () => {
     openCreateOverlay.value = false
   }
 
+  const toggleCreateOverlay = () => {
+    openCreateOverlay.value = true
+    openPlaylistOverlay.value = false
+  }
+
   return {
     contextMenu,
     openPlaylistOverlay,
@@ -54,6 +59,7 @@ export const useOverlayStore = defineStore('overlay', () => {
     showCreateOverlay,
     hideCreateOverlay,
     openCreateOverlay,
+    toggleCreateOverlay,
   }
 })
 if (import.meta.hot) {
