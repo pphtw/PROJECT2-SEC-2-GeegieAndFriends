@@ -107,6 +107,7 @@ const logging = async () => {
       state.login.message = 'Login successful'
       console.log(currentUser.value)
       loggedInOnce.value = true
+      toggleLoginOverlay()
     }
   } catch (error) {
     isLoggedIn.value = false

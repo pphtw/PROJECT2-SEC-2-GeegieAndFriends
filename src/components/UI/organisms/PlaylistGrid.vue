@@ -16,9 +16,8 @@ defineEmits(['createPlaylist', 'deletePlaylist'])
 
 const props = defineProps({
   cols: {
-    type: Number,
-    required: false,
-    default: 3,
+    type: String,
+    required: true,
   },
   playlists: {
     type: Object,
@@ -29,7 +28,7 @@ const props = defineProps({
 
 <template>
   <div class="min-h-0 overflow-y-scroll">
-    <div :class="`h-fit gap-x-6 gap-y-3 grid grid-cols-${cols}`">
+    <div class="h-fit gap-x-6 gap-y-3 grid" :class="[cols]">
       <div
         v-if="Object.keys(currentUser).length !== 0"
         class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto truncate bg-transparent/30"
