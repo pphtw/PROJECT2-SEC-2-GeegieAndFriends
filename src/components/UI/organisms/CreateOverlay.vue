@@ -3,7 +3,6 @@ import { onMounted, reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useOverlayStore } from '@/stores/overlayStore'
-import { useControllerStore } from '@/stores/controllerStore'
 import { useUserStore } from '@/stores/userStore'
 
 import TrackList from './TrackList.vue'
@@ -13,7 +12,7 @@ import ContentSection from '../../templates/ContentSection.vue'
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 
 const overlayStore = useOverlayStore()
-const { openCreateOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
+const { openCreateOverlay } = storeToRefs(overlayStore)
 const { hideCreateOverlay } = overlayStore
 
 const props = defineProps({

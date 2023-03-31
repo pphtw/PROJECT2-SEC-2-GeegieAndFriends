@@ -1,18 +1,17 @@
 <script setup>
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import { watch } from 'vue'
 
 const overlayStore = useOverlayStore()
 
-const { openContextMenu, position } = storeToRefs(overlayStore)
+const { contextMenu, position } = storeToRefs(overlayStore)
 </script>
 
 <template>
   <Teleport to="body">
     <Transition>
       <div
-        v-if="openContextMenu"
+        v-if="contextMenu.isOpen"
         class="absolute block z-auto"
         :style="{ top: position.y + 'px', left: position.x + 'px' }"
       >
