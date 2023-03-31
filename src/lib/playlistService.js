@@ -23,7 +23,7 @@ class PlaylistService {
       if (response.ok) {
         return await response.json()
       } else {
-        throw new Error(response.statusText)
+        return Promise.reject(response.statusText)
       }
     } catch (error) {
       console.error(`ERROR CREATING PLAYLIST: ${error.message}`)
@@ -45,7 +45,7 @@ class PlaylistService {
         if (response.ok) {
           return await response.json()
         } else {
-          throw new Error(response.statusText)
+          return Promise.reject(response.statusText)
         }
       } catch (error) {
         console.error(`ERROR DELETING PLAYLIST: ${error.message}`)
@@ -72,7 +72,7 @@ class PlaylistService {
         if (response.ok) {
           return await response.json()
         } else {
-          throw new Error(response.statusText)
+          return Promise.reject(response.statusText)
         }
       } catch (error) {
         console.error(`ERROR UPDATING PLAYLIST: ${error.message}`)
