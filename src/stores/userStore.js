@@ -7,6 +7,10 @@ export const useUserStore = defineStore('user', () => {
     currentUser.value = user
   }
 
+  const logout = () => {
+    currentUser.value = {}
+  }
+
   const checkUserLoggedIn = () => {
     return Object.keys(currentUser.value).length !== 0
   }
@@ -14,6 +18,7 @@ export const useUserStore = defineStore('user', () => {
     currentUser,
     setUser,
     checkUserLoggedIn,
+    logout,
   }
 })
 if (import.meta.hot) {
