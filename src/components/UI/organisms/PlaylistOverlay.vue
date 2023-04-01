@@ -16,6 +16,7 @@ import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
 import UserService from '@/lib/userService'
 import ModalTemplate from '../../templates/ModalTemplate.vue'
+import { usePlaylistStore } from '@/stores/playlistStore'
 
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
@@ -29,10 +30,12 @@ const { hidePlaylistOverlay } = overlayStore
 const controllerStore = useControllerStore()
 const { isPlaying } = storeToRefs(controllerStore)
 const { chooseTrack, togglePlayPause } = controllerStore
-const { toggleCreateOverlay } = overlayStore
 
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
+
+const playlistStore = usePlaylistStore()
+const { addToFavorites, checkFavorites } = playlistStore
 
 const audioElement = inject('audioElement')
 const playlist = ref({})
@@ -54,7 +57,7 @@ watch(openPlaylistOverlay, async () => {
       tracks.value.find((track) => track.id === id)
     )
     if (playlist.value.owner === 1) {
-      playlistUserName.value = 'Root'
+      playlistUserName.value = 'Vuesic Player'
     } else {
       playlistUserName.value = (
         await userService.getUserById(playlist.value.owner)
@@ -70,7 +73,6 @@ const onChooseTrackClick = (e, playlistId) => {
 }
 const onClickOpenDeleteBtn = () => {
   isOpen.value = true
-  console.log(playlist.value.name)
 }
 const onClickCloseDeleteBtn = () => {
   isOpen.value = false
@@ -86,6 +88,15 @@ const onDeletePlaylist = async () => {
   hidePlaylistOverlay()
   emit('deletePlaylist')
 }
+
+const onUpdatePlaylist = () => {
+  playlist.value.id
+}
+
+const onClickOutside = () => {
+  hidePlaylistOverlay()
+  contextMenu.value.hide()
+}
 </script>
 
 <template>
@@ -94,7 +105,7 @@ const onDeletePlaylist = async () => {
       <div
         v-if="openPlaylistOverlay"
         class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[998]"
-        @click.self="hidePlaylistOverlay"
+        @click.self="onClickOutside"
       >
         <div
           class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-[60%] min-w-fit h-full no-scrollbar-full"
@@ -147,8 +158,7 @@ const onDeletePlaylist = async () => {
                       {{ playlist.name }} {{ '#' + playlist.id }}
                     </h1>
                     <p class="text-2xl font-semibold">
-                      {{ '(' + playlistUserName + ')' }} |
-                      {{ '(' + tracks.length + ')' }} Song
+                      {{ playlistUserName }} | {{ tracks.length }} Song
                     </p>
                   </div>
                 </div>
@@ -168,11 +178,14 @@ const onDeletePlaylist = async () => {
                     <PlayPauseButton :is-active="isPlaying" class="w-20 h-20" />
                   </button>
 
-                  <LikeButton
-                    fill="#c493e1"
-                    stroke="#c493e1"
-                    class="w-10 h-10"
-                  />
+                  <button @click="addToFavorites(playlist.id, 'playlist')">
+                    <LikeButton
+                      fill="#c493e1"
+                      stroke="#c493e1"
+                      v-if="checkFavorites(playlist.id, 'playlist')"
+                    />
+                    <LikeButton fill="none" stroke="white" v-else />
+                  </button>
                   <MenuButton
                     fill="#FFFFFF"
                     class="w-10 h-10"

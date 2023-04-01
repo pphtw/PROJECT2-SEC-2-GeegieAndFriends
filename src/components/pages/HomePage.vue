@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted, toRaw } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { useOverlayStore } from '@/stores/overlayStore'
 
