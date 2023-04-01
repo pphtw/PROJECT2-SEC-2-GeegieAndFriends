@@ -1,5 +1,5 @@
 <script setup>
-import {ref, inject, onUpdated, onMounted} from 'vue'
+import { ref, inject, onUpdated, onMounted } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { storeToRefs } from 'pinia'
 
@@ -39,22 +39,7 @@ const checkOverflow = () => {
       element.scrollWidth > element.offsetWidth
   }, 0)
 }
-const trackSkipHandler = (toNext = true) => {
-  skipTrack(toNext)
-  emit('autoPlayPause')
-}
 
-const onShuffleHandler = () => {
-  // if (e.code === 'KeyS' || e.button === 0) {
-  //   toggleShuffle()
-  // }
-  if (!isShuffled.value) {
-    isShuffled.value = true
-  } else {
-    isShuffled.value = false
-  }
-  toggleShuffle()
-}
 const onLoopHandler = () => {
   if (!isRepeating.value) {
     isRepeating.value = true
@@ -74,7 +59,7 @@ const callback = (mutationList) => {
 }
 const observer = new MutationObserver(callback)
 onMounted(() => {
-    observer.observe(titleElement.value, config)
+  observer.observe(titleElement.value, config)
 })
 </script>
 
@@ -87,7 +72,7 @@ onMounted(() => {
     <div
       class="h-full bg-cover bg-center rounded-t-2xl aspect-auto"
       :style="{
-        backgroundImage: 'url(' + encodeURI(currentTrack.cover) + ')',
+        backgroundImage: 'url(' + encodeURI(currentTrack?.cover) + ')',
       }"
       @click="checkOverflow"
     ></div>
@@ -130,7 +115,7 @@ onMounted(() => {
         class="flex justify-center basis-16 items-center gap-5 h-fit w-full sm:overflow-hidden max-sm:gap-4 2xl:gap-6"
       >
         <!-- #ShuffleButton -->
-        <button @click="onShuffleHandler">
+        <button @click="toggleShuffle">
           <ShuffleButton :isActive="isShuffled" />
         </button>
         <!-- #SkipBackButton -->
