@@ -5,22 +5,61 @@ import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
 import ContentSection from '../templates/ContentSection.vue'
 import { storeToRefs } from 'pinia'
-import { useSearchStore } from '@/stores/searchStore'
 import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
+import UserService from '@/lib/userService'
+import { useUserStore } from '@/stores/userStore'
+import { ref, watch, onMounted } from 'vue'
+import TrackService from '@/lib/trackService'
 
-const searchStore = useSearchStore()
+const userService = new UserService()
+const trackService = new TrackService()
+
+const userStore = useUserStore()
+const { currentUser } = storeToRefs(userStore)
+
 const controllerStore = useControllerStore()
-const { filteredPlaylists, filteredTrackList, regex, selectedFilterIndex } =
-  storeToRefs(searchStore)
 
 const { chooseTrack } = controllerStore
 
+//ref
+const selectedFilterIndex = ref(0)
+const regex = ref('')
+const filteredTrackList = ref([])
+const filteredPlaylists = ref([])
+
+const setSelectedFilterIndex = (index) => {
+  selectedFilterIndex.value = index
+  console.log(index)
+}
+
 // Definition
 const emit = defineEmits(['chooseTrack'])
+
+//Function
+const checkKeywords = (keyword) => keyword.match(regex.value)
+
+onMounted(async () => {
+  filteredTrackList.value = await trackService.getAllItems('tracks')
+  filteredPlaylists.value = await trackService.getAllItems('playlists')
+})
+watch(regex, async (regex) => {
+  const tracks = await trackService.getAllItems('tracks')
+  filteredTrackList.value = new Set(
+    tracks
+      .filter((track) => track.name.match(regex))
+      .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
+  )
+})
+
+watch(regex, async (regex) => {
+  filteredPlaylists.value = (
+    await trackService.getAllItems('playlists')
+  ).filter((e) => e.name.match(regex))
+})
 
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
@@ -50,7 +89,11 @@ const searchHandler = (input) => {
         <SearchBar @searchEvent="searchHandler" class="w-full" />
 
         <!-- #FilterSection -->
-        <FilterSection class="h-fit" />
+        <FilterSection
+          class="h-fit"
+          @setFilter="setSelectedFilterIndex"
+          :selectedFilterIndex="selectedFilterIndex"
+        />
       </div>
       <!-- #ContentSection -->
       <div class="min-h-0">
