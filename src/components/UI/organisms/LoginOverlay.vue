@@ -6,9 +6,14 @@ import UserService from '@/lib/userService'
 import { hashPassword } from '@/lib/util'
 import { useUserStore } from '@/stores/userStore'
 import { registerManagement } from '@/lib/registerManagement.js'
-
 //destructuring
-const { checkPattern, clearRegisterBox } = registerManagement()
+const {
+  clearRegisterBox,
+  validateFirstName,
+  validateLastName,
+  validateEmail,
+  validatePassword,
+} = registerManagement()
 
 //use Store
 const overlayStore = useOverlayStore()
@@ -49,23 +54,19 @@ const register = async () => {
   const userService = new UserService()
   let message
   let success = false
-
+  console.log(validateFirstName(user.firstName))
   switch (true) {
-    case !checkPattern(user, 'firstName'):
-      message = 'Please check your firstname!'
+    case (message = validateFirstName(user.firstName)):
       break
-    case !checkPattern(user, 'lastName'):
-      message = 'Please check your lastname!'
+    case (message = validateLastName(user.lastName)):
       break
-    case !checkPattern(user, 'email'):
-      message = 'Please check your email!'
+    case (message = validateEmail(user.email)):
       break
-    case !checkPattern(user, 'password'):
-      message = 'Please check your password!'
+    case (message = validatePassword(user.password)):
       break
     default:
       const existingUser = await userService.getUserByEmail(user.email)
-      if (existingUser) {
+      if (existingUser !== undefined) {
         message = 'You already have an account!'
         clearRegisterBox(user)
       } else {
@@ -87,10 +88,10 @@ const register = async () => {
   isRegistered.value = success
 
   watchEffect(() => {
-    checkFirstName.value = checkPattern(user, 'firstName')
-    checkLastName.value = checkPattern(user, 'lastName')
-    checkEmail.value = checkPattern(user, 'email')
-    checkPassword.value = checkPattern(user, 'password')
+    checkFirstName.value = validateFirstName(user.firstName)
+    checkLastName.value = validateLastName(user.lastName)
+    checkEmail.value = validateEmail(user.email)
+    checkPassword.value = validatePassword(user.password)
     checkMessage.value = false
   })
 

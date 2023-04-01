@@ -77,9 +77,9 @@ const onDeletePlaylist = async () => {
   emit('deletePlaylist')
 }
 
-// const onUpdatePlaylist = () => {
-//   playlist.value.id
-// }
+const onUpdatePlaylist = () => {
+  playlist.value.id
+}
 </script>
 
 <template>
