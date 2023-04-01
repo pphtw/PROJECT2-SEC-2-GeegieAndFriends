@@ -91,7 +91,6 @@ onMounted(async () => {
   const selectedPlaylistTracksId = selectedPlaylist.tracks.map((id) =>
     selectedPlaylistTracks.value.find((track) => track.id === id)
   )
-  console.log(selectedPlaylistTracksId)
 })
 </script>
 

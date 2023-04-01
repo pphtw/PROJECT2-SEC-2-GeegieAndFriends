@@ -13,6 +13,7 @@ export const useOverlayStore = defineStore('overlay', () => {
       this.isOpen = true
       position.x = e.clientX
       position.y = e.clientY
+      console.log(this.context)
     },
     hide() {
       this.isOpen = false
