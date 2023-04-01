@@ -343,13 +343,6 @@
       "id": 14
     },
     {
-      "name": "",
-      "background": "",
-      "tracks": [],
-      "owner": 3,
-      "id": 15
-    },
-    {
       "id": 16,
       "name": "Liked Song",
       "tracks": [
@@ -1021,6 +1014,14 @@
         1
       ],
       "id": 4
+    },
+    {
+      "firstName": "",
+      "lastName": "",
+      "email": "",
+      "password": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "likedTracks": [],
+      "id": 5
     }
   ]
 }
