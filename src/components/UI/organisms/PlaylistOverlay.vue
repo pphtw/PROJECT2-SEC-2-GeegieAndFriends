@@ -36,7 +36,7 @@ const { currentUser } = storeToRefs(userStore)
 const audioElement = inject('audioElement')
 const playlist = ref({})
 const tracks = ref({})
-const emit = defineEmits(['chooseTrack', 'deletePlaylist', 'updatePlaylist'])
+const emit = defineEmits(['chooseTrack', 'deletePlaylist'])
 
 const playlistUserName = ref(null)
 const isOpen = ref(false)
@@ -81,10 +81,6 @@ const onDeletePlaylist = async () => {
   isOpen.value = false
   hidePlaylistOverlay()
   emit('deletePlaylist')
-}
-
-const onUpdatePlaylist = () => {
-  playlist.value.id
 }
 </script>
 
