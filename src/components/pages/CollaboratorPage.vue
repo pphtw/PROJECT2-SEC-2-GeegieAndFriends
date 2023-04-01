@@ -10,10 +10,7 @@ import CollaboratorGrid from '@/components/UI/organisms/CollaboratorGrid.vue'
     <ContentSection class="overflow-y-scroll no-scrollbar-full">
       <template v-slot:header>
         <div class="flex flex-row justify-between">
-          <SectionHeader
-            input-text-header="Our Team Members"
-            font-size="text-6xl"
-          />
+          <SectionHeader input-text-header="Our Teams" font-size="text-6xl" />
         </div>
       </template>
       <CollaboratorGrid />
