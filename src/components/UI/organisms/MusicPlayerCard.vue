@@ -22,7 +22,6 @@ const { toggleShuffle, toggleRepeat, skipTrack, togglePlayPause } =
 const { showContextMenu } = overlayStore
 
 const audioElement = inject('audioElement')
-const emit = defineEmits(['autoPlayPause'])
 //DOM Elements
 const titleElement = ref(null)
 

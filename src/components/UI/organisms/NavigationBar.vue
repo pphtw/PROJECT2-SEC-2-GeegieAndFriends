@@ -62,7 +62,7 @@ const clickLoginLogout = () => {
     <a
       @click="clickLoginLogout"
       @mousedown.prevent
-      class="self-end cursor-pointer row-start-6 h-[3rem] w-[4.5rem] mb-8 items-center justify-center flex hover:scale-150 transition ease-in-out"
+      class=" self-end cursor-pointer row-start-6 h-[3rem] w-[4.5rem] mb-8 items-center justify-center flex hover:scale-150 transition ease-in-out"
     >
       <LoginLogoutButton />
     </a>

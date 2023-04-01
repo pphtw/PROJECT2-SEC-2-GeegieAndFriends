@@ -406,6 +406,27 @@
       ],
       "background": "https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg",
       "owner": 4
+    },
+    {
+      "id": 21,
+      "name": "Liked Song",
+      "tracks": [
+        2
+      ],
+      "background": "https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg",
+      "owner": 5
+    },
+    {
+      "name": "ban's playlist",
+      "background": "",
+      "tracks": [
+        1,
+        7,
+        10,
+        8
+      ],
+      "owner": 5,
+      "id": 22
     }
   ],
   "tracks": [
@@ -1074,11 +1095,7 @@
       "email": "banlearit.siri@gmail.com",
       "password": "10e64cdf7c3c38ce456ca317e6b0e9d438b87721e4d52488c01fd8d7dadda058",
       "likedTracks": [
-        35,
-        36,
-        1,
-        2,
-        4
+        2
       ],
       "id": 5,
       "likedPlaylists": []
@@ -1137,6 +1154,15 @@
       ],
       "id": 9,
       "likedPlaylists": []
+    },
+    {
+      "firstName": "a",
+      "lastName": "a",
+      "email": "a@a.com",
+      "password": "10e64cdf7c3c38ce456ca317e6b0e9d438b87721e4d52488c01fd8d7dadda058",
+      "likedTracks": [],
+      "likedPlaylists": [],
+      "id": 10
     }
   ]
 }
