@@ -23,15 +23,19 @@ export const usePlaylistStore = defineStore('playlist', () => {
 
   // Actions
   const checkFavorites = (trackId) => {
-    // return likedTracks.value.includes(trackId) // Boolean
-    return likedTracks.value.includes(trackId) // Boolean
+    if (trackId !== null && trackId !== undefined) {
+      const id = Number(trackId)
+      // return likedTracks.value.includes(trackId) // Boolean
+      return likedTracks.value.includes(id) // Boolean
+    }
   }
   const addToFavorites = async (trackId) => {
+    const id = Number(trackId)
     if (Object.keys(currentUser.value).length !== 0) {
-      if (!checkFavorites(trackId)) {
-        likedTracks.value.push(trackId)
+      if (!checkFavorites(id)) {
+        likedTracks.value.push(id)
       } else {
-        likedTracks.value.splice(likedTracks.value.indexOf(trackId), 1)
+        likedTracks.value.splice(likedTracks.value.indexOf(id), 1)
       }
       currentUser.value = await userService.updateUserLikedTracks(
         currentUser.value.id,
