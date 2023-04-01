@@ -25,6 +25,11 @@ watchEffect(async () => {
     )['owner']
   }
 })
+
+const onClickLiked = () => {
+  addToFavorites(Number(contextMenu.value.targetId))
+  contextMenu.value.hide()
+}
 </script>
 
 <template>
@@ -45,7 +50,7 @@ watchEffect(async () => {
             <hr class="my-2 border-gray-300" />
             <div
               class="flex hover:bg-gray-50 py-2 px-2 rounded"
-              @click="addToFavorites(Number(contextMenu.targetId))"
+              @click="onClickLiked"
             >
               <div v-if="checkFavorites(Number(contextMenu.targetId))">
                 Remove from your Liked Songs
@@ -103,5 +108,9 @@ watchEffect(async () => {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+div {
+  cursor: default;
 }
 </style>

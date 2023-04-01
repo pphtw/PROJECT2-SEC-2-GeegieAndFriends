@@ -7,10 +7,21 @@ import LoginLogoutButton from '@/components/UI/atoms/LoginLogoutButton.vue'
 import LoginOverlay from '@/components/UI/organisms/LoginOverlay.vue'
 import { useOverlayStore } from '@/stores/overlayStore'
 import CollaboratorPageButton from '@/components/UI/atoms/CollaboratorPageButton.vue'
+import { useUserStore } from '@/stores/userStore'
 
+const userStore = useUserStore()
 const overlayStore = useOverlayStore()
 
 const { toggleLoginOverlay } = overlayStore
+const { checkUserLoggedIn, logout } = userStore
+
+const clickLoginLogout = () => {
+  if (checkUserLoggedIn()) {
+    logout()
+  } else {
+    toggleLoginOverlay()
+  }
+}
 </script>
 
 <template>
@@ -49,7 +60,7 @@ const { toggleLoginOverlay } = overlayStore
       <CollaboratorPageButton />
     </RouterLink>
     <a
-      @click="toggleLoginOverlay"
+      @click="clickLoginLogout"
       @mousedown.prevent
       class="self-end cursor-pointer row-start-6 h-[3rem] w-[4.5rem] mb-8 items-center justify-center flex hover:scale-150 transition ease-in-out"
     >

@@ -74,7 +74,7 @@ const onChooseTrackClick = (e, playlistId) => {
 
 const searchHandler = (input) => {
   let pattern = input
-    .replace(/\W{1,}/gi, ' ')
+    .replace(/\W+/gi, ' ')
     .split(/\s/)
     .filter((e) => e)
 
