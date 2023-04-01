@@ -26,14 +26,9 @@ export const useSearchStore = defineStore('search', () => {
   const regex = ref('')
   const filteredTrackList = ref([])
   const filteredPlaylists = ref([])
-
   //Function
   const checkKeywords = (keyword) => keyword.match(regex.value)
 
-  onMounted(async () => {
-    filteredTrackList.value = await trackService.getAllItems('tracks')
-    filteredPlaylists.value = await trackService.getAllItems('playlists')
-  })
   watch(regex, async (regex) => {
     const tracks = await trackService.getAllItems('tracks')
     filteredTrackList.value = new Set(
@@ -41,12 +36,11 @@ export const useSearchStore = defineStore('search', () => {
         .filter((track) => track.name.match(regex))
         .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
     )
-  })
-
-  watch(regex, async (regex) => {
     filteredPlaylists.value = (
       await trackService.getAllItems('playlists')
-    ).filter((e) => e.name.match(regex))
+    ).filter(
+      (playlist) => playlist.name.match(regex) && playlist.name !== 'Liked Song'
+    )
   })
 
   const setSelectedFilterIndex = (index) => {
