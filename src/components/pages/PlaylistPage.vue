@@ -6,21 +6,16 @@ import ContentSection from '../templates/ContentSection.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
-import TrackService from '@/lib/trackService'
 import UserService from '../../lib/userService'
 import PlaylistService from '@/lib/playlistService'
 
 import { useUserStore } from '@/stores/userStore'
-import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 
 const userStore = useUserStore()
-const playlistStore = usePlaylistStore()
 
-const { likedTracks } = storeToRefs(playlistStore)
 const { currentUser } = storeToRefs(userStore)
 
-const trackService = new TrackService()
 const playlistService = new PlaylistService()
 const userService = new UserService()
 
@@ -37,43 +32,67 @@ const likedPlayList = reactive({
 const refreshPlaylist = async () => {
   if (Object.keys(currentUser.value).length !== 0) {
     playlists.value = await userService.getUserPlaylists(currentUser.value.id)
+    playlists.value.unshift(
+      playlists.value.splice(
+        playlists.value.findIndex((e) => e.name === 'Liked Song'),
+        1
+      )[0]
+    )
   } else {
     playlists.value = await userService.getUserPlaylists(1)
   }
 }
+const createLikedPlaylist = async () => {
+  likedPlayList.tracks = currentUser.value.likedTracks
+  likedPlayList.owner = currentUser.value.id
+  await playlistService.createPlaylist(likedPlayList)
+  playlists.value = await userService.getUserPlaylists(currentUser.value.id)
+  refreshPlaylist()
+}
+const updateLikedPlaylist = async () => {
+  const likeTrackId = playlists.value.find(
+    (track) => track.name === 'Liked Song'
+  ).id
+  likedPlayList.id = likeTrackId
+  likedPlayList.tracks = currentUser.value.likedTracks
+  likedPlayList.owner = currentUser.value.id
+  await playlistService.updatePlaylist(likeTrackId, likedPlayList)
+  refreshPlaylist()
+}
+const checkLikedPlaylist = () => {
+  return playlists.value.includes(
+    playlists.value.find((track) => track.name === 'Liked Song')
+  )
+}
+const deleteLikedPlaylist = async () => {
+  await playlistService.deletePlaylist(
+    playlists.value.find((track) => track.name === 'Liked Song').id
+  )
+  refreshPlaylist()
+}
 watchEffect(async () => {
   if (Object.keys(currentUser.value).length !== 0) {
     playlists.value = await userService.getUserPlaylists(currentUser.value.id)
-    if (
-      currentUser.value.likedTracks.length >= 1 &&
-      !playlists.value.includes(
-        playlists.value.find((e) => e.name === 'Liked Song')
-      )
-    ) {
-      likedPlayList.tracks = currentUser.value.likedTracks
-      likedPlayList.owner = currentUser.value.id
-      await playlistService.createPlaylist(likedPlayList)
-      playlists.value = await userService.getUserPlaylists(currentUser.value.id)
-    } else if (
-      currentUser.value.likedTracks.length >= 1 &&
-      playlists.value.includes(
-        playlists.value.find((track) => track.name === 'Liked Song')
-      )
-    ) {
-      likedPlayList.tracks = likedTracks.value
-      likedPlayList.owner = currentUser.value.id
-      console.log(likedPlayList.owner)
-      const likeTrackId = playlists.value.find(
-        (track) => track.name === 'Liked Song'
-      ).id
 
-      await playlistService.updatePlaylist(likeTrackId, likedPlayList)
+    if (currentUser.value.likedTracks.length !== 0 && !checkLikedPlaylist()) {
+      createLikedPlaylist()
+      console.log('Create')
+    } else if (
+      currentUser.value.likedTracks.length !== 0 &&
+      checkLikedPlaylist()
+    ) {
+      await updateLikedPlaylist()
+      console.log('Update')
+    } else if (
+      currentUser.value.likedTracks.length === 0 &&
+      checkLikedPlaylist()
+    ) {
+      deleteLikedPlaylist()
+      console.log('Delete')
     }
   } else {
     playlists.value = await userService.getUserPlaylists(1)
   }
-})
-onMounted(async () => {
 })
 </script>
 

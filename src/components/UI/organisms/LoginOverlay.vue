@@ -6,9 +6,14 @@ import UserService from '@/lib/userService'
 import { hashPassword } from '@/lib/util'
 import { useUserStore } from '@/stores/userStore'
 import { registerManagement } from '@/lib/registerManagement.js'
-
 //destructuring
-const { checkPattern, clearRegisterBox } = registerManagement()
+const {
+    checkPattern,
+    clearRegisterBox,
+    getEmailValidationMessage,
+    getPasswordValidationMessage,
+    getNameValidationMessage,
+} = registerManagement()
 
 //use Store
 const overlayStore = useOverlayStore()
@@ -44,58 +49,60 @@ const user = reactive({
   likedTracks: [],
 })
 
+
 //Register
 const register = async () => {
-  const userService = new UserService()
-  let message
-  let success = false
+    const userService = new UserService();
+    let message;
+    let success = false;
+    switch (true) {
+        case !checkPattern(user, 'firstName'):
+            message = getNameValidationMessage(user.firstName, 'firstname');
+            break;
+        case !checkPattern(user, 'lastName'):
+            message = getNameValidationMessage(user.lastName, 'lastname');
+            break;
+        case !checkPattern(user, 'email'):
+            message = getEmailValidationMessage(user.email)
+            break;
+        case !checkPattern(user, 'password'):
+            message = getPasswordValidationMessage(user.password);
+            break;
+        default:
+            const existingUser = await userService.getUserByEmail(user.email);
+            if (existingUser) {
+                message = 'You already have an account!';
+                clearRegisterBox(user);
+            } else {
+                const hashedPassword = await hashPassword(user.password);
+                const registeredUser = await userService.registerUser({
+                    ...user,
+                    password: hashedPassword,
+                });
 
-  switch (true) {
-    case !checkPattern(user, 'firstName'):
-      message = 'Please check your firstname!'
-      break
-    case !checkPattern(user, 'lastName'):
-      message = 'Please check your lastname!'
-      break
-    case !checkPattern(user, 'email'):
-      message = 'Please check your email!'
-      break
-    case !checkPattern(user, 'password'):
-      message = 'Please check your password!'
-      break
-    default:
-      const existingUser = await userService.getUserByEmail(user.email)
-      if (existingUser) {
-        message = 'You already have an account!'
-        clearRegisterBox(user)
-      } else {
-        const hashedPassword = await hashPassword(user.password)
-        const registeredUser = await userService.registerUser({
-          ...user,
-          password: hashedPassword,
-        })
+                if (registeredUser) {
+                    message = 'Registration successful!';
+                    clearRegisterBox(registeredUser)
+                    success = true;
+                }
+            }
+    }
 
-        if (registeredUser) {
-          message = 'Registration successful!'
-          clearRegisterBox(registeredUser)
-          success = true
-        }
-      }
-  }
+    state.register.message = message;
+    isRegistered.value = success;
 
-  state.register.message = message
-  isRegistered.value = success
+    watchEffect(() => {
+        checkFirstName.value = checkPattern(user, 'firstName');
+        checkLastName.value = checkPattern(user, 'lastName');
+        checkEmail.value = checkPattern(user, 'email');
+        checkPassword.value = checkPattern(user, 'password');
+        checkMessage.value = false;
+    });
 
-  watchEffect(() => {
-    checkFirstName.value = checkPattern(user, 'firstName')
-    checkLastName.value = checkPattern(user, 'lastName')
-    checkEmail.value = checkPattern(user, 'email')
-    checkPassword.value = checkPattern(user, 'password')
-    checkMessage.value = false
-  })
 
-  checkMessage.value = true
-}
+    checkMessage.value = true;
+};
+
 
 // login
 const userLogin = reactive({
