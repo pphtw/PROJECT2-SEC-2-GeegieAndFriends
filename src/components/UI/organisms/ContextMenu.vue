@@ -2,13 +2,29 @@
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
 import { usePlaylistStore } from '@/stores/playlistStore'
+import { useUserStore } from '@/stores/userStore'
+import TrackService from '@/lib/trackService'
+import { ref, watchEffect } from 'vue'
 
 const playlistStore = usePlaylistStore()
 const overlayStore = useOverlayStore()
+const userStore = useUserStore()
 
 const { addToFavorites, checkFavorites } = playlistStore
 
 const { contextMenu, position } = storeToRefs(overlayStore)
+const { currentUser } = storeToRefs(userStore)
+
+const trackService = new TrackService()
+
+const targetPlaylistOwner = ref(null)
+watchEffect(async () => {
+  if (contextMenu.value.context === 'playlist') {
+    targetPlaylistOwner.value = (
+      await trackService.getItemById('playlists', contextMenu.value.targetId)
+    )['owner']
+  }
+})
 </script>
 
 <template>
@@ -52,9 +68,17 @@ const { contextMenu, position } = storeToRefs(overlayStore)
               <div>Open Playlist</div>
             </div>
             <hr class="my-2 border-gray-300" />
-            <div class="flex hover:bg-gray-50 py-2 px-2 rounded">
-              <div>Remove from Your Library</div>
-              <div>Add to Your Library</div>
+            <div
+              class="flex hover:bg-gray-50 py-2 px-2 rounded"
+              v-if="currentUser.id !== targetPlaylistOwner"
+              @click="addToFavorites(Number(contextMenu.targetId), 'playlist')"
+            >
+              <div
+                v-if="checkFavorites(Number(contextMenu.targetId), 'playlist')"
+              >
+                Remove from Your Library
+              </div>
+              <div v-else>Add to Your Library</div>
             </div>
             <div class="flex hover:bg-gray-50 py-2 px-2 rounded">
               <div>Add to other playlist</div>
