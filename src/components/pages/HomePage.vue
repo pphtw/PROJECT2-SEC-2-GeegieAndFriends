@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, toRaw } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { useOverlayStore } from '@/stores/overlayStore'
 
@@ -34,32 +34,30 @@ const emit = defineEmits([
 const selectedPlaylistId = ref(
   Number(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1)
 )
+const selectedPlaylist = ref({})
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
 
-// watch(overlayPlaylistId, (id) => {
-//   if (
-//     overlayPlaylistId.value !== null &&
-//     selectedPlaylistId.value !== overlayPlaylistId.value
-//   ) {
-//     selectedPlaylistId.value = id
-//     localStorage.setItem(
-//       'selectedPlaylistId',
-//       JSON.stringify(selectedPlaylistId.value)
-//     )
-//   }
-
-// })
-
-watch(selectedPlaylistId, async (id) => {
-  selectedPlaylistName.value = (
-    await trackService.getItemById('playlists', id)
-  ).name
-  selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(id)
+watch(selectedPlaylistId, async (playlistId) => {
+  selectedPlaylist.value = await trackService.getItemById(
+    'playlists',
+    playlistId
+  )
+  selectedPlaylistName.value = selectedPlaylist.value.name
+  selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
+    playlistId
+  )
+  selectedPlaylistTracks.value = selectedPlaylist.value.tracks.map((id) =>
+    selectedPlaylistTracks.value.find((track) => track.id === id)
+  )
   localStorage.setItem(
     'selectedPlaylistId',
     JSON.stringify(selectedPlaylistId.value)
   )
+  // selectedPlaylistTracks.value =
+  // selectedPlaylistName.value = (
+  //   await trackService.getItemById('playlists', id)
+  // ).name
 })
 
 // Handlers
@@ -79,19 +77,31 @@ onMounted(async () => {
       JSON.stringify(selectedPlaylistId.value)
     )
   }
-  const selectedPlaylist = await trackService.getItemById(
-    'playlists',
-    selectedPlaylistId.value
-  )
-  selectedPlaylistName.value = selectedPlaylist.name
+  selectedPlaylistName.value = (
+    await trackService.getItemById('playlists', selectedPlaylistId.value)
+  ).name
 
   selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
     selectedPlaylistId.value
   )
-  const selectedPlaylistTracksId = selectedPlaylist.tracks.map((id) =>
-    selectedPlaylistTracks.value.find((track) => track.id === id)
-  )
-  console.log(selectedPlaylistTracksId)
+  // const selectedPlaylist = await trackService.getItemById(
+  //   'playlists',
+  //   selectedPlaylistId.value
+  // )
+
+  // const selectedPlaylistTracksId = selectedPlaylist.tracks.map((id) =>
+  //   selectedPlaylistTracks.value.find((track) => track.id === id)
+  // )
+
+  // const playlistTracks = await playlistService.getPlaylistTrackList(
+  //   selectedPlaylistId.value
+  // )
+
+  // selectedPlaylistName.value = selectedPlaylist.name
+
+  // selectedPlaylistTracks.value = selectedPlaylist.tracks.map((id) =>
+  //   playlistTracks.find((track) => track.id === id)
+  // )
 })
 </script>
 

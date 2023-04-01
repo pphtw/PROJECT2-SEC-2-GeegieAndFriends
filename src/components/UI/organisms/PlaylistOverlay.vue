@@ -49,6 +49,9 @@ watch(openPlaylistOverlay, async () => {
     tracks.value = await playlistService.getPlaylistTrackList(
       overlayPlaylistId.value
     )
+    tracks.value = playlist.value.tracks.map((id) =>
+      tracks.value.find((track) => track.id === id)
+    )
     if (playlist.value.owner === 1) {
       playlistUserName.value = 'Root'
     } else {
