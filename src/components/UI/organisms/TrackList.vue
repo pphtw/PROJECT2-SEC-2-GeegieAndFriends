@@ -3,7 +3,7 @@ import SingleTrack from './SingleTrack.vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { storeToRefs } from 'pinia'
 import { useOverlayStore } from '@/stores/overlayStore'
-import { ref, shallowRef, toRaw, unref } from 'vue'
+import { ref } from 'vue'
 
 // Use Store
 const controllerStore = useControllerStore()
@@ -67,12 +67,12 @@ const onDrop = (event, targetIndex) => {
   <TransitionGroup
     tag="div"
     name="list"
-    class="rounded-2xl no-scrollbar h-full scroll-smooth overflow-y-scroll overflow-x-hidden relative"
+    class="rounded-sm no-scrollbar h-full scroll-smooth overflow-y-scroll overflow-x-hidden relative"
     @contextmenu.prevent
   >
     <!-- #TrackList -->
     <div
-      class="no-select selection:cursor-default flex items-center h-20 bg-[#E5E5E5] hover:bg-[#D4D4D4] transition ease-in-out rounded-2xl overflow-clip cursor-pointer"
+      class="no-select mr-8 selection:cursor-default flex items-center h-20 hover:bg-[#FFFFFF]/30 transition ease-in-out rounded-sm overflow-clip cursor-pointer"
       v-for="(track, index) in trackList"
       :key="track.id"
       :id="track.id"
@@ -85,11 +85,11 @@ const onDrop = (event, targetIndex) => {
       @dragover="onDragOver"
       @drop="onDrop($event, index)"
       @click="$emit('chooseTrack', $event, playlistId)"
-      @contextmenu.prevent="contextMenu.show"
+      @contextmenu.prevent="contextMenu.show($event, 'track')"
     >
       <!-- #Ranking -->
       <div class="w-fit">
-        <h1 class="text-center font-bold w-12">
+        <h1 class="text-center font-bold w-12 text-white">
           {{ index + 1 }}
         </h1>
       </div>
@@ -105,7 +105,7 @@ const onDrop = (event, targetIndex) => {
 }
 .is-playing,
 .is-playing:hover {
-  background-color: #eedff6;
+  background: rgba(220, 188, 238, 80%);
 }
 .list-move,
 .list-enter-active,

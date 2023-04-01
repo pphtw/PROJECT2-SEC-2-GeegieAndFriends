@@ -2,8 +2,8 @@
 import { usePlaylistStore } from '@/stores/playlistStore'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
-import TrackService from "@/lib/trackService";
-const trackService = new TrackService();
+import TrackService from '@/lib/trackService'
+const trackService = new TrackService()
 // Use Store
 const playlistStore = usePlaylistStore()
 
@@ -47,7 +47,7 @@ onMounted(async () => {
       :key="playlist.id"
       :id="playlist.id"
       @click="onChoosePlaylistHandler"
-      class="flex justify-center cursor-pointer h-full hover:opacity-80 bg-cover rounded-xl my-auto"
+      class="flex justify-center cursor-pointer h-full hover:opacity-80 bg-cover rounded-md my-auto"
       tabindex="-1"
     >
       <p

@@ -1,21 +1,15 @@
 <script setup>
-import { useSearchStore } from '../../../stores/searchStore.js'
-import { storeToRefs } from 'pinia'
-
-const searchStore = useSearchStore()
-const { selectedFilterIndex } = storeToRefs(searchStore)
-const { setSelectedFilterIndex } = searchStore
-
 defineProps({
   index: Number,
   filterName: String,
+  isSelected: Boolean,
 })
 </script>
 
 <template>
   <div
-    @click="setSelectedFilterIndex(index)"
-    :class="[index === selectedFilterIndex ? 'bg-[#c493e1]' : 'bg-[#162750]']"
+    @click="$emit('setFilter', index)"
+    :class="[isSelected ? 'bg-[#c493e1]' : 'bg-[#162750]']"
     class="text-white rounded-full py-1 px-2 self-center hover:bg-[#c493e1] transition ease-in-out"
   >
     {{ filterName }}

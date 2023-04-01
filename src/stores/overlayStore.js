@@ -3,9 +3,13 @@ import { reactive, ref } from 'vue'
 
 export const useOverlayStore = defineStore('overlay', () => {
   const contextMenu = reactive({
+    context: '',
+    targetId: null,
     isOpen: false,
-    show(e) {
+    show(e, context) {
       e.stopPropagation()
+      this.targetId = e.currentTarget.id
+      this.context = context
       this.isOpen = true
       position.x = e.clientX
       position.y = e.clientY
