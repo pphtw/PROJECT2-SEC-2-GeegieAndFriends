@@ -23,6 +23,7 @@ const {
   togglePlayPause,
   togglePlay,
   initController,
+  toggleShuffle,
 } = controllerStore
 const { contextMenu } = storeToRefs(overlayStore)
 
@@ -70,12 +71,17 @@ onMounted(async () => {
     ref="audioElement"
     id="audio"
     :src="currentTrack.source"
-    @ended="skipTrack()"
+    @ended="skipTrack"
     @canplay="autoPlayPause(audioElement)"
     @timeupdate="timeUpdateHandler"
     @loadedmetadata="onLoadMetadataHandler"
   ></audio>
   <div
+    @keyup.right="skipTrack"
+    @keyup.left="skipTrack(false)"
+    @keyup.space="togglePlayPause(audioElement)"
+    @keyup="toggleShuffle"
+    tabindex="-1"
     class="flex flex-row w-screen h-screen"
     @mouseup="onProgressBarMouseUp"
     @mousemove="onProgressBarMouseMove"
