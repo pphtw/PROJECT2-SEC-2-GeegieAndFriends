@@ -102,6 +102,7 @@ watchEffect(async () => {
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
       <PlaylistGrid
+        @updatedPlaylist="refreshPlaylist"
         @createPlaylist="refreshPlaylist"
         @deletePlaylist="refreshPlaylist"
         :playlists="playlists"

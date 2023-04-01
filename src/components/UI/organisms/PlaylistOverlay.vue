@@ -1,7 +1,7 @@
 <script setup>
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import { watch, ref, inject, onMounted } from 'vue'
+import { watch, ref, inject } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { useUserStore } from '@/stores/userStore'
 
@@ -53,8 +53,11 @@ watch(openPlaylistOverlay, async () => {
     tracks.value = await playlistService.getPlaylistTrackList(
       overlayPlaylistId.value
     )
+    tracks.value = playlist.value.tracks.map((id) =>
+      tracks.value.find((track) => track.id === id)
+    )
     if (playlist.value.owner === 1) {
-      playlistUserName.value = 'Root'
+      playlistUserName.value = 'Vuesic Player'
     } else {
       playlistUserName.value = (
         await userService.getUserById(playlist.value.owner)
@@ -70,7 +73,6 @@ const onChooseTrackClick = (e, playlistId) => {
 }
 const onClickOpenDeleteBtn = () => {
   isOpen.value = true
-  console.log(playlist.value.name)
 }
 const onClickCloseDeleteBtn = () => {
   isOpen.value = false

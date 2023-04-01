@@ -13,7 +13,6 @@ export const useOverlayStore = defineStore('overlay', () => {
       this.isOpen = true
       position.x = e.clientX
       position.y = e.clientY
-      console.log(this.context)
     },
     hide() {
       this.isOpen = false
@@ -23,6 +22,7 @@ export const useOverlayStore = defineStore('overlay', () => {
     x: 0,
     y: 0,
   })
+  const isUpdate = ref(false)
   const openLoginOverlay = ref(false)
   const openPlaylistOverlay = ref(false)
   const overlayPlaylistId = ref(null)
@@ -54,9 +54,11 @@ export const useOverlayStore = defineStore('overlay', () => {
 
   const hideUpdateOverlay = () => {
     openUpdateOverlay.value = false
+    isUpdate.value = false
   }
 
   return {
+    isUpdate,
     contextMenu,
     openPlaylistOverlay,
     position,

@@ -355,33 +355,16 @@
       "owner": 9
     },
     {
-      "name": "",
-      "background": "",
+      "name": "phtw's playlist",
+      "background": "https://assets.entrepreneur.com/content/3x2/2000/20180703190744-rollsafe-meme.jpeg",
       "tracks": [
         1,
-        50,
         2,
-        49,
-        5,
         3,
-        10,
-        9,
-        8,
-        24
+        5
       ],
-      "owner": 4,
+      "owner": 3,
       "id": 17
-    },
-    {
-      "id": 18,
-      "name": "Liked Song",
-      "tracks": [
-        1,
-        5,
-        6
-      ],
-      "background": "https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg",
-      "owner": 4
     }
   ],
   "tracks": [
@@ -1036,15 +1019,9 @@
       "lastName": "Anothaisintavee",
       "email": "new49903@gmail.com",
       "password": "710d6394974b81400bba73088e3ab00e0539921875a8d6facbbcc7c4eb79c87b",
-      "likedTracks": [
-        1,
-        5,
-        6
-      ],
+      "likedTracks": [],
       "id": 4,
       "likedPlaylists": [
-        1,
-        17,
         12
       ]
     },
@@ -1103,6 +1080,19 @@
         6
       ],
       "id": 8,
+      "likedPlaylists": []
+    },
+    {
+      "firstName": "Siri",
+      "lastName": "Kuson",
+      "email": "s3.@h.com",
+      "password": "19620fb43dfe07dca86599e11ad27070b5b3aa4aad581cc0c976660ae620d490",
+      "likedTracks": [
+        1,
+        2,
+        3
+      ],
+      "id": 9,
       "likedPlaylists": []
     }
   ]
