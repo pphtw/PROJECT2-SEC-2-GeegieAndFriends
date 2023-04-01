@@ -26,12 +26,7 @@ const { chooseTrack } = controllerStore
 const { overlayPlaylistId } = storeToRefs(overlayStore)
 
 // Definition
-const emit = defineEmits([
-  'progressBarMouseMove',
-  'progressBarMouseUp',
-  'chooseTrack',
-  'autoPlayPause',
-])
+
 // HomePage.vue
 const selectedPlaylistId = ref(
   Number(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1)
@@ -63,7 +58,6 @@ watch(selectedPlaylistId, async (playlistId) => {
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
   chooseTrack(e.currentTarget.id, playlistId)
-  emit('chooseTrack', 300)
 }
 
 onMounted(async () => {
@@ -73,9 +67,7 @@ onMounted(async () => {
     selectedPlaylistId.value !== overlayPlaylistId.value
   ) {
     selectedPlaylistId.value = overlayPlaylistId.value
-    localStorage.setItem(
-      'selectedPlaylistId',
-      JSON.stringify(selectedPlaylistId.value)
+    localStorage.getItem('selectedPlaylistId',
     )
   } else {
     selectedPlaylistName.value = (
@@ -84,6 +76,13 @@ onMounted(async () => {
     selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(1)
     isLoading.value = false
   }
+    selectedPlaylistName.value = (
+        await trackService.getItemById('playlists', selectedPlaylistId.value)
+    ).name
+
+    selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
+        selectedPlaylistId.value
+    )
 })
 </script>
 
