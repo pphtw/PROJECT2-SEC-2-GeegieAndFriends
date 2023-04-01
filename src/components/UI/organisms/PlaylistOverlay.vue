@@ -183,7 +183,7 @@ const onClickOutside = () => {
                   </button>
                   <MenuButton
                     fill="#FFFFFF"
-                    class="w-10 h-10"
+                    class="w-10 h-10 cursor-pointer"
                     @click="$emit('updatePlaylist', playlist)"
                   />
                 </div>
