@@ -84,6 +84,7 @@ const updatePlaylistHandler = async () => {
   selectedTrackList.value = await playlistService.getPlaylistTrackList(
     props.playlist.id
   )
+  
   // console.log(
   //   tracks.value.filter((track) =>)
   // )
