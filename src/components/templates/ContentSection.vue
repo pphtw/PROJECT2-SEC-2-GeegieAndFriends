@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="h-full flex flex-col gap-4" :class="'w-' + width">
+  <div class="w-full h-full flex flex-col gap-4" :class="'w-' + width">
     <slot name="header"></slot>
     <slot></slot>
   </div>

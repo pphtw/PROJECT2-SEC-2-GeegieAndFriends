@@ -46,19 +46,9 @@ const onDragOver = (e) => {
 }
 
 const onDrop = (event, targetIndex) => {
-  // console.log('-----------------------------')
   const domRect = trackElements.value[targetIndex].getBoundingClientRect()
   const movingIndex = Number(event.dataTransfer.getData('tracks/index'))
   const isDroppingBelowTarget = event.clientY > domRect.top + domRect.height / 2
-  // console.log(trackElements.value[0])
-  // console.log(trackElements.value)
-  // console.log(trackElements)
-  // console.log(targetIndex)
-  // console.log(movingIndex)
-  // console.log(isDroppingBelowTarget)
-  // console.log('ClientY' + event.clientY)
-  // console.log('DomTop' + domRect.top)
-  // console.log('DomHeight' + domRect.height)
   emits('moveTrack', event, movingIndex, targetIndex, isDroppingBelowTarget)
 }
 </script>
@@ -67,12 +57,13 @@ const onDrop = (event, targetIndex) => {
   <TransitionGroup
     tag="div"
     name="list"
-    class="rounded-sm no-scrollbar h-full scroll-smooth overflow-y-scroll overflow-x-hidden relative"
+    class="rounded-sm no-scrollbar h-full scroll-smooth overflow-x-hidden"
+    :class="[contextMenu.isOpen ? 'overflow-y-hidden' : 'overflow-y-scroll']"
     @contextmenu.prevent
   >
     <!-- #TrackList -->
     <div
-      class="no-select mr-8 selection:cursor-default flex items-center h-20 hover:bg-[#FFFFFF]/30 transition ease-in-out rounded-sm overflow-clip cursor-pointer"
+      class="no-select mr-8 selection:cursor-default flex items-center h-20 hover:bg-[#FFFFFF]/30 rounded-sm overflow-clip cursor-pointer"
       v-for="(track, index) in trackList"
       :key="track.id"
       :id="track.id"
@@ -107,26 +98,19 @@ const onDrop = (event, targetIndex) => {
 .is-playing:hover {
   background: rgba(220, 188, 238, 80%);
 }
+
 .list-move,
 .list-enter-active,
 .list-leave-active {
   transition: all 0.8s ease-in-out;
 }
 
-.list-enter-from {
-  opacity: 0;
-  transform: translateX(30%);
-}
-
-.list-leave-active {
-  position: absolute;
-}
-
-.list-leave-active,
+.list-enter-from,
 .list-leave-to {
   opacity: 0;
-  width: 100%;
+  transform: translateX(30px);
 }
+
 .no-select {
   user-select: none;
 }

@@ -22,7 +22,8 @@ const playlistService = new PlaylistService()
 const userService = new UserService()
 
 const overlayStore = useOverlayStore()
-const { openPlaylistOverlay, overlayPlaylistId } = storeToRefs(overlayStore)
+const { openPlaylistOverlay, overlayPlaylistId, contextMenu } =
+  storeToRefs(overlayStore)
 const { hidePlaylistOverlay } = overlayStore
 
 const controllerStore = useControllerStore()
@@ -87,11 +88,15 @@ const onDeletePlaylist = async () => {
     <Transition>
       <div
         v-if="openPlaylistOverlay"
-        class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[999]"
+        class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[998]"
         @click.self="hidePlaylistOverlay"
       >
         <div
-          class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-[60%] min-w-fit h-full overflow-y-scroll no-scrollbar-full"
+          class="grid grid-rows-[1fr_2fr] background-overlay shadow-xl w-[60%] min-w-fit h-full no-scrollbar-full"
+          :class="[
+            contextMenu.isOpen ? 'overflow-y-hidden' : 'overflow-y-scroll',
+          ]"
+          @click="contextMenu.hide"
         >
           <div class="md:flex w-full row-span-1 p-10">
             <ContentSection class="min-h-full">

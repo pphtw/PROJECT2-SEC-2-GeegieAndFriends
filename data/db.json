@@ -357,7 +357,9 @@
         16,
         4,
         19,
-        1
+        1,
+        3,
+        28
       ],
       "background": "https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg",
       "owner": 4
@@ -1013,13 +1015,7 @@
       "lastName": "Anothaisintavee",
       "email": "new49903@gmail.com",
       "password": "710d6394974b81400bba73088e3ab00e0539921875a8d6facbbcc7c4eb79c87b",
-      "likedTracks": [
-        23,
-        16,
-        4,
-        19,
-        1
-      ],
+      "likedTracks": [],
       "id": 4
     }
   ]
