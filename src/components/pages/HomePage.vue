@@ -12,6 +12,9 @@ import PageTemplate from '@/components/templates/PageTemplate.vue'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
 import { storeToRefs } from 'pinia'
+import MusicPlayerCardLoading from "@/components/UI/atoms/MusicPlayerCardLoading.vue";
+import PlaylistCarouselLoading from "@/components/UI/atoms/PlaylistCarouselLoading.vue";
+import TrackListLoading from "@/components/UI/atoms/TrackListLoading.vue";
 
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
@@ -29,7 +32,6 @@ const emit = defineEmits([
   'chooseTrack',
   'autoPlayPause',
 ])
-
 // HomePage.vue
 const selectedPlaylistId = ref(
   Number(JSON.parse(localStorage.getItem('selectedPlaylistId')) ?? 1)
@@ -37,8 +39,9 @@ const selectedPlaylistId = ref(
 const selectedPlaylist = ref({})
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
-
+const isLoading = ref(true)
 watch(selectedPlaylistId, async (playlistId) => {
+    isLoading.value = true
   selectedPlaylist.value = await trackService.getItemById(
     'playlists',
     playlistId
@@ -54,10 +57,7 @@ watch(selectedPlaylistId, async (playlistId) => {
     'selectedPlaylistId',
     JSON.stringify(selectedPlaylistId.value)
   )
-  // selectedPlaylistTracks.value =
-  // selectedPlaylistName.value = (
-  //   await trackService.getItemById('playlists', id)
-  // ).name
+    isLoading.value = false
 })
 
 // Handlers
@@ -67,6 +67,7 @@ const onChooseTrackClick = (e, playlistId) => {
 }
 
 onMounted(async () => {
+    isLoading.value = true
   if (
     overlayPlaylistId.value !== null &&
     selectedPlaylistId.value !== overlayPlaylistId.value
@@ -84,64 +85,58 @@ onMounted(async () => {
   selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
     selectedPlaylistId.value
   )
-  // const selectedPlaylist = await trackService.getItemById(
-  //   'playlists',
-  //   selectedPlaylistId.value
-  // )
-
-  // const selectedPlaylistTracksId = selectedPlaylist.tracks.map((id) =>
-  //   selectedPlaylistTracks.value.find((track) => track.id === id)
-  // )
-
-  // const playlistTracks = await playlistService.getPlaylistTrackList(
-  //   selectedPlaylistId.value
-  // )
-
-  // selectedPlaylistName.value = selectedPlaylist.name
-
-  // selectedPlaylistTracks.value = selectedPlaylist.tracks.map((id) =>
-  //   playlistTracks.find((track) => track.id === id)
-  // )
+    isLoading.value = false
 })
 </script>
 
 <template>
-  <PageTemplate
-    content-style="grid-cols-[minmax(18rem,1fr)_3fr] grid-rows-[2fr_5fr]"
-  >
-    <ContentSection class="col-span-2 min-h-full">
-      <template v-slot:header>
-        <div class="flex flex-row justify-between">
-          <SectionHeader input-text-header="Your Style" />
-        </div>
-      </template>
-      <PlaylistCarousel
-        @choose-playlist="
-          (id) => {
-            selectedPlaylistId = id
-          }
-        "
-      />
-    </ContentSection>
-    <ContentSection>
-      <template v-slot:header>
-        <SectionHeader input-text-header="Now Playing" />
-      </template>
-      <MusicPlayerCard @autoPlayPause="$emit('autoPlayPause')" />
-    </ContentSection>
+    <PageTemplate
+            content-style="grid-cols-[minmax(18rem,1fr)_3fr] grid-rows-[2fr_5fr]"
+    >
+        <ContentSection class="col-span-2 min-h-full">
+            <template v-slot:header>
+                <div class="flex flex-row justify-between">
+                    <SectionHeader input-text-header="Your Style" />
+                </div>
+            </template>
+            <template v-if="isLoading">
+                <PlaylistCarouselLoading/>
+            </template>
+            <template v-else>
+                <PlaylistCarousel
+                        @choose-playlist="(id) => {selectedPlaylistId = id}"
+                />
+            </template>
+        </ContentSection>
+        <ContentSection>
+            <template v-slot:header>
+                <SectionHeader input-text-header="Now Playing" />
+            </template>
+            <template v-if="isLoading">
+                <MusicPlayerCardLoading/>
+            </template>
+            <template v-else>
+                <MusicPlayerCard @autoPlayPause="$emit('autoPlayPause')" />
+            </template>
+        </ContentSection>
 
-    <!-- #MusicListSection -->
-    <ContentSection class="min-h-0">
-      <template v-slot:header>
-        <SectionHeader :input-text-header="selectedPlaylistName" />
-      </template>
-      <TrackList
-        :trackList="selectedPlaylistTracks"
-        :playlist-id="selectedPlaylistId"
-        @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
-      />
-    </ContentSection>
-  </PageTemplate>
+        <!-- #MusicListSection -->
+        <ContentSection class="min-h-0">
+            <template v-slot:header>
+                <SectionHeader :input-text-header="selectedPlaylistName" />
+            </template>
+            <template v-if="isLoading">
+                <TrackListLoading/>
+            </template>
+            <template v-else>
+                <TrackList
+                        :trackList="selectedPlaylistTracks"
+                        :playlist-id="selectedPlaylistId"
+                        @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
+                />
+            </template>
+        </ContentSection>
+    </PageTemplate>
 </template>
 
 <style scoped>
