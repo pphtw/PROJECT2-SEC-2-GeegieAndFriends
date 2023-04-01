@@ -10,11 +10,14 @@ import UserService from '../../lib/userService'
 import PlaylistService from '@/lib/playlistService'
 
 import { useUserStore } from '@/stores/userStore'
+import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
 
 const userStore = useUserStore()
+const overlayStore = useOverlayStore()
 
 const { currentUser } = storeToRefs(userStore)
+const { hidePlaylistOverlay } = overlayStore
 
 const playlistService = new PlaylistService()
 const userService = new UserService()
@@ -64,12 +67,6 @@ const checkLikedPlaylist = () => {
     playlists.value.find((track) => track.name === 'Liked Song')
   )
 }
-const deleteLikedPlaylist = async () => {
-  await playlistService.deletePlaylist(
-    playlists.value.find((track) => track.name === 'Liked Song').id
-  )
-  refreshPlaylist()
-}
 watchEffect(async () => {
   if (Object.keys(currentUser.value).length !== 0) {
     playlists.value = await userService.getUserPlaylists(currentUser.value.id)
@@ -87,7 +84,8 @@ watchEffect(async () => {
       currentUser.value.likedTracks.length === 0 &&
       checkLikedPlaylist()
     ) {
-      deleteLikedPlaylist()
+      hidePlaylistOverlay()
+      refreshPlaylist()
       console.log('Delete')
     }
   } else {
