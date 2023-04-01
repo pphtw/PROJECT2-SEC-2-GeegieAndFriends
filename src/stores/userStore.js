@@ -6,9 +6,14 @@ export const useUserStore = defineStore('user', () => {
   const setUser = (user) => {
     currentUser.value = user
   }
+
+  const checkUserLoggedIn = () => {
+    return Object.keys(currentUser.value).length !== 0
+  }
   return {
     currentUser,
-    setUser
+    setUser,
+    checkUserLoggedIn,
   }
 })
 if (import.meta.hot) {

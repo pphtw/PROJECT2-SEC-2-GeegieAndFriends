@@ -6,7 +6,6 @@ class UserService {
         body: JSON.stringify(user),
         headers: { 'Content-Type': 'application/json' },
       })
-
       if (response.ok) {
         return await response.json()
       } else {
@@ -79,13 +78,13 @@ class UserService {
       }
     } catch (error) {
       console.error(
-        `ERROR FETCHING ALL ${error.toUpperCase()}: ${error.message}`
+        `ERROR FETCHING PLAYLIST OF USER ${userId}: ${error.message}`
       )
     }
   }
   async updateUserLikedTracks(userId, likedTrack) {
     const user = await this.getUserById(userId)
-    const userLikedTrack = {
+    const updatedUser = {
       ...user,
       likedTracks: likedTrack,
     }
@@ -94,17 +93,46 @@ class UserService {
         `${import.meta.env.VITE_API_URL}/users/${userId}`,
         {
           method: 'PUT',
-          body: JSON.stringify(userLikedTrack),
+          body: JSON.stringify(updatedUser),
           headers: { 'Content-Type': 'application/json' },
         }
       )
       if (response.ok) {
         return await response.json()
       } else {
-        throw new Error(response.statusText)
+        return Promise.reject(response.statusText)
       }
     } catch (error) {
-      console.error(`ERROR UPDATING LIKEDTRACK: ${error.message}`)
+      console.error(
+        `ERROR UPDATING LIKED TRACKS OF USER ${userId}: ${error.message}`
+      )
+    }
+  }
+
+  async updateUserLikedPlaylist(userId, likedPlaylists) {
+    const user = await this.getUserById(userId)
+    const updatedUser = {
+      ...user,
+      likedPlaylists: likedPlaylists,
+    }
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/${userId}`,
+        {
+          method: 'PUT',
+          body: JSON.stringify(updatedUser),
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
+      if (response.ok) {
+        return await response.json()
+      } else {
+        return Promise.reject(response.statusText)
+      }
+    } catch (error) {
+      console.error(
+        `ERROR UPDATING LIKED PLAYLISTS OF USER ${userId}: ${error.message}`
+      )
     }
   }
 }
