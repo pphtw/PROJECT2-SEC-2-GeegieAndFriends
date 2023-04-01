@@ -73,13 +73,11 @@ watchEffect(async () => {
 
     if (currentUser.value.likedTracks.length !== 0 && !checkLikedPlaylist()) {
       createLikedPlaylist()
-      console.log('Create')
     } else if (
       currentUser.value.likedTracks.length !== 0 &&
       checkLikedPlaylist()
     ) {
       await updateLikedPlaylist()
-      console.log('Update')
     } else if (
       currentUser.value.likedTracks.length === 0 &&
       checkLikedPlaylist()

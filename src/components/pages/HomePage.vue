@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted, toRaw } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { useOverlayStore } from '@/stores/overlayStore'
 
@@ -77,15 +77,13 @@ onMounted(async () => {
       'selectedPlaylistId',
       JSON.stringify(selectedPlaylistId.value)
     )
+  } else {
+    selectedPlaylistName.value = (
+      await trackService.getItemById('playlists', 1)
+    ).name
+    selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(1)
+    isLoading.value = false
   }
-  selectedPlaylistName.value = (
-    await trackService.getItemById('playlists', selectedPlaylistId.value)
-  ).name
-
-  selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
-    selectedPlaylistId.value
-  )
-  isLoading.value = false
 })
 </script>
 
