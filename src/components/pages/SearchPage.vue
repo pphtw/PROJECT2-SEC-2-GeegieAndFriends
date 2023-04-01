@@ -22,7 +22,6 @@ const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
 
 const controllerStore = useControllerStore()
-
 const { chooseTrack } = controllerStore
 
 //ref
@@ -31,21 +30,21 @@ const regex = ref('')
 const filteredTrackList = ref([])
 const filteredPlaylists = ref([])
 
-const setSelectedFilterIndex = (index) => {
-  selectedFilterIndex.value = index
-  console.log(index)
-}
-
 // Definition
 const emit = defineEmits(['chooseTrack'])
 
 //Function
 const checkKeywords = (keyword) => keyword.match(regex.value)
+const setSelectedFilterIndex = (index) => {
+  selectedFilterIndex.value = index
+}
 
 onMounted(async () => {
   filteredTrackList.value = await trackService.getAllItems('tracks')
   filteredPlaylists.value = await trackService.getAllItems('playlists')
 })
+
+//watcher
 watch(regex, async (regex) => {
   const tracks = await trackService.getAllItems('tracks')
   filteredTrackList.value = new Set(
@@ -63,13 +62,11 @@ watch(regex, async (regex) => {
 
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
-  // console.log(playlistId)
   chooseTrack(e.currentTarget.id, playlistId)
   emit('chooseTrack', 300)
 }
 
 const searchHandler = (input) => {
-  //replace special string with space
   let pattern = input
     .replace(/\W{1,}/gi, ' ')
     .split(/\s/)
