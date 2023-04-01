@@ -52,7 +52,7 @@ class PlaylistService {
       }
     }
   }
-  async updatePlaylist(playlistId, newPlaylist, oldPlaylist) {
+  async updatePlaylist(playlistId, newPlaylist) {
     const playlist = await trackService.getItemById('playlists', playlistId)
     if (playlist.owner === 1) {
       console.error(`CANNOT REMOVE THIS PLAYLIST`)

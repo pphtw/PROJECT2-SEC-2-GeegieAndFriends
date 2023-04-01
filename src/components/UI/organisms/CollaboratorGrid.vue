@@ -16,6 +16,7 @@
     ></div>
     <div
       class="bg-fuchsia-300 bg-cover bg-no-repeat bg-center h-[90vh] xl:h-full hover:bg-fuchsia-300/70 hover:opacity-70"
+      style="background-image: url(/img/Pream.jpg)"
     ></div>
   </div>
 </template>

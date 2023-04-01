@@ -4,15 +4,20 @@ import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import PlaylistOverlay from '@/components/UI/organisms/PlaylistOverlay.vue'
 import CreateOverlay from './CreatePlaylistOverlay.vue'
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const overlayStore = useOverlayStore()
 const { showPlaylistOverlay, showCreateOverlay, contextMenu } = overlayStore
 
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
+const { isUpdate } = storeToRefs(overlayStore)
 
-defineEmits(['createPlaylist', 'deletePlaylist', 'updatePlaylist'])
+const emit = defineEmits([
+  'createPlaylist',
+  'deletePlaylist',
+  'updatedPlaylist',
+])
 
 const props = defineProps({
   cols: {
@@ -32,12 +37,15 @@ const props = defineProps({
 
 const context = ref('')
 const playlist = ref({})
-const isUpdate = ref(false)
 
 const onUpdatePlaylist = (selectedPlaylist) => {
   playlist.value = selectedPlaylist
-  console.log(playlist.value)
-  isUpdate.value = true
+  if (
+    playlist.value.owner !== 1 &&
+    playlist.value.owner === currentUser.value.id
+  ) {
+    isUpdate.value = true
+  }
 }
 </script>
 
@@ -87,9 +95,9 @@ const onUpdatePlaylist = (selectedPlaylist) => {
     @updatePlaylist="onUpdatePlaylist"
   />
   <CreateOverlay
+    @updatedPlaylist="$emit('updatedPlaylist')"
     @createPlaylist="$emit('createPlaylist')"
     :playlist="playlist"
-    :isUpdate="isUpdate"
   />
 </template>
 
