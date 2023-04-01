@@ -1,6 +1,5 @@
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { onMounted, ref, watch, watchEffect } from 'vue'
-import { useControllerStore } from '@/stores/controllerStore'
+import { ref, watch, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
 import UserService from '@/lib/userService'
@@ -11,40 +10,52 @@ export const usePlaylistStore = defineStore('playlist', () => {
   const { currentUser } = storeToRefs(userStore)
   // State
   const likedTracks = ref([])
+  const likedPlaylists = ref([])
   const pinnedPlaylistIdList = ref([1, 3, 4, 5, 7, 8])
 
-  watch(
-    () => currentUser.value.likedTracks,
-    (likedTracksArr) => {
-      likedTracks.value = [...likedTracksArr]
-      console.log(likedTracks.value)
+  watchEffect(() => {
+    if (userStore.checkUserLoggedIn()) {
+      likedTracks.value = [...currentUser.value.likedTracks]
+      likedPlaylists.value = [...currentUser.value.likedPlaylists]
     }
-  )
+  })
 
   // Actions
-  const checkFavorites = (trackId) => {
-    if (trackId !== null && trackId !== undefined) {
-      const id = Number(trackId)
-      // return likedTracks.value.includes(trackId) // Boolean
-      return likedTracks.value.includes(id) // Boolean
+  const checkFavorites = (id, type = 'track') => {
+    if (id !== null && id !== undefined) {
+      const checkId = Number(id)
+      if (type === 'track') {
+        return likedTracks.value.includes(checkId) // Boolean
+      } else if (type === 'playlist') {
+        return likedPlaylists.value.includes(checkId)
+      }
     }
   }
-  const addToFavorites = async (trackId) => {
-    const id = Number(trackId)
-    if (Object.keys(currentUser.value).length !== 0) {
-      if (!checkFavorites(id)) {
-        likedTracks.value.push(id)
-      } else {
-        likedTracks.value.splice(likedTracks.value.indexOf(id), 1)
+  const addToFavorites = async (id, type = 'track') => {
+    const updateId = Number(id)
+    if (userStore.checkUserLoggedIn()) {
+      if (type === 'track') {
+        if (!checkFavorites(updateId)) {
+          likedTracks.value.push(updateId)
+        } else {
+          likedTracks.value.splice(likedTracks.value.indexOf(updateId), 1)
+        }
+        currentUser.value = await userService.updateUserLikedTracks(
+          currentUser.value.id,
+          likedTracks.value
+        )
+      } else if (type === 'playlist') {
+        if (!checkFavorites(updateId, 'playlist')) {
+          likedPlaylists.value.push(updateId)
+        } else {
+          likedPlaylists.value.splice(likedPlaylists.value.indexOf(updateId), 1)
+        }
+        currentUser.value = await userService.updateUserLikedPlaylist(
+          currentUser.value.id,
+          likedPlaylists.value
+        )
       }
-      currentUser.value = await userService.updateUserLikedTracks(
-        currentUser.value.id,
-        likedTracks.value
-      )
-      // console.log(currentUser.value)
     }
-
-    // localStorage.setItem('likedTracks', JSON.stringify(likedTracks.value))
   }
 
   return {

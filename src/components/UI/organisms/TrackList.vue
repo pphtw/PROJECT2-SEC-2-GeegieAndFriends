@@ -63,7 +63,7 @@ const onDrop = (event, targetIndex) => {
   >
     <!-- #TrackList -->
     <div
-      class="no-select mr-8 selection:cursor-default flex items-center h-20 hover:bg-[#FFFFFF]/30 rounded-sm overflow-clip cursor-pointer"
+      class="no-select selection:cursor-default flex items-center h-20 hover:bg-[#FFFFFF]/30 rounded-sm overflow-clip cursor-pointer"
       v-for="(track, index) in trackList"
       :key="track.id"
       :id="track.id"
