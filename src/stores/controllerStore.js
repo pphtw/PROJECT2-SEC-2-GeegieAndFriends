@@ -90,6 +90,7 @@ export const useControllerStore = defineStore('controller', () => {
     }
   }
   const toggleShuffle = () => {
+    isShuffled.value = !isShuffled.value
     const state = controllerState.value
     const trackId = currentTrack.value.id
     switch (state) {
@@ -143,21 +144,20 @@ export const useControllerStore = defineStore('controller', () => {
       }
     }
   }
-  const skipTrack = (toNext = true, repeating = false, queue = q.queue) => {
+  const skipTrack = (toNext = true, queue = q.queue) => {
     const onRepeat = isRepeating.value
     if (toNext) {
-      if (onRepeat || repeating) {
+      if (onRepeat) {
         // console.log('Skip: Repeat')
         queue.push(queue.shift())
       } else {
-        // Default (No Shuffle)
-        // console.log('Skip: NoRepeat')
         if (q.queue.length > 1) {
           q.dumpQueue.push(queue.shift())
+          console.log(q.queue)
         }
       }
     } else {
-      if (onRepeat || repeating) {
+      if (onRepeat) {
         // console.log('SkipBack: Repeat')
         queue.unshift(queue.pop())
       } else {
@@ -178,22 +178,22 @@ export const useControllerStore = defineStore('controller', () => {
       // console.log('Repeat')
       if (indexToSkip < q.tempQueue.length / 2) {
         while (queue[0] !== id) {
-          skipTrack(true, true, queue)
+          skipTrack(true, queue)
         }
       } else {
         while (queue[0] !== id) {
-          skipTrack(false, true, queue)
+          skipTrack(false, queue)
         }
       }
     } else {
       // console.log('NoRepeat')
       if (!q.dumpQueue.includes(id)) {
         while (queue[0] !== id) {
-          skipTrack(true, false, queue)
+          skipTrack(true, queue)
         }
       } else {
         while (queue[0] !== id) {
-          skipTrack(false, false, queue)
+          skipTrack(false, queue)
         }
       }
     }

@@ -147,9 +147,6 @@ onMounted(async () => {
     selectedTrackList.value = await playlistService.getPlaylistTrackList(
       props.playlist.id
     )
-    // tracks.value = selectedTrackList.value.forEach((selectedTrack) =>
-    //   tracks.value.filter((track) => track !== selectedTrack)
-    // )
   }
 })
 </script>
@@ -159,7 +156,7 @@ onMounted(async () => {
     <Transition>
       <div
         v-if="openCreateOverlay || isUpdate"
-        class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[999]"
+        class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[998]"
         @click.self="hideCreateOverlay"
       >
         <div
