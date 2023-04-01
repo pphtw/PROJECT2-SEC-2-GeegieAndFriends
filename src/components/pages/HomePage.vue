@@ -67,6 +67,7 @@ const onChooseTrackClick = (e, playlistId) => {
 }
 
 onMounted(async () => {
+  const getAllPlaylist = await trackService.getAllItems('playlists')
   isLoading.value = true
   if (
     overlayPlaylistId.value !== null &&
@@ -77,6 +78,20 @@ onMounted(async () => {
       'selectedPlaylistId',
       JSON.stringify(selectedPlaylistId.value)
     )
+  } else if (
+    getAllPlaylist.includes(
+      getAllPlaylist.find(
+        (playlist) => playlist.id === selectedPlaylistId.value
+      )
+    )
+  ) {
+    selectedPlaylistName.value = (
+      await trackService.getItemById('playlists', selectedPlaylistId.value)
+    ).name
+    selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
+      selectedPlaylistId.value
+    )
+    isLoading.value = false
   } else {
     selectedPlaylistName.value = (
       await trackService.getItemById('playlists', 1)
