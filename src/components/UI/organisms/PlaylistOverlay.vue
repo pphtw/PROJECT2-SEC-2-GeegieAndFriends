@@ -1,7 +1,7 @@
 <script setup>
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import { watch, ref, inject } from 'vue'
+import { watch, ref, inject, watchEffect } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { useUserStore } from '@/stores/userStore'
 
@@ -44,7 +44,7 @@ const emit = defineEmits(['chooseTrack', 'deletePlaylist', 'updatePlaylist'])
 
 const playlistUserName = ref(null)
 const isOpen = ref(false)
-watch(openPlaylistOverlay, async () => {
+watchEffect(async () => {
   if (openPlaylistOverlay.value) {
     playlist.value = await trackService.getItemById(
       'playlists',
@@ -62,7 +62,6 @@ watch(openPlaylistOverlay, async () => {
       playlistUserName.value = (
         await userService.getUserById(playlist.value.owner)
       ).firstName
-      18
     }
   }
 })
@@ -87,10 +86,6 @@ const onDeletePlaylist = async () => {
   isOpen.value = false
   hidePlaylistOverlay()
   emit('deletePlaylist')
-}
-
-const onUpdatePlaylist = () => {
-  playlist.value.id
 }
 
 const onClickOutside = () => {

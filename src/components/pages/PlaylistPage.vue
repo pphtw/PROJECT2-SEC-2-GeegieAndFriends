@@ -74,17 +74,10 @@ watchEffect(async () => {
     if (currentUser.value.likedTracks.length !== 0 && !checkLikedPlaylist()) {
       createLikedPlaylist()
     } else if (
-      currentUser.value.likedTracks.length !== 0 &&
+      currentUser.value.likedTracks.length >= 0 &&
       checkLikedPlaylist()
     ) {
       await updateLikedPlaylist()
-    } else if (
-      currentUser.value.likedTracks.length === 0 &&
-      checkLikedPlaylist()
-    ) {
-      hidePlaylistOverlay()
-      refreshPlaylist()
-      console.log('Delete')
     }
   } else {
     playlists.value = await userService.getUserPlaylists(1)
