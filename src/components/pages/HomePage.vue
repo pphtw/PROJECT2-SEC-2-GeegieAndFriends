@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
+import { useOverlayStore } from '@/stores/overlayStore'
 
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
@@ -10,12 +11,16 @@ import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
+import { storeToRefs } from 'pinia'
+
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
 // Use Store
 const controllerStore = useControllerStore()
+const overlayStore = useOverlayStore()
 
 const { chooseTrack } = controllerStore
+const { overlayPlaylistId } = storeToRefs(overlayStore)
 
 // Definition
 const emit = defineEmits([
@@ -31,6 +36,20 @@ const selectedPlaylistId = ref(
 )
 const selectedPlaylistName = ref('Loading Songs...')
 const selectedPlaylistTracks = ref([])
+
+// watch(overlayPlaylistId, (id) => {
+//   if (
+//     overlayPlaylistId.value !== null &&
+//     selectedPlaylistId.value !== overlayPlaylistId.value
+//   ) {
+//     selectedPlaylistId.value = id
+//     localStorage.setItem(
+//       'selectedPlaylistId',
+//       JSON.stringify(selectedPlaylistId.value)
+//     )
+//   }
+
+// })
 
 watch(selectedPlaylistId, async (id) => {
   selectedPlaylistName.value = (
@@ -50,13 +69,29 @@ const onChooseTrackClick = (e, playlistId) => {
 }
 
 onMounted(async () => {
-  selectedPlaylistName.value = (
-    await trackService.getItemById('playlists', selectedPlaylistId.value)
-  ).name
+  if (
+    overlayPlaylistId.value !== null &&
+    selectedPlaylistId.value !== overlayPlaylistId.value
+  ) {
+    selectedPlaylistId.value = overlayPlaylistId.value
+    localStorage.setItem(
+      'selectedPlaylistId',
+      JSON.stringify(selectedPlaylistId.value)
+    )
+  }
+  const selectedPlaylist = await trackService.getItemById(
+    'playlists',
+    selectedPlaylistId.value
+  )
+  selectedPlaylistName.value = selectedPlaylist.name
 
   selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
     selectedPlaylistId.value
   )
+  const selectedPlaylistTracksId = selectedPlaylist.tracks.map((id) =>
+    selectedPlaylistTracks.value.find((track) => track.id === id)
+  )
+  console.log(selectedPlaylistTracksId)
 })
 </script>
 

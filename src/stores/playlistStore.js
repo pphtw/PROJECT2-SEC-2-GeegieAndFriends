@@ -37,10 +37,11 @@ export const usePlaylistStore = defineStore('playlist', () => {
       } else {
         likedTracks.value.splice(likedTracks.value.indexOf(id), 1)
       }
-      await userService.updateUserLikedTracks(
+      currentUser.value = await userService.updateUserLikedTracks(
         currentUser.value.id,
         likedTracks.value
       )
+      // console.log(currentUser.value)
     }
 
     // localStorage.setItem('likedTracks', JSON.stringify(likedTracks.value))

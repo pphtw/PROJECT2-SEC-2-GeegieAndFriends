@@ -1,7 +1,7 @@
 <script setup>
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import { watch, ref, inject } from 'vue'
+import { watch, ref, inject, onMounted } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { useUserStore } from '@/stores/userStore'
 
@@ -41,16 +41,23 @@ const emit = defineEmits(['chooseTrack', 'deletePlaylist', 'updatePlaylist'])
 
 const playlistUserName = ref(null)
 const isOpen = ref(false)
-watch(overlayPlaylistId, async (id) => {
-  playlist.value = await trackService.getItemById('playlists', id)
-  tracks.value = await playlistService.getPlaylistTrackList(id)
-  if (Object.keys(currentUser.value).length === 0) {
-    playlistUserName.value = 'Root'
-    console.log(playlistUserName.value)
-  } else {
-    playlistUserName.value = (
-      await userService.getUserById(playlist.value.owner)
-    ).firstName
+watch(openPlaylistOverlay, async () => {
+  if (openPlaylistOverlay.value) {
+    playlist.value = await trackService.getItemById(
+      'playlists',
+      overlayPlaylistId.value
+    )
+    tracks.value = await playlistService.getPlaylistTrackList(
+      overlayPlaylistId.value
+    )
+    if (playlist.value.owner === 1) {
+      playlistUserName.value = 'Root'
+    } else {
+      playlistUserName.value = (
+        await userService.getUserById(playlist.value.owner)
+      ).firstName
+      18
+    }
   }
 })
 
@@ -60,8 +67,7 @@ const onChooseTrackClick = (e, playlistId) => {
 }
 const onClickOpenDeleteBtn = () => {
   isOpen.value = true
-  console.log(playlist.value.owner)
-  console.log(currentUser.value.id)
+  console.log(playlist.value.name)
 }
 const onClickCloseDeleteBtn = () => {
   isOpen.value = false
@@ -78,9 +84,9 @@ const onDeletePlaylist = async () => {
   emit('deletePlaylist')
 }
 
-// const onUpdatePlaylist = () => {
-//   playlist.value.id
-// }
+const onUpdatePlaylist = () => {
+  playlist.value.id
+}
 </script>
 
 <template>
@@ -105,7 +111,9 @@ const onDeletePlaylist = async () => {
                   <PreviousPageButton @click="hidePlaylistOverlay" />
                   <button
                     v-if="
-                      playlist.owner !== 1 && currentUser.id === playlist.owner
+                      playlist.owner !== 1 &&
+                      currentUser.id === playlist.owner &&
+                      playlist.name !== 'Liked Song'
                     "
                     class="bg-red-500 hover:bg-red-700 text-white font-bold rounded-full w-10"
                     @click="onClickOpenDeleteBtn"
