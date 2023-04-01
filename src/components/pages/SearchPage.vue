@@ -1,5 +1,4 @@
 <script setup>
-
 import { ref, watch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSearchStore } from '@/stores/searchStore'
@@ -19,7 +18,6 @@ import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
 import UserService from '@/lib/userService'
 import { useUserStore } from '@/stores/userStore'
-
 
 const userService = new UserService()
 const trackService = new TrackService()
@@ -51,11 +49,6 @@ const checkKeywords = (keyword) => keyword.match(regex.value)
 const setSelectedFilterIndex = (index) => {
   selectedFilterIndex.value = index
 }
-
-onMounted(async () => {
-  filteredTrackList.value = await trackService.getAllItems('tracks')
-  filteredPlaylists.value = await trackService.getAllItems('playlists')
-})
 
 //watcher
 watch(regex, async (regex) => {
