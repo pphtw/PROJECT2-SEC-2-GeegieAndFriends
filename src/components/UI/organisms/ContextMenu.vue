@@ -16,7 +16,7 @@ const { contextMenu, position } = storeToRefs(overlayStore)
     <Transition>
       <div
         v-if="contextMenu.isOpen"
-        class="absolute block z-auto"
+        class="absolute block z-[999]"
         :style="{ top: position.y + 'px', left: position.x + 'px' }"
       >
         <div

@@ -160,7 +160,7 @@ watchEffect(async () => {
     <Transition>
       <div
         v-if="openCreateOverlay || isUpdate"
-        class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[999]"
+        class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[998]"
         @click.self="hideCreateOverlay"
       >
         <div
