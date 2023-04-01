@@ -205,6 +205,7 @@ watchEffect(async () => {
                   class="grow p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500"
                   placeholder="J-Pop"
                   v-model="createPlaylist.name"
+                  pattern="^[a-zA-Z0-9\s\-_]{3,50}$"
                   required
               /></label>
               <label
