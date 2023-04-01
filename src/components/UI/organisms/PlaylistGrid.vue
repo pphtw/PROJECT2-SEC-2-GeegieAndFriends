@@ -7,12 +7,7 @@ import CreateOverlay from './CreatePlaylistOverlay.vue'
 import { onMounted, ref, watch } from 'vue'
 
 const overlayStore = useOverlayStore()
-const {
-  showPlaylistOverlay,
-  showCreateOverlay,
-  contextMenu,
-  showUpdateOverlay,
-} = overlayStore
+const { showPlaylistOverlay, showCreateOverlay, contextMenu } = overlayStore
 
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
@@ -40,8 +35,11 @@ const context = ref('')
 const playlist = ref({})
 
 const onUpdatePlaylist = (selectedPlaylist) => {
-  if (Object.keys(currentUser.value).length !== 0) {
-    playlist.value = selectedPlaylist
+  playlist.value = selectedPlaylist
+  if (
+    playlist.value.owner !== 1 &&
+    playlist.value.owner === currentUser.value.id
+  ) {
     isUpdate.value = true
     emit('updatePlaylist')
   }
