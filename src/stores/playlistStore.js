@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore, storeToRefs } from 'pinia'
-import { ref, watch, watchEffect } from 'vue'
+import { ref,watchEffect } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
 import UserService from '@/lib/userService'
@@ -17,6 +17,9 @@ export const usePlaylistStore = defineStore('playlist', () => {
     if (userStore.checkUserLoggedIn()) {
       likedTracks.value = [...currentUser.value.likedTracks]
       likedPlaylists.value = [...currentUser.value.likedPlaylists]
+    }else {
+      likedTracks.value = []
+      likedPlaylists.value = []
     }
   })
 

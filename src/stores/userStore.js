@@ -2,7 +2,6 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref } from 'vue'
 export const useUserStore = defineStore('user', () => {
   const currentUser = ref({})
-
   const setUser = (user) => {
     currentUser.value = user
   }

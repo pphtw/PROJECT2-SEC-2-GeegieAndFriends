@@ -18,7 +18,6 @@ const {
 //use Store
 const overlayStore = useOverlayStore()
 const userStore = useUserStore()
-const { currentUser } = storeToRefs(userStore)
 const { setUser } = userStore
 const { openLoginOverlay } = storeToRefs(overlayStore)
 const { toggleLoginOverlay } = overlayStore
@@ -109,10 +108,8 @@ const userLogin = reactive({
 })
 const isLoggedIn = ref(false)
 const isRegistered = ref(false)
-const loggedInOnce = ref(false)
 const logging = async () => {
   loading.value = true
-  if (loggedInOnce.value) return
   const userService = new UserService()
   try {
     const hashedPassword = await hashPassword(userLogin.password)
@@ -124,7 +121,6 @@ const logging = async () => {
       setUser(loggedInUser)
       isLoggedIn.value = true
       state.login.message = 'Login successful'
-      loggedInOnce.value = true
       toggleLoginOverlay()
     }
   } catch (error) {
