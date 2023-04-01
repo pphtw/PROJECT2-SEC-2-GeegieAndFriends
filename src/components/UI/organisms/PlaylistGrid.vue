@@ -7,12 +7,18 @@ import CreateOverlay from './CreatePlaylistOverlay.vue'
 import { onMounted, ref, watch } from 'vue'
 
 const overlayStore = useOverlayStore()
-const { showPlaylistOverlay, showCreateOverlay, contextMenu } = overlayStore
+const {
+  showPlaylistOverlay,
+  showCreateOverlay,
+  contextMenu,
+  showUpdateOverlay,
+} = overlayStore
 
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
+const { isUpdate } = storeToRefs(overlayStore)
 
-defineEmits(['createPlaylist', 'deletePlaylist', 'updatePlaylist'])
+const emit = defineEmits(['createPlaylist', 'deletePlaylist', 'updatePlaylist'])
 
 const props = defineProps({
   cols: {
@@ -32,12 +38,13 @@ const props = defineProps({
 
 const context = ref('')
 const playlist = ref({})
-const isUpdate = ref(false)
 
 const onUpdatePlaylist = (selectedPlaylist) => {
-  playlist.value = selectedPlaylist
-  console.log(playlist.value)
-  isUpdate.value = true
+  if (Object.keys(currentUser.value).length !== 0) {
+    playlist.value = selectedPlaylist
+    isUpdate.value = true
+    emit('updatePlaylist')
+  }
 }
 </script>
 
@@ -89,7 +96,6 @@ const onUpdatePlaylist = (selectedPlaylist) => {
   <CreateOverlay
     @createPlaylist="$emit('createPlaylist')"
     :playlist="playlist"
-    :isUpdate="isUpdate"
   />
 </template>
 

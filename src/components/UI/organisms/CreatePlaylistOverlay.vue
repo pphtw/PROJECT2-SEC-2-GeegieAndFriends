@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useOverlayStore } from '@/stores/overlayStore'
@@ -13,15 +13,14 @@ import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 
 const overlayStore = useOverlayStore()
 const { openCreateOverlay } = storeToRefs(overlayStore)
-const { hideCreateOverlay } = overlayStore
+const { hideCreateOverlay, hideUpdateOverlay, hidePlaylistOverlay } =
+  overlayStore
+
+const { isUpdate } = storeToRefs(overlayStore)
 
 const props = defineProps({
   playlist: {
     type: Object,
-    required: false,
-  },
-  isUpdate: {
-    type: Boolean,
     required: false,
   },
 })
@@ -57,7 +56,7 @@ const resetCreatePlaylist = async () => {
 }
 //handler
 const changeModeHandler = () => {
-  if (props.isUpdate) {
+  if (isUpdate.value) {
     updatePlaylistHandler()
   } else {
     createPlaylistHandler()
@@ -75,18 +74,15 @@ const createPlaylistHandler = async () => {
 }
 
 const updatePlaylistHandler = async () => {
-  // createPlaylist.name = playlist.name
-  // createPlaylist.background = playlist.background
-  // createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
-  // if (Object.keys(currentUser.value).length !== 0) {
-  //   await playlistService.updatePlaylist(createPlaylist)
-  // }
-  selectedTrackList.value = await playlistService.getPlaylistTrackList(
-    props.playlist.id
-  )
-  // console.log(
-  //   tracks.value.filter((track) =>)
-  // )
+  createPlaylist.owner = currentUser.value.id
+  createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
+  if (Object.keys(currentUser.value).length !== 0) {
+    await playlistService.updatePlaylist(props.playlist.id, createPlaylist)
+  }
+  console.log(createPlaylist)
+  resetCreatePlaylist()
+  hideUpdateOverlay()
+  hidePlaylistOverlay()
 }
 
 const unChooseTrackHandler = (e) => {
@@ -143,13 +139,18 @@ const forceRerender = () => {
 
 onMounted(async () => {
   tracks.value = await playlistService.getPlaylistTrackList(1)
-  if (props.isUpdate) {
+})
+
+watchEffect(async () => {
+  if (isUpdate.value) {
+    createPlaylist.name = props.playlist.name
+    createPlaylist.background = props.playlist.background
     selectedTrackList.value = await playlistService.getPlaylistTrackList(
       props.playlist.id
     )
-    // tracks.value = selectedTrackList.value.forEach((selectedTrack) =>
-    //   tracks.value.filter((track) => track !== selectedTrack)
-    // )
+    tracks.value = tracks.value.filter(
+      (track) => !props.playlist.tracks.includes(track.id)
+    )
   }
 })
 </script>
