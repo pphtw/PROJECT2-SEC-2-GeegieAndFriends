@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import PlaylistOverlay from '@/components/UI/organisms/PlaylistOverlay.vue'
 import CreateOverlay from './CreatePlaylistOverlay.vue'
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const overlayStore = useOverlayStore()
 const { showPlaylistOverlay, showCreateOverlay, contextMenu } = overlayStore
