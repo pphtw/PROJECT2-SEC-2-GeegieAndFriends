@@ -13,7 +13,11 @@ const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
 const { isUpdate } = storeToRefs(overlayStore)
 
-const emit = defineEmits(['createPlaylist', 'deletePlaylist', 'updatePlaylist'])
+const emit = defineEmits([
+  'createPlaylist',
+  'deletePlaylist',
+  'updatedPlaylist',
+])
 
 const props = defineProps({
   cols: {
@@ -41,7 +45,6 @@ const onUpdatePlaylist = (selectedPlaylist) => {
     playlist.value.owner === currentUser.value.id
   ) {
     isUpdate.value = true
-    emit('updatePlaylist')
   }
 }
 </script>
@@ -92,6 +95,7 @@ const onUpdatePlaylist = (selectedPlaylist) => {
     @updatePlaylist="onUpdatePlaylist"
   />
   <CreateOverlay
+    @updatedPlaylist="$emit('updatedPlaylist')"
     @createPlaylist="$emit('createPlaylist')"
     :playlist="playlist"
   />
