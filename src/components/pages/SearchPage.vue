@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted } from 'vue'
+
+import { ref, watch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useSearchStore } from '@/stores/searchStore'
 import { useControllerStore } from '@/stores/controllerStore'
@@ -11,15 +12,14 @@ import PinnedPlaylistGrid from '../UI/organisms/PinnedPlaylistGrid.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
 import ContentSection from '../templates/ContentSection.vue'
-import { storeToRefs } from 'pinia'
+
 import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
 import UserService from '@/lib/userService'
 import { useUserStore } from '@/stores/userStore'
-import { ref, watch, onMounted } from 'vue'
-import TrackService from '@/lib/trackService'
+
 
 const userService = new UserService()
 const trackService = new TrackService()
@@ -29,7 +29,6 @@ const { currentUser } = storeToRefs(userStore)
 
 const controllerStore = useControllerStore()
 
-
 const { chooseTrack } = controllerStore
 
 //ref
@@ -37,7 +36,6 @@ const selectedFilterIndex = ref(0)
 const regex = ref('')
 const filteredTrackList = ref([])
 const filteredPlaylists = ref([])
-
 
 onMounted(async () => {
   filteredTrackList.value = await trackService.getAllItems('tracks')
