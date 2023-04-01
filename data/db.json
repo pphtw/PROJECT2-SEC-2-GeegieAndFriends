@@ -342,19 +342,6 @@
       "id": 12
     },
     {
-      "name": "Esarn Dance Music",
-      "background": "",
-      "tracks": [
-        1,
-        50,
-        2,
-        49,
-        3
-      ],
-      "owner": 9,
-      "id": 13
-    },
-    {
       "id": 16,
       "name": "Liked Song",
       "tracks": [
@@ -368,16 +355,13 @@
       "owner": 9
     },
     {
-      "name": "phas",
-      "background": "",
+      "name": "phtw's playlist",
+      "background": "https://assets.entrepreneur.com/content/3x2/2000/20180703190744-rollsafe-meme.jpeg",
       "tracks": [
+        1,
         2,
         3,
-        4,
-        5,
-        20,
-        21,
-        22
+        5
       ],
       "owner": 3,
       "id": 17

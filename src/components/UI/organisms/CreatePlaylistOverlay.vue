@@ -36,7 +36,7 @@ const { currentUser } = storeToRefs(userStore)
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
 
-const emit = defineEmits(['createPlaylist'])
+const emit = defineEmits(['createPlaylist', 'updatedPlaylist'])
 
 //State
 const createPlaylist = reactive({
@@ -95,6 +95,7 @@ const updatePlaylistHandler = async () => {
       await playlistService.updatePlaylist(props.playlist.id, createPlaylist)
     }
   }
+  emit('updatedPlaylist')
   resetCreatePlaylist()
   hideUpdateOverlay()
   hidePlaylistOverlay()
