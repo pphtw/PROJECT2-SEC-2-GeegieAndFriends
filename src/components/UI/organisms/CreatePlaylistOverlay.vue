@@ -13,8 +13,12 @@ import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 
 const overlayStore = useOverlayStore()
 const { openCreateOverlay } = storeToRefs(overlayStore)
-const { hideCreateOverlay, hideUpdateOverlay, hidePlaylistOverlay } =
-  overlayStore
+const {
+  hideCreateOverlay,
+  hideUpdateOverlay,
+  hidePlaylistOverlay,
+  openPlaylistOverlay,
+} = overlayStore
 
 const { isUpdate } = storeToRefs(overlayStore)
 
@@ -44,7 +48,6 @@ const createPlaylist = reactive({
 const tracks = ref([])
 const selectedTrackList = ref([])
 
-//Handler
 const resetCreatePlaylist = async () => {
   createPlaylist.name = ''
   createPlaylist.background = ''
@@ -54,7 +57,8 @@ const resetCreatePlaylist = async () => {
   tracks.value = await playlistService.getPlaylistTrackList(1)
   selectedTrackList.value = []
 }
-//handler
+
+//Handler
 const changeModeHandler = () => {
   if (isUpdate.value) {
     updatePlaylistHandler()
@@ -62,6 +66,14 @@ const changeModeHandler = () => {
     createPlaylistHandler()
   }
 }
+const hideOverlayTwoModeHandler = () => {
+  if (isUpdate.value) {
+    hideUpdateOverlay()
+  } else {
+    hideCreateOverlay()
+  }
+}
+
 const createPlaylistHandler = async () => {
   createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
   createPlaylist.owner = currentUser.value.id
@@ -77,9 +89,12 @@ const updatePlaylistHandler = async () => {
   createPlaylist.owner = currentUser.value.id
   createPlaylist.tracks = selectedTrackList.value.map((track) => track.id)
   if (Object.keys(currentUser.value).length !== 0) {
-    await playlistService.updatePlaylist(props.playlist.id, createPlaylist)
+    if (selectedTrackList.value.length === 0) {
+      await playlistService.deletePlaylist(props.playlist.id)
+    } else {
+      await playlistService.updatePlaylist(props.playlist.id, createPlaylist)
+    }
   }
-  console.log(createPlaylist)
   resetCreatePlaylist()
   hideUpdateOverlay()
   hidePlaylistOverlay()
@@ -161,14 +176,14 @@ watchEffect(async () => {
       <div
         v-if="openCreateOverlay || isUpdate"
         class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[998]"
-        @click.self="hideCreateOverlay"
+        @click.self="hideOverlayTwoModeHandler"
       >
         <div
           class="flex flex-col background-overlay shadow-xl w-[60%] h-full overflow-y-scroll no-scrollbar-full"
           style="max-width: 1000px"
         >
           <div class="flex justify-between px-10 pt-5">
-            <PreviousPageButton @click="hideCreateOverlay" />
+            <PreviousPageButton @click="hideOverlayTwoModeHandler" />
             <button
               class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl"
               @click.once="changeModeHandler"
