@@ -1,24 +1,36 @@
 <script setup>
+import { onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useSearchStore } from '@/stores/searchStore'
+import { useControllerStore } from '@/stores/controllerStore'
+// Service
+import TrackService from '@/lib/trackService'
+// Components
 import MusicPlayerCard from '../UI/organisms/MusicPlayerCard.vue'
 import PinnedPlaylistGrid from '../UI/organisms/PinnedPlaylistGrid.vue'
 import FilterSection from '../UI/molecules/FilterSection.vue'
 import SearchBar from '../UI/molecules/SearchBar.vue'
 import ContentSection from '../templates/ContentSection.vue'
-import { storeToRefs } from 'pinia'
-import { useSearchStore } from '@/stores/searchStore'
 import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
-import { useControllerStore } from '@/stores/controllerStore'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
 
 const searchStore = useSearchStore()
 const controllerStore = useControllerStore()
+
+const trackService = new TrackService()
+
 const { filteredPlaylists, filteredTrackList, regex, selectedFilterIndex } =
   storeToRefs(searchStore)
-
 const { chooseTrack } = controllerStore
 
+onMounted(async () => {
+  filteredTrackList.value = await trackService.getAllItems('tracks')
+  filteredPlaylists.value = (
+    await trackService.getAllItems('playlists')
+  ).filter((playlist) => playlist.name !== 'Liked Song')
+})
 // Definition
 const emit = defineEmits(['chooseTrack'])
 
@@ -38,6 +50,7 @@ const searchHandler = (input) => {
 
   regex.value = new RegExp(`^${pattern.join(' ')}`, 'ig')
 }
+onMounted(async () => {})
 </script>
 
 <template>
@@ -77,12 +90,20 @@ const searchHandler = (input) => {
                 <SectionHeader input-text-header="Playlists" />
               </div>
             </template>
-            <PlaylistGrid :playlists="filteredPlaylists" cols="grid-cols-3" />
+            <PlaylistGrid
+              :playlists="filteredPlaylists"
+              cols="grid-cols-3"
+              :searchPageIsOpen="true"
+            />
           </ContentSection>
         </div>
 
         <ContentSection v-else-if="selectedFilterIndex === 1">
-          <PlaylistGrid :playlists="filteredPlaylists" cols="grid-cols-5" />
+          <PlaylistGrid
+            :playlists="filteredPlaylists"
+            :searchPageIsOpen="true"
+            cols="grid-cols-5"
+          />
         </ContentSection>
 
         <ContentSection v-else-if="selectedFilterIndex === 4">

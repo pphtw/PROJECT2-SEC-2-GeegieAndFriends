@@ -89,7 +89,6 @@ class UserService {
       ...user,
       likedTracks: likedTrack,
     }
-    console.log(JSON.stringify(userLikedTrack))
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/users/${userId}`,
@@ -99,7 +98,6 @@ class UserService {
           headers: { 'Content-Type': 'application/json' },
         }
       )
-      console.log(response)
       if (response.ok) {
         return await response.json()
       } else {

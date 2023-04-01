@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/userStore'
 import { storeToRefs } from 'pinia'
 import PlaylistOverlay from '@/components/UI/organisms/PlaylistOverlay.vue'
 import CreateOverlay from './CreatePlaylistOverlay.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const overlayStore = useOverlayStore()
 const { showPlaylistOverlay, showCreateOverlay, showUpdateOverlay } =
@@ -24,10 +24,16 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  searchPageIsOpen: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 
 const playlist = ref({})
 const isUpdate = ref(false)
+
 const onUpdatePlaylist = (selectedPlaylist) => {
   playlist.value = selectedPlaylist
   console.log(playlist.value)
@@ -39,7 +45,7 @@ const onUpdatePlaylist = (selectedPlaylist) => {
   <div class="min-h-0 overflow-y-scroll">
     <div class="h-fit gap-x-6 gap-y-3 grid" :class="[cols]">
       <div
-        v-if="Object.keys(currentUser).length !== 0"
+        v-if="Object.keys(currentUser).length !== 0 && !searchPageIsOpen"
         class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto truncate bg-transparent/30"
         @click="showCreateOverlay"
       >

@@ -52,20 +52,23 @@ class PlaylistService {
       }
     }
   }
-  async updatePlaylist(playlistId, newPlaylist) {
+  async updatePlaylist(playlistId, newPlaylist, oldPlaylist) {
     const playlist = await trackService.getItemById('playlists', playlistId)
     if (playlist.owner === 1) {
       console.error(`CANNOT REMOVE THIS PLAYLIST`)
     } else {
-      playlist.name = newPlaylist.name
-      playlist.background = newPlaylist.background
-      playlist.tracks = newPlaylist.tracks
+      const likedPlaylist = {
+        ...playlist,
+        name: newPlaylist.name,
+        background: newPlaylist.background,
+        tracks: newPlaylist.tracks,
+      }
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/playlists/${playlistId}`,
           {
             method: 'PUT',
-            body: JSON.stringify(playlist),
+            body: JSON.stringify(likedPlaylist),
             headers: { 'Content-Type': 'application/json' },
           }
         )
