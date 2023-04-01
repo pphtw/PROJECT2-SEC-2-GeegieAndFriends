@@ -1,7 +1,7 @@
 <script setup>
 import FilterButton from '../atoms/FilterButton.vue'
 
-const filterType = ['All', 'Playlists', 'Profile', 'Artists', 'Song', 'Albums']
+const filterType = ['All', 'Playlists', 'Profile', 'Artists', 'Songs', 'Albums']
 
 const props = defineProps({
   selectedFilterIndex: Number,
