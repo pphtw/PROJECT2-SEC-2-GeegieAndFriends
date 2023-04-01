@@ -40,7 +40,7 @@ const emit = defineEmits(['createPlaylist', 'updatedPlaylist'])
 
 //State
 const createPlaylist = reactive({
-  name: '',
+  name: `${currentUser.value.firstName}'s playlist`,
   background: '',
   tracks: [],
   owner: '',
