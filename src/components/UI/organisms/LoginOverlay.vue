@@ -8,11 +8,11 @@ import { useUserStore } from '@/stores/userStore'
 import { registerManagement } from '@/lib/registerManagement.js'
 //destructuring
 const {
-  clearRegisterBox,
-  validateFirstName,
-  validateLastName,
-  validateEmail,
-  validatePassword,
+    checkPattern,
+    clearRegisterBox,
+    getEmailValidationMessage,
+    getPasswordValidationMessage,
+    getNameValidationMessage,
 } = registerManagement()
 
 //use Store
@@ -49,54 +49,60 @@ const user = reactive({
   likedTracks: [],
 })
 
+
 //Register
 const register = async () => {
-  const userService = new UserService()
-  let message
-  let success = false
-  console.log(validateFirstName(user.firstName))
-  switch (true) {
-    case (message = validateFirstName(user.firstName)):
-      break
-    case (message = validateLastName(user.lastName)):
-      break
-    case (message = validateEmail(user.email)):
-      break
-    case (message = validatePassword(user.password)):
-      break
-    default:
-      const existingUser = await userService.getUserByEmail(user.email)
-      if (existingUser !== undefined) {
-        message = 'You already have an account!'
-        clearRegisterBox(user)
-      } else {
-        const hashedPassword = await hashPassword(user.password)
-        const registeredUser = await userService.registerUser({
-          ...user,
-          password: hashedPassword,
-        })
+    const userService = new UserService();
+    let message;
+    let success = false;
+    switch (true) {
+        case !checkPattern(user, 'firstName'):
+            message = getNameValidationMessage(user.firstName, 'firstname');
+            break;
+        case !checkPattern(user, 'lastName'):
+            message = getNameValidationMessage(user.lastName, 'lastname');
+            break;
+        case !checkPattern(user, 'email'):
+            message = getEmailValidationMessage(user.email)
+            break;
+        case !checkPattern(user, 'password'):
+            message = getPasswordValidationMessage(user.password);
+            break;
+        default:
+            const existingUser = await userService.getUserByEmail(user.email);
+            if (existingUser) {
+                message = 'You already have an account!';
+                clearRegisterBox(user);
+            } else {
+                const hashedPassword = await hashPassword(user.password);
+                const registeredUser = await userService.registerUser({
+                    ...user,
+                    password: hashedPassword,
+                });
 
-        if (registeredUser) {
-          message = 'Registration successful!'
-          clearRegisterBox(registeredUser)
-          success = true
-        }
-      }
-  }
+                if (registeredUser) {
+                    message = 'Registration successful!';
+                    clearRegisterBox(registeredUser)
+                    success = true;
+                }
+            }
+    }
 
-  state.register.message = message
-  isRegistered.value = success
+    state.register.message = message;
+    isRegistered.value = success;
 
-  watchEffect(() => {
-    checkFirstName.value = validateFirstName(user.firstName)
-    checkLastName.value = validateLastName(user.lastName)
-    checkEmail.value = validateEmail(user.email)
-    checkPassword.value = validatePassword(user.password)
-    checkMessage.value = false
-  })
+    watchEffect(() => {
+        checkFirstName.value = checkPattern(user, 'firstName');
+        checkLastName.value = checkPattern(user, 'lastName');
+        checkEmail.value = checkPattern(user, 'email');
+        checkPassword.value = checkPattern(user, 'password');
+        checkMessage.value = false;
+    });
 
-  checkMessage.value = true
-}
+
+    checkMessage.value = true;
+};
+
 
 // login
 const userLogin = reactive({

@@ -64,6 +64,12 @@ const checkLikedPlaylist = () => {
     playlists.value.find((track) => track.name === 'Liked Song')
   )
 }
+const deleteLikedPlaylist = async () => {
+  await playlistService.deletePlaylist(
+    playlists.value.find((track) => track.name === 'Liked Song').id
+  )
+  refreshPlaylist()
+}
 watchEffect(async () => {
   if (Object.keys(currentUser.value).length !== 0) {
     playlists.value = await userService.getUserPlaylists(currentUser.value.id)
@@ -77,8 +83,13 @@ watchEffect(async () => {
     ) {
       await updateLikedPlaylist()
       console.log('Update')
+    } else if (
+      currentUser.value.likedTracks.length === 0 &&
+      checkLikedPlaylist()
+    ) {
+      deleteLikedPlaylist()
+      console.log('Delete')
     }
-    console.log('Finish')
   } else {
     playlists.value = await userService.getUserPlaylists(1)
   }
