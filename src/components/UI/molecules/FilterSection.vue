@@ -1,6 +1,5 @@
 <script setup>
 import FilterButton from '../atoms/FilterButton.vue'
-import { onMounted, ref } from 'vue'
 
 const filterType = ['All', 'Playlists', 'Profile', 'Artists', 'Song', 'Albums']
 
