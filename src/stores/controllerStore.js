@@ -262,7 +262,6 @@ export const useControllerStore = defineStore('controller', () => {
     currentTrack.value = await trackService.getItemById('tracks', q.queue[0])
     setQueue(await playlistService.getPlaylistTrackIdList(1))
     loadPlaybackState()
-    playlist.likedTracks = JSON.parse(localStorage.getItem('likedTracks')) ?? []
     isShuffled.value = false
     isRepeating.value = false
   }
