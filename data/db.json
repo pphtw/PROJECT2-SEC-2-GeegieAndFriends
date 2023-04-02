@@ -356,21 +356,11 @@
       "id": 18
     },
     {
-<<<<<<< HEAD
-      "id": 20,
-      "name": "Liked Song",
-      "tracks": [
-        20
-      ],
-      "background": "https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg",
-      "owner": 4
-=======
       "name": "p's playlist",
       "background": "",
       "tracks": [],
       "owner": 3,
       "id": 19
->>>>>>> 2149d5c0d2d9abb9df5f2f433ac1e16003054108
     },
     {
       "name": "Siri's playlist",
