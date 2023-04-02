@@ -142,13 +142,19 @@ yarn preview
 ![Loggedin playlists Page](docs/img/playlistpage-loggedin.png "playlist page when loggedin")
 
 - you can view tracks in playlist
-- create playlist by click add playlist
-- update playlist by click meatballs menu button
-- delete playlist by click bin icon but you can delete playlist that created by you
 
 ![playlist overlay](docs/img/playlist-overlay.png "playlist page when loggedin")
+
+- create playlist by click add playlist
+
 ![create playlist overlay](docs/img/playlist-create.png "playlist overlay create")
+
+- update playlist by click meatballs menu button
+
 ![update playlist overlay](docs/img/playlist-update.png "playlist overlay update")
+
+- delete playlist by click bin icon but you can delete playlist that created by you
+
 ![delete playlist overlay](docs/img/playlist-delete.png "playlist overlay delete")
 
 ### Credit and Inspirations
