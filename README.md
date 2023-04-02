@@ -13,7 +13,7 @@ Our team including:
 
 ## Contributions
 - design search page (NewBww, pphtw)
-- design playlist page / overlay(NewBww)
+- design playlist page / overlay (NewBww)
 - component destructuring (NewBww, pphtw, PhuMiZz, Banlearit)
 - repeat/ non-repeat queue (NewBww, pphtw, PhuMiZz, Banlearit)
 - state management (NewBww)
