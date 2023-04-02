@@ -43,7 +43,12 @@ Our team including:
 - Fix shuffle queue when change playlist (NewBww)
 
 ## Overview
-![homepage-2-1-1.png](docs/img/homepage-2-1-1.png)
+### HomePage
+![homepage.png](docs/img/homepage.png)
+### SearchPage
+![searchpage.png](docs/img/searchpage.png)
+### PlaylistPage
+![playlistspage.png](docs/img/playlistspage.png)
 Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
 
 ### Features

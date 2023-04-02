@@ -6,7 +6,6 @@ import { useControllerStore } from '@/stores/controllerStore'
 import { secToMin } from '@/lib/util'
 
 // Definitions
-const emit = defineEmits(['progressBarMouseMove', 'progressBarMouseUp'])
 const controllerStore = useControllerStore()
 const { progressBar } = storeToRefs(controllerStore)
 
