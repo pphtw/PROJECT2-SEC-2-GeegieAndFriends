@@ -23,7 +23,7 @@ const playlistService = new PlaylistService()
 const userService = new UserService()
 
 const overlayStore = useOverlayStore()
-const { openPlaylistOverlay, overlayPlaylistId, contextMenu } =
+const { openPlaylistOverlay, overlayPlaylistId, contextMenu, playlistOverlay } =
   storeToRefs(overlayStore)
 const { hidePlaylistOverlay } = overlayStore
 
@@ -45,17 +45,13 @@ const emit = defineEmits(['chooseTrack', 'deletePlaylist', 'updatePlaylist'])
 const playlistUserName = ref(null)
 const isOpen = ref(false)
 watchEffect(async () => {
-  if (openPlaylistOverlay.value) {
-    playlist.value = await trackService.getItemById(
-      'playlists',
-      overlayPlaylistId.value
+  if (playlistOverlay.value.isOpen) {
+    playlist.value = playlistOverlay.value.playlist
+    tracks.value = await trackService.getFilteredItemList(
+      'tracks',
+      playlist.value.tracks
     )
-    tracks.value = await playlistService.getPlaylistTrackList(
-      overlayPlaylistId.value
-    )
-    tracks.value = playlist.value.tracks.map((id) =>
-      tracks.value.find((track) => track.id === id)
-    )
+    console.log(tracks.value)
     if (playlist.value.owner === 1) {
       playlistUserName.value = 'Vuesic Player'
     } else {
@@ -63,6 +59,16 @@ watchEffect(async () => {
         await userService.getUserById(playlist.value.owner)
       ).firstName
     }
+    // playlist.value = await trackService.getItemById(
+    //   'playlists',
+    //   overlayPlaylistId.value
+    // )
+    // tracks.value = await playlistService.getPlaylistTrackList(
+    //   overlayPlaylistId.value
+    // )
+    // tracks.value = playlist.value.tracks.map((id) =>
+    //   tracks.value.find((track) => track.id === id)
+    // )
   }
 })
 
@@ -89,7 +95,7 @@ const onDeletePlaylist = async () => {
 }
 
 const onClickOutside = () => {
-  hidePlaylistOverlay()
+  playlistOverlay.value.hide()
   contextMenu.value.hide()
 }
 </script>
@@ -98,7 +104,7 @@ const onClickOutside = () => {
   <Teleport to="body">
     <Transition>
       <div
-        v-if="openPlaylistOverlay"
+        v-if="playlistOverlay.isOpen"
         class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[998]"
         @click.self="onClickOutside"
       >
@@ -113,12 +119,12 @@ const onClickOutside = () => {
             <ContentSection class="min-h-full">
               <template v-slot:header>
                 <div class="flex flex-row justify-between">
-                  <PreviousPageButton @click="hidePlaylistOverlay" />
+                  <PreviousPageButton @click="playlistOverlay.hide" />
                   <button
                     v-if="
                       playlist.owner !== 1 &&
                       currentUser.id === playlist.owner &&
-                      playlist.name !== 'Liked Song'
+                      playlist.id !== 0
                     "
                     class="bg-red-500 hover:bg-red-700 text-white font-bold rounded-full w-10"
                     @click="onClickOpenDeleteBtn"
@@ -150,10 +156,11 @@ const onClickOutside = () => {
                 <div class="flex h-full items-center">
                   <div class="grow text-left text-white pt-20">
                     <h1 class="text-6xl font-bold pb-5">
-                      {{ playlist.name }} {{ '#' + playlist.id }}
+                      {{ playlist.name }}
                     </h1>
                     <p class="text-2xl font-semibold">
-                      {{ playlistUserName }} | {{ tracks.length }} Song
+                      {{ playlistUserName }} | {{ tracks.length }}
+                      {{ tracks.length > 1 ? 'Songs' : 'Song' }}
                     </p>
                   </div>
                 </div>
@@ -192,7 +199,7 @@ const onClickOutside = () => {
                 <TrackList
                   :trackList="tracks"
                   :playlistId="overlayPlaylistId"
-                  @chooseTrack="onChooseTrackClick"
+                  @chooseTrack="onChooseTrackClick($event, overlayPlaylistId)"
                 />
               </div>
             </ContentSection>
