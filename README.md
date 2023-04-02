@@ -24,6 +24,8 @@ Our team including:
 - like track playlist (PhuMiZz)
 - login / register (Banlearit, pphtw)
 
+let's see our [project diagram](https://www.figma.com/file/dDtTS5QqIBKJpVSpNJ7xoc/Project-Board?node-id=0%3A1&t=OczlRe7O1ZBPnBGJ-1)
+
 ## Overview
 ### HomePage
 ![homepage.png](docs/img/homepage.png)
@@ -32,6 +34,8 @@ Our team including:
 ### PlaylistPage
 ![playlistspage.png](docs/img/playlistspage.png)
 Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
+
+
 
 ### Features
 
