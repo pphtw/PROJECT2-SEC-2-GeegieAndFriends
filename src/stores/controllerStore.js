@@ -266,6 +266,7 @@ export const useControllerStore = defineStore('controller', () => {
       loadPlaybackState()?.queue ??
         (await playlistService.getPlaylistTrackIdList(1))
     )
+    console.log(loadPlaybackState()?.queue)
     q.dumpQueue = loadPlaybackState()?.dumpQueue ?? []
     q.currentPlaylistId = loadPlaybackState()?.currentPlaylistId ?? 1
     isShuffled.value = false
