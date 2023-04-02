@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import PlaylistPage from '@/components/pages/PlaylistPage.vue'
-import CollaboratorPage from '@/components/pages/CollaboratorPage.vue'
+
 
 // create router here
 const routes = [
@@ -19,13 +18,13 @@ const routes = [
   {
     path: '/playlist',
     name: 'playlist page',
-    component: PlaylistPage,
+    component: () => import('@/components/pages/PlaylistPage.vue'),
     meta: { transition: 'slide-up', id: 3 },
   },
   {
     path: '/collaborator',
     name: 'collaborator page',
-    component: CollaboratorPage,
+    component: () => import('@/components/pages/CollaboratorPage.vue'),
     meta: { transition: 'slide-up', id: 4 },
   },
 ]
