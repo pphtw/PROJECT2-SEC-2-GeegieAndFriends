@@ -32,6 +32,19 @@ export const useOverlayStore = defineStore('overlay', () => {
   const toggleLoginOverlay = () => {
     openLoginOverlay.value = !openLoginOverlay.value
   }
+
+  const playlistOverlay = reactive({
+    isOpen: false,
+    playlist: null,
+    show(playlist) {
+      playlistOverlay.isOpen = true
+      playlistOverlay.playlist = playlist
+    },
+    hide() {
+      playlistOverlay.isOpen = false
+      playlistOverlay.playlist = null
+    },
+  })
   const showPlaylistOverlay = (e) => {
     openPlaylistOverlay.value = true
     overlayPlaylistId.value = Number(e.currentTarget.id)
@@ -106,6 +119,7 @@ export const useOverlayStore = defineStore('overlay', () => {
     showUpdateOverlay,
     hideUpdateOverlay,
     contributionOverlay,
+    playlistOverlay,
   }
 })
 if (import.meta.hot) {
