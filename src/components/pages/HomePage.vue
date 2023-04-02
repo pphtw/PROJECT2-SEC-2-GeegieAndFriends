@@ -68,8 +68,7 @@ onMounted(async () => {
     selectedPlaylistId.value !== overlayPlaylistId.value
   ) {
     selectedPlaylistId.value = overlayPlaylistId.value
-    localStorage.getItem('selectedPlaylistId',
-    )
+    localStorage.getItem('selectedPlaylistId')
   } else if (
     getAllPlaylist.includes(
       getAllPlaylist.find(
@@ -91,13 +90,13 @@ onMounted(async () => {
     selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(1)
     isLoading.value = false
   }
-    selectedPlaylistName.value = (
-        await trackService.getItemById('playlists', selectedPlaylistId.value)
-    ).name
+  selectedPlaylistName.value = (
+    await trackService.getItemById('playlists', selectedPlaylistId.value)
+  ).name
 
-    selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
-        selectedPlaylistId.value
-    )
+  selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(
+    selectedPlaylistId.value
+  )
 })
 </script>
 
@@ -147,7 +146,7 @@ onMounted(async () => {
       <template v-else>
         <TrackList
           :trackList="selectedPlaylistTracks"
-          :playlist-id="selectedPlaylistId"
+          :playlistId="selectedPlaylistId"
           @choose-track="(e, playlistId) => onChooseTrackClick(e, playlistId)"
         />
       </template>
