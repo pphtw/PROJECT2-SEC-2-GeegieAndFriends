@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 
 export const useOverlayStore = defineStore('overlay', () => {
   const contextMenu = reactive({
@@ -57,6 +57,38 @@ export const useOverlayStore = defineStore('overlay', () => {
     isUpdate.value = false
   }
 
+  const contributionOverlay = reactive({
+    isOpen: false,
+    contributor: '',
+    getData: computed(() => {
+      switch (this.contributor) {
+        case 'New': {
+          return []
+        }
+        case 'Gee': {
+          return []
+        }
+        case 'Poom': {
+          return []
+        }
+        case 'Pream': {
+          return []
+        }
+        case 'Ploy': {
+          return []
+        }
+      }
+    }),
+    show(e, contributor) {
+      e.stopPropagation()
+      contributionOverlay.contributor = contributor
+      contributionOverlay.isOpen = true
+    },
+    hide() {
+      contributionOverlay.isOpen = false
+    },
+  })
+
   return {
     isUpdate,
     contextMenu,
@@ -73,6 +105,7 @@ export const useOverlayStore = defineStore('overlay', () => {
     openUpdateOverlay,
     showUpdateOverlay,
     hideUpdateOverlay,
+    contributionOverlay,
   }
 })
 if (import.meta.hot) {
