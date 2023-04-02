@@ -110,12 +110,24 @@ yarn preview
 - Play/Pause button for toggle play-pause track
 - Shuffle button for shuffle queue
 - Skip button for skip to next/previous track
+- Loop button for loop queue in playlist
 
-![Available playlist to choose](docs/img/playlists.png "Playlists")
+![Available playlist to choose](docs/img/pinned-playlists.png "Playlists")
 
 ![List of tracks in playlist](docs/img/playlist-tracks.png "Playlist Tracks")
-- You can scroll to view all playlist by click previous / next button on top right screen and select playlist for your music taste, then track list in the right screen will change you can select track from that too
+- You can change tracks in playlist by click playlist that you want
 - Add track to favourites by clicking on the heart icon
+
+### Search
+![Search all](docs/img/searchpage-all.png "Search All")
+- You can search track and playlist by name and keywords
+- You can select filter to search only playlists or songs
+![Search playlists](docs/img/searchpage-playlists.png "Search playlists")
+![Search songs](docs/img/searchpage-songs.png "Search songs")
+
+### Playlist
+
+
 ### Credit and Inspirations
 
 - [Music Player Web App](https://dribbble.com/shots/18946599-Music-Player-Web-App) (Dribble)
