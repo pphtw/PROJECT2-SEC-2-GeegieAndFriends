@@ -91,6 +91,7 @@ export const useControllerStore = defineStore('controller', () => {
     isShuffled.value = !isShuffled.value
     const state = controllerState.value
     const trackId = currentTrack.value.id
+    console.log(trackId)
     switch (state) {
       case 0: //no shuffle & no repeat
         q.dumpQueue = q.defaultQueue.slice(
@@ -243,6 +244,9 @@ export const useControllerStore = defineStore('controller', () => {
         break
       }
       case 2: {
+        if (!Boolean(playlistId)) {
+          break
+        }
         skipToTrack(trackId, q.tempQueue)
         q.queue = [...q.tempQueue]
         break
@@ -258,8 +262,13 @@ export const useControllerStore = defineStore('controller', () => {
   }
   const initController = async () => {
     currentTrack.value = await trackService.getItemById('tracks', q.queue[0])
-    setQueue(await playlistService.getPlaylistTrackIdList(1))
-    loadPlaybackState()
+    setQueue(
+      loadPlaybackState()?.queue ??
+        (await playlistService.getPlaylistTrackIdList(1))
+    )
+    console.log(loadPlaybackState()?.queue)
+    q.dumpQueue = loadPlaybackState()?.dumpQueue ?? []
+    q.currentPlaylistId = loadPlaybackState()?.currentPlaylistId ?? 1
     isShuffled.value = false
     isRepeating.value = false
   }

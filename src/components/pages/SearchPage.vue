@@ -14,8 +14,7 @@ import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
-import {useUserStore} from "@/stores/userStore";
-
+import { useUserStore } from '@/stores/userStore'
 
 const trackService = new TrackService()
 
@@ -27,7 +26,7 @@ const { chooseTrack } = controllerStore
 
 //ref
 const selectedFilterIndex = ref(0)
-const regex = ref('')
+const input = ref('')
 const filteredTrackList = ref([])
 const filteredPlaylists = ref([])
 
@@ -41,42 +40,46 @@ onMounted(async () => {
 const emit = defineEmits(['chooseTrack'])
 
 //Function
-const checkKeywords = (keyword) => keyword.match(regex.value)
+const checkKeywords = (keyword) => keyword.match(input.value)
 const setSelectedFilterIndex = (index) => {
   selectedFilterIndex.value = index
 }
 
 //watcher
-watch(regex, async (regex) => {
+watch(input, async (input) => {
   const tracks = await trackService.getAllItems('tracks')
   filteredTrackList.value = new Set(
     tracks
-      .filter((track) => track.name.match(regex))
+      .filter((track) => track.name.match(input))
       .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
   )
-})
-
-watch(regex, async (regex) => {
   filteredPlaylists.value = (
     await trackService.getAllItems('playlists')
-  ).filter((e) => e.name.match(regex) && e.name !== 'Liked Song')
+  ).filter((e) => e.name.match(input) && e.name !== 'Liked Song')
 })
 
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
-  chooseTrack(e.currentTarget.id, playlistId)
+  if (playlistId !== 0) {
+    localStorage.setItem('selectedPlaylistId', playlistId)
+    chooseTrack(e.currentTarget.id, playlistId)
+  } else {
+    localStorage.setItem('selectedPlaylistId', 1)
+    chooseTrack(e.currentTarget.id, 1)
+  }
+
   emit('chooseTrack', 300)
 }
 
-const searchHandler = (input) => {
-  let pattern = input
+const searchHandler = (keywords) => {
+  let pattern = keywords
     .replace(/\W+/gi, ' ')
     .split(/\s/)
     .filter((e) => e)
 
-  regex.value = new RegExp(`^${pattern.join(' ')}`, 'ig')
+  const regex = new RegExp(`^${pattern.join(' ')}`, 'ig')
+  input.value = regex
 }
-onMounted(async () => {})
 </script>
 
 <template>

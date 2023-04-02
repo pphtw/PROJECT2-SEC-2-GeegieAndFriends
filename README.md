@@ -36,7 +36,6 @@ let's see our [project diagram](https://www.figma.com/file/dDtTS5QqIBKJpVSpNJ7xo
 Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
 
 
-
 ### Features
 
 - Music Player
@@ -138,21 +137,25 @@ yarn preview
 
 ### Playlist
 
-- this page will appear when you not login
-
-![Playlists Page](docs/img/playlistpage.png "playlist page")
-
-- when you login, playlist page will show like this
+- You can see your playlist library when you login
 
 ![Loggedin playlists Page](docs/img/playlistpage-loggedin.png "playlist page when loggedin")
 
 - you can view tracks in playlist
-- create by click add playlist
-- update playlist by click meatballs menu button
 
 ![playlist overlay](docs/img/playlist-overlay.png "playlist page when loggedin")
-![create playlist overlay](docs/img/playlist-create.png "playlist page when loggedin")
-![update playlist overlay](docs/img/playlist-update.png "playlist page when loggedin")
+
+- create playlist by click add playlist
+
+![create playlist overlay](docs/img/playlist-create.png "playlist overlay create")
+
+- update playlist by click meatballs menu button
+
+![update playlist overlay](docs/img/playlist-update.png "playlist overlay update")
+
+- delete playlist by click bin icon but you can delete playlist that created by you
+
+![delete playlist overlay](docs/img/playlist-delete.png "playlist overlay delete")
 
 ### Credit and Inspirations
 
