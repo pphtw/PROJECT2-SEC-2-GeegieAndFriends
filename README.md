@@ -34,7 +34,8 @@ let's see our [project diagram](https://www.figma.com/file/dDtTS5QqIBKJpVSpNJ7xo
 ### PlaylistPage
 ![playlistspage.png](docs/img/playlistspage.png)
 Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
-
+### Collaborator
+![]
 
 
 ### Features

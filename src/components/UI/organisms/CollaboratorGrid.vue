@@ -78,7 +78,7 @@ const { contributionOverlay } = overlayStore
     >
       <div
         class="bg-violet-300 bg-cover bg-no-repeat bg-center h-[90vh] xl:h-full"
-        style="background-image: none"
+        style="background-image: url(/img/ploy.jpg)"
       ></div>
       <div
         class="absolute flex items-center top-0 h-[95vh] w-full bg-black/30 xl:h-full group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
