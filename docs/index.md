@@ -53,6 +53,8 @@ The project structure:
 	├── vite.config.js
 	├── yarn.lock
 	├── index.html
+	├── data
+	│   └── db.json
 	├── .github
 	│   └── workflows
 	│       └── unit-test.yml
@@ -60,14 +62,80 @@ The project structure:
 	│   ├── cache
 	│   └── releases
 	├── public
-	│   ├── favicon.ico
+	│   ├── img
 	│   └── tracks
 	└── src
 	    ├── assets
-	    │   ├── img
-	    │   └── main.css
+	    ├── components
+	    │   ├── pages
+	    │   │    ├── CollaboratorPage.vue
+	    │   │    ├── HomePage.vue
+	    │   │    ├── PlaylistPage.vue
+	    │   │    └── SearchPage.vue
+	    │   ├── templates
+	    │   │    ├── ContentSection.vue
+	    │   │    ├── ModalTemplate.vue
+	    │   │    └── PageTemplate.vue
+	    │   └── UI
+	    │        ├── atoms
+	    │        │    ├── CollaboratorPageButton.vue
+	    │        │    ├── EditButton.vue
+	    │        │    ├── FilterButton.vue
+	    │        │    ├── HomePageButton.vue
+	    │        │    ├── LikeButton.vue
+	    │        │    ├── LoginLogooutButton.vue
+	    │        │    ├── MenuButton.vue
+	    │        │    ├── MusicCover.vue
+	    │        │    ├── MusicName.vue
+	    │        │    ├── MusicPlayerCardLoading.vue
+	    │        │    ├── NextPageButton.vue
+	    │        │    ├── NoShuffled.vue
+	    │        │    ├── PlaylistCarouselLoading.vue
+	    │        │    ├── PlaylistPageButton.vue
+	    │        │    ├── PlayPauseButton.vue
+	    │        │    ├── PreviousButton.vue
+	    │        │    ├── PreviousPageButton.vue
+	    │        │    ├── RepeatButton.vue
+	    │        │    ├── SearchPageButton.vue
+	    │        │    ├── SectionHeader.vue
+	    │        │    ├── ShuffleButton.vue
+	    │        │    ├── SkipButton.vue
+	    │        │    ├── Timer.vue
+	    │        │    └── TrackListLoading.vue
+	    │        ├── molecules
+	    │        │    ├── FilterSection.vue
+	    │        │    ├── ProgressBarWithTimer.vue
+	    │        │    ├── SearchBar.vue
+	    │        │    └── TitleAndArtist.vue
+	    │        └── organisms
+	    │             ├── CollaboratorGrid.vue
+	    │             ├── ContextMenu.vue
+	    │             ├── CreatePlaylistOverlay.vue
+	    │             ├── LoginOverlay.vue
+	    │             ├── MusicPlayerCard.vue
+	    │             ├── NavigationBar.vue
+	    │             ├── PinnedPlaylistGrid.vue
+	    │             ├── PlaylistGrid.vue
+	    │             ├── PlaylistOverlay.vue
+	    │             ├── SingleTrack.vue
+	    │             └── TrackList.vue
+	    ├── lib
+	    │   ├── playlistService.js
+	    │   ├── registerManagement.js
+	    │   ├── trackService.js
+	    │   ├── userService.js
+	    │   └── util.js
+	    ├── router
+	    │   └── router.js
+	    ├── stores
+	    │   ├── controllerStore.js
+	    │   ├── overlayStore.js
+	    │   ├── playlistStore.js
+	    │   ├── userStore.js
 	    ├── App.vue
-	    └── Main.js
+	    ├── main.css
+	    └── main.js
+	    
 ```
 
 ### Tools Required
