@@ -1,7 +1,7 @@
 <script setup>
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import { watch, ref, inject, watchEffect } from 'vue'
+import { ref, inject, watchEffect } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { useUserStore } from '@/stores/userStore'
 
@@ -170,7 +170,7 @@ const onClickOutside = () => {
                     class="[clip-path:circle()]"
                     @click="togglePlayPause(audioElement)"
                   >
-                    <PlayPauseButton :is-active="isPlaying" class="w-20 h-20" />
+                    <PlayPauseButton :isActive="isPlaying" class="w-20 h-20" />
                   </button>
 
                   <button @click="addToFavorites(playlist.id, 'playlist')">
@@ -190,8 +190,8 @@ const onClickOutside = () => {
               </template>
               <div class="h-full">
                 <TrackList
-                  :track-list="tracks"
-                  :playlist-id="overlayPlaylistId"
+                  :trackList="tracks"
+                  :playlistId="overlayPlaylistId"
                   @chooseTrack="onChooseTrackClick"
                 />
               </div>
