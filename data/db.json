@@ -351,6 +351,21 @@
       ],
       "owner": 2,
       "id": 12
+    },
+    {
+      "name": "Phutawan's playlist",
+      "background": "https://assets.entrepreneur.com/content/3x2/2000/20180703190744-rollsafe-meme.jpeg",
+      "tracks": [
+        1,
+        2,
+        4,
+        5,
+        11,
+        12,
+        13
+      ],
+      "owner": 3,
+      "id": 13
     }
   ],
   "tracks": [
@@ -1000,6 +1015,15 @@
       ],
       "likedPlaylists": [],
       "id": 2
+    },
+    {
+      "firstName": "Phutawan",
+      "lastName": "Palakavong",
+      "email": "phutawan.pram@gmail.com",
+      "password": "e61c46304c4e568abe6d4c017f50bb7b94bae339f8959cd55f56da3b97a7abab",
+      "likedTracks": [],
+      "likedPlaylists": [],
+      "id": 3
     }
   ]
 }
