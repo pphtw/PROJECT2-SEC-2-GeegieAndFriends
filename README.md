@@ -134,6 +134,21 @@ yarn preview
 
 ### Playlist
 
+- this page will appear when you not login
+
+![Playlists Page](docs/img/playlistpage.png "playlist page")
+
+- when you login, playlist page will show like this
+
+![Loggedin playlists Page](docs/img/playlistpage-loggedin.png "playlist page when loggedin")
+
+- you can view tracks in playlist
+- create by click add playlist
+- update playlist by click meatballs menu button
+
+![playlist overlay](docs/img/playlist-overlay.png "playlist page when loggedin")
+![create playlist overlay](docs/img/playlist-create.png "playlist page when loggedin")
+![update playlist overlay](docs/img/playlist-update.png "playlist page when loggedin")
 
 ### Credit and Inspirations
 
