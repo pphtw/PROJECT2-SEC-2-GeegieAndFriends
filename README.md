@@ -25,11 +25,11 @@ Our team including:
 - login / register (Banlearit, pphtw)
 
 ## Overview
-![homepage-2-1-1.png](docs/img/homepage-2-1-1.png)
+![homepage.png](docs/img/homepage.png)
 Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
 
 ### Features
-
+ 
 - Music Player
   - Music Controller
   - Playing Queue
@@ -38,7 +38,21 @@ Due to contributors in group listen to a variety genre of music. So, we interest
 - Playlist
   - Choose Any Track From Playlist
   - Add tracks to favorites
+  
+#### :sparkles: New :sparkles:
+- Authentication 
+  - Login
+  - Register
+- Search
+  - Search tracks and playlists 
+- Playlist
+  - Create playlist 
+  - Update playlist 
+  - Delete playlist 
+  - Like playlist
 
+
+  
 ## Tech Stack
 
 [Our Stack](https://stackshare.io/newbww/project1-sec-2-geegie-and-friends)
