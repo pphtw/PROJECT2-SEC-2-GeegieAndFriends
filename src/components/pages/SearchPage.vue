@@ -60,7 +60,7 @@ watch(regex, async (regex) => {
 watch(regex, async (regex) => {
   filteredPlaylists.value = (
     await trackService.getAllItems('playlists')
-  ).filter((e) => e.name.match(regex))
+  ).filter((e) => e.name.match(regex) && e.name !== 'Liked Song')
 })
 
 // Handlers
