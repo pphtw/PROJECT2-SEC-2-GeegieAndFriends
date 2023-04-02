@@ -11,11 +11,9 @@ import ContentSection from '../../templates/ContentSection.vue'
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 
 const overlayStore = useOverlayStore()
-const { openCreateOverlay } = storeToRefs(overlayStore)
+const { openCreateOverlay, isUpdate } = storeToRefs(overlayStore)
 const { hideCreateOverlay, hideUpdateOverlay, hidePlaylistOverlay } =
   overlayStore
-
-const { isUpdate } = storeToRefs(overlayStore)
 
 const props = defineProps({
   playlist: {
