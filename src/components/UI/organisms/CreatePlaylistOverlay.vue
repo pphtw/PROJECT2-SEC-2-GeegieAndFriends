@@ -11,9 +11,9 @@ import ContentSection from '../../templates/ContentSection.vue'
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 
 const overlayStore = useOverlayStore()
-const { openCreateOverlay, isUpdate } = storeToRefs(overlayStore)
-const { hideCreateOverlay, hideUpdateOverlay, hidePlaylistOverlay } =
-  overlayStore
+const { openCreateOverlay, isUpdate, playlistOverlay } =
+  storeToRefs(overlayStore)
+const { hideCreateOverlay, hideUpdateOverlay } = overlayStore
 
 const props = defineProps({
   playlist: {
@@ -89,7 +89,7 @@ const updatePlaylistHandler = async () => {
   emit('updatedPlaylist')
   resetCreatePlaylist()
   hideUpdateOverlay()
-  hidePlaylistOverlay()
+  playlistOverlay.value.hide()
 }
 
 const unChooseTrackHandler = (e) => {

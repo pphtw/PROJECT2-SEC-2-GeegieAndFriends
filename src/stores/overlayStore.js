@@ -37,6 +37,7 @@ export const useOverlayStore = defineStore('overlay', () => {
     isOpen: false,
     playlist: null,
     show(playlist) {
+      overlayPlaylistId.value = Number(playlist.id)
       playlistOverlay.isOpen = true
       playlistOverlay.playlist = playlist
     },
@@ -45,14 +46,6 @@ export const useOverlayStore = defineStore('overlay', () => {
       playlistOverlay.playlist = null
     },
   })
-  const showPlaylistOverlay = (e) => {
-    openPlaylistOverlay.value = true
-    overlayPlaylistId.value = Number(e.currentTarget.id)
-  }
-
-  const hidePlaylistOverlay = () => {
-    openPlaylistOverlay.value = false
-  }
 
   const showCreateOverlay = () => {
     openCreateOverlay.value = true
@@ -109,8 +102,6 @@ export const useOverlayStore = defineStore('overlay', () => {
     position,
     openLoginOverlay,
     toggleLoginOverlay,
-    showPlaylistOverlay,
-    hidePlaylistOverlay,
     overlayPlaylistId,
     showCreateOverlay,
     hideCreateOverlay,
