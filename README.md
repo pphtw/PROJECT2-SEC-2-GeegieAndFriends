@@ -25,11 +25,16 @@ Our team including:
 - login / register (Banlearit, pphtw)
 
 ## Overview
+### HomePage
 ![homepage.png](docs/img/homepage.png)
+### SearchPage
+![searchpage.png](docs/img/searchpage.png)
+### PlaylistPage
+![playlistspage.png](docs/img/playlistspage.png)
 Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
 
 ### Features
- 
+
 - Music Player
   - Music Controller
   - Playing Queue
@@ -110,12 +115,41 @@ yarn preview
 - Play/Pause button for toggle play-pause track
 - Shuffle button for shuffle queue
 - Skip button for skip to next/previous track
+- Loop button for loop queue in playlist
 
-![Available playlist to choose](docs/img/playlists.png "Playlists")
+![Available playlist to choose](docs/img/pinned-playlists.png "Playlists")
 
 ![List of tracks in playlist](docs/img/playlist-tracks.png "Playlist Tracks")
-- You can scroll to view all playlist by click previous / next button on top right screen and select playlist for your music taste, then track list in the right screen will change you can select track from that too
+- You can change tracks in playlist by click playlist that you want
 - Add track to favourites by clicking on the heart icon
+
+### Search
+![Search all](docs/img/searchpage-all.png "Search All")
+- You can search track and playlist by name and keywords
+- You can select filter to search only playlists or songs
+
+![Search playlists](docs/img/searchpage-playlists.png "Search playlists")
+
+![Search songs](docs/img/searchpage-songs.png "Search songs")
+
+### Playlist
+
+- this page will appear when you not login
+
+![Playlists Page](docs/img/playlistpage.png "playlist page")
+
+- when you login, playlist page will show like this
+
+![Loggedin playlists Page](docs/img/playlistpage-loggedin.png "playlist page when loggedin")
+
+- you can view tracks in playlist
+- create by click add playlist
+- update playlist by click meatballs menu button
+
+![playlist overlay](docs/img/playlist-overlay.png "playlist page when loggedin")
+![create playlist overlay](docs/img/playlist-create.png "playlist page when loggedin")
+![update playlist overlay](docs/img/playlist-update.png "playlist page when loggedin")
+
 ### Credit and Inspirations
 
 - [Music Player Web App](https://dribbble.com/shots/18946599-Music-Player-Web-App) (Dribble)

@@ -64,13 +64,6 @@ onMounted(async () => {
   const getAllPlaylist = await trackService.getAllItems('playlists')
   isLoading.value = true
   if (
-    overlayPlaylistId.value !== null &&
-    selectedPlaylistId.value !== overlayPlaylistId.value
-  ) {
-    selectedPlaylistId.value = overlayPlaylistId.value
-    localStorage.getItem('selectedPlaylistId')
-  }
-  if (
     getAllPlaylist.includes(
       getAllPlaylist.find(
         (playlist) => playlist.id === selectedPlaylistId.value
@@ -88,13 +81,6 @@ onMounted(async () => {
     ).tracks.map((id) =>
       selectedPlaylistTracks.value.find((track) => track.id === id)
     )
-    isLoading.value = false
-  } else {
-    selectedPlaylistName.value = (
-      await trackService.getItemById('playlists', 1)
-    ).name
-    selectedPlaylistTracks.value = await playlistService.getPlaylistTrackList(1)
-    localStorage.setItem('selectedPlaylistId', JSON.stringify(1))
     isLoading.value = false
   }
 })
