@@ -1,7 +1,7 @@
 <script setup>
 import { useOverlayStore } from '@/stores/overlayStore'
 import { storeToRefs } from 'pinia'
-import { watch, ref, inject, watchEffect } from 'vue'
+import { ref, inject, watchEffect } from 'vue'
 import { useControllerStore } from '@/stores/controllerStore'
 import { useUserStore } from '@/stores/userStore'
 
