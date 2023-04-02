@@ -77,10 +77,6 @@ onMounted(async () => {
     @loadedmetadata="onLoadMetadataHandler"
   ></audio>
   <div
-    @keyup.right="skipTrack"
-    @keyup.left="skipTrack(false)"
-    @keyup.space="togglePlayPause(audioElement)"
-    @keyup="toggleShuffle"
     tabindex="-1"
     class="flex flex-row w-screen h-screen"
     @mouseup="onProgressBarMouseUp"
