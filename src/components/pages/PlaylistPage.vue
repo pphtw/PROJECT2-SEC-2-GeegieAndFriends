@@ -17,71 +17,39 @@ const userStore = useUserStore()
 const overlayStore = useOverlayStore()
 
 const { currentUser } = storeToRefs(userStore)
+const { checkUserLoggedIn } = userStore
 const { hidePlaylistOverlay } = overlayStore
 
 const playlistService = new PlaylistService()
 const userService = new UserService()
 
 const playlists = ref([])
-const likedPlayList = reactive({
-  id: 0,
-  name: 'Liked Song',
-  tracks: [],
-  background:
-    'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
-  owner: 1,
-})
 
-const refreshPlaylist = async () => {
-  if (Object.keys(currentUser.value).length !== 0) {
-    playlists.value = await userService.getUserPlaylists(currentUser.value.id)
-    playlists.value.unshift(
-      playlists.value.splice(
-        playlists.value.findIndex((e) => e.name === 'Liked Song'),
-        1
-      )[0]
-    )
-  } else {
-    playlists.value = await userService.getUserPlaylists(1)
-  }
-}
-const createLikedPlaylist = async () => {
-  likedPlayList.tracks = currentUser.value.likedTracks
-  likedPlayList.owner = currentUser.value.id
-  await playlistService.createPlaylist(likedPlayList)
+const loadPlaylist = async () => {
   playlists.value = await userService.getUserPlaylists(currentUser.value.id)
-  refreshPlaylist()
-}
-const updateLikedPlaylist = async () => {
-  const likeTrackId = playlists.value.find(
-    (track) => track.name === 'Liked Song'
-  ).id
-  likedPlayList.id = likeTrackId
-  likedPlayList.tracks = currentUser.value.likedTracks
-  likedPlayList.owner = currentUser.value.id
-  await playlistService.updatePlaylist(likeTrackId, likedPlayList)
-  refreshPlaylist()
-}
-const checkLikedPlaylist = () => {
-  return playlists.value.includes(
-    playlists.value.find((track) => track.name === 'Liked Song')
-  )
-}
-watchEffect(async () => {
-  if (Object.keys(currentUser.value).length !== 0) {
-    playlists.value = await userService.getUserPlaylists(currentUser.value.id)
-
-    if (currentUser.value.likedTracks.length !== 0 && !checkLikedPlaylist()) {
-      createLikedPlaylist()
-    } else if (
-      currentUser.value.likedTracks.length >= 0 &&
-      checkLikedPlaylist()
-    ) {
-      await updateLikedPlaylist()
+  if (checkUserLoggedIn() && playlists.value[0].id !== 0) {
+    playlists.value.unshift({
+      id: 0,
+      name: 'Liked Songs',
+      tracks: currentUser.value.likedTracks,
+      background:
+        'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
+      owner: currentUser.value.id,
+    })
+  } else if (checkUserLoggedIn() && playlists.value[0].id === 0) {
+    playlists.value[0] = {
+      id: 0,
+      name: 'Liked Songs',
+      tracks: currentUser.value.likedTracks,
+      background:
+        'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
+      owner: currentUser.value.id,
     }
-  } else {
-    playlists.value = await userService.getUserPlaylists(1)
   }
+}
+
+watchEffect(() => {
+  loadPlaylist()
 })
 </script>
 
@@ -93,9 +61,7 @@ watchEffect(async () => {
           <SectionHeader input-text-header="Your Library" /></div
       ></template>
       <PlaylistGrid
-        @updatedPlaylist="refreshPlaylist"
-        @createPlaylist="refreshPlaylist"
-        @deletePlaylist="refreshPlaylist"
+        @updatedPlaylist="loadPlaylist"
         :playlists="playlists"
         cols="grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6"
       />
