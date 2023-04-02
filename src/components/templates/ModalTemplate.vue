@@ -9,24 +9,22 @@ defineEmits(['hideModal'])
 </script>
 
 <template>
-  <div>
-    <Teleport to="body">
-      <Transition>
+  <Teleport to="body">
+    <Transition>
+      <div
+        v-if="showModal"
+        class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[999]"
+        @click.self="$emit('hideModal')"
+      >
         <div
-          v-if="showModal"
-          class="absolute top-0 left-0 w-screen h-screen bg-gray-900/50 flex items-center justify-center z-[999]"
-          @click.self="$emit('hideModal')"
+          class="flex flex-col background-overlay shadow-xl w-[60%] h-2/5 overflow-y-scroll no-scrollbar-full"
+          style="max-width: 700px"
         >
-          <div
-            class="flex flex-col background-overlay shadow-xl w-[60%] h-1/3 overflow-y-scroll no-scrollbar-full"
-            style="max-width: 700px"
-          >
-            <slot />
-          </div>
+          <slot />
         </div>
-      </Transition>
-    </Teleport>
-  </div>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>
