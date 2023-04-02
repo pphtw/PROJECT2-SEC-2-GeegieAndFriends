@@ -6,21 +6,14 @@ import { useOverlayStore } from '@/stores/overlayStore'
 import { useUserStore } from '@/stores/userStore'
 
 import TrackList from './TrackList.vue'
-import TrackService from '@/lib/trackService'
 import PlaylistService from '@/lib/playlistService'
 import ContentSection from '../../templates/ContentSection.vue'
 import PreviousPageButton from '../atoms/PreviousPageButton.vue'
 
 const overlayStore = useOverlayStore()
-const { openCreateOverlay } = storeToRefs(overlayStore)
-const {
-  hideCreateOverlay,
-  hideUpdateOverlay,
-  hidePlaylistOverlay,
-  openPlaylistOverlay,
-} = overlayStore
-
-const { isUpdate } = storeToRefs(overlayStore)
+const { openCreateOverlay, isUpdate } = storeToRefs(overlayStore)
+const { hideCreateOverlay, hideUpdateOverlay, hidePlaylistOverlay } =
+  overlayStore
 
 const props = defineProps({
   playlist: {
@@ -32,8 +25,6 @@ const props = defineProps({
 //defineStores & Services
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
-
-const trackService = new TrackService()
 const playlistService = new PlaylistService()
 
 const emit = defineEmits(['createPlaylist', 'updatedPlaylist'])

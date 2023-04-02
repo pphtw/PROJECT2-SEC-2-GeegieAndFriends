@@ -1,7 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useSearchStore } from '@/stores/searchStore'
 import { useControllerStore } from '@/stores/controllerStore'
 // Service
 import TrackService from '@/lib/trackService'
@@ -19,11 +18,9 @@ import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
 import UserService from '@/lib/userService'
 import { useUserStore } from '@/stores/userStore'
 
-const userService = new UserService()
 const trackService = new TrackService()
 
 const userStore = useUserStore()
-const { currentUser } = storeToRefs(userStore)
 
 const controllerStore = useControllerStore()
 
