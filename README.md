@@ -12,35 +12,17 @@ Our team including:
 | 64130500119 | Bowonwit Anothaisintavee | Bowonwit.anot@kmutt.ac.th  | NewBww          | 25                |
 
 ## Contributions
-
-### Release V 1.0.0 (Music Player Option API)
-- Music Player Layout (pphtw, banlearit)
-- Play/Pause (banlearit)
-- Skip track (banlearit)
-- Progress bar (pphtw, banlearit)
-
-### Release V 2.0.0
-- Homepage UI (PhuMiZz, NewBww)
-- Change Option API to Composition API (banlearit)
-- Music controller (NewBww, banlearit)
-- Drag-to-Seek Progress Bar (banlearit, PhuMiZz)
-- Carousel Playlist (pphtw)
-- Music Queuing System (NewBww)
-- Music Choosing From Trending Section (PhuMiZz)
-- Shuffle Song in Queue (NewBww)
-
-### Release V 2.1.0
-- Toggle playlist (pphtw)
-- Favorite tracks (supapitploy)
-- Improve performance (NewBww)
-- Marquee (PhuMiZz)
-- Scroll playlist (PhuMiZz)
-- Split icon to Component (banlearit)
-- Keyboard Music Controller (NewBww)
-
-### Release V 2.1.1
-- Fix favorites tracks func (supapitploy)
-- Fix shuffle queue when change playlist (NewBww)
+- design search page (NewBww, pphtw)
+- design playlist page / overlay(NewBww)
+- component destructuring (NewBww, pphtw, PhuMiZz, Banlearit)
+- repeat/ non-repeat queue (NewBww, pphtw, PhuMiZz, Banlearit)
+- state management (NewBww)
+- search feature (pphtw)
+- add, delete, update playlist (PhuMiZz, pphtw)
+- fetch API (Banlearit)
+- like playlist (NewBww)
+- like track playlist (PhuMiZz)
+- login / register (Banlearit, pphtw)
 
 ## Overview
 ![homepage-2-1-1.png](docs/img/homepage-2-1-1.png)
