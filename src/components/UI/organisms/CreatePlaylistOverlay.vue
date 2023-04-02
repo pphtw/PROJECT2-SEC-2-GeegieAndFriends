@@ -27,7 +27,6 @@ const props = defineProps({
 //defineStores & Services
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
-
 const playlistService = new PlaylistService()
 
 const emit = defineEmits(['createPlaylist', 'updatedPlaylist'])
