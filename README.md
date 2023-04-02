@@ -127,7 +127,9 @@ yarn preview
 ![Search all](docs/img/searchpage-all.png "Search All")
 - You can search track and playlist by name and keywords
 - You can select filter to search only playlists or songs
+
 ![Search playlists](docs/img/searchpage-playlists.png "Search playlists")
+
 ![Search songs](docs/img/searchpage-songs.png "Search songs")
 
 ### Playlist
