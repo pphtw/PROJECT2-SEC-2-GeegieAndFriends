@@ -26,7 +26,7 @@ const playlists = ref([])
 
 const loadPlaylist = async () => {
   playlists.value = await userService.getUserPlaylists(currentUser.value.id)
-  if (checkUserLoggedIn() && playlists.value[0].id !== 0) {
+  if (checkUserLoggedIn() && playlists.value[0]?.id !== 0) {
     playlists.value.unshift({
       id: 0,
       name: 'Liked Songs',
@@ -35,7 +35,7 @@ const loadPlaylist = async () => {
         'https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg',
       owner: currentUser.value.id,
     })
-  } else if (checkUserLoggedIn() && playlists.value[0].id === 0) {
+  } else if (checkUserLoggedIn() && playlists.value[0]?.id === 0) {
     playlists.value[0] = {
       id: 0,
       name: 'Liked Songs',
