@@ -1,7 +1,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useSearchStore } from '@/stores/searchStore'
 import { useControllerStore } from '@/stores/controllerStore'
 // Service
 import TrackService from '@/lib/trackService'
