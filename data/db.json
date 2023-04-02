@@ -391,7 +391,6 @@
       "id": 18
     },
     {
-<<<<<<< HEAD
       "id": 20,
       "name": "Liked Song",
       "tracks": [
@@ -399,13 +398,6 @@
       ],
       "background": "https://img.freepik.com/free-vector/dark-gradient-background-with-copy-space_53876-99548.jpg",
       "owner": 4
-=======
-      "name": "p's playlist",
-      "background": "",
-      "tracks": [],
-      "owner": 3,
-      "id": 19
->>>>>>> 9ac85fe82d1a1abfa84f8b9cf42dacbf398646b3
     },
     {
       "name": "Siri's playlist",
@@ -1102,7 +1094,9 @@
       "password": "e61c46304c4e568abe6d4c017f50bb7b94bae339f8959cd55f56da3b97a7abab",
       "likedTracks": [],
       "id": 3,
-      "likedPlaylists": []
+      "likedPlaylists": [
+        21
+      ]
     },
     {
       "firstName": "Bowonwit",
