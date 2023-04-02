@@ -73,6 +73,7 @@ watchEffect(async () => {
 })
 
 const onChooseTrackClick = (e, playlistId) => {
+  localStorage.setItem('selectedPlaylistId', JSON.stringify(playlistId))
   chooseTrack(e.currentTarget.id, playlistId)
   emit('chooseTrack', 300)
 }
@@ -89,6 +90,7 @@ const onDeletePlaylist = async () => {
   ) {
     await playlistService.deletePlaylist(overlayPlaylistId.value)
   }
+  localStorage.setItem('selectedPlaylistId', JSON.stringify(1))
   isOpen.value = false
   hidePlaylistOverlay()
   emit('deletePlaylist')
