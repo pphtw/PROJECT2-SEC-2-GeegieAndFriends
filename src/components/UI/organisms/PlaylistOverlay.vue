@@ -173,7 +173,10 @@ const onClickOutside = () => {
                     <PlayPauseButton :isActive="isPlaying" class="w-20 h-20" />
                   </button>
 
-                  <button @click="addToFavorites(playlist.id, 'playlist')">
+                  <button
+                    v-if="playlist.owner !== 1 && playlist.id !== 0"
+                    @click="addToFavorites(playlist.id, 'playlist')"
+                  >
                     <LikeButton
                       fill="#c493e1"
                       stroke="#c493e1"
@@ -182,6 +185,11 @@ const onClickOutside = () => {
                     <LikeButton fill="none" stroke="white" v-else />
                   </button>
                   <MenuButton
+                    v-if="
+                      playlist.owner !== 1 &&
+                      playlist.id !== 0 &&
+                      currentUser.id === playlist.owner
+                    "
                     fill="#FFFFFF"
                     class="w-10 h-10 cursor-pointer"
                     @click="$emit('updatePlaylist', playlist)"
