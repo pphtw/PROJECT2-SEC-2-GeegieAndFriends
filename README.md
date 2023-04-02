@@ -18,6 +18,7 @@ Our team including:
 - repeat/ non-repeat queue (NewBww, pphtw, PhuMiZz, Banlearit)
 - state management (NewBww)
 - search feature (pphtw)
+- router (PhuMiZz)
 - add, delete, update playlist (PhuMiZz, pphtw)
 - fetch API (Banlearit)
 - like playlist (NewBww)
