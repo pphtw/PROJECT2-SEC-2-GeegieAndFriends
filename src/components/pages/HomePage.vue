@@ -16,9 +16,9 @@ import MusicPlayerCardLoading from '@/components/UI/atoms/MusicPlayerCardLoading
 import PlaylistCarouselLoading from '@/components/UI/atoms/PlaylistCarouselLoading.vue'
 import TrackListLoading from '@/components/UI/atoms/TrackListLoading.vue'
 
+// Use Store
 const trackService = new TrackService()
 const playlistService = new PlaylistService()
-// Use Store
 const controllerStore = useControllerStore()
 const overlayStore = useOverlayStore()
 
