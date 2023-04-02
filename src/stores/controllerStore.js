@@ -8,8 +8,6 @@ const trackService = new TrackService()
 const playlistService = new PlaylistService()
 
 export const useControllerStore = defineStore('controller', () => {
-  const playlist = usePlaylistStore()
-
   // State
   const currentTrack = ref({})
 

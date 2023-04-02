@@ -14,11 +14,12 @@ import TrackList from '../UI/organisms/TrackList.vue'
 import PageTemplate from '@/components/templates/PageTemplate.vue'
 import SectionHeader from '@/components/UI/atoms/SectionHeader.vue'
 import PlaylistGrid from '../UI/organisms/PlaylistGrid.vue'
-import UserService from '@/lib/userService'
-import { useUserStore } from '@/stores/userStore'
+import {useUserStore} from "@/stores/userStore";
+
 
 const trackService = new TrackService()
 
+const userStore = useUserStore()
 
 const controllerStore = useControllerStore()
 
@@ -58,7 +59,7 @@ watch(regex, async (regex) => {
 watch(regex, async (regex) => {
   filteredPlaylists.value = (
     await trackService.getAllItems('playlists')
-  ).filter((e) => e.name.match(regex))
+  ).filter((e) => e.name.match(regex) && e.name !== 'Liked Song')
 })
 
 // Handlers
