@@ -139,11 +139,7 @@ yarn preview
 
 ### Playlist
 
-- this page will appear when you not login
-
-![Playlists Page](docs/img/playlistpage.png "playlist page")
-
-- when you login, playlist page will show like this
+- You can see your playlist library when you login
 
 ![Loggedin playlists Page](docs/img/playlistpage-loggedin.png "playlist page when loggedin")
 
