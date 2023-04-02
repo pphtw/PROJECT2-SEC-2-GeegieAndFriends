@@ -60,7 +60,14 @@ watch(input, async (input) => {
 
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
-  chooseTrack(e.currentTarget.id, playlistId)
+  if (playlistId !== 0) {
+    localStorage.setItem('selectedPlaylistId', playlistId)
+    chooseTrack(e.currentTarget.id, playlistId)
+  } else {
+    localStorage.setItem('selectedPlaylistId', 1)
+    chooseTrack(e.currentTarget.id, 1)
+  }
+
   emit('chooseTrack', 300)
 }
 
