@@ -244,6 +244,9 @@ export const useControllerStore = defineStore('controller', () => {
         break
       }
       case 2: {
+        if (!Boolean(playlistId)) {
+          break
+        }
         skipToTrack(trackId, q.tempQueue)
         q.queue = [...q.tempQueue]
         break
