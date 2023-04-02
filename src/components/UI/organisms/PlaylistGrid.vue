@@ -7,17 +7,14 @@ import CreateOverlay from './CreatePlaylistOverlay.vue'
 import { ref } from 'vue'
 
 const overlayStore = useOverlayStore()
-const { showPlaylistOverlay, showCreateOverlay, contextMenu } = overlayStore
+const { isUpdate, playlistOverlay } = storeToRefs(overlayStore)
+const { showCreateOverlay, contextMenu } = overlayStore
 
 const userStore = useUserStore()
 const { currentUser } = storeToRefs(userStore)
-const { isUpdate } = storeToRefs(overlayStore)
+const { checkUserLoggedIn } = userStore
 
-const emit = defineEmits([
-  'createPlaylist',
-  'deletePlaylist',
-  'updatedPlaylist',
-])
+const emit = defineEmits(['updatedPlaylist'])
 
 const props = defineProps({
   cols: {
@@ -25,7 +22,7 @@ const props = defineProps({
     required: true,
   },
   playlists: {
-    type: Object,
+    type: Array,
     required: true,
   },
   searchPageIsOpen: {
@@ -35,7 +32,6 @@ const props = defineProps({
   },
 })
 
-const context = ref('')
 const playlist = ref({})
 
 const onUpdatePlaylist = (selectedPlaylist) => {
@@ -53,7 +49,7 @@ const onUpdatePlaylist = (selectedPlaylist) => {
   <div class="min-h-0 overflow-y-scroll">
     <div class="h-fit gap-x-6 gap-y-3 grid" :class="[cols]">
       <div
-        v-if="Object.keys(currentUser).length !== 0 && !searchPageIsOpen"
+        v-if="checkUserLoggedIn() && !searchPageIsOpen"
         class="flex justify-center cursor-pointer h-full aspect-square hover:opacity-80 bg-cover rounded-xl my-auto truncate bg-transparent/30"
         @click="showCreateOverlay"
       >
@@ -81,7 +77,7 @@ const onUpdatePlaylist = (selectedPlaylist) => {
           backgroundImage: 'url(' + encodeURI(playlist.background) + ')',
         }"
         tabindex="-1"
-        @click="showPlaylistOverlay"
+        @click="playlistOverlay.show(playlist)"
         @contextmenu.prevent="contextMenu.show($event, 'playlist')"
       >
         <p class="text-white text-lg font-semibold self-center text-center">
@@ -91,12 +87,12 @@ const onUpdatePlaylist = (selectedPlaylist) => {
     </div>
   </div>
   <PlaylistOverlay
-    @deletePlaylist="$emit('deletePlaylist')"
+    @deletePlaylist="$emit('updatedPlaylist')"
     @updatePlaylist="onUpdatePlaylist"
   />
   <CreateOverlay
     @updatedPlaylist="$emit('updatedPlaylist')"
-    @createPlaylist="$emit('createPlaylist')"
+    @createPlaylist="$emit('updatedPlaylist')"
     :playlist="playlist"
   />
 </template>
