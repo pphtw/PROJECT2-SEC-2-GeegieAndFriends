@@ -64,9 +64,14 @@ watchEffect(async () => {
 })
 
 const onChooseTrackClick = (e, playlistId) => {
-  localStorage.setItem('selectedPlaylistId', JSON.stringify(playlistId))
-  chooseTrack(e.currentTarget.id, playlistId)
-  emit('chooseTrack', 300)
+  if (playlistId !== 0) {
+    localStorage.setItem('selectedPlaylistId', JSON.stringify(playlistId))
+    chooseTrack(e.currentTarget.id, playlistId)
+    emit('chooseTrack', 300)
+  } else {
+    localStorage.setItem('selectedPlaylistId', JSON.stringify(1))
+    chooseTrack(e.currentTarget.id, 1)
+  }
 }
 const onClickOpenDeleteBtn = () => {
   isOpen.value = true
