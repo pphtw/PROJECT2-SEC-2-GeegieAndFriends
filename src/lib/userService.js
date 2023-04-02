@@ -28,7 +28,6 @@ class UserService {
       } else {
         return undefined
       }
-      // return Promise.reject(response.statusText)
     } catch (error) {
       // console.error(`ERROR GETTING USER BY EMAIL: ${error.message}`);
       throw error

@@ -5,49 +5,31 @@ Our team including:
 
 | Student ID  | Name                     | Email                      | Github Username | Contributions (%) |
 |-------------|--------------------------|----------------------------|-----------------|-------------------|
-| 64130500066 | Phutawan Palakavong      | Phutawan.pala@kmutt.ac.th  | pphtw           | 22.5              |
-| 64130500079 | Siripoom Kusonsong       | Siripoom.kuso@kmutt.ac.th  | PhuMiZz         | 22.5              |
-| 64130500080 | Supapit Krawsaikom       | Supapit.kraw@kmutt.ac.th   | supapitploy     | 10                |
-| 64130500105 | Banlearit Siriboon       | Banlearit.siri@kmutt.ac.th | banlearit       | 22.5              |
-| 64130500119 | Bowonwit Anothaisintavee | Bowonwit.anot@kmutt.ac.th  | NewBww          | 22.5              |
+| 64130500066 | Phutawan Palakavong      | Phutawan.pala@kmutt.ac.th  | pphtw           | 25                |
+| 64130500079 | Siripoom Kusonsong       | Siripoom.kuso@kmutt.ac.th  | PhuMiZz         | 25                |
+| 64130500080 | Supapit Krawsaikom       | Supapit.kraw@kmutt.ac.th   | supapitploy     | 0                 |
+| 64130500105 | Banlearit Siriboon       | Banlearit.siri@kmutt.ac.th | banlearit       | 25                |
+| 64130500119 | Bowonwit Anothaisintavee | Bowonwit.anot@kmutt.ac.th  | NewBww          | 25                |
 
 ## Contributions
-
-### Release V 1.0.0 (Music Player Option API)
-- Music Player Layout (pphtw, banlearit)
-- Play/Pause (banlearit)
-- Skip track (banlearit)
-- Progress bar (pphtw, banlearit)
-
-### Release V 2.0.0
-- Homepage UI (PhuMiZz, NewBww)
-- Change Option API to Composition API (banlearit)
-- Music controller (NewBww, banlearit)
-- Drag-to-Seek Progress Bar (banlearit, PhuMiZz)
-- Carousel Playlist (pphtw)
-- Music Queuing System (NewBww)
-- Music Choosing From Trending Section (PhuMiZz)
-- Shuffle Song in Queue (NewBww)
-
-### Release V 2.1.0
-- Toggle playlist (pphtw)
-- Favorite tracks (supapitploy)
-- Improve performance (NewBww)
-- Marquee (PhuMiZz)
-- Scroll playlist (PhuMiZz)
-- Split icon to Component (banlearit)
-- Keyboard Music Controller (NewBww)
-
-### Release V 2.1.1
-- Fix favorites tracks func (supapitploy)
-- Fix shuffle queue when change playlist (NewBww)
+- design search page (NewBww, pphtw)
+- design playlist page / overlay(NewBww)
+- component destructuring (NewBww, pphtw, PhuMiZz, Banlearit)
+- repeat/ non-repeat queue (NewBww, pphtw, PhuMiZz, Banlearit)
+- state management (NewBww)
+- search feature (pphtw)
+- add, delete, update playlist (PhuMiZz, pphtw)
+- fetch API (Banlearit)
+- like playlist (NewBww)
+- like track playlist (PhuMiZz)
+- login / register (Banlearit, pphtw)
 
 ## Overview
-![homepage-2-1-1.png](docs/img/homepage-2-1-1.png)
+![homepage.png](docs/img/homepage.png)
 Due to contributors in group listen to a variety genre of music. So, we interest to developing music player  websites project in INT203 Client-Side Programming II for learning Vue3.
 
 ### Features
-
+ 
 - Music Player
   - Music Controller
   - Playing Queue
@@ -56,7 +38,21 @@ Due to contributors in group listen to a variety genre of music. So, we interest
 - Playlist
   - Choose Any Track From Playlist
   - Add tracks to favorites
+  
+#### :sparkles: New :sparkles:
+- Authentication 
+  - Login
+  - Register
+- Search
+  - Search tracks and playlists 
+- Playlist
+  - Create playlist 
+  - Update playlist 
+  - Delete playlist 
+  - Like playlist
 
+
+  
 ## Tech Stack
 
 [Our Stack](https://stackshare.io/newbww/project1-sec-2-geegie-and-friends)
