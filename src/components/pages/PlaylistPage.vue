@@ -18,7 +18,6 @@ const overlayStore = useOverlayStore()
 
 const { currentUser } = storeToRefs(userStore)
 const { checkUserLoggedIn } = userStore
-const { hidePlaylistOverlay } = overlayStore
 
 const playlistService = new PlaylistService()
 const userService = new UserService()

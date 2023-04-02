@@ -23,9 +23,8 @@ const playlistService = new PlaylistService()
 const userService = new UserService()
 
 const overlayStore = useOverlayStore()
-const { openPlaylistOverlay, overlayPlaylistId, contextMenu, playlistOverlay } =
+const { overlayPlaylistId, contextMenu, playlistOverlay } =
   storeToRefs(overlayStore)
-const { hidePlaylistOverlay } = overlayStore
 
 const controllerStore = useControllerStore()
 const { isPlaying } = storeToRefs(controllerStore)
@@ -51,7 +50,9 @@ watchEffect(async () => {
       'tracks',
       playlist.value.tracks
     )
-    console.log(tracks.value)
+    tracks.value = playlist.value.tracks.map((trackId) =>
+      tracks.value.find((track) => track.id === trackId)
+    )
     if (playlist.value.owner === 1) {
       playlistUserName.value = 'Vuesic Player'
     } else {
@@ -59,23 +60,18 @@ watchEffect(async () => {
         await userService.getUserById(playlist.value.owner)
       ).firstName
     }
-    // playlist.value = await trackService.getItemById(
-    //   'playlists',
-    //   overlayPlaylistId.value
-    // )
-    // tracks.value = await playlistService.getPlaylistTrackList(
-    //   overlayPlaylistId.value
-    // )
-    // tracks.value = playlist.value.tracks.map((id) =>
-    //   tracks.value.find((track) => track.id === id)
-    // )
   }
 })
 
 const onChooseTrackClick = (e, playlistId) => {
-  localStorage.setItem('selectedPlaylistId', JSON.stringify(playlistId))
-  chooseTrack(e.currentTarget.id, playlistId)
-  emit('chooseTrack', 300)
+  if (playlistId !== 0) {
+    localStorage.setItem('selectedPlaylistId', JSON.stringify(playlistId))
+    chooseTrack(e.currentTarget.id, playlistId)
+    emit('chooseTrack', 300)
+  } else {
+    localStorage.setItem('selectedPlaylistId', JSON.stringify(1))
+    chooseTrack(e.currentTarget.id, 1)
+  }
 }
 const onClickOpenDeleteBtn = () => {
   isOpen.value = true
@@ -92,7 +88,7 @@ const onDeletePlaylist = async () => {
   }
   localStorage.setItem('selectedPlaylistId', JSON.stringify(1))
   isOpen.value = false
-  hidePlaylistOverlay()
+  playlistOverlay.value.hide()
   emit('deletePlaylist')
 }
 
@@ -182,7 +178,10 @@ const onClickOutside = () => {
                     <PlayPauseButton :isActive="isPlaying" class="w-20 h-20" />
                   </button>
 
-                  <button @click="addToFavorites(playlist.id, 'playlist')">
+                  <button
+                    v-if="playlist.owner !== 1 && playlist.id !== 0"
+                    @click="addToFavorites(playlist.id, 'playlist')"
+                  >
                     <LikeButton
                       fill="#c493e1"
                       stroke="#c493e1"
@@ -191,6 +190,11 @@ const onClickOutside = () => {
                     <LikeButton fill="none" stroke="white" v-else />
                   </button>
                   <MenuButton
+                    v-if="
+                      playlist.owner !== 1 &&
+                      playlist.id !== 0 &&
+                      currentUser.id === playlist.owner
+                    "
                     fill="#FFFFFF"
                     class="w-10 h-10 cursor-pointer"
                     @click="$emit('updatePlaylist', playlist)"
@@ -201,7 +205,7 @@ const onClickOutside = () => {
                 <TrackList
                   :trackList="tracks"
                   :playlistId="overlayPlaylistId"
-                  @chooseTrack="onChooseTrackClick($event, overlayPlaylistId)"
+                  @chooseTrack="onChooseTrackClick"
                 />
               </div>
             </ContentSection>
