@@ -76,6 +76,7 @@ const register = async () => {
         const hashedPassword = await hashPassword(user.password)
         const registeredUser = await userService.registerUser({
           ...user,
+          email:user.email.toLowerCase(),
           password: hashedPassword,
         })
 
