@@ -54,13 +54,14 @@ watch(regex, async (regex) => {
       .filter((track) => track.name.match(regex))
       .concat(tracks.filter((track) => track.keywords.some(checkKeywords)))
   )
+    filteredPlaylists.value = (
+        await trackService.getAllItems('playlists')
+    ).filter((e) => e.name.match(regex) && e.name !== 'Liked Song')
 })
 
-watch(regex, async (regex) => {
-  filteredPlaylists.value = (
-    await trackService.getAllItems('playlists')
-  ).filter((e) => e.name.match(regex) && e.name !== 'Liked Song')
-})
+// watch(regex, async (regex) => {
+//
+// })
 
 // Handlers
 const onChooseTrackClick = (e, playlistId) => {
@@ -76,7 +77,6 @@ const searchHandler = (input) => {
 
   regex.value = new RegExp(`^${pattern.join(' ')}`, 'ig')
 }
-onMounted(async () => {})
 </script>
 
 <template>
