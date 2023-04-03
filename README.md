@@ -1,6 +1,9 @@
 # INT203 Project #2: GeegieAndFriends's Vuesic Player
 ## Group: _GeegieAndFriends_
 
+### LINK VDO
+https://drive.google.com/file/d/1b2WtoWcEK03dNxZ2fo_2FZnMaLMOJuzm/view?usp=sharing
+
 Our team including:
 
 | Student ID  | Name                     | Email                      | Github Username | Contributions (%) |
