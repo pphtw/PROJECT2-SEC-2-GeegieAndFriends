@@ -41,7 +41,6 @@ const checkOverflow = () => {
 }
 
 const onLoopHandler = () => {
-  isRepeating.value = !isRepeating.value;
   toggleRepeat()
 }
 const config = { attributes: true, childList: true, subtree: true }
