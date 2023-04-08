@@ -117,6 +117,7 @@ export const useControllerStore = defineStore('controller', () => {
     }
   }
   const toggleRepeat = () => {
+    isRepeating.value = !isRepeating.value
     const trackId = currentTrack.value.id
     switch (controllerState.value) {
       case 0: {
@@ -190,7 +191,6 @@ export const useControllerStore = defineStore('controller', () => {
     const trackId = Number(id)
     const state = controllerState.value
     if (!Boolean(playlistId)) {
-
       q.queue = [trackId]
 
       q.currentPlaylistId = 0
